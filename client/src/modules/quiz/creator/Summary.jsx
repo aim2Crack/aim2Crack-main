@@ -1,12 +1,10 @@
 import React from 'react'
+import LeftNavigationPanel from '../../../components/summary/LeftNavigationPanel'
 
 function Summary() {
   return (
     <div>
-        1. Home Page
-        2. Add Question
-        3. About Us
-
+     <LeftNavigationPanel/>
     </div>
   )
 }
