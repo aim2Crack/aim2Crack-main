@@ -2,12 +2,13 @@ import logo from "./logo.svg";
 import "./App.css";
 import Homepage from "./modules/homepage/Homepage";
 import Login from "./modules/user/Login";
-import Summary from "./modules/quiz/creator/Summary";
+// import Summary from "./modules/quiz/creator/Summary";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AboutUs from "./modules/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import Navbar from "./components/navbar/Navbar";
+import Summary from "./components/summary/Summary";
 
 function App() {
   return (

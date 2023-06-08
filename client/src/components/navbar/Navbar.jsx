@@ -11,7 +11,7 @@ function Navbar() {
       <nav className="main-menu">
         <ul className="nav_links">
           <li><a href="#">Home</a></li>
-
+          <li><a href="/summary">Dashboard</a></li>
           <li className="dropdown">
             <a href="javascript:void(0)" className="dropbtn">Quizzes</a>
             <div className="dropdown-content">
