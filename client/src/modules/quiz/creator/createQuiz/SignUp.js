@@ -12,7 +12,7 @@ const SignUp=()=>{
                 <input className="inputbox" type="date" id="last_login_time"/><br/>
                 <label for="Result_time">Result Time:</label>
                 <input className="inputbox" type="date" id="Result_time"/><br/>
-                <p id="para">Question Timer: </p>
+                <p id="question">Question Timer: </p>
                 <select name="question_time">
                 <option selected>Individual Question Timer</option>
                 <option >Section/Full Quiz Timer</option>
