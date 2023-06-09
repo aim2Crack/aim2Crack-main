@@ -19,7 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/summary" element={<Summary />} />
         <Route path="/addquestion" element={<AddQuestion />} />
-        <Route path="/createquiz" element={<CreateQuiz />} />
+        {/* <Route path="/createquiz" element={<CreateQuiz />} /> */}
         <Route path="/aboutus" element={<AboutUs />} />
       </Routes>
     </BrowserRouter>
