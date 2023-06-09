@@ -3,8 +3,8 @@ import '../styles/LeftNavigationPanel.css'
 import {Link} from "react-router-dom";
 
 const LeftNavigationPanel = () => {
-    const [quiz, setQuiz] = useState( false)
-    const [book, setBook] = useState(false)
+    const [quizDropdown, setQuizDropdown] = useState( false)
+    const [bookDropdown, setBookDropdown] = useState(false)
     return (
         <div className="side-navigation-container">
             <div className="side-bar" id="side-navigation">
