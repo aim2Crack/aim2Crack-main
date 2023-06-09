@@ -9,13 +9,13 @@
   border-radius: 14px;
   color: white;
   display:inline-block;
-  margin-top: 50px;
+  margin-top : 50px;
   font-family: serif;
 }
 #outer_div{
   height: 496px;
   /* width:1366px; */
-  background-image: url(createquiz.png);
+  background-image: url(prerna.png);
   
 }
 .inputbox{
@@ -37,7 +37,9 @@
   background:transparent;
   color:white;
   border:1px solid black;
-
+  border:none;
+  outline:none;
+  text-decoration: underline;
 }
 
 .button{
@@ -49,3 +51,29 @@
   margin:30px;
   background-color: transparent;
 }
+.select{
+  display:inline;
+}
+.custom-input{
+  background-color:transparent;
+  color:white;
+  border:none;
+  outline:none;
+  margin-bottom:10px;
+  padding: 10px;
+  text-decoration: underline;
+}
+.custom-label{
+  text-decoration:underline;
+}
+.select{
+  text-decoration:underline;
+}
+.custom-select{
+  background-color:transparent;
+  color:white;
+  border:none;
+  outline:none;
+  text-decoration:underline;
+}
+
