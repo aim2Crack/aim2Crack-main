@@ -2,7 +2,6 @@ import logo from "./logo.svg";
 import "./App.css";
 import Homepage from "./modules/homepage/Homepage";
 import Login from "./modules/user/Login";
-import Summary from "./modules/quiz/creator/Summary";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AboutUs from "./modules/aboutUs/AboutUs";
 import createquiz from "./modules/quiz/creator/createQuiz/createquiz";
