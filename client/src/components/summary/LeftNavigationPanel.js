@@ -10,11 +10,11 @@ const LeftNavigationPanel = () => {
             <div className="side-bar" id="side-navigation">
                 <h1>Dashboard</h1>
 
-                <button className="dropdown-btn side-bar-item" onClick={() => setQuiz(!quiz)}>
+                <button className="dropdown-btn side-bar-item" onClick={() => setQuizDropdown(!quizDropdown)}>
                     Quiz
                     <i className="fa fa-caret-down"></i>
                 </button>
-                {quiz &&
+                {quizDropdown &&
                     <div className="dropdown-container">
                     <Link to="/subjective-quiz" id="btn-subjective-quiz">Subjective Quiz</Link>
                     <Link to="/placement-quiz" id="btn-placement-quiz">Placement Quiz</Link>
@@ -27,7 +27,8 @@ const LeftNavigationPanel = () => {
                     Book
                     <i className="fa fa-caret-down"></i>
                 </button>
-                <div className="dropdown-container">
+
+                {bookDropdown && <div className="dropdown-container">
                     <a id="btn-your-books" href="#">Your Books</a>
                     <a id="btn-your-collections" href="#">Your Collections</a>
                 </div>
