@@ -1,20 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
 import '../styles/LeftNavigationPanel.css'
+import {Link} from "react-router-dom";
 
 const LeftNavigationPanel = () => {
+    const [quiz, setQuiz] = useState( false)
+    const [book, setBook] = useState(false)
     return (
         <div className="side-navigation-container">
             <div className="side-bar" id="side-navigation">
                 <h1>Dashboard</h1>
 
-                <button className="dropdown-btn side-bar-item">
+                <button className="dropdown-btn side-bar-item" onClick={() => setQuiz(!quiz)}>
                     Quiz
                     <i className="fa fa-caret-down"></i>
                 </button>
-                <div className="dropdown-container">
-                    <a id="btn-subjective-quiz" href="#">Subjective Quiz</a>
-                    <a id="btn-placement-quiz" href="#">Placement Quiz</a>
-                </div>
+                {quiz &&
+                    <div className="dropdown-container">
+                    <Link to="/subjective-quiz" id="btn-subjective-quiz">Subjective Quiz</Link>
+                    <Link to="/placement-quiz" id="btn-placement-quiz">Placement Quiz</Link>
+                    </div>
+
+            }
+
+
                 <button className="dropdown-btn side-bar-item">
                     Book
                     <i className="fa fa-caret-down"></i>
