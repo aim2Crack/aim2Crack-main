@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../styles/rightpanel.css'
+import '../../styles/rightPanel.css'
 import searchImage from  '../../../assets/images/summary/searchBar.svg'
 import pdfImage from '../../../assets/images/summary/pdfImage.svg'
 const SubjectiveQuizPanel = ()=>{
