@@ -1,6 +1,7 @@
 import React from "react";
+import '../../styles/rightpanel.css'
 
-const PlacementPanel = () => {
+const PlacementPanelQuiz = () => {
     return (
         <>
 
@@ -63,4 +64,4 @@ const PlacementPanel = () => {
     )
 }
 
-export default PlacementPanel
+export default PlacementPanelQuiz
