@@ -25,7 +25,7 @@ const YourBooksPanel = () =>{
                 <div className="upload">
                     <p className="uploaded">SAFEBOOK : The safest Way to Share your material</p>
                 </div>
-                <div className="btn">
+                <div className="upload-button-container">
                     <button className="upload-button">
                         Upload File
                         <i className="fa fa-upload" aria-hidden="true"></i>
