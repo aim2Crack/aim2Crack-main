@@ -3,6 +3,7 @@ import React,{useState} from 'react'
 const SignUp=()=>{
     const [selectedOption, setSelectedOption] = useState('');
     const [inputValue, setInputValue] = useState('');
+    const [inputValue1, setInputValue2] = useState('');
     
 
     const [labelText, setLabelText] = useState('Course Quiz :');
@@ -12,21 +13,27 @@ const SignUp=()=>{
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
     setInputValue('');
+    setInputValue2('');
+   
 
 
     // Update the input value and label text based on the selected option
     if (selectedValue === 'placement') {
-      setInputValue('');
+      
       setLabelText('Company Name:');
       setLabelText2('First section name');
     } else if (selectedValue === 'simple') {
-      setInputValue('');
+      
       setLabelText('Course Quiz:');
       setLabelText2('Topic name')
     }
   };
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+    
+  };
+  const handleInputChange1 = (e) => {
+    setInputValue2(e.target.value);
     
   };
 
@@ -58,8 +65,8 @@ const SignUp=()=>{
       <input
         type="text"
         className="custom-input"
-        value={inputValue}
-        onChange={handleInputChange}
+        value={inputValue1}
+        onChange={handleInputChange1}
         placeholder={labelText2}
       />
     <br/>
