@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../styles/rightpanel.css'
+import '../../styles/rightPanel.css'
 import searchImage from  '../../../assets/images/summary/searchBar.svg'
 import pdfImage from '../../../assets/images/summary/pdfImage.svg'
 const SubjectiveQuizPanel = ()=>{
@@ -25,7 +25,7 @@ const SubjectiveQuizPanel = ()=>{
                 <div className="upload">
                     <p className="uploaded">SUBJECTIVE QUIZ</p>
                 </div>
-                <div className="btn">
+                <div className="upload-button-container">
                     <button className="upload-button">
                         Upload File
                         <i className="fa fa-upload" aria-hidden="true"></i>
