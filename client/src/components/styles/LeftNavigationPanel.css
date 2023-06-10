@@ -425,7 +425,6 @@ button:hover a p {
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
-  display: none;
   padding-left: 8px;
 }
 
@@ -448,12 +447,6 @@ body {
   height: 93vh;
 }
 
-
-.panel-container {
-  height: 100%;
-  display: flex;
-  position: relative;
-}
 
 #side-navigation-arrow{
   display: none !important;
