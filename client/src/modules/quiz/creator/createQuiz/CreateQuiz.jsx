@@ -1,13 +1,13 @@
 import React,{useState} from 'react'
 import "./createquiz.css";
-const SignUp=()=>{
+const createquiz=()=>{
     const [selectedOption, setSelectedOption] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [inputValue1, setInputValue2] = useState('');
     
 
     const [labelText, setLabelText] = useState('Course Quiz :');
-    const [labelText2,setLabelText2] = useState('Topic name :')
+    const [labelText2,setLabelText2] = useState('Topic name :');
   
     const handleSelect = (e) => {
     const selectedValue = e.target.value;
@@ -89,4 +89,4 @@ const SignUp=()=>{
         </div>
     )
 }
-export default SignUp;
+export default createquiz;
