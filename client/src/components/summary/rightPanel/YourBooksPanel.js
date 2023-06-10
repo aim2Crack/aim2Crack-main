@@ -1,8 +1,26 @@
 import React from "react";
+import '../../styles/rightpanel.css'
+import searchImage from  '../../../assets/images/summary/searchBar.svg'
+import pdfImage from '../../../assets/images/summary/pdfImage.svg'
 
 const YourBooksPanel = () =>{
     return(
         <div>
+            <div className="search-bar-panel">
+                <input
+                    type="text"
+                    className="search"
+                    name="Search..."
+                    placeholder="Search...."
+                />
+                <input
+                    type="image"
+                    className="search-button-image"
+                    name="search"
+                    src= {searchImage}
+                    alt="Search"
+                />
+            </div>
             <div className="panel-item" id="panel-your-books">
                 <div className="upload">
                     <p className="uploaded">SAFEBOOK : The safest Way to Share your material</p>
@@ -17,7 +35,7 @@ const YourBooksPanel = () =>{
                     <div className="content-card">
                         <div className="upper-container d-flex">
                             <div className="content-card-icon">
-                                <img src="./images/pdfImage.svg" className="content-card-image"/>
+                                <img src={pdfImage} className="content-card-image"/>
                             </div>
                             <div className="name-box flex-f-col">
                                 <p className="file-name">Introduction to Machine Learning</p>
@@ -48,3 +66,4 @@ const YourBooksPanel = () =>{
         </div>
     )
 }
+export default YourBooksPanel
