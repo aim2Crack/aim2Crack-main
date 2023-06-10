@@ -1,7 +1,9 @@
 import React from "react";
 import '../../styles/rightpanel.css'
+import searchImage from  '../../../assets/images/summary/searchBar.svg'
+import pdfImage from '../../../assets/images/summary/pdfImage.svg'
 
-const PlacementPanelQuiz = () => {
+const PlacementQuizPanel = () => {
     return (
         <>
 
@@ -16,7 +18,7 @@ const PlacementPanelQuiz = () => {
                     type="image"
                     className="search-button-image"
                     name="search"
-                    src="./images/searchBar.svg"
+                    src= {searchImage}
                     alt="Search"
                 />
             </div>
@@ -34,7 +36,7 @@ const PlacementPanelQuiz = () => {
                     <div className="content-card">
                         <div className="upper-container d-flex">
                             <div className="content-card-icon">
-                                <img src="./images/pdfImage.svg" className="content-card-image" />
+                                <img src= {pdfImage} className="content-card-image"/>
                             </div>
                             <div className="name-box flex-f-col">
                                 <p className="file-name">Introduction to Machine Learning</p>
@@ -64,4 +66,4 @@ const PlacementPanelQuiz = () => {
     )
 }
 
-export default PlacementPanelQuiz
+export default PlacementQuizPanel
