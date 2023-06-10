@@ -10,10 +10,8 @@ import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import Navbar from "./components/navbar/Navbar";
 import Summary from "./components/summary/Summary";
 import {useState} from "react";
-import PlacementQuizPanel from "./components/summary/rightPanel/PlacementQuizPanel";
 
 function App() {
-
     return (
         <BrowserRouter>
             <Navbar/>
@@ -22,7 +20,6 @@ function App() {
                 <Route path="/" element={<Homepage/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/summary/:summaryLink?" element={<Summary/>}/>
-                <Route path="/placement-quiz" component={PlacementQuizPanel} />
                 <Route path="/addQuestion" element={<AddQuestion/>}/>
                 <Route path="/createQuiz" element={<CreateQuiz/>}/>
                 <Route path="/aboutUs" element={<AboutUs/>}/>
