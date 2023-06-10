@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Homepage from "./modules/homepage/Homepage";
 import Login from "./modules/user/Login";
@@ -9,7 +8,6 @@ import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import Navbar from "./components/navbar/Navbar";
 import Summary from "./components/summary/Summary";
-import {useState} from "react";
 
 function App() {
     return (

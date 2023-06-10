@@ -1,6 +1,6 @@
 import React from 'react'
 
-const createquiz=()=>{
+const CreateQuiz=()=>{
     return(
         <div id="outer_div">
         <div id="div1">
@@ -25,4 +25,4 @@ const createquiz=()=>{
         </div>
     )
 }
-export default createquiz;
+export default CreateQuiz;
