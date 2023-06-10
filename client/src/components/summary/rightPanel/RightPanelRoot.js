@@ -1,13 +1,22 @@
 import React from 'react'
-import PlacementPanel from './PlacementPanel'
-import {Link, Route, Routes} from "react-router-dom";
-const RightPanelRoot = () =>{
-    return(
-        <div className='panel'>
+import PlacementPanelQuiz from "./PlacementPanelQuiz";
+import SubjectiveQuizPanel from "./SubjectiveQuizPanel";
+import YourBooksPanel from "./YourBooksPanel";
 
-            <Routes>
-                <Route path="/placement-quiz" element={<PlacementPanel/>}/>
-            </Routes>
+
+const RightPanelRoot = (props) => {
+    const isValid = (route) => {
+        return route !== undefined && route !== null && componentMap[route] !== undefined
+    }
+    const summaryLink = props.summaryLink
+    const componentMap = {
+        'placement-quiz': <PlacementPanelQuiz/>,
+        'subjective-quiz' : <SubjectiveQuizPanel/>,
+        'your-books' : <YourBooksPanel/>
+    }
+    return (
+        <div className='panel'>
+            {isValid(summaryLink) ? componentMap[summaryLink] : <PlacementPanelQuiz/>}
         </div>
     )
 }
