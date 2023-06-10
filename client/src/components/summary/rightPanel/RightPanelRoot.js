@@ -1,7 +1,8 @@
 import React from 'react'
-import PlacementPanelQuiz from "./PlacementPanelQuiz";
+import PlacementQuizPanel from "./PlacementQuizPanel";
 import SubjectiveQuizPanel from "./SubjectiveQuizPanel";
 import YourBooksPanel from "./YourBooksPanel";
+import YourCollectionsPanel from "./YourCollectionsPanel";
 
 
 const RightPanelRoot = (props) => {
@@ -10,13 +11,14 @@ const RightPanelRoot = (props) => {
     }
     const summaryLink = props.summaryLink
     const componentMap = {
-        'placement-quiz': <PlacementPanelQuiz/>,
+        'placement-quiz': <PlacementQuizPanel/>,
         'subjective-quiz' : <SubjectiveQuizPanel/>,
-        'your-books' : <YourBooksPanel/>
+        'your-books' : <YourBooksPanel/>,
+        'your-collections': <YourCollectionsPanel/>
     }
     return (
         <div className='panel'>
-            {isValid(summaryLink) ? componentMap[summaryLink] : <PlacementPanelQuiz/>}
+            {isValid(summaryLink) ? componentMap[summaryLink] : <SubjectiveQuizPanel/>}
         </div>
     )
 }
