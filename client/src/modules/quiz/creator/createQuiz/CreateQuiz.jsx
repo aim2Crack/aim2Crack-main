@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-
+import "./createquiz.css";
 const SignUp=()=>{
     const [selectedOption, setSelectedOption] = useState('');
     const [inputValue, setInputValue] = useState('');
