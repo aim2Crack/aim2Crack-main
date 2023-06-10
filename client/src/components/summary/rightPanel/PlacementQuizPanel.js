@@ -2,8 +2,11 @@ import React from "react";
 import '../../styles/rightPanel.css'
 import searchImage from  '../../../assets/images/summary/searchBar.svg'
 import pdfImage from '../../../assets/images/summary/pdfImage.svg'
+import {Link} from "react-router-dom";
 
 const PlacementQuizPanel = () => {
+
+
     return (
         <>
 
@@ -27,10 +30,13 @@ const PlacementQuizPanel = () => {
                     <p className="uploaded">PLACEMENT QUIZ</p>
                 </div>
                 <div className="upload-button-container">
-                    <button className="upload-button">
-                        Upload File
-                        <i className="fa fa-upload" aria-hidden="true" />
-                    </button>
+                    <Link to="/createQuiz">
+                        <button className="upload-button">
+                            Create Quiz
+                            <i className="fa fa-upload" aria-hidden="true" />
+                        </button>
+                    </Link>
+
                 </div>
                 <div className="cards-container d-flex">
                     <div className="content-card">
