@@ -8,54 +8,161 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import './AddQuestion.css'
 
 function AddQuestion() {
-  const [question, setQuestion] = useState({
+
+  const [data, setData] = useState({
+    //questionLevel: 'easy',
+    questionTime: '',
     question: '',
     marks: 0,
-  });
+    file: '',
+    correctAnsInteger: '',
+    explanation: '',
 
-  const [inputFields, setInputFields] = useState([]);
+  });
+  const [options, setOptions] = useState(['']);
+  const [correctOptions, setCorrectOptions] = useState([]);
   const [questionType, setQuestionType] = useState('objective');
   const [questionLevel, setQuestionLevel] = useState('easy');
+  const [showHeading, setShowHeading] = useState(false);
+  const [showButton, setShowButton] = useState({
+    display: 'initial',
+  });
+  const [showCorrectAns, setShowCorrectAns] = useState({
+    display: 'none',
+  });
+  const [saveConditionButton, setSaveConditionButton] = useState({
+    display: 'none',
+  });
+
+  const handleChangeData = (e) => {
+    //const name = e.target.name;
+    //const value = e.target.value;
+    const { name, value } = e.target;
+
+    setData(prev => {
+      return {
+        ...prev, [name]: value
+      }
+    });
+    //console.log(name, value);
+  }
 
   const handleTypeChange = (event) => {
     setQuestionType(event.target.value);
-    setInputFields([]);
+    setOptions([]);
+    if (event.target.value === "integer") {
+      setShowCorrectAns({
+        display: 'initial'
+      })
+      setShowButton({
+        display: 'none'
+      })
+    }
+    else if (event.target.value === "multiple" || event.target.value === "objective") {
+      setShowCorrectAns({
+        display: 'none'
+      })
+      setShowButton({
+        display: 'initial'
+      })
+    }
   };
   const handleLevelChange = (event) => {
     setQuestionLevel(event.target.value);
   };
 
   const handleChange = (index, event) => {
-    const values = [...inputFields];
-    values[index].value = event.target.value;
-    setInputFields(values);
+    const updatedOptions = [...options];
+    updatedOptions[index] = event.target.value;
+    setOptions(updatedOptions);
   };
 
   const handleAddFields = () => {
-    setInputFields([...inputFields, { value: '' }]);
+    const lastTextFieldValue = options[options.length - 1];
+
+    if (lastTextFieldValue === '') {
+      alert('Please fill the current text field');
+      return;
+    }
+    setOptions([...options, { value: '' }]);
   };
 
   const handleRemoveFields = (index) => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
+    const updatedOptions = [...options];
+    updatedOptions.splice(index, 1);
+    setOptions(updatedOptions);
   };
 
-  console.log(inputFields, "data-")
+  //console.log(options, "data-")
 
-  const renderInputFields = () => {
-    return inputFields.map((inputField, index) => (
+  const handleRadiobox = (e) => {
+    const value = e.target.value;
+    const checked = e.target.checked;
+    //console.log(value, checked);
+    setCorrectOptions([]);
+    if (checked) {
+      setCorrectOptions([
+        value
+      ])
+    }
+    //console.log(correctOptions);
+  }
+
+  const handleCheckbox = (e) => {
+    const value = e.target.value;
+    const checked = e.target.checked;
+    //console.log(value, checked);
+    if (checked) {
+      setCorrectOptions([
+        ...correctOptions, value
+      ])
+    }
+    else {
+      setCorrectOptions(correctOptions.filter((e) => (e !== value)));
+    }
+    //console.log(correctOptions);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const field1 = data.questionTime;
+    const field2 = data.question;
+    const field3 = data.explanation;
+
+    if (field1 === '' || field2 === '' || field3 === '') {
+      setShowHeading(true);
+      setTimeout(() => {
+        setShowHeading(false);
+      }, 3000);
+      //alert('Please fill all fields');
+      setSaveConditionButton({
+        display: 'initial'
+      })
+      return;
+    }
+
+    console.log('submitting');
+    console.log(questionType);
+    console.log(questionLevel);
+    console.log(data);
+    console.log(options);
+    console.log(correctOptions);
+  }
+
+  const renderoptions = () => {
+    return options.map((inputField, index) => (
       <div key={index} className='option1'>
         {questionType === 'objective' && (
-          <input type="radio" name="option2" />
+          <input type="radio" name="o" value={'option ' + (index + 1)} onChange={handleRadiobox} />
         )}
         {questionType === 'multiple' && (
-          <input type="checkbox" name="option" />
+          <input type="checkbox" name="m" value={'option ' + (index + 1)} onChange={handleCheckbox} />
         )}
         {questionType === 'integer' && (
-          <input type="number" name="option" />
+          <input type="text" id="hide" name="correct" value="" placeholder="Correct answer" />
         )}
-        <input className='options_written' placeholder='Option'
+
+        <input className='options_written' placeholder={'Option ' + (index + 1)}
           type="text"
           value={inputField.value}
           onChange={(event) => handleChange(index, event)}
@@ -65,23 +172,22 @@ function AddQuestion() {
     ));
   };
 
-
   return (
     <div>
-      <form method="POST" enctype="multipart/form-data" style={{ margin: '120px auto' }}>
-        <input type="hidden" name="csrfmiddlewaretoken" value="izC60ZhqKbNnVHyicnYYQ2i70qluvWYhJw2voJoaACH7ooI8xe7P4id6qfRdnOJy" />
-
+      <form onSubmit={handleSubmit} method="POST" style={{ margin: '120px auto' }}>
         <div className="tostrip">
           Add New Question
         </div>
         <div className="main_box">
-          <div className="alert alert-error">
-            Please fill all the fields!
-          </div>
-
+          {showHeading && (
+            <div className="alert alert-error" style={saveConditionButton}>
+              Please fill all the fields!
+            </div>
+          )}
+          
           <div className='type_box'>
             <div className='type'>
-              <label htmlFor="questionType">Type:</label>
+              <label>Type:</label>
               <select id="questionType" value={questionType} onChange={handleTypeChange}>
                 <option value="objective">Objective Type Question</option>
                 <option value="multiple">Multiple Correct Question</option>
@@ -96,22 +202,31 @@ function AddQuestion() {
                 <option value="hard">Hard</option>
               </select>
             </div>
+            <div className="time">
+              Time(s):
+              <input type="number" id="quantity" name="questionTime" value={data.questionTime} onChange={handleChangeData} min="1" max="360" /><br />
+            </div>
           </div>
-          <textarea name="question" type="text" className="question" id="question" placeholder="Write the question here" rows="2" cols="50" style={{ height: '71px' }}></textarea>
+
+          <textarea type="text" className="question" id="question" name="question" value={data.question} onChange={handleChangeData} placeholder="Write the question here" rows="2" cols="50" style={{ height: '71px' }}></textarea>
           <div>
-            <input type="file" name="photo" id="image-option" placeholder="Add Image" accept="image/*" style={{ marginBottom: '15px', background: '#3b7474', color: 'white', padding: '5px 0.4rem' }} />
+            <input type="file" name="file" value={data.file} onChange={handleChangeData} id="image-option" placeholder="Add Image" accept="image/*" style={{ marginBottom: '15px', background: '#3b7474', color: 'white', padding: '5px 0.4rem' }} />
           </div>
+
           {questionType && (
             <div>
-              {renderInputFields()}
-              <button type="button" className="add-option" id="BUTTON" onClick={handleAddFields}>
-              <FontAwesomeIcon className='faPlus' icon={faPlus} /> Add Options</button>
+              {renderoptions()}
+              {
+                <button type="button" className="add-option" id="BUTTON" style={showButton} onClick={handleAddFields}>
+                  <FontAwesomeIcon className='faPlus' icon={faPlus} /> Add Options</button>
+              }
+
             </div>
           )}
 
-          <input type="text" id="hide" name="correct" value="b+c" placeholder="Correct answer" />
+          <input type="text" id="hide" name="correctAnsInteger" value={data.correctAnsInteger} onChange={handleChangeData} style={showCorrectAns} placeholder="Correct answer" />
           <div className="explanation">
-            <textarea type="text" id="exp" className="resize fix" name="explanation" min="1" max="1000" placeholder="explanation" style={{ height: '71px' }}></textarea>
+            <textarea type="text" id="exp" className="resize fix" name="explanation" value={data.explanation} onChange={handleChangeData} min="1" max="1000" placeholder="explanation" style={{ height: '71px' }}></textarea>
           </div>
           <div id="ending_options">
             <textarea data-row="0" className="options_all" name="options" style={{ display: 'none' }} placeholder="Option">jhgyuf/.\fgdfsgdf/.\fdgshdgh/.\</textarea>
@@ -119,7 +234,6 @@ function AddQuestion() {
           <div className="last">
             <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
           </div>
-
 
         </div>
       </form>

@@ -52,6 +52,15 @@
 .type_box div {
     margin: 5px 7px;
 }
+#quantity {
+    display: inline-block;
+    border: none;
+    outline: none;
+    background: none;
+    border-bottom: 3px solid #3b7474;
+}
+
+
 .question {
     color: rgb(59, 59, 59);
     background: #f0f0f0;
@@ -87,7 +96,7 @@
     
 }
 .option1:hover{
-    transform: scale(1.15);
+    transform: scale(1.04);
 }
 .options_written {
     width: 100%;
@@ -107,7 +116,7 @@
 }
 
 #hide {
-    display: none;
+    
     width: 50%;
     padding: 0.4rem;
     font-size: 15px;
@@ -127,6 +136,7 @@ select {
 }
 
 #BUTTON {
+    
     border-radius: 16px;
     border: 2px solid #3b7474;
     color: #3b7474;
