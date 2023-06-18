@@ -44,9 +44,11 @@
 
 .button{
   margin-bottom:20px;
-  padding:12px 24px;
+  border-radius: 16px;
+  height: 29px;
+  width: 180px;
   font-size:14px;
-
+  border-radius:14px;
   color:white;
   margin:30px;
   background-color: transparent;

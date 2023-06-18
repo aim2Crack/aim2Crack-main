@@ -5,7 +5,7 @@ import Login from "./modules/user/Login";
 import Summary from "./modules/quiz/creator/Summary";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AboutUs from "./modules/aboutUs/AboutUs";
-import createquiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
+import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import Navbar from "./components/navbar/Navbar";
 import Summary from "./components/summary/Summary";
@@ -20,7 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/summary" element={<Summary />} />
         <Route path="/addQuestion" element={<AddQuestion />} />
-        <Route path="/createQuiz" element={<createquiz />} />
+        <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
       </Routes>
     </BrowserRouter>

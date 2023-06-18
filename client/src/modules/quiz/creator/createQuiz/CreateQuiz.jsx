@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import "./createquiz.css";
-const createquiz=()=>{
+const CreateQuiz=()=>{
     const [selectedOption, setSelectedOption] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [inputValue1, setInputValue2] = useState('');
@@ -89,4 +89,4 @@ const createquiz=()=>{
         </div>
     )
 }
-export default createquiz;
+export default CreateQuiz;
