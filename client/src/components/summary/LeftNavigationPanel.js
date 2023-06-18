@@ -5,9 +5,14 @@ import {Link, Outlet} from "react-router-dom";
 const LeftNavigationPanel = () => {
     const [quizDropdown, setQuizDropdown] = useState( false)
     const [bookDropdown, setBookDropdown] = useState(false)
+    const [sideNavigationDropdown, setSideNavigationDropdown] = useState(false)
+    const sideBarShown = "side-bar side-bar-shown"
+    const sideBarHidden = "side-bar side-bar-hidden"
+    const sideNavigationArrowRight = "fa-solid fa-angle-right icons"
+    const sideNavigationArrowLeft = "fa-solid fa-angle-left icons"
     return (
-        <div className="side-navigation-container">
-            <div className="side-bar" id="side-navigation">
+        <div className= "side-navigation-container-shown" >
+            <div className={sideNavigationDropdown?sideBarShown:sideBarHidden} id="side-navigation">
                 <h1>Dashboard</h1>
 
                 <button className="dropdown-btn side-bar-item" onClick={() => setQuizDropdown(!quizDropdown)}>
@@ -40,8 +45,8 @@ const LeftNavigationPanel = () => {
                     Tutorials
                 </button>
             </div>
-            <div id="side-navigation-arrow">
-                <i className="fa-solid fa-angle-right icons" id="side-navigation-arrow "></i>
+            <div id="side-navigation-arrow" onClick={() => setSideNavigationDropdown(!sideNavigationDropdown)}>
+                <i className={sideNavigationDropdown?sideNavigationArrowLeft : sideNavigationArrowRight} id="side-navigation-arrow "></i>
             </div>
         </div>
     );
