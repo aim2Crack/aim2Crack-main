@@ -453,10 +453,7 @@ body {
 }
 
 @media (max-width:950px) {
-  #side-navigation{
-  
-    display: none;
-  }
+
 #side-navigation-arrow{
   display: flex !important;
   justify-content: center;
@@ -473,11 +470,17 @@ body {
   box-shadow: 2px 2px 13px 1px #00000030;
   transition: all 300ms;
 }
+  .side-bar-hidden{
+    display: none;
+  }
+  .side-bar-shown{
+    display: block;
+  }
 #side-navigation-arrow:hover{
   background-color: #3f8887;
   color: white;
 }
-.side-navigation-container{
+.side-navigation-container-shown{
   height: 100%;
   position: absolute;
   z-index: 10;
