@@ -1,12 +1,13 @@
 import React from 'react';
 import '../styles/Navbar.css';
+import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png'
 
 function Navbar() {
   const myFunction = () => {}
   const openNav = () => {}
   return (
     <header>
-      <img className="logo" src="./images/Aim2Crack-logo-1.png" alt="logo" title="home" />
+      <img className="logo" src={aim2CrackLogo} alt="logo" title="home" />
 
       <nav className="main-menu">
         <ul className="nav_links">

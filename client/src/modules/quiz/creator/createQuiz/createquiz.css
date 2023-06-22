@@ -1,0 +1,51 @@
+.heading{
+  text-decoration:underline;
+}
+#div1{
+  height:400px;
+  width:400px;
+  background-color:transparent;
+  border: 3px solid white;
+  border-radius: 14px;
+  color: white;
+  display:inline-block;
+  margin-top: 50px;
+  font-family: serif;
+}
+#outer_div{
+  height: 496px;
+  /* width:1366px; */
+  background-image: url(createquiz.png);
+  
+}
+.inputbox{
+  margin-bottom: 20px;
+  text-decoration: underline;
+  background-color: transparent;
+  color:white;
+  border:none;
+  outline:none;
+}
+#para{
+  display:inline;
+  text-decoration: underline;
+  background-color: transparent;
+  color:white;
+  
+}
+#question{
+  background:transparent;
+  color:white;
+  border:1px solid black;
+
+}
+
+.button{
+  margin-bottom:20px;
+  padding:12px 24px;
+  font-size:14px;
+
+  color:white;
+  margin:30px;
+  background-color: transparent;
+}

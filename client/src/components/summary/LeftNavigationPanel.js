@@ -1,49 +1,55 @@
-import React from "react";
+import React, {useState} from "react";
 import '../styles/LeftNavigationPanel.css'
+import {Link, Outlet} from "react-router-dom";
 
 const LeftNavigationPanel = () => {
-  return (
-    <>
-      <div className="blur"></div>
-      <div className="h-93 w-100">
-        <div className="navbar-container"></div>
-        <div className="panel-container">
-          <div className="side-navigation-container">
-            <div className="side-bar" id="side-navigation">
-              <h1>Dashboard</h1>
+    const [quizDropdown, setQuizDropdown] = useState( false)
+    const [bookDropdown, setBookDropdown] = useState(false)
+    const [sideNavigationDropdown, setSideNavigationDropdown] = useState(false)
+    const sideBarShown = "side-bar side-bar-shown"
+    const sideBarHidden = "side-bar side-bar-hidden"
+    const sideNavigationArrowRight = "fa-solid fa-angle-right icons"
+    const sideNavigationArrowLeft = "fa-solid fa-angle-left icons"
+    return (
+        <div className= "side-navigation-container-shown" >
+            <div className={sideNavigationDropdown?sideBarShown:sideBarHidden} id="side-navigation">
+                <h1>Dashboard</h1>
 
-              <button className="dropdown-btn side-bar-item">
-                Quiz
-                <i className="fa fa-caret-down"></i>
-              </button>
-              <div className="dropdown-container">
-                <a id="btn-subjective-quiz" href="#">Subjective Quiz</a>
-                <a id="btn-placement-quiz" href="#">Placement Quiz</a>
-              </div>
-              <button className="dropdown-btn side-bar-item">
-                Book
-                <i className="fa fa-caret-down"></i>
-              </button>
-              <div className="dropdown-container">
-                <a id="btn-your-books" href="#">Your Books</a>
-                <a id="btn-your-collections" href="#">Your Collections</a>
-              </div>
+                <button className="dropdown-btn side-bar-item" onClick={() => setQuizDropdown(!quizDropdown)}>
+                    Quiz
+                    <i className="fa fa-caret-down"></i>
+                </button>
+                {quizDropdown &&
+                    <div className="dropdown-container">
+                    <Link to="/summary/subjective-quiz" id="btn-subjective-quiz">Subjective Quiz</Link>
+                    <Link to="/summary/placement-quiz" id="btn-placement-quiz">Placement Quiz</Link>
+                    </div>
+            }
 
-              <button className="side-bar-item" id="btn-assignment">
-                Assignments
-              </button>
-              <button className="side-bar-item">
-                Tutorials
-              </button>
+
+                <button className="dropdown-btn side-bar-item" onClick={() => setBookDropdown(!bookDropdown)}>
+                    Book
+                    <i className="fa fa-caret-down"></i>
+                </button>
+
+                {bookDropdown && <div className="dropdown-container">
+                    <Link to="/summary/your-books" id="btn-your-books">Your Books</Link>
+                    <Link to="/summary/your-collections" id="btn-your-collections">Your Collections </Link>
+                </div>
+                }
+
+                <button className="side-bar-item" id="btn-assignment">
+                    Assignments
+                </button>
+                <button className="side-bar-item">
+                    Tutorials
+                </button>
             </div>
-            <div id="side-navigation-arrow">
-              <i className="fa-solid fa-angle-right icons" id="side-navigation-arrow "></i>
+            <div id="side-navigation-arrow" onClick={() => setSideNavigationDropdown(!sideNavigationDropdown)}>
+                <i className={sideNavigationDropdown?sideNavigationArrowLeft : sideNavigationArrowRight} id="side-navigation-arrow "></i>
             </div>
-          </div>
         </div>
-      </div>
-    </>
-  );
+    );
 };
 
 export default LeftNavigationPanel;
