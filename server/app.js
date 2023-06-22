@@ -1,13 +1,23 @@
-var mysql = require('mysql');
+const express = require('express')
+const {sq,testDbConnection} = require('./db')
+const models = require("./models/models");
+const userRoutes = require('./src/modules/data/routes/UserRoutes');
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "yourusername",
-  password: "yourpassword"
-});
+const app = express()
+const PORT = 7000
 
-con.connect(function(err) {
-  if (err) console.log(err);
-  else
-  console.log("Connected!");
-});
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+app.use(userRoutes);
+
+testDbConnection();
+sq.sync()
+
+// models.sq.sync({ force: true }).then(result => {
+//   console.log('model synced!')
+// })
+
+app.listen(PORT, () => { 
+  console.log(`Example app listening on PORT ${PORT}`)
+})

@@ -1,11 +1,16 @@
 import React from 'react'
 import LeftNavigationPanel from './LeftNavigationPanel'
+import RightPanelRoot from "./rightPanel/RightPanelRoot";
+import '../styles/summary.css'
+import {useParams} from "react-router-dom";
 
-const Summary = ()=>{
+
+const Summary = ()=> {
+    const {summaryLink} = useParams()
     return(
-        <div>
-            <h1>Summary</h1>
+        <div className="panel-container h-93 w-100">
             <LeftNavigationPanel/>
+            <RightPanelRoot summaryLink={summaryLink}/>
         </div>
     )
 }
