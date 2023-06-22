@@ -8,7 +8,7 @@
 .tostrip {
     background: linear-gradient( 316deg, #50d8d7 0%, #2a2323 74%);
     opacity: 0.89;
-    min-width: 350px;
+    min-width: 300px;
     color: white;
     width: 72%;
     text-align: center;
@@ -21,8 +21,6 @@
     padding-bottom: 10px;
     letter-spacing: 0.5px;
 }
-
-
 
 
 .main_box {
@@ -39,6 +37,30 @@
     align-items: center;
     border-radius: 10px;
 }
+@media(max-width:750px) {
+    .main_box {
+        width: 85%;
+    }
+}
+
+@media(max-width:550px) {
+    .main_box {
+        width: 95%;
+    }
+}
+@media(max-width:450px) {
+    .tostrip {
+        min-width: 200px;
+        font-size: 15px;
+    }
+}
+@media(max-width:310px) {
+    .tostrip {
+        min-width: 150px;
+        font-size: 13px;
+    }
+}
+
 
 .type_box {
     width: 100%;
@@ -59,8 +81,19 @@
     background: none;
     border-bottom: 3px solid #3b7474;
 }
-
-
+#image-option{
+    margin-bottom: 15px;
+    width: 200px;
+    background: #3b7474;
+    color: white;
+    padding: 5px 0.4rem;
+}
+@media(max-width:500px) {
+    #image-option {
+        width: 100px;
+        color: transparent;
+    }
+}
 .question {
     color: rgb(59, 59, 59);
     background: #f0f0f0;
@@ -93,11 +126,11 @@
     margin-bottom: 10px;
     width: 45vw;
     transition: transform 0.5s;
-    
 }
 .option1:hover{
-    transform: scale(1.04);
+    transform: scale(1.05);
 }
+
 .options_written {
     width: 100%;
     min-width: 130px;
@@ -172,9 +205,7 @@ select {
     border-bottom: 3px solid #3b7474;
 }
 
-
-
-.btn {
+.btn{
     background-color: #3b7474;
     width: 100%;
     color: rgb(255, 255, 255);
@@ -188,5 +219,15 @@ select {
     padding-top: 10px;
     padding-bottom: 10px;
     letter-spacing: 1px;
-    transition: all 0.5s ease;
+    transition: all 0.1s ease;
+  }
+  
+  .btn:hover {
+    transition-duration: 0.1s;
+    background-color: #19a4a4;
+  }
+ 
+  .btn:active {
+    color: black;
+    transform: scale(1.02);
 }
