@@ -174,7 +174,7 @@ function AddQuestion() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} method="POST" style={{ margin: '120px auto' }}>
+      <form onSubmit={handleSubmit} method="POST" style={{ margin: '50px auto' }}>
         <div className="tostrip">
           Add New Question
         </div>
@@ -210,7 +210,7 @@ function AddQuestion() {
 
           <textarea type="text" className="question" id="question" name="question" value={data.question} onChange={handleChangeData} placeholder="Write the question here" rows="2" cols="50" style={{ height: '71px' }}></textarea>
           <div>
-            <input type="file" name="file" value={data.file} onChange={handleChangeData} id="image-option" placeholder="Add Image" accept="image/*" style={{ marginBottom: '15px', background: '#3b7474', color: 'white', padding: '5px 0.4rem' }} />
+            <input type="file" name="file" value={data.file} onChange={handleChangeData} id="image-option" placeholder="Add Image" accept="image/*" />
           </div>
 
           {questionType && (
@@ -224,12 +224,12 @@ function AddQuestion() {
             </div>
           )}
 
-          <input type="text" id="hide" name="correctAnsInteger" value={data.correctAnsInteger} onChange={handleChangeData} style={showCorrectAns} placeholder="Correct answer" />
+          <input type='number' id="hide" name="correctAnsInteger" value={data.correctAnsInteger} onChange={handleChangeData} style={showCorrectAns} placeholder="Correct answer" />
           <div className="explanation">
             <textarea type="text" id="exp" className="resize fix" name="explanation" value={data.explanation} onChange={handleChangeData} min="1" max="1000" placeholder="explanation" style={{ height: '71px' }}></textarea>
           </div>
           <div id="ending_options">
-            <textarea data-row="0" className="options_all" name="options" style={{ display: 'none' }} placeholder="Option">jhgyuf/.\fgdfsgdf/.\fdgshdgh/.\</textarea>
+            <textarea data-row="0" className="options_all" name="options" style={{ display: 'none' }} placeholder="Option">j</textarea>
           </div>
           <div className="last">
             <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
