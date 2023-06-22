@@ -1,6 +1,7 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
 const models = require("./models/models");
+const userRoutes = require('./src/modules/data/routes/UserRoutes');
 
 const app = express()
 const PORT = 7000
@@ -8,6 +9,7 @@ const PORT = 7000
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+app.use(userRoutes);
 
 testDbConnection();
 sq.sync()
