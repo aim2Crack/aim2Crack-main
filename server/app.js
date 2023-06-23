@@ -1,7 +1,7 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
 const models = require("./models/models");
-const userRoutes = require('./src/modules/data/routes/UserRoutes');
+const userRoutes = require('./routes/UserRoutes');
 
 const app = express()
 const PORT = 7000
