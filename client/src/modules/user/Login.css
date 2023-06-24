@@ -20,6 +20,7 @@
     min-height: 100vh;
     overflow: hidden;
     width: 100%;
+    color: white;
 }
 
 .login-container::before {
