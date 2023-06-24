@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-
+import './Register.css';
 const CreateUserForm = () => {
   const navigate = useNavigate();
 
