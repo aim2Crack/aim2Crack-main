@@ -5,8 +5,8 @@
 #div1{
   /* height:400px; */
   /* width:400px; */
+  width:30%;
   height: auto;
-  width: 30%;
   background-color:transparent;
   border: 3px solid white;
   border-radius: 14px;
