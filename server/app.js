@@ -1,14 +1,15 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
-const models = require("./models/models");
+const {User, ResetPass} = require("./models/models");
 const userRoutes = require('./routes/UserRoutes');
+const userPass= require('./routes/user/password_reset');
 
 const app = express()
 const PORT = 7000
 
 // CORS middleware
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
@@ -20,7 +21,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.use('/',userRoutes);
-
+app.use('/',userPass);
 
 testDbConnection();
 sq.sync()
