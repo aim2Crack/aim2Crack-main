@@ -1,51 +1,137 @@
 .heading{
   text-decoration:underline;
+  margin-bottom: 16px;;
 }
 #div1{
-  height:400px;
-  width:400px;
+  /* height:400px; */
+  /* width:400px; */
+  height: auto;
+  width: 40%;
   background-color:transparent;
   border: 3px solid white;
   border-radius: 14px;
   color: white;
-  display:inline-block;
-  margin-top: 50px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-top : 50px; */
   font-family: serif;
+  /* line-height: 2; */
 }
+@media screen and (max-width:900px) {
+  #div1{
+      width:40%;
+  }
+}
+@media screen and (max-width:600px) {
+  #div1{
+      width:90%;
+  }
+}
+@media screen and (max-width:450px) {
+  #div1{
+      width:80%;
+  }
+}
+
 #outer_div{
-  height: 496px;
+  height: 100vh;
+  width: 100vw;
+  /* height: 496px; */
   /* width:1366px; */
   background-image: url(createquiz.png);
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 .inputbox{
-  margin-bottom: 20px;
-  text-decoration: underline;
+  
   background-color: transparent;
   color:white;
   border:none;
   outline:none;
 }
-#para{
-  display:inline;
-  text-decoration: underline;
+#input1,
+#input2,
+#input3,
+#input4,
+#submit
+
+{
+  display:flex;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 16px;
+
+}
+
+#button{
   background-color: transparent;
+  color: white;
+padding: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+padding-left: 30%;
+padding-right: 30%;
+font-weight: bolder;
+transition: all 2s ease;
+border-radius:14px;
+}
+.alert {
+  background: white;
+  padding: 9px;
+  color: #0a0e22;
+  border-radius: 0.5rem;
+}
+ 
+
+ 
+
+
+/* .custom-label {
+  display: inline-block;
+  margin-left: 70px;
+  */
+/* } */
+#label{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 16px;
+}
+#select{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 16px;
+}
+
+
+.custom-input {
+  background-color: transparent;
+  color: white;
+  border: none;
+  outline: none;
+  /* text-align: left; */
+  /* padding: 10px; */
+}
+
+.custom-select{
+  background-color:transparent;
   color:white;
+  border:none;
+  outline:none;
   
 }
+
 #question{
-  background:transparent;
-  color:white;
-  border:1px solid black;
-
-}
-
-.button{
-  margin-bottom:20px;
-  padding:12px 24px;
-  font-size:14px;
-
-  color:white;
-  margin:30px;
   background-color: transparent;
+  color:white;
+  border:none;
+  outline:none;
 }

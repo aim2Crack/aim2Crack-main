@@ -11,8 +11,10 @@ import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
 import CreateUserForm from "./modules/register/CreateUserForm";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 import Navbar from "./components/navbar/Navbar";
+
 import Summary from "./components/summary/Summary";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
+
 function App() {
 
   const excludedPaths = ['/register', '/login'];
