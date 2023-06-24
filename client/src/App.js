@@ -15,9 +15,13 @@ import Summary from "./components/summary/Summary";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
 function App() {
 
+  const excludedPaths = ['/register', '/login'];
+  const currentPath = window.location.pathname;
+  const isExcludedPath = excludedPaths.includes(currentPath);
+
   return (
     <BrowserRouter>
-      <Navbar />
+    {!isExcludedPath  && <Navbar />}
       <Routes>
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
@@ -32,6 +36,7 @@ function App() {
         <Route path="/register" element={<CreateUserForm />} />
       </Routes>
     </BrowserRouter>
+    
   );
 
 }
