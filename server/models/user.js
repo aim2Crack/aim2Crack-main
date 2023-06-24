@@ -49,7 +49,7 @@ brand_logo: {
 brand_link: {
     type: DataTypes.STRING,
     allowNull: true,
-},
+}
 });
 
   User.sync().then(() => {
