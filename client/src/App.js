@@ -13,11 +13,16 @@ import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstr
 import Navbar from "./components/navbar/Navbar";
 import Summary from "./components/summary/Summary";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
+
 function App() {
+
+  const isNavbarVisible = (path) => {
+    return !['/login', '/resetPass'].includes(path);
+  };
 
   return (
     <BrowserRouter>
-      <Navbar />
+      {isNavbarVisible(window.location.pathname) && <Navbar />}
       <Routes>
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
