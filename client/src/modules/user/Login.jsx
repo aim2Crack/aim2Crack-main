@@ -69,7 +69,7 @@ function Login() {
                       autoFocus
                       autoCapitalize="none"
                       autoComplete="username"
-                      maxLength="150"
+                      maxLength="30"
                       className="textinput textInput form-control"
                       required
                       id="id_username"
@@ -86,6 +86,8 @@ function Login() {
                       type={isPasswordVisible ? 'text' : 'password'}
                       name="password"
                       value={password}
+                      minLength='4'
+                      maxLength="20"
                       onChange={(e) => setPassword(e.target.value)}
                       autoComplete="current-password"
                       className="textinput textInput form-control"
@@ -118,7 +120,7 @@ function Login() {
               <h3>Newbie ?</h3>
               <p>Chill !! Make your Aim2Crack Account now!!</p>
               <div className="sign_up">
-                <Link to="/register/">Sign Up </Link>
+                <Link to="/register">Sign Up </Link>
               </div>
             </small>
           </div>
