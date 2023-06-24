@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import PasswordReset from './ResetPass'
 
-import undraw from './undraw_Questions_re_1fy7.svg'
+import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
@@ -46,15 +46,6 @@ function Login() {
       <Link
         to="/homePage"
         id="a_home"
-        style={{
-          position: 'absolute',
-          top: '1rem',
-          left: '1rem',
-          fontSize: '2rem',
-          color: 'white',
-          zIndex: 1,
-          transition: 'all 0.5s ease',
-        }}
       >
         <FontAwesomeIcon icon={faHouse} />
       </Link>
@@ -66,8 +57,6 @@ function Login() {
             <form onSubmit={submitHandler} method="POST" className="form_method">
               <input
                 type="hidden"
-                name="csrfmiddlewaretoken"
-                value="0CPQgsUNj841BybLafZ7vUfdBwUvyaZQrzffEc1x9zYL4flBv68YJaac1lqeq2K7"
               />
 
               <fieldset className="form-group">
@@ -114,7 +103,7 @@ function Login() {
                 </div>
               </fieldset>
               <div className="form-group">
-                <small className="text-muted ml-2 forgot_password">
+                <small className="forgot_password">
                   <Link to="/resetPass">Forgot Password</Link>
                 </small>
               </div>
@@ -129,7 +118,7 @@ function Login() {
               <h3>Newbie ?</h3>
               <p>Chill !! Make your Aim2Crack Account now!!</p>
               <div className="sign_up">
-                <Link className="ml-2" to="/register/">Sign Up </Link>
+                <Link to="/register/">Sign Up </Link>
               </div>
             </small>
           </div>

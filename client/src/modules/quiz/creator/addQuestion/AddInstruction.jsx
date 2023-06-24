@@ -6,7 +6,7 @@ import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 
 import './AddInstruction.css';
-import logo from './logo.png';
+import logo from '../../../../assets/images/quiz/logo.png'
 export default function AddInstruction() {
 
   const [inputValue, setInputValue] = useState('');
