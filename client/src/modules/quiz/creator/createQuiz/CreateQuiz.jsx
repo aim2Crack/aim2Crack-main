@@ -36,21 +36,35 @@ const CreateQuiz=()=>{
     setInputValue2(e.target.value);
     
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    // Validate the form fields
+    if (selectedOption === '' || inputValue === '' || inputValue1 === '') {
+      alert('Please fill in all the details to continue!');
+    } else {
+      // Form submission logic
+      console.log('Form submitted successfully!');
+    }
+  };
 
   return(
     <div id="outer_div">
         <div id="div1">
-        <form>
+        <form onSubmit={handleSubmit}>
+             
                 <h1 className='heading'>Create Your Own Quiz</h1>
-        <p className='select'>Type of Quiz : </p>        
-        
-      <select className="custom-select" value={selectedOption} onChange={handleSelect}>
+                <div>
+        <div  id="select">
+           Type of Quiz:    
+        <select className="custom-select" value={selectedOption} onChange={handleSelect}>
         <option value="">Select an option</option>
         <option value="placement">Placement Quiz</option>
         <option value="simple">Simple Quiz</option>
-      </select><br/>
+      </select>
+      </div>
 
+      <div id="label">
       <label className="custom-label">{labelText}</label>
 
       <input
@@ -59,7 +73,10 @@ const CreateQuiz=()=>{
         value={inputValue}
         onChange={handleInputChange}
         placeholder={labelText}
-      /><br/>
+        />
+      </div>
+      
+      <div id="label">
       <label className="custom-label">{labelText2}</label>
 
       <input
@@ -69,20 +86,33 @@ const CreateQuiz=()=>{
         onChange={handleInputChange1}
         placeholder={labelText2}
       />
-    <br/>
+      </div>
+    
+      <div id="input1">
             <label className="inputbox" for="starting_time">Start Time:</label>
-                <input className="inputbox" type="date" id="starting_time"/><br/>
-                <label className="inputbox" for="last_login_time">Last login Time:</label>
-                <input className="inputbox" type="date" id="last_login_time"/><br/>
-                <label className="inputbox" for="Result_time">Result Time:</label>
-                <input className="inputbox" type="date" id="Result_time"/><br/>
-                <p id="para">Question Timer: </p>
-                <select id="question" name="question_time">
-                <option selected>Individual Question Timer</option>
-                <option >Section/Full Quiz Timer</option>
-        
-                </select><br></br>
-                <button class="button" type="button">Create Quiz</button>
+                <input className="inputbox" type="date" id="starting_time"/>
+                </div>
+                <div id="input2">
+                   <label className="inputbox" for="last_login_time">Last login Time:</label>
+                    <input className="inputbox" type="date" id="last_login_time"/><br/>
+                </div>
+               
+                <div id="input3">
+                  <label className="inputbox" for="Result_time">Result Time:</label>
+                  <input className="inputbox" type="date" id="Result_time"/>
+                </div>
+
+                <div id="input4">
+                <span>Question Timer: </span>
+                 <select id="question" name="question_time">
+                  <option selected>Individual Question Timer</option>
+                <option >Section/Full Quiz Timer</option></select>
+    
+    </div>
+               <div id="submit">
+                    <input type="submit" id="button" value="Create Quiz"/>
+                </div> 
+                </div>
                 
             </form>
    </div>
