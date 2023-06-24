@@ -3,7 +3,9 @@
     padding: 0;
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
-
+#top-level{
+    margin: 50px auto;
+}
 
 .tostrip {
     background: linear-gradient( 316deg, #50d8d7 0%, #2a2323 74%);
@@ -107,7 +109,7 @@
     margin: auto;
     border: 0;
     border-bottom: 3px solid #3b7474;
-    height: 24px;
+    height: 71px;
     outline: none;
     margin-bottom: 2rem;
     resize: none;
