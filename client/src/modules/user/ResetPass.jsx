@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from './Logo enlarged-03.png'
+import logo from '../../assets/images/user/Logo enlarged-03.png'
 import './ResetPass.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -50,8 +50,6 @@ const PasswordReset = () => {
                         <form onSubmit={submitHandler} method="post">
                             <input
                                 type="hidden"
-                                name="csrfmiddlewaretoken"
-                                value="edTAyN9VKaSluKYRLe0Pf50MIsqhlQxeFajZWxgFABM5Xr8H659GtlVL8hW0dIiv"
                             />
                             <input
                                 type="email"

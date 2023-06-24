@@ -46,7 +46,7 @@ export const AddQuestionHome = () => {
                 </div>
                 {!addQuestion ? (
 
-                    <div className='question_box' style={{ display: 'block' }}>
+                    <div className='question_box' >
                         <div onClick={addQuestionHandler} className='add-question'>Add Question</div>
                     </div>
                 ) : (

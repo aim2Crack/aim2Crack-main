@@ -179,11 +179,10 @@
     }
 }
 .question_box {
-    display: flex;
+    display: block;
     min-width: 200px;
     width: 75%;
     margin: 20px auto;
-    justify-content: center;
 }
 
 .icon-bar {

@@ -1,7 +1,8 @@
 import React from 'react'
 import './PreviewInstructions.css';
 import PropTypes from 'prop-types'
-import logo from './logo.png';
+import logo from '../../../../assets/images/quiz/logo.png'
+
 export default function PreviewInstructions(props) {
   return (
 
