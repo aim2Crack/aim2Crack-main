@@ -1,8 +1,8 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Baloo Bhai 2', cursive;
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*box-sizing: border-box;*/
+    /*font-family: 'Baloo Bhai 2', cursive;*/
 }
 
 #a_home{
@@ -20,6 +20,7 @@
     min-height: 100vh;
     overflow: hidden;
     width: 100%;
+    color: white;
 }
 
 .login-container::before {
