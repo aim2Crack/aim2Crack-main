@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
-
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 
 import PasswordReset from './ResetPass'
 
@@ -41,9 +41,23 @@ function Login() {
     });
     //console.log(name, value);
   }
-  
+
+  // sign in with google
+  async function handleSignInWIthGoogle(){
+    const auth = getAuth()
+    const provider = new GoogleAuthProvider()
+    try {
+      const userSignInResult = await signInWithPopup(auth, provider)
+      const user = userSignInResult.user
+      return await user.getIdToken()
+    }catch (e){
+      console.log("user not registered")
+    }
+
+  }
 
   return (
+
     <div>
       <Link
         to="/homePage"
@@ -58,6 +72,7 @@ function Login() {
           </div>
           <div className="border">
             <h1>Login Now</h1>
+
 
             <form onSubmit={submitHandler} method="POST" className="login-form_method">
               <input
@@ -112,6 +127,7 @@ function Login() {
               </div>
 
               <button type="submit" className=" login-btn-outline-info">LOG IN</button>
+              <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button>
             </form>
           </div>
         </div>
