@@ -2,9 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
-
-
-import PasswordReset from './ResetPass'
+import { useFormik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,39 +14,39 @@ import './Login.css'
 
 function Login() {
 
-  const [data, setData] = useState({
+  const formInitialValues = {
     email: '',
-    //password: '',
+    password: '',
+  };
+
+  
+  // Validation schema
+  const formValidationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email address').required('Email is required').max(30, 'Email not greater than 30 character'),
+    password: Yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
+  });
+
+  const {handleSubmit, handleChange, values, errors} = useFormik({
+    initialValues: formInitialValues,
+    validationSchema: formValidationSchema,
+    onSubmit: (values) => {
+      console.log(values)
+    }
   })
-  const [password, setPassword] = useState('');
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const submitHandler =(e) => {
-    e.preventDefault();
-    console.log('submiting', {data, password});
-  }
-
-  const changeHandler = (e) => {
-    const { name, value } = e.target;
-
-    setData(prev => {
-      return {
-        ...prev, [name]: value
-      }
-    });
-    //console.log(name, value);
-  }
   
 
   return (
     <div>
       <Link
         to="/homePage"
-        id="a_home"
+        id="a__home"
       >
         <FontAwesomeIcon icon={faHouse} />
       </Link>
@@ -59,7 +58,7 @@ function Login() {
           <div className="border">
             <h1>Login Now</h1>
 
-            <form onSubmit={submitHandler} method="POST" className="login-form_method">
+            <form onSubmit={handleSubmit}  method="POST" className="login-form_method">
               <input
                 type="hidden"
               />
@@ -69,18 +68,18 @@ function Login() {
                   <div className="login-info">
                     <FontAwesomeIcon className='icon' icon={faUser} />
                     <input
-                      type="email"
+                      type="text"
                       name="email"
                       autoFocus
                       autoCapitalize="none"
                       autoComplete="username"
-                      maxLength="30"
-                      required
-                      value={data.email}
                       placeholder="Username / Email id"
-                      onChange={changeHandler}
+                      onChange={handleChange}
+                      value={values.email}
                     />
+                    
                   </div>
+                  <span className='login-error'>{errors.email} </span>
                 </div>
                 <div className="login-form-group">
                   <div className="login-info login-info-pass">
@@ -88,13 +87,10 @@ function Login() {
                     <input
                       type={isPasswordVisible ? 'text' : 'password'}
                       name="password"
-                      value={password}
-                      minLength='4'
-                      maxLength="20"
-                      onChange={(e) => setPassword(e.target.value)}
                       autoComplete="current-password"
-                      required
                       placeholder="Password"
+                      onChange={handleChange}
+                      value={values.password}
                     />
                     
                       <span  onClick={handleTogglePasswordVisibility}>
@@ -103,6 +99,7 @@ function Login() {
                       
                     
                   </div>
+                  <span className='login-error' >{errors.password} </span>
                 </div>
               </fieldset>
               <div className="login-form-group">
