@@ -25,7 +25,7 @@ password: {
     type: DataTypes.STRING,
     allowNull: false,
 },
-profile_type: {
+profileType: {
     type: DataTypes.ENUM('student', 'faculty'),
     allowNull: false,
 },
@@ -37,19 +37,19 @@ institute: {
     type: DataTypes.STRING,
     allowNull: true,
 },
-brand_name: {
+brandName: {
     type: DataTypes.STRING,
     allowNull: true,
     defaultValue: 'none',
 },
-brand_logo: {
+brandLogo: {
     type: DataTypes.STRING,
     allowNull: true,
 },
-brand_link: {
+brandLink: {
     type: DataTypes.STRING,
     allowNull: true,
-},
+}
 });
 
   User.sync().then(() => {

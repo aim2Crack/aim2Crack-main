@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 
 
-//get all users
+// //get all users
 router.get('/users', async (req, res) => {
     try {
         // const UserModel = await User();
@@ -28,29 +28,29 @@ router.post('/users', async (req, res) => {
 });
 
 
-router.post('/users/check-existence', async (req, res) => {
-    try {
-      const { username, email } = req.body;
-      const existingUser = await User.findOne({
-        where: {
-          $or: [
-            { username: username },
-            { email: email }
-          ]
-        }
-      });
+// router.post('/users/check-existence', async (req, res) => {
+//     try {
+//       const { username, email } = req.body;
+//       const existingUser = await User.findOne({
+//         where: {
+//           $or: [
+//             { username: username },
+//             { email: email }
+//           ]
+//         }
+//       });
   
-      if (existingUser) {
-        // User with the provided username or email already exists
-        res.status(409).json({ error: 'Username or email already exists' });
-      } else {
-        // User does not exist, can proceed with creation
-        res.sendStatus(200);
-      }
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  });
+//       if (existingUser) {
+//         // User with the provided username or email already exists
+//         res.status(409).json({ error: 'Username or email already exists' });
+//       } else {
+//         // User does not exist, can proceed with creation
+//         res.sendStatus(200);
+//       }
+//     } catch (error) {
+//       res.status(500).json({ error: error.message });
+//     }
+//   });
 
 //user access by ID
 // router.get('/users/:id', async (req, res) => {
