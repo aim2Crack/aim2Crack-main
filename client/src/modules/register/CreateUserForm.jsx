@@ -150,6 +150,17 @@
 // export default CreateUserForm;
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object({
+  username: Yup.string().required('Username is required'),
+  email: Yup.string().email('Invalid email address').required('Email is required'),
+  phone: Yup.string().required('Phone is required'),
+  password: Yup.string().required('Password is required'),
+  profileType: Yup.string().required('Profile Type is required'),
+  rollNo: Yup.number().integer().typeError('Roll No must be a valid number').required('Roll No is required'),
+  institute: Yup.string().required('Institute is required'),
+});
 
 const CreateUserForm = () => {
   const initialValues = {
@@ -188,6 +199,7 @@ const CreateUserForm = () => {
   return (
     <Formik
       initialValues={initialValues}
+      validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
       <Form>
