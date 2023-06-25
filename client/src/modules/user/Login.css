@@ -1,9 +1,4 @@
-* {
-    /*margin: 0;*/
-    /*padding: 0;*/
-    /*box-sizing: border-box;*/
-    /*font-family: 'Baloo Bhai 2', cursive;*/
-}
+
 
 #a_home{
     position: absolute;
@@ -61,7 +56,8 @@
 
 .border h1 {
     margin-top: 5%;
-    font-size: 2.8rem;
+    margin-bottom: 2%;
+    font-size: 2.6rem;
     color: black;
     font-weight: bolder;
     text-transform: uppercase;
@@ -69,11 +65,11 @@
 
 
 
-.form_method {
+.login-form_method {
     width: 71%;
 }
 
-.form-group {
+.login-form-group {
     border: none;
     margin-bottom: 6px;
 
@@ -91,34 +87,47 @@
 
 }
 
-.info {
+.login-info {
 
     display: flex;
     align-items: center;
-    padding: 12px 1.4rem;
-    background: #f0f0f0;
+    padding: 15px 1.4rem;
+    background: white;
     border-radius: 58px;
     margin-top: 10px;
 }
 
-.info .icon {
+.login-info-pass{
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-info .icon {
     margin-right: 5px;
     color: #acacac;
     font-size: 1.1rem;
     font-weight: 600;
 }
 
-.info input {
+.login-info input {
     outline: none;
     border: none;
     background: none;
     font-size: 1.1rem;
     font-weight: 600;
     width: 100%;
-
+    margin: auto;
+}
+@media(max-width:1050px){
+    .border h1{
+        font-size: 2rem;
+    }
+    .login-logo{
+        width: 40%;
+    }
 }
 
-.btn-outline-info {
+.login-btn-outline-info {
     width: 100%;
     padding: 3%;
 
@@ -134,12 +143,12 @@
 
 }
 
-.btn-outline-info:hover {
+.login-btn-outline-info:hover {
     background: #07ada3a6;
     border: 2px solid white;
 }
 
-.left_panel {
+.login-left_panel {
     position: absolute;
     width: 50%;
     height: 100%;
@@ -154,23 +163,23 @@
 
 }
 
-.pt-3 {
+.login-pt-3 {
 
     font-weight: bolder;
     color: white;
 }
 
-.pt-3 h3 {
+.login-pt-3 h3 {
     font-size: 1.8rem;
 
 }
 
-.pt-3 p {
+.login-pt-3 p {
     font-size: 1.2rem;
 
 }
 
-.pt-3 a {
+.login-pt-3 a {
     font-size: 0.9rem;
     font-weight: 600;
     color: white;
@@ -229,46 +238,46 @@
 
    
 
-    .form-group {
+    .login-form-group {
 
-        margin-bottom: 1px;
+        margin: 5px auto;
 
     }
 
-    .info {
-        padding: 7px 1rem;
+    .login-info {
+        padding: 10px 1rem;
         border-radius: 61px;
     }
 
-    .info i {
+    .login-info .icon {
         font-size: 1rem;
     }
 
-    .info input {
+    .login-info input {
         font-size: 1rem;
     }
 
-    .btn-outline-info {
+    .login-btn-outline-info {
         padding: 2%;
         margin-top: 1%;
         font-size: 1rem;
     }
 
-    .pt-3 {
+    .login-pt-3 {
         margin-left: 46px;
     }
 
-    .pt-3 h3 {
+    .login-pt-3 h3 {
         font-size: 1.3rem;
 
     }
 
-    .pt-3 p {
+    .login-pt-3 p {
         font-size: 1rem;
 
     }
 
-    .left_panel {
+    .login-left_panel {
         flex-direction: row;
         width: 100%;
         height: 28%;
@@ -279,6 +288,10 @@
     .undraw {
         display: none;
     }
+    .login-logo{
+        width: 50%;
+        margin-bottom: 20px;
+    }
 
     .login-container::before {
         width: 1000px;
@@ -288,24 +301,27 @@
         right: -64%;
     }
 
-    .pt-3 {
+    .login-pt-3 {
         margin-left: 0%;
+    }
+    .login-pt-3 h3 {
+        margin-top: 25px;
     }
 
     .content-section {
         right: 3%;
         width: 90%;
-        top: 47%;
+        top: 37%;
     }
 
-    .left_panel {
+    .login-left_panel {
         height: 20%;
     }
 }
 
 @media(width:460px),
 (max-height: 570px) {
-    .left_panel {
+    .login-left_panel {
         top: 15px;
     }
 
@@ -316,7 +332,7 @@
 
 @media (width:460px),
 (max-height:520px) {
-    .left_panel {
+    .login-left_panel {
         top: 5px;
     }
 
@@ -331,15 +347,15 @@
         height: 654px;
     }
 
-    .left_panel {
+    .login-left_panel {
         top: 11px;
     }
 
-    .pt-3 h3 {
+    .login-pt-3 h3 {
         font-size: 1rem;
     }
 
-    .pt-3 p {
+    .login-pt-3 p {
         font-size: 0.8rem;
     }
 
@@ -359,7 +375,7 @@
         font-size: 1.5rem;
     }
 
-    .info {
+    .login-info {
         padding: 4px 1rem;
     }
 
@@ -367,7 +383,7 @@
         font-size: 1rem;
     }
 
-    .btn-outline-info {
+    .login-btn-outline-info {
         padding: 1%;
     }
 }

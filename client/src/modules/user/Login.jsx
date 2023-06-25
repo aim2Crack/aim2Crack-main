@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import logo from '../../assets/images/user/Logo enlarged-03.png'
+
 
 import PasswordReset from './ResetPass'
 
@@ -51,17 +53,20 @@ function Login() {
       </Link>
       <div className="login-container">
         <div className="content-section">
+          <div>
+            <img src= {logo} alt="logo" className='login-logo' />
+          </div>
           <div className="border">
             <h1>Login Now</h1>
 
-            <form onSubmit={submitHandler} method="POST" className="form_method">
+            <form onSubmit={submitHandler} method="POST" className="login-form_method">
               <input
                 type="hidden"
               />
 
-              <fieldset className="form-group">
-                <div id="div_id_username" className="form-group">
-                  <div className="info">
+              <fieldset className="login-form-group">
+                <div className="login-form-group">
+                  <div className="login-info">
                     <FontAwesomeIcon className='icon' icon={faUser} />
                     <input
                       type="email"
@@ -70,17 +75,15 @@ function Login() {
                       autoCapitalize="none"
                       autoComplete="username"
                       maxLength="30"
-                      className="textinput textInput form-control"
                       required
-                      id="id_username"
                       value={data.email}
                       placeholder="Username / Email id"
                       onChange={changeHandler}
                     />
                   </div>
                 </div>
-                <div id="div_id_password" className="form-group">
-                  <div className="info">
+                <div className="login-form-group">
+                  <div className="login-info login-info-pass">
                     <FontAwesomeIcon className='icon' icon={faLock} />
                     <input
                       type={isPasswordVisible ? 'text' : 'password'}
@@ -90,33 +93,31 @@ function Login() {
                       maxLength="20"
                       onChange={(e) => setPassword(e.target.value)}
                       autoComplete="current-password"
-                      className="textinput textInput form-control"
                       required
-                      id="id_password"
                       placeholder="Password"
                     />
                     
-                      <span className='eye' onClick={handleTogglePasswordVisibility}>
-                        {isPasswordVisible ? <FontAwesomeIcon className='icon' id='hide1' icon={faEye} /> : <FontAwesomeIcon className='icon' id='hide2' icon={faEyeSlash} />}
+                      <span  onClick={handleTogglePasswordVisibility}>
+                        {isPasswordVisible ? <FontAwesomeIcon className='icon'  icon={faEye} /> : <FontAwesomeIcon className='icon'  icon={faEyeSlash} />}
                       </span>
                       
                     
                   </div>
                 </div>
               </fieldset>
-              <div className="form-group">
+              <div className="login-form-group">
                 <small className="forgot_password">
                   <Link to="/resetPass">Forgot Password</Link>
                 </small>
               </div>
 
-              <button type="submit" className=" btn-outline-info">LOG IN</button>
+              <button type="submit" className=" login-btn-outline-info">LOG IN</button>
             </form>
           </div>
         </div>
-        <div className="left_panel">
-          <div className="border-top pt-3">
-            <small className="text-muted">
+        <div className="login-left_panel">
+          <div className="border-top login-pt-3">
+            <small >
               <h3>Newbie ?</h3>
               <p>Chill !! Make your Aim2Crack Account now!!</p>
               <div className="sign_up">
