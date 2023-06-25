@@ -7,12 +7,13 @@ const CreateUserForm = () => {
     email: '',
     phone: '',
     password: '',
-    profile_type: '',
-    rollNo: '',
-    institute: ''
-  //  brand_link: ''
+    profileType: '',
+    rollNo: null,
+    institute: '',
+    brandName: 'none',
+    brandLogo: '',
+    brandLink: ''
   });
-  // const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setFormData({
@@ -38,7 +39,6 @@ const CreateUserForm = () => {
         } else {
           // Request failed
           throw new Error('User creation failed.');
-          // console.log(req.body)
         }
       })
       .catch(error => {
@@ -90,11 +90,11 @@ const CreateUserForm = () => {
         />
       </div>
       <div>
-        <label htmlFor="profile_type">Profile Type:</label>
+        <label htmlFor="profileType">Profile Type:</label>
         <select
-          id="profile_type"
-          name="profile_type"
-          value={formData.profile_type}
+          id="profileType"
+          name="profileType"
+          value={formData.profileType}
           onChange={handleInputChange}
         >
           <option value="">Select profile type</option>
@@ -122,8 +122,29 @@ const CreateUserForm = () => {
           onChange={handleInputChange}
         />
       </div>
+      <div>
+        <label htmlFor="brandLogo">Brand Logo:</label>
+        <input
+          type="text"
+          id="brandLogo"
+          name="brandLogo"
+          value={formData.brandLogo}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="brandLink">Brand Link:</label>
+        <input
+          type="text"
+          id="brandLink"
+          name="brandLink"
+          value={formData.brandLink}
+          onChange={handleInputChange}
+        />
+      </div>
       <button type="submit">Create User</button>
     </form>
   );
 };
+
 export default CreateUserForm;
