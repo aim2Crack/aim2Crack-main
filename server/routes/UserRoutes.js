@@ -16,17 +16,32 @@ router.get('/users', async (req, res) => {
     }
 });
 
-//new user
-router.post('/users', async (req, res) => {
-    try {
-        const UserData = req.body;
-        const newUser = await User.create(UserData);
-        res.status(201).json(newUser);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
+// //new user
+// router.post('/users', async (req, res) => {
+//     try {
+//         const UserData = req.body;
+//         console.log(req.body)
+//         const newUser = await User.create(UserData);
+//         console.log(newUser)
+//         res.status(201).json(newUser);
+//     } catch (error) {
+//         console.log(req.body)
+//         res.status(400).json({ error: error.message });
+//     }
+// });
 
+router.post('/users', async (req, res) => {
+  try {
+    const userData = req.body;
+    console.log(req.body);
+    const newUser = await User.create(userData);
+    console.log(newUser);
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: error.message });
+  }
+});
 
 // router.post('/users/check-existence', async (req, res) => {
 //     try {
