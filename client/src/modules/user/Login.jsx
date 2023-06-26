@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+
+import PasswordReset from './ResetPass'
 
 import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -40,9 +43,38 @@ function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  
+  const submitHandler =(e) => {
+    e.preventDefault();
+    console.log('submiting', {data, password});
+  }
+
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+
+    setData(prev => {
+      return {
+        ...prev, [name]: value
+      }
+    });
+    //console.log(name, value);
+  }
+
+  // sign in with google
+  async function handleSignInWIthGoogle(){
+    const auth = getAuth()
+    const provider = new GoogleAuthProvider()
+    try {
+      const userSignInResult = await signInWithPopup(auth, provider)
+      const user = userSignInResult.user
+      return await user.getIdToken()
+    }catch (e){
+      console.log("user not registered")
+    }
+
+  }
 
   return (
+
     <div>
       <Link
         to="/homePage"
@@ -58,7 +90,7 @@ function Login() {
           <div className="border">
             <h1>Login Now</h1>
 
-            <form onSubmit={handleSubmit}  method="POST" className="login-form_method">
+            <form onSubmit={submitHandler} method="POST" className="login-form_method">
               <input
                 type="hidden"
               />
@@ -73,6 +105,9 @@ function Login() {
                       autoFocus
                       autoCapitalize="none"
                       autoComplete="username"
+                      maxLength="30"
+                      required
+                      value={data.email}
                       placeholder="Username / Email id"
                       onChange={handleChange}
                       value={values.email}
@@ -88,6 +123,7 @@ function Login() {
                       type={isPasswordVisible ? 'text' : 'password'}
                       name="password"
                       autoComplete="current-password"
+                      required
                       placeholder="Password"
                       onChange={handleChange}
                       value={values.password}
@@ -109,6 +145,7 @@ function Login() {
               </div>
 
               <button type="submit" className=" login-btn-outline-info">LOG IN</button>
+              <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button>
             </form>
           </div>
         </div>

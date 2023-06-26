@@ -1,5 +1,6 @@
 
 
+
 #a__home{
     position: absolute;
     top: 1rem;
@@ -95,7 +96,7 @@
     display: flex;
     align-items: center;
     padding: 15px 1.4rem;
-    background: #f0f0f0;
+    background: white;
     border-radius: 58px;
     margin-top: 10px;
 }
@@ -243,7 +244,7 @@
 
     .login-form-group {
 
-        margin: 8px auto;
+        margin: 5px auto;
 
     }
     .forgot_password{
@@ -252,7 +253,7 @@
     }
 
     .login-info {
-        padding: 15px 1rem;
+        padding: 10px 1rem;
         border-radius: 61px;
     }
 
@@ -318,12 +319,109 @@
     .content-section {
         right: 3%;
         width: 90%;
-        top: 32%;
+        top: 37%;
     }
-   
+
     .login-left_panel {
         height: 20%;
     }
+}
+
+@media(width:460px),
+(max-height: 570px) {
+    .login-left_panel {
+        top: 15px;
+    }
+
+    .login-container::before {
+        height: 800px;
+    }
+}
+
+@media (width:460px),
+(max-height:520px) {
+    .login-left_panel {
+        top: 5px;
+    }
+
+    .content-section {
+        top: 37%;
+    }
+}
+
+@media (width:460px),
+(max-height: 480px) {
+    .login-container::before {
+        height: 654px;
+    }
+
+    .login-left_panel {
+        top: 11px;
+    }
+
+    .login-pt-3 h3 {
+        font-size: 1rem;
+    }
+
+    .login-pt-3 p {
+        font-size: 0.8rem;
+    }
+
+    .sign_up {
+        width: 46%;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .content-section {
+        width: 100%;
+        right: 0;
+        top: 35%;
+    }
+
+    .border h1 {
+        font-size: 1.5rem;
+    }
+
+    .login-info {
+        padding: 4px 1rem;
+    }
+
+    .forgot_password {
+        font-size: 1rem;
+    }
+
+    .login-btn-outline-info {
+        padding: 1%;
+    }
+}
+
+@media (width:460px),
+(max-height: 430px) {
+    .login-container::before {
+        height: 605px;
+    }
+}
+
+@media (width:460px),
+(max-height: 385px) {
+    .login-container::before {
+
+        height: 486px;
+    }
+
+    .content-section {
+        top: 28%;
+    }
+}
+
+@media(width:460px),
+(max-height: 365px) {
+    .login-container::before {
+
+        height: 497px;
+    }
+
 }
 
 @media(width:1191px),

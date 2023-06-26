@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-// const User = require('../../models/user');
+const User = require('../../models/user');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const ResetPass = require('../../models/resetpass');
-
+const { Op, Sequelize} = require('sequelize');
 //forgot password
 router.post('/forgot-password', async (req, res) => {
   console.log('Request body:', req.body);
@@ -16,7 +16,18 @@ router.post('/forgot-password', async (req, res) => {
   console.log('Email:', email);
   // const { username, email } = .body;
 
-  // Generate a reset token
+  try {
+    const user = await User.findOne({
+      where: {
+        [Op.or]: [{ username }, { email }]
+      }
+    });
+
+    if (user) {
+      // User found, handle accordingly
+      // res.status(200).json(user);
+      console.log(user)
+       // Generate a reset token
   const token = crypto.randomBytes(20).toString('hex');
 
   //Generate reset URL mail
@@ -28,8 +39,8 @@ router.post('/forgot-password', async (req, res) => {
   try {
     // Save the user's record to the database
     const resetPass = await ResetPass.create({
-      username,
-      email,
+      username: user.username,
+      email: user.email,
       resetToken: token,
       resetTokenExpiration,
     });
@@ -38,9 +49,8 @@ router.post('/forgot-password', async (req, res) => {
     console.error('Error storing reset token:', error);
     res.status(500).json({ error: 'An error occurred while storing the reset token.' });
   }
-   
-
-// Send the reset email
+  
+// console.log(validUser);
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -51,19 +61,29 @@ const transporter = nodemailer.createTransport({
 
 const mailOptions = {
   from: 'aim2crack@gmail.com',
-  to: email,
+  to: user.email,
   subject: 'Password Reset',
   text: `Click the following link to reset your password: ${resetUrl}`,
 };
 
-console.log('Mail options:', mailOptions);
+// console.log('Mail options:', mailOptions);
   
   console.log('Sending reset email...');
   const info = await transporter.sendMail(mailOptions);
   console.log('Reset email sent:', info.response);
+    } else {
+      // User not found, handle accordingly
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the query
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
-
-
-
+//   const validUser= user;
+//     console.log(validUser);
+//  
+// });
 
 module.exports = router;
