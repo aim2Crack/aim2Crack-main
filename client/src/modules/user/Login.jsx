@@ -38,6 +38,8 @@ function Login() {
   })
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [data, setData] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
