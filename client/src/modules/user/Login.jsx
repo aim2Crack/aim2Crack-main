@@ -112,7 +112,6 @@ function Login() {
                       value={data.email}
                       placeholder="Username / Email id"
                       onChange={handleChange}
-                      value={values.email}
                     />
                     
                   </div>
