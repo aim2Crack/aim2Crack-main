@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 
 import PasswordReset from './ResetPass'
@@ -24,9 +24,9 @@ function Login() {
 
   
   // Validation schema
-  const formValidationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email address').required('Email is required').max(30, 'Email not greater than 30 character'),
-    password: Yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
+  const formValidationSchema = yup.object().shape({
+    email: yup.string().email('Invalid email address').required('Email is required').max(30, 'Email not greater than 30 character'),
+    password: yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
   });
 
   const {handleSubmit, handleChange, values, errors} = useFormik({
