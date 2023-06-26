@@ -10,6 +10,7 @@ const PasswordReset = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [message, setMessage] = useState('');
 
   const changeHandler = (e) => {
     if (e.target.name === 'email') {
@@ -21,13 +22,13 @@ const PasswordReset = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', { email, username });
+    // console.log('Form submitted:', { email, username });
 
     const data = {
       email: email,
       username: username,
     };
-
+    // let jsonData={};
     try {
       const response = await fetch('http://127.0.0.1:7000/forgot-password', {
         method: 'POST',
@@ -36,13 +37,24 @@ const PasswordReset = () => {
         },
         body: JSON.stringify(data),
       });
-
+      const jsonData = await response.json();
       if (response.ok) {
-        setSubmitted(true);
+        // Check if the request was successful
+        setMessage(jsonData.message); // Set the server message
+
+        if (jsonData.success) {
+          // If the request was successful and the server responded with success
+          setSubmitted(true); // Set the submitted state to true
+        }
       } else {
         // Handle error response
+        setMessage(jsonData.message); // Set the server error message
         console.error('Password reset request failed:', response.status);
       }
+      // Clear the message after 5 seconds
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
     } catch (error) {
       // Handle network error
       console.error('Password reset request failed:', error);
@@ -51,8 +63,14 @@ const PasswordReset = () => {
 
   return (
     <div>
+        {message && (
+      <div className={`alert ${submitted ? 'success' : 'error'}`}>
+  {message}
+</div>
+)}
       {!submitted ? (
         <div>
+       
           <Link to="/login" id="a_home">
             <FontAwesomeIcon icon={faCircleArrowLeft} />
           </Link>
@@ -75,6 +93,7 @@ const PasswordReset = () => {
                 onChange={changeHandler}
                 value={username}
               />
+              <div className="text"><p>or</p></div>
               <input
                 type="email"
                 className="email"

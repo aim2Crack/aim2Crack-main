@@ -1,3 +1,30 @@
+.alert {
+    display: inline-block;
+    border: 1px solid darkred;
+    background-color: darkred;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .success {
+    border-color: green;
+    background-color: green;
+  }
+  
+  .error {
+    border-color: darkred;
+    background-color: darkred;
+  }
+
+  .alert input:invalid {
+    box-shadow: none;
+    outline:none;
+  }
+      
+
 .main_box {
     border: 5px solid white;
     background-color: white;
