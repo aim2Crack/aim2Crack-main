@@ -14,6 +14,7 @@ import Navbar from "./components/navbar/Navbar";
 
 import Summary from "./components/summary/Summary";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
+import Profile from "./modules/user/Profile";
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<CreateUserForm />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
     
