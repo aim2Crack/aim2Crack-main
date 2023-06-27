@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const passport = require('passport');
 
 
 
@@ -16,16 +17,18 @@ router.get('/users', async (req, res) => {
     }
 });
 
+
+
 //new user
-router.post('/users', async (req, res) => {
-    try {
-        const UserData = req.body;
-        const newUser = await User.create(UserData);
-        res.status(201).json(newUser);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
+// router.post('/users', async (req, res) => {
+//     try {
+//         const UserData = req.body;
+//         const newUser = await User.create(UserData);
+//         res.status(201).json(newUser);
+//     } catch (error) {
+//         res.status(400).json({ error: error.message });
+//     }
+// });
 
 
 // router.post('/users/check-existence', async (req, res) => {
@@ -98,5 +101,20 @@ router.post('/users', async (req, res) => {
 //         res.status(400).json({ error: error.message });
 //     }
 // });
+
+// ...
+
+// const router = express.Router();
+
+router.post(
+  '/signup',
+  passport.authenticate('signup', { session: false }),
+  async (req, res, next) => {
+    res.json({
+      message: 'Signup successful',
+      user: req.user
+    });
+  }
+);
 
 module.exports = router;

@@ -1,5 +1,7 @@
 const {sq} = require('../db');
 const {DataTypes} = require('sequelize');
+const bcrypt = require('bcrypt');
+
 
 
 const User = sq.define("user", {
@@ -52,6 +54,17 @@ brandLink: {
 }
 });
 
+
+  // //password-matching
+  // Instance method to compare password
+User.prototype.isValidPassword = async function (password) {
+  try {
+    return await bcrypt.compare(password, this.password);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+  
   User.sync().then(() => {
     console.log("User Model synced");
   });
