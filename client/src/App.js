@@ -5,7 +5,7 @@ import ResetPass from "./modules/user/ResetPass";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // import Summary from "./modules/quiz/creator/Summary";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import AboutUs from "./modules/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
@@ -13,11 +13,9 @@ import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
 import CreateUserForm from "./modules/register/CreateUserForm";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 import Navbar from "./components/navbar/Navbar";
-import Profile from "./modules/user/Profile";
 import Summary from "./components/summary/Summary";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
 import {getAuth, GoogleAuthProvider} from "firebase/auth";
-
 
 function App() {
   const firebaseConfig = {
@@ -35,16 +33,16 @@ function App() {
 
 
   const excludedPaths = ['/register', '/login'];
-  const currentPath = window.location.pathname;
-  const isExcludedPath = excludedPaths.includes(currentPath);
+  // const location = useLocation();
+  // const isExcludedPath = !excludedPaths.includes(location.pathname);
 
   return (
     <BrowserRouter>
-    {!isExcludedPath  && <Navbar />}
+    {/* {isExcludedPath  && <Navbar />} */}
       <Routes>
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/resetPass" element={<ResetPass />} />
+        <Route path="/forgot-password" element={<ResetPass />} />
         <Route path="/summary" element={<Summary />} />
         <Route path="/addQuestion" element={<AddQuestion />} />
         <Route path="/addQuestionHome" element={<AddQuestionHome />} />
@@ -53,7 +51,6 @@ function App() {
         <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<CreateUserForm />} />
-        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
     

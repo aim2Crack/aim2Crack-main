@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
@@ -16,20 +16,20 @@ import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-so
 import './Login.css'
 
 function Login() {
-
+  const [error, setError] = useState('');
   const formInitialValues = {
-    email: '',
+      email: '',
     password: '',
   };
 
   
   // Validation schema
   const formValidationSchema = yup.object().shape({
-    email: yup.string().email('Invalid email address').required('Email is required').max(30, 'Email not greater than 30 character'),
+    email: yup.string().required('Email or username is required').max(30, 'Email not greater than 30 character'),
     password: yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
   });
 
-  const {handleSubmit, handleChange, values, errors} = useFormik({
+  const {handleChange, values, errors} = useFormik({
     initialValues: formInitialValues,
     validationSchema: formValidationSchema,
     onSubmit: (values) => {
@@ -38,29 +38,62 @@ function Login() {
   })
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [data, setData] = useState('')
-  const [password, setPassword] = useState('')
+  // const [data, setData] = useState('')
+  // const [password, setPassword] = useState('')
+  const navigate = useNavigate(); // Access the navigate function
 
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const submitHandler =(e) => {
+  // const submitHandler =(e) => {
+  //   e.preventDefault();
+  //   // console.log('submiting', {email, password});
+  // }
+
+  // const changeHandler = (e) => {
+  //   const { name, value } = e.target;
+
+  //   setData(prev => {
+  //     return {
+  //       ...prev, [name]: value
+  //     }
+  //   });
+  //   //console.log(name, value);
+  // }
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('submiting', {data, password});
-  }
 
-  const changeHandler = (e) => {
-    const { name, value } = e.target;
+  const loginData = {
+    userOrEmail: values.email,
+    password: values.password,
+  };
+  
 
-    setData(prev => {
-      return {
-        ...prev, [name]: value
-      }
+  try {
+    const response = await fetch('http://127.0.0.1:7000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
     });
-    //console.log(name, value);
-  }
 
+    if (response.ok) {
+      console.log(response)
+      // Login successful, perform desired actions
+      navigate('/summary'); // Redirect to the dashboard or desired page
+    } else {
+      console.log(response)
+      // Login failed, handle error
+      const errorData = await response.json();
+      setError(errorData.message);
+    }
+  } catch (error) {
+    // Handle network error
+    console.error('Login request failed:', error);
+  }
+  }
   // sign in with google
   async function handleSignInWIthGoogle(){
     const auth = getAuth()
@@ -92,7 +125,7 @@ function Login() {
           <div className="border">
             <h1>Login Now</h1>
 
-            <form onSubmit={submitHandler} method="POST" className="login-form_method">
+            <form onSubmit={handleSubmit} method="POST" className="login-form_method">
               <input
                 type="hidden"
               />
@@ -109,7 +142,7 @@ function Login() {
                       autoComplete="username"
                       maxLength="30"
                       required
-                      value={data.email}
+                      value={values.email}
                       placeholder="Username / Email id"
                       onChange={handleChange}
                     />
@@ -169,7 +202,7 @@ function Login() {
       </div>
 
     </div>
-  )
-}
+  );
+};
 
 export default Login
