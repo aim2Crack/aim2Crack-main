@@ -230,7 +230,7 @@ const CreateUserForm = () => {
 
  <div class="rules_u">
  <ErrorMessage name="username" component="div" />
-              </div>
+               </div>
 
               
  
