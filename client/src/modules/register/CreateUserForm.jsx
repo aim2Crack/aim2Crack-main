@@ -152,10 +152,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import './Register.css';
 import * as Yup from 'yup';
-<<<<<<< HEAD
 import signup from  '.../assets/images/Register/signup.svg';
-=======
->>>>>>> 0e575a1ddc845d9c637b9e88f6fdba25ccbd35e1
 
 const CreateUserForm = () => {
   const initialValues = {
@@ -203,11 +200,7 @@ const CreateUserForm = () => {
         'Password must contain at least one special character'
       ),
     Confirm_Password: Yup.string().required('Confirm Password is required').oneOf([Yup.ref("password"), null], "Passwords must match"),
-<<<<<<< HEAD
     profileType: Yup.string().required('Profile type is required'),
-=======
-    profile_type: Yup.string().required('Profile type is required'),
->>>>>>> 0e575a1ddc845d9c637b9e88f6fdba25ccbd35e1
     rollNo: Yup.string(),
     institute: Yup.string(),
   });
@@ -291,11 +284,7 @@ const CreateUserForm = () => {
 
 <div  id="div_id_password2" className="input">
   <label htmlFor=""  className="form__label" id="password_label2">Confirm Password:</label>
-<<<<<<< HEAD
   <Field type="password" id="Confirm_Password" 
-=======
-  <Field type="password" id="password" 
->>>>>>> 0e575a1ddc845d9c637b9e88f6fdba25ccbd35e1
                  className="textinput textInput form-control id_password2" 
                   placeholder=" " name="Confirm_Password" />
   
@@ -339,11 +328,7 @@ const CreateUserForm = () => {
 
 <div id="profile_name" className="input-box">
   <label htmlFor="profile_type">Profile Type:</label>
-<<<<<<< HEAD
   <Field as="select" id="profileType" name="profileType">
-=======
-  <Field as="select" id="profile_type" name="profile_type">
->>>>>>> 0e575a1ddc845d9c637b9e88f6fdba25ccbd35e1
     <option id="S" value="">Select profile type</option>
     <option id="S" value="student">Student</option>
     <option id="S" value="faculty">Faculty</option>
@@ -354,11 +339,7 @@ const CreateUserForm = () => {
 
 
 <div class="rules_profile">
-<<<<<<< HEAD
 <ErrorMessage name="profileType" component="div" />
-=======
-<ErrorMessage name="profile_type" component="div" />
->>>>>>> 0e575a1ddc845d9c637b9e88f6fdba25ccbd35e1
 
               </div>
 
@@ -380,11 +361,7 @@ const CreateUserForm = () => {
 
 <div className="right_panel">
 
-<<<<<<< HEAD
 <img src={signup.svg} alt=""/>
-=======
-<img src="/static/users/undraw_maker_launch_crhe.svg" alt=""/>
->>>>>>> 0e575a1ddc845d9c637b9e88f6fdba25ccbd35e1
 
       <div className="border-top pt-3">
             <small className="text-muted">
