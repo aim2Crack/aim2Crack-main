@@ -1,18 +1,57 @@
 #profile{
-    height:100vh;
-    width:100wh;
-    display:flex;
+    /* display:flex;
+    height: 100vh;
+    width: 100vw;
     flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center;
+    background-color: white; */ 
+    display: flex;
+    flex-direction: column;
+    background-color:white;
     justify-content: center;
     align-items: center;
-    background-color: white;
-}
+
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* height:100vh; */
+    /* width: 100vw; */
+  }
+  .navbar {
+    background-color:cyan;
+    /* Additional styles as needed */
+  }
+
+
 #block{
-    display:flex;
-    /* height:40%;background:url(profile.svg); */
-    
-    
+   
+  
+    width:100%;
+    height:50vh;
+    font-size: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    background:url(profile.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size:contain;
+    background-repeat: no-repeat;
+
+
 }
+.modal{
+    display: flex;
+    font-size:2rem;
+    border:none;
+    flex-direction:column;
+}
+.user{
+    font-family: serif;
+    font-size:1.5rem;
+}
+
 #email{
     display:flex;
     color:#2eb7b6;

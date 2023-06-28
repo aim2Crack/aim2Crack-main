@@ -2,12 +2,28 @@ import React,{useState} from 'react'
 import './Profile.css';
 // style={{ width: '78.5833px', height: '44pxx' }}
 const Profile=()=>{
+        
+      
      return(
+        
       <div id="profile">
          
-         <div id="block">
+        <div id="block">
+            {/* <div id= "block1">
+
+            </div> */}
+              <div>
+            <button class="modal">🖊</button>
+            </div>
             
-       </div>
+        </div>
+      
+        
+            <div class="user">
+                <h1>cheatan</h1>
+            </div>
+            
+       
        <div id="email">{
             <p class="email1">chetan@teacher.gmail.com</p>
         }
@@ -45,8 +61,8 @@ const Profile=()=>{
 
       </div>
 
-                
-        
+    
+    
     )
 }
 export default Profile;
