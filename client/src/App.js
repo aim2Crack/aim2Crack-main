@@ -5,17 +5,22 @@ import ResetPass from "./modules/user/ResetPass";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // import Summary from "./modules/quiz/creator/Summary";
-import {BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, useLocation} from "react-router-dom";
 import AboutUs from "./modules/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
-import CreateUserForm from "./modules/register/register";
+import UserRegister from "./modules/register/UserRegister";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 import Navbar from "./components/navbar/Navbar";
 import Summary from "./components/summary/Summary";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
 import {getAuth, GoogleAuthProvider} from "firebase/auth";
+
+
+
+const excludedPaths = ['/register', '/login'];
+  
 
 function App() {
   const firebaseConfig = {
@@ -31,14 +36,12 @@ function App() {
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 
-
-  const excludedPaths = ['/register', '/login'];
   // const location = useLocation();
   // const isExcludedPath = !excludedPaths.includes(location.pathname);
 
   return (
-    <BrowserRouter>
-    {/* {isExcludedPath  && <Navbar />} */}
+    <Router>
+    <Navbar />
       <Routes>
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
@@ -50,9 +53,9 @@ function App() {
         <Route path="/previewInstructions" element={<PreviewInstructions />} />
         <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/register" element={<register />} />
+        <Route path="/register" element={<UserRegister />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
     
   );
 

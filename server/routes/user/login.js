@@ -12,6 +12,7 @@ router.post(
   passport.authenticate('login', { session: false }),
   async (req, res, next) => {
     try {
+      console.log(req.user.email);
       const body = { _id: req.user._id, email: req.user.email };
       const token = jwt.sign({ user: body }, 'TOP_SECRET');
       return res.json({ token });

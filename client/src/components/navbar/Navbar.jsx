@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
 import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png'
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// import jwt from 'jsonwebtoken';
 
 function Navbar() {
+  const excludedPaths = ['/register', '/login', '/assets/images/navbar/Aim2Crack-logo.png'];
+  const location = useLocation();
+  const isExcludedPath = excludedPaths.includes(location.pathname);
+
+  const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token'); // Get the JWT token from local storage
+
+  //   if (token) {
+  //     const decodedToken = decodeToken(token); // Function to decode the JWT token
+  //     const userName = decodedToken.name; // Extract the user's name from the decoded token
+  //     setUser({ name: userName });
+  //   }
+  // }, []);
+
+  if (isExcludedPath) {
+    return null; // Render nothing if the current path is excluded
+  }
   const myFunction = () => {}
   const openNav = () => {}
   return (
@@ -78,7 +100,12 @@ function Navbar() {
               </a>
             </div>
           </li>
-
+          {user && (
+            <li className="user-info">
+              <span className="material-icons">person</span>
+              <span className="user-name">{user.displayName}</span>
+            </li>
+          )}
           {/* SEARCH BAR on CLICKING SEARCH ICON */}
         </ul>
       </nav>

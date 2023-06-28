@@ -76,12 +76,12 @@ passport.use(
           const user = await User.findOne({
             where: {
               [Op.or]: [
-                { username: usernameOrEmail },
-                { email: usernameOrEmail }
+                 { username: usernameOrEmail },
+                 { email: usernameOrEmail }
               ]
             }
           });
-          console.log(usernameOrEmail);
+          console.log(user);
           if (!user) {
             return done(null, false, { message: 'User not found' });
             }
@@ -91,8 +91,9 @@ passport.use(
           if (!validate) {
             return done(null, false, { message: 'Wrong Password' });
           }
-  
+          // console.log('login successful');
           return done(null, user, { message: 'Logged in Successfully' });
+          
         } catch (error) {
           console.error(error);
           return done(error);

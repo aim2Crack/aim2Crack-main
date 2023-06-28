@@ -151,7 +151,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-const register = () => {
+const UserRegister = () => {
   const initialValues = {
     username: '',
     email: '',
@@ -243,4 +243,4 @@ const register = () => {
   </Formik>
   );
 };
-export default register;
+export default UserRegister;
