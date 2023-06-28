@@ -10,7 +10,7 @@ import AboutUs from "./modules/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
-import CreateUserForm from "./modules/register/CreateUserForm";
+import CreateUserForm from "./modules/register/register";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 import Navbar from "./components/navbar/Navbar";
 import Summary from "./components/summary/Summary";
@@ -50,7 +50,7 @@ function App() {
         <Route path="/previewInstructions" element={<PreviewInstructions />} />
         <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/register" element={<CreateUserForm />} />
+        <Route path="/register" element={<register />} />
       </Routes>
     </BrowserRouter>
     
