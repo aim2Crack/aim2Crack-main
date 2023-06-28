@@ -2,7 +2,7 @@ const express = require('express')
 const {sq,testDbConnection} = require('./db')
 // const {User, ResetPass} = require("./models/models");
 const userRoutes = require('./routes/UserRoutes');
-const userPass= require('./routes/user/password_reset');
+const resetRoutes= require('./routes/user/password_reset');
 
 const loginRoutes= require('./routes/user/login');
 const passport = require('passport');
@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.use('/',userRoutes);
-app.use('/',userPass);
+app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 
 testDbConnection();
