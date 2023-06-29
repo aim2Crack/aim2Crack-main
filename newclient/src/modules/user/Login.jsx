@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik} from 'formik';
 import * as yup from 'yup';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+// import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 
 // import PasswordReset from './ResetPass'
 
@@ -103,18 +103,18 @@ function Login() {
   }
   }
   // // sign in with google
-  async function handleSignInWIthGoogle(){
-    const auth = getAuth()
-    const provider = new GoogleAuthProvider()
-    try {
-      const userSignInResult = await signInWithPopup(auth, provider)
-      const user = userSignInResult.user
-      return await user.getIdToken()
-    }catch (e){
-      console.log("user not registered")
-    }
+  // async function handleSignInWIthGoogle(){
+  //   const auth = getAuth()
+  //   const provider = new GoogleAuthProvider()
+  //   try {
+  //     const userSignInResult = await signInWithPopup(auth, provider)
+  //     const user = userSignInResult.user
+  //     return await user.getIdToken()
+  //   }catch (e){
+  //     console.log("user not registered")
+  //   }
 
-  }
+  // }
 
   return (
 
@@ -192,7 +192,7 @@ function Login() {
               <button type="submit" className=" login-btn-outline-info">LOG IN</button>
 
                  </form>
-                 <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button>
+                 {/* <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button> */}
          
           </div>
         </div>

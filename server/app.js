@@ -14,7 +14,7 @@ const PORT = 7000
 // CORS middleware
 // CORS middleware
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://127.0.0.1:3000', 'https://aim2crack.onrender.com', 'http://localhost:3000'];
+  const allowedOrigins = ['http://127.0.0.1:3000', 'https://aim2crack.onrender.com', 'http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'];
   const origin = req.headers.origin;
   
   if (allowedOrigins.includes(origin)) {
