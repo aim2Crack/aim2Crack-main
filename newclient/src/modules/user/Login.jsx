@@ -79,15 +79,15 @@ function Login() {
       body: JSON.stringify(loginData),
     });
     if (response.ok) {
-      console.log(response)
-      // Login successful, perform desired actions
       const data = await response.json();
-      const { token } = data; // Extract the token from the response
-
-        // Store the token in localStorage
+      const { token } = data;
+      console.log('Data:', data);
+      console.log('Token:', token);
       localStorage.setItem('token', token);
-      // console.log(token)
+      // window.location.reload();
       navigate('/summary'); // Redirect to the dashboard or desired page
+      // Store the token in localStorage
+       // console.log(token)
     } else {
       // console.log(response)
       // Login failed, handle error

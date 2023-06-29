@@ -1,7 +1,7 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
 // const {User, ResetPass} = require("./models/models");
-const userRoutes = require('./routes/UserRoutes');
+const signupRoutes = require('./routes/user/SignUp');
 const resetRoutes= require('./routes/user/password_reset');
 
 const loginRoutes= require('./routes/user/login');
@@ -42,7 +42,7 @@ app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
-app.use('/',userRoutes);
+app.use('/',signupRoutes);
 app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 

@@ -4,6 +4,7 @@ const User = require('../../models/user');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 const ResetPass = require('../../models/resetpass');
 const { Op, Sequelize} = require('sequelize');
 //forgot password
@@ -31,7 +32,7 @@ router.post('/forgot-password', async (req, res) => {
   const token = crypto.randomBytes(20).toString('hex');
 
   //Generate reset URL mail
-  const resetUrl = `https://127.0.0.1:7000/forgot-password?token=${token}`;
+  const resetUrl = `${process.env.BASE_URL}/forgot-password?token=${token}`;
 
   // Store the token and its expiration in the user's record in the database
   const resetTokenExpiration = new Date(Date.now() + 3600000); // Token expires in 1 hour

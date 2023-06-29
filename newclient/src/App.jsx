@@ -21,12 +21,6 @@ import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionH
 // import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import jwt_decode from 'jwt-decode';
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-  const renderComponent = (props) =>
-    isAuthenticated ? <Component {...props} /> : <Navigate to="/login" />;
-
-  return <Route {...rest} element={renderComponent} />;
-};
 
 function App() {
 // // function App() {
@@ -43,35 +37,26 @@ function App() {
 //   const app = initializeApp(firebaseConfig);
 //   const analytics = getAnalytics(app);
 
-  const token = localStorage.getItem('token');
-  let isAuthenticated = false;
-  // console.log(token)
+const token = localStorage.getItem('token');
+// const isAuthenticated = req.isAuthenticated();
+  // const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
+  //   const renderComponent = (props) =>
+  //     isAuthenticated ? <Component {...props} /> : <Navigate to="/login" />;
   
-
-  if (token) {
-    
-    try {
-      const decodedToken = jwt_decode(token);
-      console.log(decodedToken)
-      const currentTime = Date.now() / 1000;
-      console.log(currentTime)
-      // if (decodedToken.exp > currentTime) {
-      isAuthenticated = true;
-      // }
-    } catch (error) {
-      console.log('Error decoding JWT token:');
-    }
-  }
+  //   return <Route {...rest} element={renderComponent} />;
+  // };
+  
 
   return (
     <Router>
       <Navbar />
       <Routes>
         <Route path="/homepage" element={<Homepage />} />
-        <Route
+        {/* <Route
           path="/summary"
-          element={isAuthenticated ? <Summary /> : <Navigate to="/login" />}
-        />
+          element={isAuthenticated? <Summary /> : <Navigate to="/login" />}
+        /> */}
+        <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ResetPass />} />
         <Route path="/addQuestion" element={<AddQuestion />} />
