@@ -1,27 +1,27 @@
 import React,{useState} from 'react'
 import './Profile.css';
-// style={{ width: '78.5833px', height: '44pxx' }}
+// style={{ width: '78.5833px', height: '44pxx' }}🖊
 const Profile=()=>{
-        
+
       
      return(
         
       <div id="profile">
          
-        <div id="block">
-            {/* <div id= "block1">
-
-            </div> */}
-              <div>
-            <button class="modal">🖊</button>
+        
+            <div id= "block">
+            
             </div>
             
-        </div>
-      
+    
         
-            <div class="user">
+            <div class="user">  
                 <h1>cheatan</h1>
-            </div>
+            
+        </div>
+        
+        
+            
             
        
        <div id="email">{
@@ -51,12 +51,18 @@ const Profile=()=>{
                     <input type="text" id="id" value="Teacher"></input>
                 </div>
             </fieldset> 
+            
             <div class="change_password">
                 <a class="password" href="">Change Password</a>
             </div>
+            
             <div id="button">
                 <button class="submit" type="submit">Save</button>
             </div>
+            {/* <div>
+        <button class="modal"></button>
+        <button class="edit" type="submit">Edit</button>
+            </div> */}
         </form>
 
       </div>
