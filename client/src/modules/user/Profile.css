@@ -1,0 +1,130 @@
+#profile{
+    height:100vh;
+    width:100wh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+#block{
+    display:flex;
+    /* height:40%;background:url(profile.svg); */
+    
+    
+}
+#email{
+    display:flex;
+    color:#2eb7b6;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em;
+    background-color: white;
+    
+}
+.email1{
+    font-size: 1.5rem;
+    font-family: serif;
+    margin: 0;
+    padding: 0;
+    
+}
+.details{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+.forms{
+    border:none;
+   
+}
+.first_name,.last_name{
+    display: flex;
+    align-items: center;
+    padding: 12px 1.4rem;
+    background: #f0f0f0;
+    border-radius: 58px;
+    /* margin-top: 10px; */
+    width: 100%;
+    margin-bottom: 10px;
+}
+.roll_no{
+    display: flex;
+    align-items: center;
+    padding: 12px 1.4rem;
+    background: #f0f0f0;
+    border-radius: 58px;
+    /* margin-top: 10px; */
+    width: 100%;
+    margin-bottom: 10px;;
+}
+.label,.label1,.label2{
+    margin-right: 5px;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: serif;
+}
+#f_name,#l_name
+{
+    outline: none;
+    border:none;
+    order: none;
+    background: none;
+    font-size: 1.0rem;
+    font-weight: 600;
+    margin-top: 2px;
+    width: 100%;
+    appearance: none;
+    text-align: left;
+}
+#r_name,#id
+{
+    outline: none;
+    border:none;
+    order: none;
+    background: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 2px;
+    width: 70%;
+    appearance: none;
+    text-align: center;
+}
+#id{
+    text-align: left;
+}
+.change_password{
+    display:flex;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.password{
+    color:#2eb7b6;
+    
+    font-family: serif;
+    font-size: 1.2rem;
+    
+}
+#button{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.submit{
+    color:white;
+    background-color: #2eb7b6;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-family: serif;
+    font-size: 1.0rem;
+    padding:8px;
+    width:50%;
+    border:none;
+    border-radius: 16px;
+}

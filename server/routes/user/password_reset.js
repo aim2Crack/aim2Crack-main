@@ -4,6 +4,7 @@ const User = require('../../models/user');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 const ResetPass = require('../../models/resetpass');
 const { Op, Sequelize} = require('sequelize');
 //forgot password
@@ -31,7 +32,7 @@ router.post('/forgot-password', async (req, res) => {
   const token = crypto.randomBytes(20).toString('hex');
 
   //Generate reset URL mail
-  const resetUrl = `https://127.0.0.1:7000/forgot-password?token=${token}`;
+  const resetUrl = `${process.env.BASE_URL}/forgot-password?token=${token}`;
 
   // Store the token and its expiration in the user's record in the database
   const resetTokenExpiration = new Date(Date.now() + 3600000); // Token expires in 1 hour
@@ -44,7 +45,7 @@ router.post('/forgot-password', async (req, res) => {
       resetToken: token,
       resetTokenExpiration,
     });
-    res.status(200).json({ message: 'Reset token generated and stored.' });
+    res.status(200).json({ success: true, message: 'Reset token generated and stored.' });
   } catch (error) {
     console.error('Error storing reset token:', error);
     res.status(500).json({ error: 'An error occurred while storing the reset token.' });
@@ -72,13 +73,14 @@ const mailOptions = {
   const info = await transporter.sendMail(mailOptions);
   console.log('Reset email sent:', info.response);
     } else {
-      // User not found, handle accordingly
-      res.status(404).json({ message: 'User not found' });
+      // If a user is not found, send a failure response with the message
+res.status(404).json({ success: false, message: 'User not found' });
+
     }
   } catch (error) {
     // Handle any errors that occur during the query
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+   // If any errors occur during the process, send a failure response with the error message
+res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 //   const validUser= user;
