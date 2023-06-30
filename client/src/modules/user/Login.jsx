@@ -2,13 +2,14 @@ import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
-import { useFormik, Form, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 
 import PasswordReset from './ResetPass'
 
 import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
+import google_logo from '../../assets/images/user/flat-color-icons_google.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
@@ -24,9 +25,9 @@ function Login() {
 
   
   // Validation schema
-  const formValidationSchema = yup.object().shape({
-    email: yup.string().email('Invalid email address').required('Email is required').max(30, 'Email not greater than 30 character'),
-    password: yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
+  const formValidationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email address').required('Email is required').max(30, 'Email not greater than 30 character'),
+    password: Yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
   });
 
   const {handleSubmit, handleChange, values, errors} = useFormik({
@@ -38,28 +39,12 @@ function Login() {
   })
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [data, setData] = useState('')
-  const [password, setPassword] = useState('')
 
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const submitHandler =(e) => {
-    e.preventDefault();
-    console.log('submiting', {data, password});
-  }
-
-  const changeHandler = (e) => {
-    const { name, value } = e.target;
-
-    setData(prev => {
-      return {
-        ...prev, [name]: value
-      }
-    });
-    //console.log(name, value);
-  }
+  const isButtonEnabled = values.email.length >= 4 && values.password.length >= 4;
 
   // sign in with google
   async function handleSignInWIthGoogle(){
@@ -72,6 +57,7 @@ function Login() {
     }catch (e){
       console.log("user not registered")
     }
+
 
   }
 
@@ -92,7 +78,7 @@ function Login() {
           <div className="border">
             <h1>Login Now</h1>
 
-            <form onSubmit={submitHandler} method="POST" className="login-form_method">
+            <form onSubmit={handleSubmit}  method="POST" className="login-form_method">
               <input
                 type="hidden"
               />
@@ -107,8 +93,11 @@ function Login() {
                       autoFocus
                       autoCapitalize="none"
                       autoComplete="username"
+<<<<<<< Updated upstream
                       maxLength="30"
                       required
+=======
+>>>>>>> Stashed changes
                       placeholder="Username / Email id"
                       onChange={handleChange}
                       value={values.email}
@@ -124,7 +113,6 @@ function Login() {
                       type={isPasswordVisible ? 'text' : 'password'}
                       name="password"
                       autoComplete="current-password"
-                      required
                       placeholder="Password"
                       onChange={handleChange}
                       value={values.password}
@@ -145,8 +133,24 @@ function Login() {
                 </small>
               </div>
 
-              <button type="submit" className=" login-btn-outline-info">LOG IN</button>
-              <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button>
+              <button type="submit"
+              style={{ backgroundColor: isButtonEnabled ? '#00c6a7' : 'grey' }}
+              disabled={!isButtonEnabled}
+               className="login-btn-outline-info"
+               >LOG IN</button>
+               <div className='login-or' >
+                <span className='login-line'></span>
+                <span>Or</span>
+                <span className='login-line'></span>
+               </div>
+
+              <button className=" login-btn-outline-info login-google-btn" onClick={handleSignInWIthGoogle}>
+                <div className='login-google'>
+                  
+                <img src={google_logo} alt="google" />
+                <span>Login with Google</span>
+                </div>
+              </button>
             </form>
           </div>
         </div>
