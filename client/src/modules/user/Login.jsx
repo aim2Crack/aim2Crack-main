@@ -109,7 +109,6 @@ function Login() {
                       autoComplete="username"
                       maxLength="30"
                       required
-                      value={data.email}
                       placeholder="Username / Email id"
                       onChange={handleChange}
                       value={values.email}
