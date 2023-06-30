@@ -3,7 +3,7 @@ const {sq,testDbConnection} = require('./db')
 // const {User, ResetPass} = require("./models/models");
 const signupRoutes = require('./routes/user/SignUp');
 const resetRoutes= require('./routes/user/password_reset');
-
+const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 app.use('/',signupRoutes);
 app.use('/',resetRoutes);
 app.use('/',loginRoutes);
-
+app.use('/',mailerRoutes);
 testDbConnection();
 sq.sync()
 

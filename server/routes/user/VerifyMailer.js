@@ -1,33 +1,28 @@
-const nodemailer = require('nodemailer');
-// const User = require('../../models/user');
-require('dotenv').config();
+const express = require('express');
+const ResetPass = require('../../models/resetpass');
+const router = express.Router();
 
-// Create a transporter using your email service provider's SMTP settings
-const transporter = nodemailer.createTransport({
-  service:'gmail',
-  auth: {
-    user: 'aim2crack@gmail.com',
-    pass: 'wexjppcxdxsnlzqe',
-  },
+router.get('/verify', async (req, res) => {
+  try {
+    const { token } = req.query;
+    // console.log(token);
+
+    const resetPass = await ResetPass.findOne({ where: { resetToken: token } });
+    // console.log(resetPass);
+
+    if (resetPass && resetPass.resetTokenExpiration > Date.now()) {
+      // Valid reset token
+      await ResetPass.delete({ where: { id: resetPass.id } });
+      res.status(200).json({ success: true, message: 'Email successfully verified!' });
+     
+    } else {
+      // Invalid or expired reset token
+      res.status(500).json({ success: false, message: 'Verification failed. Please try again.' });
+    }
+  } catch (error) {
+    console.error('Error verifying email:', error);
+    res.status(501).json({ success: false, message: 'An error occurred while verifying the email.' });
+  }
 });
 
-// Function to send the verification email
-const sendVerificationEmail = (recipientEmail, verificationToken) => {
-    const mailOptions = {
-        from: 'aim2crack@gmail.com',
-        to: recipientEmail,
-        subject: 'Email Verification',
-        text: `Click the following link to verify your email:  ${process.env.BASE_URL}/verify/${verificationToken}`,
-      };
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending verification email:', error);
-    } else {
-      console.log('Verification email sent:', info.response);
-    }
-  });
-};
-
-module.exports = {
-  sendVerificationEmail,
-};
+module.exports = router;
