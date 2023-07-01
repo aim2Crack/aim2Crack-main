@@ -18,6 +18,8 @@ const UserRegister = () => {
     brandLogo: '',
     brandLink: ''
   };
+  const [message, setMessage] = useState('');
+
 
   const handleSubmit = (values) => {
     fetch('http://127.0.0.1:7000/signup', {
@@ -29,26 +31,31 @@ const UserRegister = () => {
     })
     .then(response => {
       if (response.ok) {
-        console.log('User created successfully!');
-        // Handle the email verification process here
-        return response.json();
-      } else {
-        throw new Error('User creation failed.');
-        // alert(response.ErrorMessage)
-      }
-    })
+        // Check if the request was successful
+        setMessage(jsonData.message); // Set the server message
+
+        if (jsonData.success) {
+          // If the request was successful and the server responded with success
+          setSubmitted(true); // Set the submitted state to true
+        }
+       else {
+        // Handle error response
+        setMessage(jsonData.message); // Set the server error message
+        console.error('Password reset request failed:', response.status);
+       }}
+      })
     .then(jsonData => {
       // Display the verification message to the user
       console.log(jsonData.message);
       alert(jsonData.message)
     })
-    .catch(error => {
-      console.error(error);
-      alert(jsonData.error)
-
-    });
-};
-
+    
+        // Clear the message after 5 seconds
+        setTimeout(() => {
+          setMessage('');
+        }, 5000);
+  
+  };
   return (
     <Formik
     initialValues={initialValues}
@@ -57,6 +64,11 @@ const UserRegister = () => {
     <Form>
       {/* {message} */}
     <div>
+        {message && (
+      <div className={`alert ${submitted ? 'success' : 'error'}`}>
+  {message}
+</div>
+)}
       <label htmlFor="username">Username:</label>
       <Field type="text" id="username" name="username" />
       <ErrorMessage name="username" component="div" />

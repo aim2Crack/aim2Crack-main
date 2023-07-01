@@ -25,7 +25,7 @@ router.post(
       }else{
           console.log(req.user.email)
           const resetPass = await ResetPass.findOne({ where: { username:req.user.username } });
-          mailer.sendVerificationEmail(req.user.email, resetPass.resetToken);
+          mailer.sendVerificationEmail(req.user.username,req.user.email);
           // return res.json('verify email');
           res.status(500).json({success:false, message:'Verify Email first. Check Email'})
           }

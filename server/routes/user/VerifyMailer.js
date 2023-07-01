@@ -9,8 +9,9 @@ router.get('/verify', async (req, res) => {
 
     const resetPass = await ResetPass.findOne({ where: { resetToken: token } });
     const user = await User.findOne({ where: { username: resetPass.username } });
-
+    console.log(resetPass);
     if (resetPass && resetPass.resetTokenExpiration > Date.now()) {
+
       if (resetPass.resetToken === token) {
         res.status(200).json({ success: true, message: 'Email successfully verified!' });
 

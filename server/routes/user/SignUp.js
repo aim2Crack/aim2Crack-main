@@ -1,11 +1,10 @@
 
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/user');
 const passport = require('passport');
 const mailer=require('./SendMailer')
-const crypto = require('crypto');
 const ResetPass = require('../../models/resetpass');
+const User = require('../../models/user');
 
 // //get all users
 router.get('/users', async (req, res) => {
@@ -43,24 +42,11 @@ router.post(
   async (req, res, next) => {
      const {username,email} = req.body;
     //  console.log(username);
-     const resetToken = crypto.randomBytes(20).toString('hex');
-    // console.log(resetToken);
-//       // Store the token and its expiration in the user's record in the database
-     const resetTokenExpiration = new Date(Date.now() + 3600000); // Token expires in 1 hour
-
-      try {
-//       // Save the user's record to the database
-      const resetPass = await ResetPass.create({
-        username: username,
-        email: email,
-        resetToken: resetToken,
-        resetTokenExpiration,
-      });
-      // console.log(resetPass);
-//        // Send the verification email
-      mailer.sendVerificationEmail(email, resetToken);
+          // Send the verification email
+      try{
+          mailer.sendVerificationEmail(username, email);
       
-  res.status(200).json({ success: true, message: 'User Created and Email Sent to registered Id for verification' });
+          res.status(200).json({ success: true, message: 'User Created and Email Sent to registered Id for verification' });
      } catch (error) {
       console.error('Error storing reset token:', error);
       res.status(500).json({ success:false, error: 'An error occurred while storing the reset token.' });
