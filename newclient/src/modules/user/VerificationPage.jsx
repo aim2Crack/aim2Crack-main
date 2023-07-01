@@ -9,9 +9,10 @@ const VerificationPage = () => {
   const navigate = useNavigate(); // Access the navigate function
 
   useEffect(() => {
-    fetch(`/verify?token=${token}`)
+    fetch(`http://127.0.0.1:7000/verify?token=${token}`)
       .then(response => {
-        if (response.status === 200) {
+        if (response.status==200) {
+          console.log(response.status);
           setVerificationStatus('Email successfully verified!');
           setTimeout(() => {
             navigate('/login'); // Navigate to sign-in page after 10 seconds

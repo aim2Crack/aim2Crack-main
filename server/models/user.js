@@ -51,7 +51,11 @@ brandLogo: {
 brandLink: {
     type: DataTypes.STRING,
     allowNull: true,
-}
+},
+emailVerify: {
+  type: DataTypes.BOOLEAN,
+  defaultValue: false,
+},
 });
 
 
