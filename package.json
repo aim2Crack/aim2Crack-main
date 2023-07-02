@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "install": "^0.13.0"
   }
 }
