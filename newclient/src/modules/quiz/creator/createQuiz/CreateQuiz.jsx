@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import {useState} from 'react'
 import "./createquiz.css";
 const CreateQuiz=()=>{
     const [selectedOption, setSelectedOption] = useState('');

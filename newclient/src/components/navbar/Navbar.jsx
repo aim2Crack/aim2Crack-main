@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
 import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png'

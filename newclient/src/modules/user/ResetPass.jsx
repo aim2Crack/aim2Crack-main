@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import logo from '../../assets/images/user/Logo enlarged-03.png';
 import './ResetPass.css';
 
