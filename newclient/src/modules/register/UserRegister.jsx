@@ -1,8 +1,9 @@
-
-
-// export default CreateUserForm;
-import React,{useState} from 'react';
+import { useState } from 'react';
+// import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import './Register.css';
+import * as Yup from 'yup';
+import signup from  '../../assets/images/Register/signup.svg';
 
 const UserRegister = () => {
   const initialValues = {
@@ -19,7 +20,7 @@ const UserRegister = () => {
     brandLink: ''
   };
   const [message, setMessage] = useState('');
-
+  const [submitted, setSubmitted] = useState(false); // Add this line to define the `submitted` state variable
 
   const handleSubmit = (values) => {
     fetch('http://127.0.0.1:7000/signup', {
@@ -29,33 +30,59 @@ const UserRegister = () => {
       },
       body: JSON.stringify(values)
     })
-    .then(response => {
-      if (response.ok) {
-        // Check if the request was successful
+      .then(response => {
+        if (response.ok) {
+          // Check if the request was successful
+          return response.json();
+        } else {
+          // Handle error response
+          console.error('User registration request failed:', response.status);
+          throw new Error('An error occurred during user registration.');
+        }
+      })
+      .then(jsonData => {
+        // Handle the response data
         setMessage(jsonData.message); // Set the server message
 
         if (jsonData.success) {
           // If the request was successful and the server responded with success
           setSubmitted(true); // Set the submitted state to true
         }
-       else {
-        // Handle error response
-        setMessage(jsonData.message); // Set the server error message
-        console.error('Password reset request failed:', response.status);
-       }}
-      })
-    .then(jsonData => {
-      // Display the verification message to the user
-      console.log(jsonData.message);
-      alert(jsonData.message)
-    })
-    
+
+        // Display the verification message to the user
+        console.log(jsonData.message);
+        alert(jsonData.message);
+
         // Clear the message after 5 seconds
         setTimeout(() => {
           setMessage('');
         }, 5000);
-  
+      })
+      .catch(error => {
+        // Handle any network or other errors
+        console.error('User registration request failed:', error);
+        setMessage('An error occurred during user registration.');
+      });
   };
+const validationSchema = Yup.object().shape({
+    username: Yup.string().required('Username is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    phone: Yup.string().required('Phone number is required'),
+    password: Yup.string()
+      .required('Password is required')
+      .min(8, 'Password must be at least 8 characters long')
+      .matches(
+        /^(?=.*[!@#$%^&*])/,
+        'Password must contain at least one special character'
+      ),
+    Confirm_Password: Yup.string().required('Confirm Password is required').oneOf([Yup.ref("password"), null], "Passwords must match"),
+    profileType: Yup.string().required('Profile type is required'),
+    rollNo: Yup.string(),
+    institute: Yup.string(),
+  });
+
+
+
   return (
     <Formik
     initialValues={initialValues}
