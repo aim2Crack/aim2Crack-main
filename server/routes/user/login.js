@@ -21,16 +21,16 @@ router.post(
       if(req.user.emailVerify){
         const body = { _id: req.user._id, email: req.user.email };
         const token = jwt.sign({ user: body }, 'TOP_SECRET');
-        res.json({ token });
+        return res.json({ token });
       }else{
           console.log(req.user.email)
           const resetPass = await ResetPass.findOne({ where: { username:req.user.username } });
           mailer.sendVerificationEmail(req.user.username,req.user.email);
           // return res.json('verify email');
-         res.status(403).json({success:false, message:'Verify Email first. Check Email'});
+          res.status(500).json({success:false, message:'Verify Email first. Check Email'})
           }
     } catch (error) {
-      res.status(401).json({success:false, message:'login failed'});
+      return next(error);
     }
   }
 );

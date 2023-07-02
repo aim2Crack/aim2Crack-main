@@ -1,4 +1,4 @@
-// import React from 'react'
+import React from 'react'
 import './PreviewInstructions.css';
 import PropTypes from 'prop-types'
 import logo from '../../../../assets/images/quiz/logo.png'

@@ -14,21 +14,21 @@ router.get('/verify', async (req, res) => {
 
       if (resetPass.resetToken === token) {
         res.status(200).json({ success: true, message: 'Email successfully verified!' });
-        user.emailVerify = true;
-        await user.save();
-        // if (user.emailVerify === false) {
-        //   // await ResetPass.destroy({ where: { resetToken: token } });
-          
-        // }
+
+        if (user.emailVerify === false) {
+          // await ResetPass.destroy({ where: { resetToken: token } });
+          user.emailVerify = true;
+          await user.save();
+        }
       } else {
-        res.json({ success: false, message: 'Verification failed. Token not available.' });
+        res.status(400).json({ success: false, message: 'Verification failed. Token not available.' });
       }
     } else {
-      res.json({ success: false, message: 'Verification failed. Token Expired' });
+      res.status(401).json({ success: false, message: 'Verification failed. Token Expired' });
     }
   } catch (error) {
     console.error('Error verifying email:', error);
-    res.json({ success: false, message: 'An error occurred while verifying the email.' });
+    res.status(500).json({ success: false, message: 'An error occurred while verifying the email.' });
   }
 });
 

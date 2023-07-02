@@ -1,4 +1,4 @@
-// import React from 'react'
+import React from 'react'
 import LeftNavigationPanel from './LeftNavigationPanel'
 import RightPanelRoot from "./rightPanel/RightPanelRoot";
 import '../styles/summary.css'

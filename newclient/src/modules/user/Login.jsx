@@ -1,4 +1,4 @@
-// import React from 'react'
+import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
@@ -17,8 +17,6 @@ import './Login.css'
 
 function Login() {
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
   const formInitialValues = {
       userOrEmail: '',
     password: '',
@@ -48,40 +46,62 @@ function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  // const submitHandler =(e) => {
+  //   e.preventDefault();
+  //   // console.log('submiting', {email, password});
+  // }
+
+  // const changeHandler = (e) => {
+  //   const { name, value } = e.target;
+
+  //   setData(prev => {
+  //     return {
+  //       ...prev, [name]: value
+  //     }
+  //   });
+  //   //console.log(name, value);
+  // }
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const loginData = {
-      usernameOrEmail: values.userOrEmail,
-      password: values.password,
-    };
-  
-    try {
-      const response = await fetch('http://127.0.0.1:7000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      });
-      console.log(response)
-      if (response.ok) {
-        const { token } = await response.json();
-        localStorage.setItem('token', token);
-        navigate('/summary'); // Redirect to the dashboard or desired page
-      } else if (response.status === 401) {
-        setMessage('Invalid username or password.');
-      } else if (response.status === 403) {
-        setMessage('Please verify email. Check registered mail inbox!!');
-      } else {
-        setMessage('An error occurred during login. Please try again later.');
-      }
-    } catch (error) {
-      console.error('Login request failed:', error);
-      setMessage('An error occurred during login. Please try again later.');
-    }
+
+  const loginData = {
+    usernameOrEmail: values.userOrEmail,
+    password: values.password,
   };
-      
+  
+
+  try {
+    const response = await fetch('http://127.0.0.1:7000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const { token } = data;
+      console.log('Data:', data);
+      console.log('Token:', token);
+      localStorage.setItem('token', token);
+      // window.location.reload();
+      navigate('/summary'); // Redirect to the dashboard or desired page
+      // Store the token in localStorage
+       // console.log(token)
+    } else {
+      // console.log(response)
+      // Login failed, handle error
+    const errorText = await response.text(); // Retrieve the response body as text
+    console.error('Login request failed:', errorText);
+    setError('An error occurred during login.'); 
+      const errorData = await response.json();
+      setError(errorData.message);
+    }
+  } catch (error) {
+    // Handle network error
+    console.error('Login request failed:', error);
+  }
+  }
   // // sign in with google
   // async function handleSignInWIthGoogle(){
   //   const auth = getAuth()
@@ -99,7 +119,9 @@ function Login() {
   return (
 
     <div>
-      
+      <div className="error-message">
+        {error && <span>{error}</span>}
+      </div>
       <Link
         to="/homePage"
         id="a__home"
@@ -111,11 +133,6 @@ function Login() {
           <div>
             <img src= {logo} alt="logo" className='login-logo' />
           </div>
-        {message && (
-      <div className={`alert ${submitted ? 'success' : 'error'}`}>
-  {message}
-</div>
-)}
           <div className="border">
             <h1>Login Now</h1>
 
