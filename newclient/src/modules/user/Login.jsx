@@ -2,13 +2,15 @@ import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
-import { useFormik} from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 // import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 
 // import PasswordReset from './ResetPass'
 
 import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
+import google_logo from '../../assets/images/user/flat-color-icons_google.svg'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
@@ -18,18 +20,18 @@ import './Login.css'
 function Login() {
   const [error, setError] = useState('');
   const formInitialValues = {
-      userOrEmail: '',
+    userOrEmail: '',
     password: '',
   };
 
-  
+
   // Validation schema
   const formValidationSchema = yup.object().shape({
     userOrEmail: yup.string().required('Email or username is required').max(30, 'Email not greater than 30 character'),
     password: yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
   });
 
-  const {handleChange, values, errors} = useFormik({
+  const { handleChange, values, errors } = useFormik({
     initialValues: formInitialValues,
     validationSchema: formValidationSchema,
     onSubmit: (values) => {
@@ -38,6 +40,9 @@ function Login() {
   })
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const isButtonEnabled = values.userOrEmail.length >= 4 && values.password.length >= 4;
+
   // const [data, setData] = useState('')
   // const [password, setPassword] = useState('')
   const navigate = useNavigate(); // Access the navigate function
@@ -64,43 +69,43 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-  const loginData = {
-    usernameOrEmail: values.userOrEmail,
-    password: values.password,
-  };
-  
+    const loginData = {
+      usernameOrEmail: values.userOrEmail,
+      password: values.password,
+    };
 
-  try {
-    const response = await fetch('http://127.0.0.1:7000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      const { token } = data;
-      console.log('Data:', data);
-      console.log('Token:', token);
-      localStorage.setItem('token', token);
-      // window.location.reload();
-      navigate('/summary'); // Redirect to the dashboard or desired page
-      // Store the token in localStorage
-       // console.log(token)
-    } else {
-      // console.log(response)
-      // Login failed, handle error
-    const errorText = await response.text(); // Retrieve the response body as text
-    console.error('Login request failed:', errorText);
-    setError('An error occurred during login.'); 
-      const errorData = await response.json();
-      setError(errorData.message);
+
+    try {
+      const response = await fetch('http://127.0.0.1:7000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const { token } = data;
+        console.log('Data:', data);
+        console.log('Token:', token);
+        localStorage.setItem('token', token);
+        // window.location.reload();
+        navigate('/summary'); // Redirect to the dashboard or desired page
+        // Store the token in localStorage
+        // console.log(token)
+      } else {
+        // console.log(response)
+        // Login failed, handle error
+        const errorText = await response.text(); // Retrieve the response body as text
+        console.error('Login request failed:', errorText);
+        setError('An error occurred during login.');
+        const errorData = await response.json();
+        setError(errorData.message);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Login request failed:', error);
     }
-  } catch (error) {
-    // Handle network error
-    console.error('Login request failed:', error);
-  }
   }
   // // sign in with google
   // async function handleSignInWIthGoogle(){
@@ -131,7 +136,7 @@ function Login() {
       <div className="login-container">
         <div className="content-section">
           <div>
-            <img src= {logo} alt="logo" className='login-logo' />
+            <img src={logo} alt="logo" className='login-logo' />
           </div>
           <div className="border">
             <h1>Login Now</h1>
@@ -157,7 +162,7 @@ function Login() {
                       placeholder="Username / Email id"
                       onChange={handleChange}
                     />
-                    
+
                   </div>
                   <span className='login-error'>{errors.email} </span>
                 </div>
@@ -173,12 +178,12 @@ function Login() {
                       onChange={handleChange}
                       value={values.password}
                     />
-                    
-                      <span  onClick={handleTogglePasswordVisibility}>
-                        {isPasswordVisible ? <FontAwesomeIcon className='icon'  icon={faEye} /> : <FontAwesomeIcon className='icon'  icon={faEyeSlash} />}
-                      </span>
-                      
-                    
+
+                    <span onClick={handleTogglePasswordVisibility}>
+                      {isPasswordVisible ? <FontAwesomeIcon className='icon' icon={faEye} /> : <FontAwesomeIcon className='icon' icon={faEyeSlash} />}
+                    </span>
+
+
                   </div>
                   <span className='login-error' >{errors.password} </span>
                 </div>
@@ -189,11 +194,21 @@ function Login() {
                 </small>
               </div>
 
-              <button type="submit" className=" login-btn-outline-info">LOG IN</button>
+              <button type="submit"
+                style={{ backgroundColor: isButtonEnabled ? '#00c6a7' : 'grey' }}
+                disabled={!isButtonEnabled}
+                className="login-btn-outline-info"
+              >LOG IN</button>
+              <button className=" login-btn-outline-info login-google-btn" >
+                <div className='login-google'>
 
-                 </form>
-                 {/* <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button> */}
-         
+                  <img src={google_logo} alt="google" />
+                  <span>Login with Google</span>
+                </div>
+              </button>
+            </form>
+            {/* <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button> */}
+
           </div>
         </div>
         <div className="login-left_panel">
