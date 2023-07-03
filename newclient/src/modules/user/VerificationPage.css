@@ -1,0 +1,13 @@
+.popup {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .timer {
+    font-size: 18px;
+    color: #333;
+    margin-top: 10px;
+  }
+  

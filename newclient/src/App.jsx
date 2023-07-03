@@ -21,6 +21,7 @@ import Navbar from "./components/navbar/Navbar";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
 // import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import jwt_decode from 'jwt-decode';
+import VerificationPage from "./modules/user/VerificationPage";
 
 
 function App() {
@@ -68,6 +69,7 @@ const token = localStorage.getItem('token');
         <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<UserRegister />} />
+        <Route path="/verify/:token" element={<VerificationPage />} />
       </Routes>
     </Router>
   );

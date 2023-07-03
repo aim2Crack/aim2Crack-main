@@ -212,7 +212,7 @@ function AptCrack() {
                 </div>
                 <div className="footer-center">
                     <div>
-                        <a href="mailto:support@aim2crack.com"><i className="fa fa-envelope"></i></a>
+                        <a href="mailto:support@aim2crack.com"></a>
                         <p className="mailto"><a href="mailto:support@aim2crack.com">aim2crack@gmail.com</a></p>
                     </div>
                     <div className="footer-icons">
