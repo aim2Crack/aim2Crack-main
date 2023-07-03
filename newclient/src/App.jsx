@@ -13,7 +13,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AboutUs from "./modules/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
-import AptCrack from "./modules/placements/AptCrack";
 import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
 import UserRegister from "./modules/register/UserRegister";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
@@ -61,7 +60,6 @@ const token = localStorage.getItem('token');
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ResetPass />} />
-        <Route path="/apt-crack" element={<AptCrack />} />
         <Route path="/addQuestion" element={<AddQuestion />} />
         <Route path="/addQuestionHome" element={<AddQuestionHome />} />
         <Route path="/addInstruction" element={<AddInstruction />} />
