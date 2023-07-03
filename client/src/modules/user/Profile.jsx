@@ -6,12 +6,11 @@ const Profile=()=>{
       <div id="profile">
          
         <div id="block">
-            
+            <div>
             <div class='image2'>
                 
                 </div>
-                
-            
+            </div>
             
             <button className='button' type="">🖊</button>
             <div id="user">
@@ -20,7 +19,7 @@ const Profile=()=>{
                 </div>
                 
             </div>
-             
+            
         </div>
         <div id="email">{
             <p class="email1">chetan@teacher.gmail.com</p>

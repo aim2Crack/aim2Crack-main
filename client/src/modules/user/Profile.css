@@ -43,16 +43,15 @@
 
 .image2{
     display:flex;
-    margin-top:20px;
     height:150px;
     width:150px;
     background: url(image2.png);
     /* background-repeat: no-repeat; */
     background-size: cover;
-    /* background-size: contain; */
+    background-size: contain;
     /* animation: vertical-move 0.4s infinite alternate ease-in-out; */
     
-
+    margin-top:10px;
 }
 
 
@@ -75,6 +74,7 @@
     .image2{
         height:80px;
         width:80px;
+        margin-top:20px;
     }
 }
 /* #block1{
