@@ -10,7 +10,6 @@
     z-index: 1;
     transition: all 0.5s ease;
 }
-
 #a__home:hover {
     transform: scale(1.2);
 }
@@ -39,7 +38,7 @@
 
     position: absolute;
     right: 5%;
-    bottom: 15%;
+    bottom: 20%;
     border-radius: 4px;
 
     width: 40%;
@@ -97,11 +96,9 @@
     display: flex;
     align-items: center;
     padding: 15px 1.4rem;
-    background: #f7f6f6;
+    background: white;
     border-radius: 58px;
     margin-top: 10px;
-    box-shadow: 0px 6px 15.5px 2px #EDEDED;
-
 }
 
 .login-info-pass{
@@ -139,10 +136,10 @@
     padding: 3%;
 
     margin-top: 8%;
+    border-radius: 31px;
     border: none;
-    border-radius: 18px;
-    background: #8692A6;
-    
+    background: #00c6a7;
+    border: 2px solid #00c6a7;
     color: white;
     font-size: 1.1rem;
     font-weight: 600;
@@ -151,40 +148,10 @@
 }
 
 .login-btn-outline-info:hover {
-    transform: scale(0.98);
+    background: #07ada3a6;
+    border: 2px solid white;
 }
-.login-or{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 7px;
-}
-.login-line{
-    width: 85px;
-    height: 0.6px;
-    background-color: black;
-}
-.login-google-btn{
-    background-color: #f7f6f6;
-    box-shadow: 0px 6px 15.5px 2px #EDEDED;
-    margin-top: 2%;
-}
-.login-google{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    border-radius: 11.653px;    
-}
-.login-google img{
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
-}
-.login-google span{
-    color: black;
-    font-size: 1rem;
-    margin: auto;
-}
+
 .login-left_panel {
     position: absolute;
     width: 50%;
@@ -301,10 +268,8 @@
     .login-btn-outline-info {
         padding: 2%;
         margin-top: 3%;
-        margin-bottom: 2%;
         font-size: 1.15rem;
     }
-    
 
     .login-pt-3 {
         margin-left: 46px;
@@ -354,7 +319,7 @@
     .content-section {
         right: 3%;
         width: 90%;
-        top: 29%;
+        top: 37%;
     }
 
     .login-left_panel {
