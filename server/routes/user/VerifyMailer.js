@@ -8,7 +8,7 @@ router.get('/verify', async (req, res) => {
     const { token } = req.query;
 
     const resetPass = await ResetPass.findOne({ where: { resetToken: token } });
-    const user = await User.findOne({ where: { username: resetPass.username } });
+    const user = await User.findOne({ where: { email: resetPass.email } });
     console.log(resetPass);
     if (resetPass && resetPass.resetTokenExpiration > Date.now()) {
 

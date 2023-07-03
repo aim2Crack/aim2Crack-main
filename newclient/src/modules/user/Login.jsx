@@ -101,7 +101,7 @@ function Login() {
     <div>
       
       <Link
-        to="/homePage"
+        to="/"
         id="a__home"
       >
         <FontAwesomeIcon icon={faHouse} />
