@@ -8,7 +8,7 @@ const Error =()=>{
       <div id="error">
            <img src={imageSrc} alt="error" id="error1"/>
            <div class="error2">
-           <img src={imageSrc1} alt="error" id="logo"/>
+           {/* <img src={imageSrc1} alt="error" id="logo"/> */}
            <h2>
                ERROR 403 :(
            </h2>
