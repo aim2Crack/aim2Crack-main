@@ -17,7 +17,10 @@ const VerificationPage = () => {
           setTimeout(() => {
             navigate('/login'); // Navigate to sign-in page after 10 seconds
           }, 10000);
-        } else {
+        } else if (response.status==210){
+          navigate('summary');
+        }
+        else {
           setVerificationStatus('Verification failed. Please try again.');
         }
       })

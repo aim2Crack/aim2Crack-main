@@ -19,7 +19,7 @@ email: {
     },
 },
 phone: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     unique: true,
 },
@@ -29,10 +29,10 @@ password: {
 },
 profileType: {
     type: DataTypes.ENUM('student', 'faculty'),
-    allowNull: false,
+    allowNull: true,
 },
 rollNo: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: true,
 },
 institute: {
