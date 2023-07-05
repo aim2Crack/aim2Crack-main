@@ -2,11 +2,12 @@ const express = require('express')
 const {sq,testDbConnection} = require('./db')
 // const {User, ResetPass} = require("./models/models");
 const signupRoutes = require('./routes/user/SignUp');
-const resetRoutes= require('./routes/user/password_reset');
+const resetRoutes= require('./routes/user/passwordReset');
 const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express()
 const PORT = 7000
@@ -27,6 +28,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Enable CORS middleware
+app.use(cors());
+
+// Allow 'Authorization' header
+app.options('*', cors({
+  allowedHeaders: ['Authorization', 'Content-Type'],
+}));
 
 require('./auth/auth');
 

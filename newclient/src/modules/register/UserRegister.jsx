@@ -67,7 +67,7 @@ const UserRegister = () => {
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
-    phone: Yup.string().required('Phone number is required'),
+    // phone: Yup.string().required('Phone number is required'),
     password: Yup.string()
       .required('Password is required')
       .min(8, 'Password must be at least 8 characters long')
@@ -76,9 +76,9 @@ const validationSchema = Yup.object().shape({
         'Password must contain at least one special character'
       ),
     Confirm_Password: Yup.string().required('Confirm Password is required').oneOf([Yup.ref("password"), null], "Passwords must match"),
-    profileType: Yup.string().required('Profile type is required'),
-    rollNo: Yup.string(),
-    institute: Yup.string(),
+    // profileType: Yup.string().required('Profile type is required'),
+    // rollNo: Yup.string(),
+    // institute: Yup.string(),
   });
 
 
@@ -129,7 +129,7 @@ const validationSchema = Yup.object().shape({
       <ErrorMessage name="profileType" component="div" />
     </div>
 
-    <div>
+    {/* <div>
       <label htmlFor="rollNo">Roll No:</label>
       <Field type="text" id="rollNo" name="rollNo" />
       <ErrorMessage name="rollNo" component="div" />
@@ -139,7 +139,7 @@ const validationSchema = Yup.object().shape({
       <label htmlFor="institute">Institute:</label>
       <Field type="text" id="institute" name="institute" />
       <ErrorMessage name="institute" component="div" />
-    </div>
+    </div> */}
 
     <button type="submit">Create User</button>
   </Form>

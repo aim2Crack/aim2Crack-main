@@ -21,6 +21,7 @@ import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionH
 // import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import jwt_decode from 'jwt-decode';
 import VerificationPage from "./modules/user/VerificationPage";
+import FirsttimeDetails from "./modules/user/firsttimeDetails";
 
 
 function App() {
@@ -68,6 +69,7 @@ const token = localStorage.getItem('token');
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/verify/:token" element={<VerificationPage />} />
+        <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
       </Routes>
     </Router>
   );

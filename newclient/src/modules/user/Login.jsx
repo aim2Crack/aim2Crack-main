@@ -64,11 +64,29 @@ function Login() {
         },
         body: JSON.stringify(loginData),
       });
-      console.log(response)
-      if (response.ok) {
+      // console.log(response)
+      if (response.ok ) {
         const { token } = await response.json();
         localStorage.setItem('token', token);
+      
+        // Fetch user details using the obtained token
+        const userResponse = await fetch('http://127.0.0.1:7000/users', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (userResponse.ok){
+          const userData= await userResponse.json()
+          console.log(userData)
+          if (userData.firstName != null)
+          {
         navigate('/summary'); // Redirect to the dashboard or desired page
+        }
+        else{
+          navigate('/register'); // Redirect to the dashboard or desired page
+        }
+      }
       } else if (response.status === 401) {
         setMessage('Invalid username or password.');
       } else if (response.status === 403) {
