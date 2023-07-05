@@ -44,7 +44,7 @@ router.post(
     //  console.log(username);
           // Send the verification email
       try{
-          mailer.sendVerificationEmail(username, email);
+          mailer.sendVerificationEmail(username, email,false);
       
           res.status(200).json({ success: true, message: 'User Created and Email Sent to registered Id for verification' });
      } catch (error) {

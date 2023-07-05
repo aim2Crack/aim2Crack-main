@@ -12,7 +12,7 @@ router.get('/verify', async (req, res) => {
     console.log(resetPass);
     if (resetPass && resetPass.resetTokenExpiration > Date.now()) {
 
-      if (resetPass.resetToken === token) {
+      if (resetPass.resetToken === token & resetPass.passwordReset == false) {
         res.status(200).json({ success: true, message: 'Email successfully verified!' });
         user.emailVerify = true;
         await user.save();
@@ -20,7 +20,16 @@ router.get('/verify', async (req, res) => {
         //   // await ResetPass.destroy({ where: { resetToken: token } });
           
         // }
-      } else {
+      }else if(resetPass.resetToken === token & resetPass.passwordReset==true){
+        console.log(resetPass)
+        res.status(210).json({ success: true, message: 'Email verified!' });
+        resetPass.passwordReset = false;
+        await resetPass.save();
+      } 
+      
+      
+      
+      else {
         res.json({ success: false, message: 'Verification failed. Token not available.' });
       }
     } else {

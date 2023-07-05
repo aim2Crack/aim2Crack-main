@@ -74,9 +74,10 @@ router.post('/forgot-password', async (req, res) => {
 //   console.log('Sending reset email...');
 //   const info = await transporter.sendMail(mailOptions);
 //   console.log('Reset email sent:', info.response);
+          mailer.sendVerificationEmail(user.username,user.email,true);
           const resetPass = await ResetPass.findOne({ where: { username: user.username } });
-          mailer.sendVerificationEmail(user.username,user.email);
-          res.status(403).json({success:false, message:'Verification mail sent successfully'});
+          
+          res.status(210).json({success:true, message:'Verification mail sent successfully'});
     } else {
       // If a user is not found, send a failure response with the message
 res.status(404).json({ success: false, message: 'User not found' });
