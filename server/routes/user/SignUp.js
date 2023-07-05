@@ -11,8 +11,6 @@ const jwt = require('jsonwebtoken');
 const verifyToken = (token) => {
   try {
     // Verify the token and decode its payload
-    const decoded = jwt.verify(token, process.env.secret-key); // Replace 'your-secret-key' with your actual secret key
-
     // Return the decoded token
     return decoded;
   } catch (error) {
@@ -31,20 +29,25 @@ router.get('/users', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-router.put('/users', async (req, res) => {
+router.post('/users', async (req, res) => {
   try {
+   
+   
     const token = req.headers.authorization; // Get the token from the request headers
-
+    console.log(token);
     // Verify and decode the token to extract the user ID
-    const decodedToken = verifyToken(token); // Implement the logic to verify and decode the token
+    // const decodedToken = verifyToken(token); // Implement the logic to verify and decode the token
+    const decoded = jwt.verify(token, 'TOP_SECRET'); // Replace 'your-secret-key' with your actual secret key
+    console.log(decoded);
+    
+    // if (!decodedToken) {
+    //   return res.status(401).json({ error: 'Invalid token' });
+    // }
 
-    if (!decodedToken) {
-      return res.status(401).json({ error: 'Invalid token' });
-    }
-
-    const userId = decodedToken.userId; // Extract the user ID from the decoded token
+    const userId = req.user.userId;
+    console.log(userId); // Extract the user ID from the decoded token
     const userData = req.body; // Get the updated user data from the request body
-console.log(userData)
+    console.log(userData);
     // Update the user in the database
     const updatedUser = await User.findByIdAndUpdate(userId, userData, { new: true });
 

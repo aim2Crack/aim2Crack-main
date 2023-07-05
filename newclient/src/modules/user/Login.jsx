@@ -84,7 +84,7 @@ function Login() {
         navigate('/summary'); // Redirect to the dashboard or desired page
         }
         else{
-          navigate('/register'); // Redirect to the dashboard or desired page
+          navigate('/onetimedetails'); // Redirect to the dashboard or desired page
         }
       }
       } else if (response.status === 401) {

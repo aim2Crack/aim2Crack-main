@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 const FirsttimeDetails = () => {
   const initialValues = {
+    username:'',
     firstName: '',
     lastName: '',
     profileType: '',
@@ -22,15 +23,16 @@ const FirsttimeDetails = () => {
       const token = localStorage.getItem('token');
 
       const response = await fetch('http://127.0.0.1:7000/users', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(values),
       });
-
+      console.log(response);
       if (response.ok) {
+        console.log(response);
         setMessage('User details updated successfully.');
       } else {
         setMessage('Failed to update user details.');
