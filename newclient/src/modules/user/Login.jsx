@@ -68,7 +68,7 @@ function Login() {
       if (response.ok ) {
         const { token } = await response.json();
         localStorage.setItem('token', token);
-      
+      console.log(token);
         // Fetch user details using the obtained token
         const userResponse = await fetch('http://127.0.0.1:7000/users', {
           method: 'GET',
@@ -79,12 +79,12 @@ function Login() {
         if (userResponse.ok){
           const userData= await userResponse.json()
           console.log(userData)
-          if (userData.firstName != null)
+          if (userData.firstName == null)
           {
-        navigate('/summary'); // Redirect to the dashboard or desired page
+            navigate('/onetimedetails'); // Redirect to the dashboard or desired page
         }
         else{
-          navigate('/onetimedetails'); // Redirect to the dashboard or desired page
+          navigate('/summary'); // Redirect to the dashboard or desired page
         }
       }
       } else if (response.status === 401) {

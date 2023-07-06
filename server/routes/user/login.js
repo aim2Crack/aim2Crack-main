@@ -20,7 +20,7 @@ router.post(
       // verifying email verification if fase use resetpass model data to send mail
       if(req.user.emailVerify){
         const body = { _id: req.user._id, email: req.user.email };
-        const token = jwt.sign({ user: body }, 'TOP_SECRET');
+        const token = jwt.sign({ user: body },'TOPSECRET');
         res.json({ token });
       }else{
           console.log(req.user.email)

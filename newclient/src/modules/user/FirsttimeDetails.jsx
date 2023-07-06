@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup';
 
 const FirsttimeDetails = () => {
   const initialValues = {
-    username:'',
     firstName: '',
     lastName: '',
     profileType: '',
     rollNo: '',
     institute: '',
-    brandName: 'none',
-    brandLogo: '',
-    brandLink: '',
-    brandFavicon: '',
   };
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate(); // Access the navigate function
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -26,14 +23,17 @@ const FirsttimeDetails = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `${token}`,
         },
         body: JSON.stringify(values),
       });
-      console.log(response);
+      console.log(response.json);
       if (response.ok) {
         console.log(response);
+        
+        
         setMessage('User details updated successfully.');
+        navigate('/summary');
       } else {
         setMessage('Failed to update user details.');
       }
