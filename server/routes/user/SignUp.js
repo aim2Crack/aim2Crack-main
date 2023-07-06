@@ -7,17 +7,6 @@ const ResetPass = require('../../models/resetpass');
 const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
 
-// Function to verify and decode the token
-const verifyToken = (token) => {
-  try {
-    // Verify the token and decode its payload
-    // Return the decoded token
-    return decoded;
-  } catch (error) {
-    // Throw an error if the token is invalid or expired
-    throw new Error('Invalid token');
-  }
-};
 
 // //get all users
 router.get('/users', async (req, res) => {
@@ -34,29 +23,42 @@ router.post('/users', async (req, res) => {
    
    
     const token = req.headers.authorization; // Get the token from the request headers
-    console.log(token);
+    // console.log(token);
     // Verify and decode the token to extract the user ID
     // const decodedToken = verifyToken(token); // Implement the logic to verify and decode the token
-    const decoded = jwt.verify(token, 'TOP_SECRET'); // Replace 'your-secret-key' with your actual secret key
-    console.log(decoded);
+   
+      const decoded = jwt.verify(token,'TOPSECRET', { ignoreExpiration: true });
+
+      console.log(decoded);
+       // Access the email from the decoded payload
+      const email = decoded.user.email;
+     
+    
     
     // if (!decodedToken) {
     //   return res.status(401).json({ error: 'Invalid token' });
     // }
 
-    const userId = req.user.userId;
-    console.log(userId); // Extract the user ID from the decoded token
+    console.log(email); // Extract the user ID from the decoded token
+   
     const userData = req.body; // Get the updated user data from the request body
     console.log(userData);
-    // Update the user in the database
-    const updatedUser = await User.findByIdAndUpdate(userId, userData, { new: true });
+   // Update the user in the database based on email or username
+   try {
+    const updatedUser = await User.update(userData, {
+      where: {
+        email: email,
+      },
+      returning: true,
+    });
+    console.log(updatedUser); // Access the updated user record
+  } catch (error) {
+    console.error('Error updating user:', error.message);
+  }
 
-    if (!updatedUser) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
+    console.log('data updated')
     // Return the updated user as the response
-    res.json(updatedUser);
+    res.status(200).json({success:true,message:'Data updated'});
   } catch (error) {
     // Handle any errors that occur during user update
     res.status(400).json({ error: error.message });
