@@ -264,7 +264,7 @@ option{
     background: #f0f0f0;
 }
 .sign{
-    width: 24%;
+    width: 100%;
     padding: 8px 1.4rem;
     border-radius: 21px;
     background:  linear-gradient(316deg, #50d8d7 0%, #2a2323 140%);
@@ -469,7 +469,7 @@ option{
     flex-basis: 48%;
     position: relative;
     height: 48px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
   }
 #hide1{
     display: none;

@@ -29,14 +29,14 @@ margin-top: 2rem;
     /* font-family: 'Baloo Bhai 2', cursive; */
 }
 
-.register_container{
+/* .register_container{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     position: relative;
         min-height: 100vh;
-}
+} */
 .bxs-left-arrow-circle{
     position: absolute;
     top:46%;
@@ -59,7 +59,7 @@ margin-top: 2rem;
 .bxs-right-arrow-circle:hover{
     transform: scale(1.5,1.5);
 }
-.register_box{
+/* .register_box{
     display: flex;
     align-items: center;
     justify-content:space-between;    
@@ -73,7 +73,54 @@ margin-top: 2rem;
     box-shadow: 0 10px 25px rgba(92,99,105,.2);
 
 
-}
+} */
+.register_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .register_box {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  .register_box label {
+    margin-bottom: 5px;
+  }
+  
+  .register_box input[type="text"],
+  .register_box input[type="email"],
+  .register_box input[type="password"],
+  .register_box select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .register_box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 480px) {
+    .register_box {
+      width: 100%;
+    }
+  }
+  
 .bxs-home{
 position: absolute;
 bottom: 1rem;
