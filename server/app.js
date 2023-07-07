@@ -1,6 +1,6 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
-// const {User, ResetPass} = require("./models/models");
+const {User, ResetPass, Quiz} = require("./models/models");
 const signupRoutes = require('./routes/user/SignUp');
 const resetRoutes= require('./routes/user/passwordReset');
 const mailerRoutes=require('./routes/user/VerifyMailer')
@@ -55,7 +55,8 @@ app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 app.use('/',mailerRoutes);
 testDbConnection();
-sq.sync()
+sq.sync({ logging: console.log });
+
 
 // models.sq.sync({ force: true }).then(result => {
 //   console.log('model synced!')

@@ -1,51 +1,48 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const db = require('../database');
+const {sq} = require('../db');
+const {DataTypes} = require('sequelize');
 
-const Quiz = db.define('Quiz', {
+const Quiz = sq.define("quiz", {
     code: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
-    start_time: {
+    startTime: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
     },
     marginTime: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
     },
     resultTime: {
         type: DataTypes.DATE,
-        allowNull: false
-    },
-    quiz_name: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    section_name: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
-        defaultValue: []
     },
-    created_on: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    created_by: {
+    quizName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
-    updated_on: {
-        type: DataTypes.DATE,
-        allowNull: false
+    sectionName: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        // allowNull: true,
+        defaultValue: [],
+    },
+        creator: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     collaborators: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,
-        defaultValue: []
-    }
-}, {
+        // allowNull: true,
+        defaultValue: [],
+    },
+},
+{
     tableName: 'quizzes'
 });
 
+Quiz.sync().then(() => {
+    console.log("Quiz Model synced");
+  });
+  
 module.exports = Quiz;

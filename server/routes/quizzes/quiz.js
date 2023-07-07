@@ -1,23 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const Quiz = require('../../models/quiz');
+const FacultyAuthorization = require('../../controllers/facultyAuthorisation');
+
 
 // Create a quiz
-router.post('/quizzes', async (req, res) => {
+router.post('/quizzes',FacultyAuthorization, async (req, res) => {
+    const user=req.user;
     try {
-        const { code, start_time, marginTime, resultTime, quiz_name, section_name, created_on, created_by, updated_on, collaborators } = req.body;
+        const { startTime, marginTime, resultTime, quizName, sectionName} = req.body;
 
         // Create a new quiz in the database
         const quiz = await Quiz.create({
-            code,
-            start_time,
+            code: 1234,
+            startTime,
             marginTime,
             resultTime,
-            quiz_name,
-            section_name,
-            created_on,
-            created_by,
-            updated_on,
+            quizName,
+            sectionName,
+            creator: user,
             collaborators
         });
 
@@ -64,20 +65,18 @@ router.get('/quizzes/:id', async (req, res) => {
 router.put('/quizzes/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { code, start_time, marginTime, resultTime, quiz_name, section_name, created_on, created_by, updated_on, collaborators } = req.body;
+        const { startTime, marginTime, resultTime, quizName, sectionName, creator, collaborators } = req.body;
 
         // Find the quiz by ID and update its properties
         const quiz = await Quiz.findByPk(id);
         if (quiz) {
             quiz.code = code;
-            quiz.start_time = start_time;
+            quiz.startTime = startTime;
             quiz.marginTime = marginTime;
             quiz.resultTime = resultTime;
-            quiz.quiz_name = quiz_name;
-            quiz.section_name = section_name;
-            quiz.created_on = created_on;
-            quiz.created_by = created_by;
-            quiz.updated_on = updated_on;
+            quiz.quizName = quizName;
+            quiz.sectionName = sectionName;
+            quiz.creator = creator;
             quiz.collaborators = collaborators;
 
             await quiz.save();
