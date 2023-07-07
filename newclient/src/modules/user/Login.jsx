@@ -64,7 +64,7 @@ function Login() {
         },
         body: JSON.stringify(loginData),
       });
-      // console.log(response)
+      console.log(response);
       if (response.ok ) {
         const { token } = await response.json();
         localStorage.setItem('token', token);
@@ -73,12 +73,13 @@ function Login() {
         const userResponse = await fetch('http://127.0.0.1:7000/users', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`,
           },
         });
         if (userResponse.ok){
           const userData= await userResponse.json()
-          console.log(userData)
+          console.log(userData);
           if (userData.firstName == null)
           {
             navigate('/onetimedetails'); // Redirect to the dashboard or desired page

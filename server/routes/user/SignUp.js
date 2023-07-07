@@ -6,39 +6,25 @@ const mailer=require('./SendMailer')
 const ResetPass = require('../../models/resetpass');
 const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
+const authorization = require ('../../controllers/authorisation');
 
 
 // //get all users
-router.get('/users', async (req, res) => {
+router.get('/users',authorization, async (req, res) => {
     try {
-        // const UserModel = await User();
-        const users = await User.findAll();
-        res.json(users);
+             const user=req.user;
+        // console.log(user);
+        res.json(user);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
-router.post('/users', async (req, res) => {
+router.post('/users', authorization, async (req, res) => {
   try {
    
-   
-    const token = req.headers.authorization; // Get the token from the request headers
-    // console.log(token);
-    // Verify and decode the token to extract the user ID
-    // const decodedToken = verifyToken(token); // Implement the logic to verify and decode the token
-   
-      const decoded = jwt.verify(token,'TOPSECRET', { ignoreExpiration: true });
-
-      console.log(decoded);
-       // Access the email from the decoded payload
-      const email = decoded.user.email;
+    const user=req.user;
+    const email = user.email;
      
-    
-    
-    // if (!decodedToken) {
-    //   return res.status(401).json({ error: 'Invalid token' });
-    // }
-
     console.log(email); // Extract the user ID from the decoded token
    
     const userData = req.body; // Get the updated user data from the request body

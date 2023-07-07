@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;500&display=swap');
 
-
+/* Add styles for error messages */
+.error-message {
+    color: red;
+    font-size: 12px;
+    /* margin-top: -16px; */
+  }
+  
+  /* Add styles for the fields with errors */
+  .field-error {
+    border: 1px solid red;
+  }
 .alert-success{
  
     color: #00d000;
@@ -107,7 +117,7 @@ transition: all 0.5s ease;
 .form_method{
     height: 60%;
     width: 80%;
-    /* margin-top: 6%; */
+    /* margin-top: 3%; */
 }
 .form-group{
     border: none;
@@ -123,8 +133,8 @@ transition: all 0.5s ease;
    
     flex-basis: 48%;
     position: relative;
-    height: 48px;
-    margin-bottom: 1.5rem;
+    height: 40px;
+    margin-bottom: 2.75rem;
     
 }
 .input-box{
@@ -265,10 +275,11 @@ option{
 }
 .sign{
     width: 100%;
-    padding: 8px 1.4rem;
+    padding: 10px 1.4rem;
     border-radius: 21px;
     background:  linear-gradient(316deg, #50d8d7 0%, #2a2323 140%);
     transition: all 2s ease;
+    margin-top:5px;
 }
 .sign:hover{
     background:  linear-gradient(316deg,#2a2323  0%, #50d8d7 120%);
