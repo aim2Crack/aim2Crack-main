@@ -22,6 +22,7 @@ import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionH
 import jwt_decode from 'jwt-decode';
 import VerificationPage from "./modules/user/VerificationPage";
 import FirsttimeDetails from "./modules/user/firsttimeDetails";
+import NewPassword from "./modules/user/NewPassword";
 
 
 function App() {
@@ -70,6 +71,7 @@ const token = localStorage.getItem('token');
         <Route path="/register" element={<UserRegister />} />
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
+        <Route path="/reset-password" element={<NewPassword/>}/>
       </Routes>
     </Router>
   );

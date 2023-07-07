@@ -18,7 +18,7 @@ const VerificationPage = () => {
             navigate('/login'); // Navigate to sign-in page after 10 seconds
           }, 10000);
         } else if (response.status==210){
-          navigate('summary');
+          navigate('/reset-password');
         }
         else {
           setVerificationStatus('Verification failed. Please try again.');
@@ -30,21 +30,21 @@ const VerificationPage = () => {
       });
   }, [token, navigate]);
 
-  useEffect(() => {
-    // Update countdown timer every second
-    const timer = setInterval(() => {
-      setCountdown(prevCountdown => prevCountdown - 1);
-    }, 1000);
+  // useEffect(() => {
+  //   // Update countdown timer every second
+  //   const timer = setInterval(() => {
+  //     setCountdown(prevCountdown => prevCountdown - 1);
+  //   }, 1000);
 
-    // Clear the timer when countdown reaches 0
-    if (countdown === 0) {
-      clearInterval(timer);
-    }
+  //   // Clear the timer when countdown reaches 0
+  //   if (countdown === 0) {
+  //     clearInterval(timer);
+  //   }
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [countdown]);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, [countdown]);
 
   return (
     <div className="container">

@@ -42,6 +42,7 @@ try{
       resetTokenExpiration,
       passwordReset:status,
     });
+    console.log(resetPass);
   
     const mailOptions = {
         from: 'aim2crack@gmail.com',
