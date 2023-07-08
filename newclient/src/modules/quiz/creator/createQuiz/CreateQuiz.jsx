@@ -9,18 +9,21 @@ const CreateQuiz = () => {
     startTime: '',
     marginTime: '',
     resultTime: '',
+    negativeMarking: '',
+    preventMobile: false,
+    allowTabchange: false,
   };
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (values) => {
     const token = localStorage.getItem('token');
-    
+
     fetch('http://127.0.0.1:7000/quizzes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     })
@@ -49,6 +52,7 @@ const CreateQuiz = () => {
     resultTime: Yup.date()
       .required('Result time is required')
       .min(Yup.ref('startTime'), 'Result time must be greater than start time'),
+    negativeMarking: Yup.number().required('Negative marking is required'),
   });
 
   return (
@@ -91,6 +95,31 @@ const CreateQuiz = () => {
                 <Field type="date" id="resultTime" name="resultTime" className="inputbox" />
                 <ErrorMessage name="resultTime" component="div" className="error-message" />
               </div>
+
+              <div id="input4">
+                <label className="inputbox" htmlFor="negativeMarking">
+                  Negative Marking:
+                </label>
+                <Field type="number" id="negativeMarking" name="negativeMarking" className="inputbox" />
+                <ErrorMessage name="negativeMarking" component="div" className="error-message" />
+              </div>
+
+              <div id="input5">
+                <label className="inputbox" htmlFor="preventMobile">
+                  Prevent Mobile:
+                </label>
+                <Field type="checkbox" id="preventMobile" name="preventMobile" className="inputbox" />
+                <ErrorMessage name="preventMobile" component="div" className="error-message" />
+              </div>
+
+              <div id="input6">
+                <label className="inputbox" htmlFor="allowTabchange">
+                  Allow Tab Change:
+                </label>
+                <Field type="checkbox" id="allowTabchange" name="allowTabchange" className="inputbox" />
+                <ErrorMessage name="allowTabchange" component="div" className="error-message" />
+              </div>
+
               <div id="submit">
                 <button type="submit" id="button">
                   Create Quiz
