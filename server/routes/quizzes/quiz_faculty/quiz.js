@@ -61,13 +61,12 @@ router.get('/quizzes',FacultyAuthorization, async (req, res) => {
 });
 
 //access quiz by id
-router.get('/quizzes/:id', async (req, res) => {
+router.get('/quizzes/:code', async (req, res) => {
     try {
-        const { id } = req.params;
-
-        // Find a quiz by its ID in the database
-        const quiz = await Quiz.findByPk(id);
-
+        const {code} = req.params;
+  // Find a quiz by its code in the database
+  const quiz = await Quiz.findOne({ where: { code } });
+  console.log(quiz.id)
         if (quiz) {
             res.status(200).json({ success: true, data: quiz });
         } else {

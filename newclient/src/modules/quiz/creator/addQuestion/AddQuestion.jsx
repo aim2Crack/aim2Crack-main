@@ -175,9 +175,9 @@ function AddQuestion() {
   return (
     <div>
       <form onSubmit={handleSubmit} method="POST" id='top-level' >
-        <div className="tostrip">
+        {/* <div className="tostrip">
           Add New Question
-        </div>
+        </div> */}
         <div className="main_box">
           {showHeading && (
             <div className="alert alert-error" style={saveConditionButton}>
