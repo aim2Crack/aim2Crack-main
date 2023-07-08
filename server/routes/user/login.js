@@ -66,13 +66,10 @@ router.get('/getUser', async function signInVerify(req, res) {
     const token = req.query.accessToken; // Access token from query parameter
     try {
         const authResult = await getAuth().verifyIdToken(token);
-        const userId = authResult.uid;
+        const email = authResult.email;
 
-        if (userId) {
-            const query = `
-        SELECT *
-        FROM users
-            `;
+        if (email) {
+            const query = `SELECT * FROM users WHERE uid = ${email}`;
             client.query(query, (err, resp) => {
                 if (err) {
                     console.warn(err);
@@ -81,10 +78,11 @@ router.get('/getUser', async function signInVerify(req, res) {
                 for (let row of resp.rows) {
                     console.log(row);
                 }
+                return query
                 // client.end();
             });
             res.status(200).json({
-                data: query
+                user: query
             });
         } else {
             res.status(401).json({
