@@ -26,6 +26,5 @@ yarn-error.log*
 
  client/.idea/
 node_modules/
-server/.idea/jsLibraryMappings.xml
-server/.idea/workspace.xml
+
 
