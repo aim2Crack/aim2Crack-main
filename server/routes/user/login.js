@@ -63,7 +63,7 @@ router.post('/login', passport.authenticate('login', {session: false}), async (r
 // )
 
 router.get('/getUser', async function signInVerify(req, res) {
-    const token = req.body.accessToken; // Access token from query parameter
+    const token = req.query.accessToken; // Access token from query parameter
     try {
         const authResult = await getAuth().verifyIdToken(token);
         const userId = authResult.uid;
@@ -81,7 +81,7 @@ router.get('/getUser', async function signInVerify(req, res) {
                 for (let row of resp.rows) {
                     console.log(row);
                 }
-                client.end();
+                // client.end();
             });
             res.status(200).json({
                 data: query
