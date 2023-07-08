@@ -5,6 +5,7 @@ const Quiz = sq.define("quiz", {
     code: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     startTime: {
         type: DataTypes.DATE,

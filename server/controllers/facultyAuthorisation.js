@@ -3,8 +3,9 @@ const User = require('../models/user'); // Assuming you have a User model define
 
 const FacultyAuthorization = async (req, res, next) => {
   try {
-    const token = req.headers.authorization; // Get the token from the request headers
-
+    const authHeader = req.headers.authorization; // Get the Authorization header
+    const token = authHeader && authHeader.split(' ')[1]; // Extract the token from the Authorization header
+    console.log(token);
     if (!token) {
       return res.status(401).json({ error: 'Missing token' });
     }
@@ -16,7 +17,7 @@ const FacultyAuthorization = async (req, res, next) => {
       where: { email: email }
     });
 
-    if (user.profileType != faculty) {
+    if (user.profileType != 'faculty') {
       return res.status(401).json({ error: 'The login profile is not faculty profile' });
     }
 

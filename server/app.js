@@ -5,6 +5,7 @@ const signupRoutes = require('./routes/user/SignUp');
 const resetRoutes= require('./routes/user/passwordReset');
 const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
+const quizRoutes=require('./routes/quizzes/quiz');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -50,10 +51,14 @@ app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+//user routes
 app.use('/',signupRoutes);
 app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 app.use('/',mailerRoutes);
+
+//quiz routes
+app.use('/',quizRoutes);
 testDbConnection();
 sq.sync({ logging: console.log });
 

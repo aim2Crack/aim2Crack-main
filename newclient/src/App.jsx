@@ -10,7 +10,7 @@ import ResetPass from "./modules/user/ResetPass";
 // import { getAnalytics } from "firebase/analytics";
 import Summary from "./modules/quiz/creator/Summary";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AboutUs from "./modules/aboutUs/AboutUs";
+import AboutUs from "./modules/homepage/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
@@ -23,6 +23,7 @@ import jwt_decode from 'jwt-decode';
 import VerificationPage from "./modules/user/VerificationPage";
 import FirsttimeDetails from "./modules/user/firsttimeDetails";
 import NewPassword from "./modules/user/NewPassword";
+// import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 
 
 function App() {
@@ -72,6 +73,8 @@ const token = localStorage.getItem('token');
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
         <Route path="/reset-password" element={<NewPassword/>}/>
+{/* quiz-creator-routes */}
+        <Route path="/createquiz" element={<CreateQuiz/>}/>
       </Routes>
     </Router>
   );

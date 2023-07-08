@@ -9,11 +9,11 @@ router.get('/verify', async (req, res) => {
 
     const resetPass = await ResetPass.findOne({ where: { resetToken: token } });
     const user = await User.findOne({ where: { email: resetPass.email } });
-    console.log(resetPass);
+    // console.log(resetPass);
     if (resetPass && resetPass.resetTokenExpiration > Date.now()) {
 
-      if (resetPass.resetToken == token & resetPass.passwordReset == false) {
-        res.status(200).json({ success: true, message: 'Email successfully verified!' });
+      if (resetPass.resetToken == token & resetPass.passwordReset == false & user.emailVerify==false) {
+        res.status(250).json({ success: true, message: 'Email successfully verified!' });
         user.emailVerify = true;
         await user.save();
         // if (user.emailVerify === false) {

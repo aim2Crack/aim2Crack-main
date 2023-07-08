@@ -2,24 +2,26 @@ const express = require('express');
 const router = express.Router();
 const Quiz = require('../../models/quiz');
 const FacultyAuthorization = require('../../controllers/facultyAuthorisation');
-
+const authorization=require('../../controllers/authorisation');
+const generateLink = require('../../controllers/generateLink')
 
 // Create a quiz
 router.post('/quizzes',FacultyAuthorization, async (req, res) => {
     const user=req.user;
+    console.log(user.id);
     try {
         const { startTime, marginTime, resultTime, quizName, sectionName} = req.body;
-
+        const generatedLink = await generateLink();
         // Create a new quiz in the database
         const quiz = await Quiz.create({
-            code: 1234,
+            code: generatedLink,
             startTime,
             marginTime,
             resultTime,
             quizName,
             sectionName,
-            creator: user,
-            collaborators
+            creator: user.id,
+            collaborators:[]
         });
 
         res.status(201).json({ success: true, data: quiz });
@@ -90,6 +92,26 @@ router.put('/quizzes/:id', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
+
+//quiz deletion
+router.delete('/quizzes', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find the quiz by ID and delete it
+        const quiz = await Quiz.destroy({where: {}});
+        // if (quiz) {
+        //     await quiz.destroy();
+        //     res.status(200).json({ success: true, message: 'Quiz deleted successfully' });
+        // } else {
+        //     res.status(404).json({ success: false, message: 'Quiz not found' });
+        // }
+    } catch (error) {
+        console.error('Error deleting quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
+
 
 //quiz deletion
 router.delete('/quizzes/:id', async (req, res) => {
