@@ -8,7 +8,7 @@ import Login from "./modules/user/Login";
 import ResetPass from "./modules/user/ResetPass";
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
-import Summary from "./modules/quiz/creator/Summary";
+import Summary from "./modules/summary/Summary";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AboutUs from "./modules/homepage/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
