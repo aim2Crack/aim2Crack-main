@@ -5,14 +5,10 @@ import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik} from 'formik';
 import * as yup from 'yup';
 import { getAuth, GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
-
 // import PasswordReset from './ResetPass'
-
 import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-
-
 import './Login.css'
 import axios from "axios";
 
