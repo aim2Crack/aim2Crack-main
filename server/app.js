@@ -2,23 +2,17 @@ const express = require('express')
 const {sq,testDbConnection} = require('./db')
 const {User, ResetPass, Quiz} = require("./models/models");
 const signupRoutes = require('./routes/user/SignUp');
-const firebaseConfig = require('./serviceAccountCredentials.json')
 const resetRoutes= require('./routes/user/passwordReset');
-const admin = require('firebase-admin')
 const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 const app = express()
 const PORT = 7000
 
-
-
-admin.initializeApp({
-  credential: admin.credential.cert(firebaseConfig),
-});
 // CORS middleware
 // CORS middleware
 app.use((req, res, next) => {
@@ -46,7 +40,6 @@ app.options('*', cors({
 require('./auth/auth');
 
 const secureRoute = require('./routes/user/profile');
-const {config} = require("dotenv");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
