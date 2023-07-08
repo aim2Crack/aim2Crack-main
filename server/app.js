@@ -1,12 +1,13 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
-// const {User, ResetPass} = require("./models/models");
+const {User, ResetPass, Quiz} = require("./models/models");
 const signupRoutes = require('./routes/user/SignUp');
 const firebaseConfig = require('./credentials.json')
 const resetRoutes= require('./routes/user/passwordReset');
 const admin = require('firebase-admin')
 const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
+const quizRoutes=require('./routes/quizzes/quiz');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -57,12 +58,17 @@ app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+//user routes
 app.use('/',signupRoutes);
 app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 app.use('/',mailerRoutes);
+
+//quiz routes
+app.use('/',quizRoutes);
 testDbConnection();
-sq.sync()
+sq.sync({ logging: console.log });
+
 
 // models.sq.sync({ force: true }).then(result => {
 //   console.log('model synced!')

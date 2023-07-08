@@ -15,12 +15,13 @@ router.post(
   passport.authenticate('login', { session: false }),
   async (req, res, next) => {
     try {
-      console.log(req.user.email)
-      console.log(req.user.emailVerify);
+      // console.log(req.user.email)
+      // console.log(req.user.emailVerify);
       // verifying email verification if fase use resetpass model data to send mail
       if(req.user.emailVerify){
         const body = { _id: req.user._id, email: req.user.email };
         const token = jwt.sign({ user: body },'TOPSECRET');
+        console.log(token);
         res.json({ token });
       }else{
           console.log(req.user.email)
