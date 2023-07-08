@@ -123,18 +123,25 @@ function Login() {
   const verifyToken = async (token) =>{
     console.log("verifyToken")
     const user = await getUser(token);
+    console.log(user)
     if (user) {
       navigate('/summary')
-    } else {
+    } else if(user.status === 401) {
       navigate('/onetimedetails')
       setTokenError("User not found")
     }
   }
   async function getUser (accessToken){
     console.log(accessToken)
-    return await getRequest(routes.getUser, {
+    const response =  await getRequest(routes.getUser, {
       accessToken: accessToken
     })
+    if(response.status === 200){
+      return response.data.user
+    }
+    else if(response.status === 401){
+      return null
+    }
   }
   const serverURL = "http://127.0.0.1:7000"
   const routes = {
