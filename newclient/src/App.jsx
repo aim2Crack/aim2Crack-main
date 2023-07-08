@@ -63,7 +63,6 @@ const token = localStorage.getItem('token');
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ResetPass />} />
-        <Route path="/addQuestion" element={<AddQuestion />} />
         <Route path="/addQuestionHome" element={<AddQuestionHome />} />
         <Route path="/addInstruction" element={<AddInstruction />} />
         <Route path="/previewInstructions" element={<PreviewInstructions />} />
@@ -75,6 +74,7 @@ const token = localStorage.getItem('token');
         <Route path="/reset-password" element={<NewPassword/>}/>
 {/* quiz-creator-routes */}
         <Route path="/createquiz" element={<CreateQuiz/>}/>
+        <Route path="/quiz/:code" element={<AddQuestionHome />} />
       </Routes>
     </Router>
   );

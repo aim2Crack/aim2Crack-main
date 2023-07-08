@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage, Redirect } from 'formik';
+import { Formik, Form, Field, ErrorMessage} from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './createquiz.css';
 
@@ -45,6 +46,9 @@ const CreateQuiz = () => {
      setMessage(`Quiz created successfully. Redirecting to the quiz page...`);
      setGeneratedLink(generatedLink);
      setSubmitted(true);
+     // Redirect to the quiz page
+     const redirectTo = `/quiz/${generatedLink}`;
+     navigate(redirectTo);
       } else {
         // Handle error response
         console.error('Error creating quiz:', response.status);
@@ -65,11 +69,12 @@ const CreateQuiz = () => {
     resultTime: Yup.date().required('Result time is required').min(Yup.ref('startTime'), 'Result time must be greater than start time'),
     negativeMarking: Yup.number().required('Negative marking is required'),
   });
+  const navigate = useNavigate();
 
-  if (submitted && generatedLink) {
-    const redirectTo = `/addquestion/${generatedLink}`;
-    return <Redirect to={redirectTo} />;
-  }
+  // if (submitted && generatedLink) {
+  //   const redirectTo = `/addquestion/${generatedLink}`;
+  //   return <Redirect to={redirectTo} />;
+  // }
   return (
     <div id="outer_div">
       <div id="div1">
