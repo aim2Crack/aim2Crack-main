@@ -6,6 +6,8 @@ const resetRoutes= require('./routes/user/passwordReset');
 const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
+const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
+
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -59,6 +61,8 @@ app.use('/',mailerRoutes);
 
 //quiz routes
 app.use('/',quizRoutes);
+
+app.use('/',quizquestionRoutes);
 testDbConnection();
 sq.sync({ logging: console.log });
 
