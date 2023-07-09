@@ -65,9 +65,11 @@ const Quiz = sq.define(
   }
 );
 
+Quiz.belongsTo(User, { foreignKey: 'userId' }); // Quiz belongs to a user
+
 Quiz.associate = (models) => {
   Quiz.hasMany(models.QuizQuestion, { foreignKey: 'quizId' }); // Quiz has many quiz questions
-  Quiz.belongsTo(models.User, { foreignKey: 'userId' }); // Quiz belongs to a user
+  
 };
 
 Quiz.sync().then(() => {

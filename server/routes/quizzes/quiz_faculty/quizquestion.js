@@ -10,18 +10,24 @@ const QuizQuestion = require('../../../models/quizquestion');
 // Create a quiz
 router.post('/quizquestion/:code',QuizAuthorization, async (req, res) => {
     const quiz=req.quiz;
-    console.log(quiz.id);
+    console.log(quiz);
     try {
-        const { question, answer, explanation, questionTime, marks, sectionId, questionType, negativeMark} = req.body;
+        const { question, options, explanation, questionTime, marks, sectionId, questionLevel, questionType, negativeMark} = req.body;
         
         // Create a new quiz in the database
         const quizQuestion = await QuizQuestion.create({
             question, 
-            answer:2, explanation, questionTime, 
-            mark:marks,
-             sectionId, questionType, negativeMark, quizId: quiz.id,
+            // answer:2,
+             explanation, questionTime, 
+             mark:marks,
+            options:options,
+            questionLevel:questionLevel,
+            sectionId, 
+            questionType:questionType,
+            negativeMark, quizId: quiz.id,
         });
         // await quiz.addQuizQuestion(quizQuestion);
+        console.log(quizQuestion);
         res.status(201).json({ success: true, data: quizQuestion });
     } catch (error) {
         console.error('Error creating quiz:', error);
