@@ -6,11 +6,64 @@ import { faCircleArrowLeft, faPenToSquare, faCopy, faGear, faCalendar } from '@f
 import './AddQuestionHome.css';
 import AddQuestion from './AddQuestion';
 
+const QuestionGet = ({ questionGet }) => {
+  const { question, answer, explanation, options } = questionGet;
+
+  return (
+    <div>
+      <h3>Question: {question}</h3>
+      <p>Answer: {answer}</p>
+      <p>Explanation: {explanation}</p>
+      {/* <ul>
+        {options.map((option) => (
+          <li key={option.id}>{option.text}</li>
+        ))}
+      </ul> */}
+    </div>
+  );
+};
+
 export const AddQuestionHome = () => {
   const [addQuestion, setAddQuestion] = useState(false);
   const [quiz, setQuiz] = useState();
   const { code } = useParams();
+  const [quizQuestions, setQuizQuestions] = useState([]);  
+  const [showAddQuestionButton, setShowAddQuestionButton] = useState(true);
 
+  
+  // Fetching individual quiz questions
+  useEffect(()=>{
+    const fetchQuizQuestions = async (values) => {
+      try { 
+        const token = localStorage.getItem('token');
+        // Fetch the code value from the current frontend URL
+        const code = window.location.pathname.split('/').pop();
+        console.log(code);
+        // Submit the data to the backend
+        const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        });
+        console.log(response);
+      if (response.ok) {
+        const data = await response.json();
+        setQuizQuestions(data.data);
+      } else {
+        console.error('Failed to fetch quiz questions:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching quiz questions:', error);
+    }
+  };
+
+  fetchQuizQuestions();
+}, [code]);
+
+  /// Fetching quiz name
   useEffect(() => {
     const fetchQuizDetails = async () => {
       try {
@@ -32,18 +85,17 @@ export const AddQuestionHome = () => {
 
   const addQuestionHandler = () => {
     setAddQuestion(true);
+    setShowAddQuestionButton(true);
   };
 
-  const handleCopyLink = () => {
+  const handleCopyLink = async () => {
     const currentURL = window.location.href;
-    navigator.clipboard
-      .writeText(currentURL)
-      .then(() => {
-        console.log('URL copied to clipboard!');
-      })
-      .catch((error) => {
-        console.error('Failed to copy URL:', error);
-      });
+    try {
+      await navigator.clipboard.writeText(currentURL);
+      console.log('URL copied to clipboard!');
+    } catch (error) {
+      console.error('Failed to copy URL:', error);
+    }
   };
 
   return (
@@ -62,19 +114,23 @@ export const AddQuestionHome = () => {
       </div>
       <div className="center-area">
         <div className="topic-box">
-        <div className="topic-box">
-  <h1 className="topic">{quiz?.quizName}</h1>
-</div>
+          <h1 className="topic">{quiz?.quizName}</h1>
         </div>
         {!addQuestion ? (
           <div className="question_box">
+          {showAddQuestionButton && (
             <div onClick={addQuestionHandler} className="add-question">
               Add Question
             </div>
+          )}
           </div>
         ) : (
           <AddQuestion />
         )}
+        {/* Display quiz questions */}
+      {quizQuestions.map((questionGet) => (
+        <QuestionGet key={questionGet.id} questionGet={questionGet} />
+      ))}
       </div>
       <div className="icon-bar">
         <button className="icon-bar-menu icon-1" onClick={handleCopyLink}>
@@ -97,3 +153,5 @@ export const AddQuestionHome = () => {
     </div>
   );
 };
+
+export default AddQuestionHome;

@@ -1,6 +1,7 @@
 const { sq } = require('../db');
 const { DataTypes } = require('sequelize');
 const User = require('./user');
+// const QuizQuestion = require('./quizquestion');
 
 const Quiz = sq.define(
   'quiz',
@@ -30,23 +31,27 @@ const Quiz = sq.define(
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
     },
-    negativeMarking:{
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
+    negativeMarking: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
-    preventMobile:{
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+    preventMobile: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
-    allowTabchange:{
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+    allowTabchange: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     creator: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     collaborators: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
+    instructions: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
     },
@@ -57,13 +62,13 @@ const Quiz = sq.define(
         key: 'id',
       },
     },
-  },
-  {
-    tableName: 'quizzes',
   }
 );
 
-Quiz.belongsTo(User, { foreignKey: 'userId' }); // Quiz belongs to a user
+Quiz.associate = (models) => {
+  Quiz.hasMany(models.QuizQuestion, { foreignKey: 'quizId' }); // Quiz has many quiz questions
+  Quiz.belongsTo(models.User, { foreignKey: 'userId' }); // Quiz belongs to a user
+};
 
 Quiz.sync().then(() => {
   console.log('Quiz Model synced');
