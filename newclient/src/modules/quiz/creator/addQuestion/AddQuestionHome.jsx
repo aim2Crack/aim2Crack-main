@@ -7,21 +7,68 @@ import './AddQuestionHome.css';
 import AddQuestion from './AddQuestion';
 
 const QuestionGet = ({ questionGet }) => {
-  const { question, answer, explanation, options } = questionGet;
+  const { question, answer, explanation, options, mark, questionLevel, questionType } = questionGet;
 
   return (
     <div>
       <h3>Question: {question}</h3>
       <p>Answer: {answer}</p>
       <p>Explanation: {explanation}</p>
-      {/* <ul>
-        {options.map((option) => (
-          <li key={option.id}>{option.text}</li>
-        ))}
-      </ul> */}
+      <p>Marks: {mark}</p>
+      <p>Level: {questionLevel}</p>
+      <p>Type: {questionType}</p>
+      {questionType === "single" && (
+        <div>
+          <p>Options:</p>
+          {options.map((option, index) => {
+            const parsedOption = JSON.parse(option);
+            const isCorrectAnswer = parsedOption.isCorrect;
+            return (
+              <div key={index}>
+                <input
+                  type="radio"
+                  name={`answer-${index}`} // Use a unique name for each question
+                  value={parsedOption.value}
+                  checked={isCorrectAnswer} // Only the correct answer will be checked
+                  disabled // Disable the radio button
+                />
+                <label>{parsedOption.value}</label>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {questionType === "multiple" && (
+        <div>
+          <p>Options:</p>
+          {options.map((option, index) => {
+            const parsedOption = JSON.parse(option);
+            return (
+              <div key={index}>
+                <input
+                  type="checkbox"
+                  name={`answer-${index}`}
+                  value={parsedOption.value}
+                  checked={parsedOption.isCorrect}
+                />
+                <label>{parsedOption.value}</label>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {questionType === "numerical" && (
+        <div>
+          <p>Answer:</p>
+          <input type="text" name="answer" />
+        </div>
+      )}
     </div>
   );
 };
+
+
+
 
 export const AddQuestionHome = () => {
   const [addQuestion, setAddQuestion] = useState(false);

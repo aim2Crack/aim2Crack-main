@@ -10,8 +10,8 @@ const QuizQuestion = sq.define(
       allowNull: false,
     },
     answer: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
     },
     explanation: {
       type: DataTypes.STRING,
@@ -32,12 +32,20 @@ const QuizQuestion = sq.define(
       defaultValue: 1,
     },
     questionType:{
-      type: DataTypes.ENUM('single','mulitple','numerical'),
+      type: DataTypes.ENUM('multiple','numerical','single'),
       defaultValue: 'single',
+    },
+    questionLevel:{
+      type: DataTypes.ENUM('hard','medium','easy'),
+      defaultValue: 'easy',
     },
     negativeMark:{
         type: DataTypes.INTEGER,
         defaultValue: 0,
+    },
+    options: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
     },
     quizId: {
       type: DataTypes.INTEGER,
