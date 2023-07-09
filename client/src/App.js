@@ -100,6 +100,8 @@ import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
 import UserRegister from "./modules/register/UserRegister";
+import Profile from "./modules/user/Profile";
+import Error from "./modules/user/Error";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 import Navbar from "./components/navbar/Navbar";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
@@ -166,6 +168,9 @@ function App() {
         <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<UserRegister />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/error" element={<Error/>} />
+
       </Routes>
     </Router>
   );

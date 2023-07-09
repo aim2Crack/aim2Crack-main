@@ -6,7 +6,9 @@ export default defineConfig({
   plugins: [react()],
   esbuild: {
     jsxFactory: 'React.createElement',
-    jsxInject: `import React from 'react'`,
+    // jsxInject: `import React from 'react'`,
   },
-  
+  optimizeDeps: {
+    exclude: ['@fortawesome/fontawesome-svg-core'],
+  },
 })

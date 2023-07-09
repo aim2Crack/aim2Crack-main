@@ -64,11 +64,30 @@ function Login() {
         },
         body: JSON.stringify(loginData),
       });
-      console.log(response)
-      if (response.ok) {
+      console.log(response);
+      if (response.ok ) {
         const { token } = await response.json();
         localStorage.setItem('token', token);
-        navigate('/summary'); // Redirect to the dashboard or desired page
+      console.log(token);
+        // Fetch user details using the obtained token
+        const userResponse = await fetch('http://127.0.0.1:7000/users', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (userResponse.ok){
+          const userData= await userResponse.json()
+          console.log(userData);
+          if (userData.firstName == null)
+          {
+            navigate('/onetimedetails'); // Redirect to the dashboard or desired page
+        }
+        else{
+          navigate('/summary'); // Redirect to the dashboard or desired page
+        }
+      }
       } else if (response.status === 401) {
         setMessage('Invalid username or password.');
       } else if (response.status === 403) {
@@ -101,7 +120,7 @@ function Login() {
     <div>
       
       <Link
-        to="/homePage"
+        to="/"
         id="a__home"
       >
         <FontAwesomeIcon icon={faHouse} />

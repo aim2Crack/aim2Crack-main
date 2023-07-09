@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 
 
 // Function to send the verification email
-const sendVerificationEmail = async (username, recipientEmail) => {
+const sendVerificationEmail = async (username, recipientEmail,status) => {
 
   const resetToken = crypto.randomBytes(20).toString('hex');
   const resetTokenExpiration = new Date(Date.now() + 60000); // Token expires in 1o minutes
@@ -40,7 +40,9 @@ try{
       email: recipientEmail ,
       resetToken: resetToken,
       resetTokenExpiration,
+      passwordReset: status,
     });
+    console.log(resetPass);
   
     const mailOptions = {
         from: 'aim2crack@gmail.com',

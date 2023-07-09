@@ -1,12 +1,16 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
-// const {User, ResetPass} = require("./models/models");
+const {User, ResetPass, Quiz} = require("./models/models");
 const signupRoutes = require('./routes/user/SignUp');
-const resetRoutes= require('./routes/user/password_reset');
+const resetRoutes= require('./routes/user/passwordReset');
 const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
+const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
+const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
+
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express()
 const PORT = 7000
@@ -27,6 +31,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Enable CORS middleware
+app.use(cors());
+
+// Allow 'Authorization' header
+app.options('*', cors({
+  allowedHeaders: ['Authorization', 'Content-Type'],
+}));
 
 require('./auth/auth');
 
@@ -42,12 +53,19 @@ app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+//user routes
 app.use('/',signupRoutes);
 app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 app.use('/',mailerRoutes);
+
+//quiz routes
+app.use('/',quizRoutes);
+
+app.use('/',quizquestionRoutes);
 testDbConnection();
-sq.sync()
+sq.sync({ logging: console.log });
+
 
 // models.sq.sync({ force: true }).then(result => {
 //   console.log('model synced!')

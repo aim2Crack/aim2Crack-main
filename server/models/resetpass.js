@@ -24,6 +24,10 @@ resetTokenExpiration:{
   type: DataTypes.DATE,
   allowNull: true,
 },
+passwordReset:{
+  type: DataTypes.BOOLEAN,
+  defaultValue: false,
+},
 });
 
   ResetPass.sync().then(() => {

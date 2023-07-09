@@ -326,7 +326,7 @@ const CreateUserForm = () => {
 
 
 
-<div id="profile_name" className="input-box">
+<div id="profile_name" className="input">
   <label htmlFor="profile_type">Profile Type:</label>
   <Field as="select" id="profileType" name="profileType">
     <option id="S" value="">Select profile type</option>
@@ -348,8 +348,8 @@ const CreateUserForm = () => {
 
 
 
-<div className="sign">
-<button className="btn btn-outline-info" type="submit"  >Sign Up</button>
+<div className="">
+<button className="btn-outline-info" type="submit"  >Sign Up</button>
          </div>
 
 

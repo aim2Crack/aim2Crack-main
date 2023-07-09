@@ -5,10 +5,23 @@ const Profile=()=>{
      return(
       <div id="profile">
          
-         <div id="block">
+        <div id="block">
+            <div>
+            <div class='image2'>
+                
+                </div>
+            </div>
             
-       </div>
-       <div id="email">{
+            <button className='button' type="">🖊</button>
+            <div id="user">
+                <div>
+                <h1>chetan</h1>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div id="email">{
             <p class="email1">chetan@teacher.gmail.com</p>
         }
         </div>
@@ -38,7 +51,7 @@ const Profile=()=>{
             <div class="change_password">
                 <a class="password" href="">Change Password</a>
             </div>
-            <div id="button">
+            <div id="submit1">
                 <button class="submit" type="submit">Save</button>
             </div>
         </form>
