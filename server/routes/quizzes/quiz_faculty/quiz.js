@@ -5,6 +5,7 @@ const FacultyAuthorization = require('../../../controllers/facultyAuthorisation'
 const authorization=require('../../../controllers/authorisation');
 const generateLink = require('../../../controllers/generateLink')
 const User =require('../../../models/user');
+const QuizAuthorization = require('../../../controllers/quizAuthorisation');
 
 // Create a quiz
 router.post('/quizzes',FacultyAuthorization, async (req, res) => {
@@ -79,25 +80,28 @@ router.get('/quizzes/:code', async (req, res) => {
 });
 
 // quiz updation
-router.put('/quizzes/:id', async (req, res) => {
+router.put('/quizzes/:code',QuizAuthorization, async (req, res) => {
     try {
-        const { id } = req.params;
-        const { startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange} = req.body;
+        // const { id } = req.params;
+        const user=req.user;
+        const { code, startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange,instructions} = req.body;
 
         // Find the quiz by ID and update its properties
-        const quiz = await Quiz.findByPk(id);
+        // const quiz = await Quiz.findByPk(id);
+        const quiz = await Quiz.findOne({ where: { code } });
         if (quiz) {
-            quiz.code = code;
+            // quiz.code = code;
             quiz.startTime = startTime;
             quiz.marginTime = marginTime;
             quiz.resultTime = resultTime;
             quiz.quizName = quizName;
             quiz.sectionName = sectionName;
-            quiz.creator = creator;
+            quiz.creator = user.id;
             quiz.negativeMarking=negativeMarking;
             quiz.preventMobile=preventMobile;
             quiz.allowTabchange=allowTabchange;
-            quiz.collaborators = collaborators;
+            // quiz.collaborators = collaborators;
+            quiz.instructions=instructions;
 
             await quiz.save();
 
