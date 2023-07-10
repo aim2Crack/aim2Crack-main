@@ -11,18 +11,47 @@ export default function AddInstruction() {
 
   const [inputValue, setInputValue] = useState('');
   const [storedValues, setStoredValues] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const code = window.location.pathname.split('/').pop();
+      // Submit the data to the backend
+      const response = await fetch(`http://127.0.0.1:7000/quizzes/${code}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(values),
+      }); 
+       } catch (error) {
+      console.error('Error submitting instriuction:', error);
+      setMessage('An error occurred during submission.');
+    }
+
+    setSubmitting(false);
+  };
+
+
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
+  // stroing instruction as array of strings
   const handleStoreValue = () => {
     const lines = inputValue.split('\n').filter((line) => line.trim() !== '');
-
-    setStoredValues(lines);
-    setInputValue('');
+  
+    if (lines.length > 0) {
+      const instructions = lines.map((line) => line.trim());
+      setStoredValues([...storedValues, ...instructions]);
+      setInputValue('');
+    }
   };
-
+  
+    
   return (
 
     <div className="quiz-container">
