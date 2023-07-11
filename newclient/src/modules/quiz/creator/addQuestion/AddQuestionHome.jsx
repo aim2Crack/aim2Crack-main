@@ -153,7 +153,7 @@ export const AddQuestionHome = () => {
         </Link>
       </div>
       <div className="bottom-left-button">
-        <Link to="/addInstruction" className="instructions">
+        <Link to={'/quiz/'+`${code}`+'/addinstruction'} className="instructions">
           <FontAwesomeIcon icon={faPenToSquare} />
           <p> Add Instruction</p>
           <p className="instructive_text2">These instructions will be shown to the student before the start of the exam.</p>
@@ -192,10 +192,10 @@ export const AddQuestionHome = () => {
           <FontAwesomeIcon icon={faCalendar} />
         </Link>
         <div id="result">Result</div>
-        <Link to="/addInstruction" className="icon-bar-menu icon-4" id="instruction_icon">
+        {/* <Link to="/quiz/${code}/addinstruction" className="icon-bar-menu icon-4" id="instruction_icon">
           <FontAwesomeIcon icon={faPenToSquare} />
         </Link>
-        <div id="instruct">Add Instruction</div>
+        <div id="instruct">Add Instruction</div> */}
       </div>
     </div>
   );
