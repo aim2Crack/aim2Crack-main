@@ -89,10 +89,10 @@
     position: fixed;
     bottom: 2rem;
     left: 4%;
-    font-size: 1rem;
+    font-size: 18px;
     display: flex;
     align-items: center;
-    padding: 10px 1.4rem;
+    padding: 3px 1.4rem;
     background: #298a8a;
     text-decoration: none;
     color: white;
@@ -106,7 +106,7 @@
     top: 150%;
     left: 0;
     opacity: 0;
-    font-size: 0.8rem;
+    font-size: 12px;
     text-align: center;
     border-radius: 13px;
     padding: 2px;
@@ -134,12 +134,14 @@
     color: black;
     background-color: #eaeaea;
     border: 25%;
+    font-size: 12px;
+    color:#298a8a;
 }
 
 .topic {
     border-radius: 29px;
     border: none;
-    font-size: 39px;
+    font-size: 18px;
     font-weight: bolder;
     margin: 0px 10px;
     /* color: #455251; */
@@ -160,13 +162,13 @@
     opacity: 0.9;
     color: rgb(255, 255, 255);
     text-decoration: none;
-    font-size: 35px;
+    font-size: 18px;
     font-weight: 400;
     padding: 5px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     align-items: center;
     background: linear-gradient(316deg, #50d8d7 0%, #2a2323 74%);
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
 }
@@ -181,7 +183,7 @@
 .question_box {
     display: block;
     min-width: 200px;
-    width: 75%;
+    width: 50%;
     margin: 20px auto;
 }
 
@@ -193,14 +195,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 44px;
+    width: 30px;
     border-top-left-radius: 17px;
     border-bottom-left-radius: 17px;
     /* background-color: #102626; */
     /* background: #50d8d7; */
     padding-top: 4px;
     padding-bottom: 4px;
-    z-index: 10000000000000000;
+    /* z-index: 100; */
     background: #298a8a;
 }
 
@@ -214,7 +216,7 @@
     transition: all 0.3s ease;
     padding: 3px;
     color: white;
-    font-size: 34px;
+    font-size: 28px;
 }
 
 

@@ -1,6 +1,1 @@
 /.idea
-server/credentials.json
-server/.idea/
-newclient/.idea/
-node_modules
-client/.idea

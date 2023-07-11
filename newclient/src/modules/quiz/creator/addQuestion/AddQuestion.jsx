@@ -1,27 +1,21 @@
-import React, { useState } from 'react'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
-
-
-import './AddQuestion.css'
+import React, { useState,useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import './AddQuestion.css';
 
 function AddQuestion() {
-
   const [data, setData] = useState({
-    //questionLevel: 'easy',
     questionTime: '',
     question: '',
     marks: 0,
     file: '',
     correctAnsInteger: '',
     explanation: '',
-
   });
   const [options, setOptions] = useState(['']);
   const [correctOptions, setCorrectOptions] = useState([]);
-  const [questionType, setQuestionType] = useState('objective');
+  const [questionType, setQuestionType] = useState('single');
   const [questionLevel, setQuestionLevel] = useState('easy');
   const [showHeading, setShowHeading] = useState(false);
   const [showButton, setShowButton] = useState({
@@ -33,40 +27,50 @@ function AddQuestion() {
   const [saveConditionButton, setSaveConditionButton] = useState({
     display: 'none',
   });
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleChangeData = (e) => {
-    //const name = e.target.name;
-    //const value = e.target.value;
-    const { name, value } = e.target;
-
-    setData(prev => {
-      return {
-        ...prev, [name]: value
-      }
+  const handleChangeData = async (values) => {
+    const token = localStorage.getItem('token');
+     // Fetch the code value from the current frontend URL
+    const code = window.location.pathname.split('/').pop();
+console.log(code);
+    // Submit the data to the backend
+    const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(values),
     });
-    //console.log(name, value);
-  }
+
+      setSubmitted(true);
+      // alert('Data submitted successfully!');
+  };
+
+
+
 
   const handleTypeChange = (event) => {
     setQuestionType(event.target.value);
     setOptions([]);
-    if (event.target.value === "integer") {
+    if (event.target.value === 'numerical') {
       setShowCorrectAns({
-        display: 'initial'
-      })
+        display: 'initial',
+      });
       setShowButton({
-        display: 'none'
-      })
-    }
-    else if (event.target.value === "multiple" || event.target.value === "objective") {
+        display: 'none',
+      });
+    } else if (event.target.value === 'multiple' || event.target.value === 'single') {
       setShowCorrectAns({
-        display: 'none'
-      })
+        display: 'none',
+      });
       setShowButton({
-        display: 'initial'
-      })
+        display: 'initial',
+      });
     }
   };
+
   const handleLevelChange = (event) => {
     setQuestionLevel(event.target.value);
   };
@@ -93,35 +97,24 @@ function AddQuestion() {
     setOptions(updatedOptions);
   };
 
-  //console.log(options, "data-")
-
   const handleRadiobox = (e) => {
     const value = e.target.value;
     const checked = e.target.checked;
-    //console.log(value, checked);
     setCorrectOptions([]);
     if (checked) {
-      setCorrectOptions([
-        value
-      ])
+      setCorrectOptions([value]);
     }
-    //console.log(correctOptions);
-  }
+  };
 
   const handleCheckbox = (e) => {
     const value = e.target.value;
     const checked = e.target.checked;
-    //console.log(value, checked);
     if (checked) {
-      setCorrectOptions([
-        ...correctOptions, value
-      ])
+      setCorrectOptions([...correctOptions, value]);
+    } else {
+      setCorrectOptions(correctOptions.filter((e) => e !== value));
     }
-    else {
-      setCorrectOptions(correctOptions.filter((e) => (e !== value)));
-    }
-    //console.log(correctOptions);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -134,67 +127,80 @@ function AddQuestion() {
       setTimeout(() => {
         setShowHeading(false);
       }, 3000);
-      //alert('Please fill all fields');
       setSaveConditionButton({
-        display: 'initial'
-      })
+        display: 'initial',
+      });
       return;
     }
 
-    console.log('submitting');
-    console.log(questionType);
-    console.log(questionLevel);
-    console.log(data);
-    console.log(options);
-    console.log(correctOptions);
-  }
+    const questionData = {
+      questionType,
+      questionLevel,
+      questionTime: data.questionTime,
+      question: data.question,
+      marks: data.marks,
+      file: data.file,
+      correctAnsInteger: data.correctAnsInteger,
+      explanation: data.explanation,
+      options: options.map((option, index) => ({
+        value: option,
+        isCorrect: correctOptions.includes(`option ${index + 1}`),
+      })),
+    };
+    console.log(questionData);
+    handleChangeData(questionData);
+  
+    
+    window.location.reload();
+
+  };
 
   const renderoptions = () => {
     return options.map((inputField, index) => (
-      <div key={index} className='option1'>
-        {questionType === 'objective' && (
+      <div key={index} className="option1">
+        {questionType === 'single' && (
           <input type="radio" name="o" value={'option ' + (index + 1)} onChange={handleRadiobox} />
         )}
         {questionType === 'multiple' && (
           <input type="checkbox" name="m" value={'option ' + (index + 1)} onChange={handleCheckbox} />
         )}
-        {questionType === 'integer' && (
-          <input type="text" id="hide" name="correct" value="" placeholder="Correct answer" />
-        )}
+        {questionType === 'numerical' && <input type="text" id="hide" name="correct" value="" placeholder="Correct answer" />}
 
-        <input className='options_written' placeholder={'Option ' + (index + 1)}
+        <input
+          className="options_written"
+          placeholder={'Option ' + (index + 1)}
           type="text"
           value={inputField.value}
           onChange={(event) => handleChange(index, event)}
         />
-        <button className='delete_opt' type="button" onClick={() => handleRemoveFields(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
-      </div>
+        <button className="delete_opt" type="button" onClick={() => handleRemoveFields(index)}>
+          <FontAwesomeIcon icon={faTrashCan} />
+        </button>
+    </div>
     ));
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} method="POST" id='top-level' >
-        <div className="tostrip">
-          Add New Question
-        </div>
+      {!submitted && ( 
+      <form onSubmit={handleSubmit} method="POST" id="top-level">
         <div className="main_box">
           {showHeading && (
             <div className="alert alert-error" style={saveConditionButton}>
               Please fill all the fields!
             </div>
           )}
-          
-          <div className='type_box'>
-            <div className='type'>
+
+          <div className="type_box">
+            <div className="type">
               <label>Type:</label>
               <select id="questionType" value={questionType} onChange={handleTypeChange}>
-                <option value="objective">Objective Type Question</option>
+                <option value="single">Objective Type Question</option>
                 <option value="multiple">Multiple Correct Question</option>
-                <option value="integer">Integer Type Question</option>
+                <option value="numerical">Integer Type Question</option>
               </select>
             </div>
-            <div className='level'>
+            <div className="level">
               <label>Level: </label>
               <select value={questionLevel} onChange={handleLevelChange}>
                 <option value="easy">Easy</option>
@@ -204,39 +210,66 @@ function AddQuestion() {
             </div>
             <div className="time">
               Time(s):
-              <input type="number" id="quantity" name="questionTime" value={data.questionTime} onChange={handleChangeData} min="1" max="360" /><br />
+              <input type="number" id="quantity" name="questionTime" value={data.questionTime} onChange={(e) => setData({ ...data, questionTime: e.target.value })} min="1" max="360" />
+              <br />
             </div>
           </div>
 
-          <textarea type="text" className="question" id="question" name="question" value={data.question} onChange={handleChangeData} placeholder="Write the question here" rows="2" cols="50" ></textarea>
+          <textarea
+            type="text"
+            className="question"
+            id="question"
+            name="question"
+            value={data.question}
+            onChange={(e) => setData({ ...data, question: e.target.value })}
+            placeholder="Write the question here"
+            rows="2"
+            cols="50"
+          ></textarea>
           <div>
-            <input type="file" name="file" value={data.file} onChange={handleChangeData} id="image-option" placeholder="Add Image" accept="image/*" />
+            <input type="file" name="file" value={data.file} onChange={(e) => setData({ ...data, file: e.target.value })} id="image-option" placeholder="Add Image" accept="image/*" />
           </div>
 
           {questionType && (
             <div>
               {renderoptions()}
-              {
-                <button type="button" className="add-option" id="BUTTON" style={showButton} onClick={handleAddFields}>
-                  <FontAwesomeIcon className='faPlus' icon={faPlus} /> Add Options</button>
-              }
-
+              <button type="button" className="add-option" id="BUTTON" style={showButton} onClick={handleAddFields}>
+                <FontAwesomeIcon className="faPlus" icon={faPlus} /> Add Options
+              </button>
             </div>
           )}
 
-          <input type='number' id="hide" name="correctAnsInteger" value={data.correctAnsInteger} onChange={handleChangeData} style={showCorrectAns} placeholder="Correct answer" />
+          <input
+            type="number"
+            id="hide"
+            name="correctAnsInteger"
+            value={data.correctAnsInteger}
+            onChange={(e) => setData({ ...data, correctAnsInteger: e.target.value })}
+            style={showCorrectAns}
+            placeholder="Correct answer"
+          />
           <div className="explanation">
-            <textarea type="text" id="exp" className="resize fix" name="explanation" value={data.explanation} onChange={handleChangeData} min="1" max="1000" placeholder="explanation" ></textarea>
+            <textarea
+              type="text"
+              id="exp"
+              className="resize fix"
+              name="explanation"
+              value={data.explanation}
+              onChange={(e) => setData({ ...data, explanation: e.target.value })}
+              min="1"
+              max="1000"
+              placeholder="explanation"
+            ></textarea>
           </div>
           <div className="last">
             <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
           </div>
-
         </div>
       </form>
+      )}
       <script src="https://kit.fontawesome.com/7e7a25b297.js" crossorigin="anonymous"></script>
     </div>
-  )
+  );
 }
 
-export default AddQuestion
+export default AddQuestion;

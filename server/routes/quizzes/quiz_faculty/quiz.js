@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const Quiz = require('../../models/quiz');
-const FacultyAuthorization = require('../../controllers/facultyAuthorisation');
-const authorization=require('../../controllers/authorisation');
-const generateLink = require('../../controllers/generateLink')
+const Quiz = require('../../../models/quiz');
+const FacultyAuthorization = require('../../../controllers/facultyAuthorisation');
+const authorization=require('../../../controllers/authorisation');
+const generateLink = require('../../../controllers/generateLink')
+const User =require('../../../models/user');
 
 // Create a quiz
 router.post('/quizzes',FacultyAuthorization, async (req, res) => {
     const user=req.user;
     console.log(user.id);
     try {
-        const { startTime, marginTime, resultTime, quizName, sectionName} = req.body;
+        const { startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange} = req.body;
         const generatedLink = await generateLink();
         // Create a new quiz in the database
         const quiz = await Quiz.create({
@@ -20,10 +21,13 @@ router.post('/quizzes',FacultyAuthorization, async (req, res) => {
             resultTime,
             quizName,
             sectionName,
+            negativeMarking,
+            preventMobile,
+            allowTabchange,
             creator: user.id,
             collaborators:[]
         });
-
+        await quiz.setUser(user);
         res.status(201).json({ success: true, data: quiz });
     } catch (error) {
         console.error('Error creating quiz:', error);
@@ -32,12 +36,24 @@ router.post('/quizzes',FacultyAuthorization, async (req, res) => {
 });
 
 // Get all quizzes
-router.get('/quizzes', async (req, res) => {
+router.get('/quizzes',FacultyAuthorization, async (req, res) => {
     try {
-        // Fetch all quizzes from the database
-        const quizzes = await Quiz.findAll();
+        const reqId=req.user.id
+        console.log(reqId);
+        const user = await User.findByPk(reqId);
+        // console.log(user);
+        if (user) {
+        allquiz = await Quiz.findAll({
+        where: { userId:reqId },
+         });
+        
+        }
+        // Sort the allquiz array in descending order based on creation time
+      allquiz.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-        res.status(200).json({ success: true, data: quizzes });
+        // Fetch all quizzes from the database
+        // const quizzes = await Quiz.findAll();
+        res.status(200).json({ success: true, data: allquiz });
     } catch (error) {
         console.error('Error fetching quizzes:', error);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
@@ -45,13 +61,12 @@ router.get('/quizzes', async (req, res) => {
 });
 
 //access quiz by id
-router.get('/quizzes/:id', async (req, res) => {
+router.get('/quizzes/:code', async (req, res) => {
     try {
-        const { id } = req.params;
-
-        // Find a quiz by its ID in the database
-        const quiz = await Quiz.findByPk(id);
-
+        const {code} = req.params;
+  // Find a quiz by its code in the database
+  const quiz = await Quiz.findOne({ where: { code } });
+  console.log(quiz.id)
         if (quiz) {
             res.status(200).json({ success: true, data: quiz });
         } else {
@@ -67,7 +82,7 @@ router.get('/quizzes/:id', async (req, res) => {
 router.put('/quizzes/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { startTime, marginTime, resultTime, quizName, sectionName, creator, collaborators } = req.body;
+        const { startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange} = req.body;
 
         // Find the quiz by ID and update its properties
         const quiz = await Quiz.findByPk(id);
@@ -79,6 +94,9 @@ router.put('/quizzes/:id', async (req, res) => {
             quiz.quizName = quizName;
             quiz.sectionName = sectionName;
             quiz.creator = creator;
+            quiz.negativeMarking=negativeMarking;
+            quiz.preventMobile=preventMobile;
+            quiz.allowTabchange=allowTabchange;
             quiz.collaborators = collaborators;
 
             await quiz.save();
