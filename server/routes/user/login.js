@@ -12,10 +12,10 @@ const {getAuth} = require("firebase-admin/auth");
 // ...
 const { Client } = require('pg');
 const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'postgres',
-    password: '1234',
+    user: "postgres",
+    host: "localhost",
+    database: "postgres",
+    password: "1234",
     port: 5432,
 });
 client.connect();
@@ -40,36 +40,16 @@ router.post('/login', passport.authenticate('login', {session: false}), async (r
     }
 });
 
-// router.get(
-//     '/getUser',
-//     async function signInVerify(req, res) {
-//         const token = req.body.accessToken;
-//         console.log(token)
-//         const authResult = await getAuth().verifyIdToken(token)
-//         const userId = authResult.uid
-//         if(userId){
-//             console.log(userId)
-//             const query = await user.find( {
-//                 "uid" : userId
-//             })
-//
-//             res.status(200).json({
-//                 "data" : query
-//             })
-//         }else{
-//             res.status(401).json({message:"Invalid Credentials"})
-//         }
-//     }
-// )
+
 
 router.get('/getUser', async function signInVerify(req, res) {
     const token = req.query.accessToken; // Access token from query parameter
     try {
         const authResult = await getAuth().verifyIdToken(token);
-        const email = authResult.email;
+        const email = authResult.email
 
         if (email) {
-            const query = `SELECT * FROM users WHERE uid = ${email}`;
+            const query = `SELECT * FROM users WHERE email = '${email}'`;
             client.query(query, (err, resp) => {
                 if (err) {
                     console.warn(err);
