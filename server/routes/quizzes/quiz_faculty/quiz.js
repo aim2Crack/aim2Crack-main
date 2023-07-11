@@ -84,27 +84,27 @@ router.put('/quizzes/:code',QuizAuthorization, async (req, res) => {
     try {
         // const { id } = req.params;
         const user=req.user;
-        const { code, startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange,instructions} = req.body;
+        console.log(user.id);
+        const {code}=req.params;
+        // const {startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange,instructions} = req.body;
 
         // Find the quiz by ID and update its properties
         // const quiz = await Quiz.findByPk(id);
+        console.log(code);
+        const {...fields } = req.body;
+
+        // Find the quiz by ID and update its fields
+        // const quiz = await Quiz.findByPk(code);/
         const quiz = await Quiz.findOne({ where: { code } });
+
         if (quiz) {
-            // quiz.code = code;
-            quiz.startTime = startTime;
-            quiz.marginTime = marginTime;
-            quiz.resultTime = resultTime;
-            quiz.quizName = quizName;
-            quiz.sectionName = sectionName;
-            quiz.creator = user.id;
-            quiz.negativeMarking=negativeMarking;
-            quiz.preventMobile=preventMobile;
-            quiz.allowTabchange=allowTabchange;
-            // quiz.collaborators = collaborators;
-            quiz.instructions=instructions;
-
-            await quiz.save();
-
+          // Update the fields
+          for (const key of Object.keys(fields)) {
+            quiz[key] = fields[key];
+          }
+        
+          // Save the quiz
+          await quiz.save();
             res.status(200).json({ success: true, data: quiz });
         } else {
             res.status(404).json({ success: false, message: 'Quiz not found' });

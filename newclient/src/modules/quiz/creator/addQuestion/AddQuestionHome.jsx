@@ -192,11 +192,13 @@ export const AddQuestionHome = () => {
           <FontAwesomeIcon icon={faCalendar} />
         </Link>
         <div id="result">Result</div>
-        {/* <Link to="/quiz/${code}/addinstruction" className="icon-bar-menu icon-4" id="instruction_icon">
+        <Link to={'/quiz/'+`${code}`+'/addinstruction'} className="icon-bar-menu icon-4">
           <FontAwesomeIcon icon={faPenToSquare} />
+          {/* <p> Add Instruction</p> */}
+          <div id="instructions"></div>
+          {/* /<p className="instructive_text2">These instructions will be shown to the student before the start of the exam.</p> */}
         </Link>
-        <div id="instruct">Add Instruction</div> */}
-      </div>
+       </div>
     </div>
   );
 };
