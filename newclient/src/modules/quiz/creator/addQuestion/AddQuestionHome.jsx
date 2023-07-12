@@ -6,7 +6,7 @@ import { faCircleArrowLeft, faPenToSquare, faCopy, faGear, faCalendar } from '@f
 import './AddQuestionHome.css';
 import AddQuestion from './AddQuestion';
 
-const QuestionGet = ({ questionGet }) => {
+const QuestionGet = ({ questionGet, handleEditQuestion, handleDeleteQuestion }) => {
   const { question, answer, explanation, options, mark, questionLevel, questionType } = questionGet;
 
   return (
@@ -59,29 +59,28 @@ const QuestionGet = ({ questionGet }) => {
       )}
       {questionType === "numerical" && (
         <div>
-          <p>Answer:</p>
-          <input type="text" name="answer" />
+          <p>Answer: </p>
+          {/* <input type="text" name="answer" /> */}
         </div>
       )}
+      <button onClick={() => handleEditQuestion(questionGet)}>Edit</button>
+      <button onClick={() => handleDeleteQuestion(questionGet)}>Delete</button>
     </div>
   );
 };
-
-
-
 
 export const AddQuestionHome = () => {
   const [addQuestion, setAddQuestion] = useState(false);
   const [quiz, setQuiz] = useState();
   const { code } = useParams();
-  const [quizQuestions, setQuizQuestions] = useState([]);  
+  const [quizQuestions, setQuizQuestions] = useState([]);
   const [showAddQuestionButton, setShowAddQuestionButton] = useState(true);
+  const [editQuestionData, setEditQuestionData] = useState(null);
 
-  
   // Fetching individual quiz questions
-  useEffect(()=>{
+  useEffect(() => {
     const fetchQuizQuestions = async (values) => {
-      try { 
+      try {
         const token = localStorage.getItem('token');
         // Fetch the code value from the current frontend URL
         const code = window.location.pathname.split('/').pop();
@@ -96,19 +95,19 @@ export const AddQuestionHome = () => {
           body: JSON.stringify(values),
         });
         console.log(response);
-      if (response.ok) {
-        const data = await response.json();
-        setQuizQuestions(data.data);
-      } else {
-        console.error('Failed to fetch quiz questions:', response.status);
+        if (response.ok) {
+          const data = await response.json();
+          setQuizQuestions(data.data);
+        } else {
+          console.error('Failed to fetch quiz questions:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching quiz questions:', error);
       }
-    } catch (error) {
-      console.error('Error fetching quiz questions:', error);
-    }
-  };
+    };
 
-  fetchQuizQuestions();
-}, [code]);
+    fetchQuizQuestions();
+  }, [code]);
 
   /// Fetching quiz name
   useEffect(() => {
@@ -131,8 +130,8 @@ export const AddQuestionHome = () => {
   }, [code]);
 
   const addQuestionHandler = () => {
+    setEditQuestionData(null);
     setAddQuestion(true);
-    setShowAddQuestionButton(true);
   };
 
   const handleCopyLink = async () => {
@@ -145,6 +144,16 @@ export const AddQuestionHome = () => {
     }
   };
 
+  const handleEditQuestion = (question) => {
+    setEditQuestionData(question);
+    setAddQuestion(true);
+  };
+
+  const handleDeleteQuestion = (question) => {
+    // Implement your logic to handle the delete action for the question
+    console.log('Delete question:', question);
+  };
+
   return (
     <div className="container">
       <div className="left-button-center">
@@ -153,7 +162,7 @@ export const AddQuestionHome = () => {
         </Link>
       </div>
       <div className="bottom-left-button">
-        <Link to={'/quiz/'+`${code}`+'/addinstruction'} className="instructions">
+        <Link to={'/quiz/' + `${code}` + '/addinstruction'} className="instructions">
           <FontAwesomeIcon icon={faPenToSquare} />
           <p> Add Instruction</p>
           <p className="instructive_text2">These instructions will be shown to the student before the start of the exam.</p>
@@ -165,19 +174,24 @@ export const AddQuestionHome = () => {
         </div>
         {!addQuestion ? (
           <div className="question_box">
-          {showAddQuestionButton && (
-            <div onClick={addQuestionHandler} className="add-question">
-              Add Question
-            </div>
-          )}
+            {showAddQuestionButton && (
+              <div onClick={addQuestionHandler} className="add-question">
+                Add Question
+              </div>
+            )}
           </div>
         ) : (
-          <AddQuestion />
+          <AddQuestion editQuestionData={editQuestionData} />
         )}
         {/* Display quiz questions */}
-      {quizQuestions.map((questionGet) => (
-        <QuestionGet key={questionGet.id} questionGet={questionGet} />
-      ))}
+        {quizQuestions.map((questionGet) => (
+          <QuestionGet
+            key={questionGet.id}
+            questionGet={questionGet}
+            handleEditQuestion={handleEditQuestion}
+            handleDeleteQuestion={handleDeleteQuestion}
+          />
+        ))}
       </div>
       <div className="icon-bar">
         <button className="icon-bar-menu icon-1" onClick={handleCopyLink}>
@@ -192,13 +206,13 @@ export const AddQuestionHome = () => {
           <FontAwesomeIcon icon={faCalendar} />
         </Link>
         <div id="result">Result</div>
-        <Link to={'/quiz/'+`${code}`+'/addinstruction'} className="icon-bar-menu icon-4">
+        <Link to={'/quiz/' + `${code}` + '/addinstruction'} className="icon-bar-menu icon-4">
           <FontAwesomeIcon icon={faPenToSquare} />
           {/* <p> Add Instruction</p> */}
           <div id="instructions"></div>
           {/* /<p className="instructive_text2">These instructions will be shown to the student before the start of the exam.</p> */}
         </Link>
-       </div>
+      </div>
     </div>
   );
 };
