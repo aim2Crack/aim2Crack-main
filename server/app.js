@@ -2,9 +2,9 @@ const express = require('express')
 const {sq,testDbConnection} = require('./db')
 const {User, ResetPass, Quiz} = require("./models/models");
 const signupRoutes = require('./routes/user/SignUp');
-const firebaseConfig = require('./serviceAccountCredentials.json')
+// const firebaseConfig = require('./serviceAccountCredentials.json')
 const resetRoutes= require('./routes/user/passwordReset');
-const admin = require('firebase-admin')
+// const admin = require('firebase-admin')
 const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
@@ -18,9 +18,9 @@ const PORT = 7000
 
 
 
-admin.initializeApp({
-  credential: admin.credential.cert(firebaseConfig),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(firebaseConfig),
+// });
 // CORS middleware
 // CORS middleware
 app.use((req, res, next) => {

@@ -9,16 +9,16 @@ const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 const mailer=require('./SendMailer')
 // ...
-const { Client } = require('pg');
-const {getAuth} = require("firebase-admin/auth");
-const client = new Client({
-    user: "postgres",
-    host: "localhost",
-    database: "postgres",
-    password: "1234",
-    port: 5432,
-});
-client.connect();
+// const { Client } = require('pg');
+// const {getAuth} = require("firebase-admin/auth");
+// const client = new Client({
+//     user: "postgres",
+//     host: "localhost",
+//     database: "postgres",
+//     password: "1234",
+//     port: 5432,
+// });
+// client.connect();
 router.post('/login', passport.authenticate('login', {session: false}), async (req, res, next) => {
     try {
       // console.log(req.user.email)
