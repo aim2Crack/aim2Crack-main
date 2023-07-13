@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 const mailer=require('./SendMailer')
 // ...
-// const { Client } = require('pg');
+const { Client } = require('pg');
 // const {getAuth} = require("firebase-admin/auth");
 // const client = new Client({
 //     user: "postgres",

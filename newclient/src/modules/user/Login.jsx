@@ -4,13 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik} from 'formik';
 import * as yup from 'yup';
-import { getAuth, GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
+// import { getAuth, GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
 // import PasswordReset from './ResetPass'
 import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import './Login.css'
-import axios from "axios";
+// import axios from "axios";
 
 function Login() {
   const [error, setError] = useState('');
@@ -70,7 +70,7 @@ function Login() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${token}`,
+            'Authorization': `Bearer ${token}`,
           },
         });
         if (userResponse.ok){
@@ -97,61 +97,61 @@ function Login() {
     }
   };
 
-  useEffect(()=>{
-    getAuth().onAuthStateChanged((user)=>{
-      if(user){
-        handleAuthState(user)
-      }
-    })
-  }, [])
+  // useEffect(()=>{
+  //   getAuth().onAuthStateChanged((user)=>{
+  //     if(user){
+  //       handleAuthState(user)
+  //     }
+  //   })
+  // }, [])
   // sign in with google
-  async function handleSignInWIthGoogle() {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
-    try {
-      const userSignInResult = await signInWithRedirect(auth, provider);
+  // async function handleSignInWIthGoogle() {
+  //   const auth = getAuth();
+  //   const provider = new GoogleAuthProvider();
+  //   try {
+  //     const userSignInResult = await signInWithRedirect(auth, provider);
 
 
-    } catch (error) {
-      console.log("Error while signing in with Google:", error);
-    }
-  }
-  const handleAuthState = async (user)=>{
-    const idToken = await user.getIdToken();
-    await verifyToken(idToken);
-  }
-  const verifyToken = async (token) =>{
-    console.log("verifyToken")
-    const user = await getUser(token);
-    console.log(user)
-    if (user) {
-      navigate('/summary')
-    } else if(user.status === 401) {
-      navigate('/onetimedetails')
-      setTokenError("User not found")
-    }
-  }
-  async function getUser (accessToken){
-    console.log(accessToken)
-    const response =  await getRequest(routes.getUser, {
-      accessToken: accessToken
-    })
-    if(response.status === 200){
-      return response.data.user
-    }
-    else if(response.status === 401){
-      return null
-    }
-  }
-  const serverURL = "http://127.0.0.1:7000"
-  const routes = {
-    getUser : `${serverURL}/getUser`
-  }
+  //   } catch (error) {
+  //     console.log("Error while signing in with Google:", error);
+  //   }
+  // }
+  // const handleAuthState = async (user)=>{
+  //   const idToken = await user.getIdToken();
+  //   await verifyToken(idToken);
+  // }
+  // const verifyToken = async (token) =>{
+  //   console.log("verifyToken")
+  //   const user = await getUser(token);
+  //   console.log(user)
+  //   if (user) {
+  //     navigate('/summary')
+  //   } else if(user.status === 401) {
+  //     navigate('/onetimedetails')
+  //     setTokenError("User not found")
+  //   }
+  // }
+  // async function getUser (accessToken){
+  //   console.log(accessToken)
+  //   const response =  await getRequest(routes.getUser, {
+  //     accessToken: accessToken
+  //   })
+  //   if(response.status === 200){
+  //     return response.data.user
+  //   }
+  //   else if(response.status === 401){
+  //     return null
+  //   }
+  // }
+  // const serverURL = "http://127.0.0.1:7000"
+  // const routes = {
+  //   getUser : `${serverURL}/getUser`
+  // }
 
 
-  async function getRequest(url, body) {
-    return await axios.get("http://127.0.0.1:7000/getUser", { params: body });
-  }
+  // async function getRequest(url, body) {
+  //   return await axios.get("http://127.0.0.1:7000/getUser", { params: body });
+  // }
 
   return (
 
@@ -232,7 +232,7 @@ function Login() {
                 <button type="submit" className=" login-btn-outline-info">LOG IN</button>
 
               </form>
-              <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button>
+              {/* <button className=" login-btn-outline-info" onClick={handleSignInWIthGoogle}>SIGN IN WITH GOOGLE</button> */}
 
             </div>
           </div>
