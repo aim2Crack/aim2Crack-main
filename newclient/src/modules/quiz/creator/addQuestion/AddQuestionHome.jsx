@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft, faPenToSquare, faCopy, faGear, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestionHome.css';
@@ -79,22 +78,17 @@ export const AddQuestionHome = () => {
 
   // Fetching individual quiz questions
   useEffect(() => {
-    const fetchQuizQuestions = async (values) => {
+    const fetchQuizQuestions = async () => {
       try {
         const token = localStorage.getItem('token');
-        // Fetch the code value from the current frontend URL
-        const code = window.location.pathname.split('/').pop();
-        console.log(code);
-        // Submit the data to the backend
         const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(values),
         });
-        console.log(response);
+
         if (response.ok) {
           const data = await response.json();
           setQuizQuestions(data.data);
@@ -114,9 +108,9 @@ export const AddQuestionHome = () => {
     const fetchQuizDetails = async () => {
       try {
         const response = await fetch(`http://localhost:7000/quizzes/${code}`);
+
         if (response.ok) {
           const data = await response.json();
-          console.log(data.data.quizName);
           setQuiz(data.data);
         } else {
           console.error('Failed to fetch quiz details:', response.status);
@@ -136,6 +130,7 @@ export const AddQuestionHome = () => {
 
   const handleCopyLink = async () => {
     const currentURL = window.location.href;
+
     try {
       await navigator.clipboard.writeText(currentURL);
       console.log('URL copied to clipboard!');
@@ -149,9 +144,26 @@ export const AddQuestionHome = () => {
     setAddQuestion(true);
   };
 
-  const handleDeleteQuestion = (question) => {
-    // Implement your logic to handle the delete action for the question
-    console.log('Delete question:', question);
+  const handleDeleteQuestion = async (question) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${question.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const updatedQuestions = quizQuestions.filter((q) => q.id !== question.id);
+        setQuizQuestions(updatedQuestions);
+      } else {
+        console.error('Failed to delete question:', response.status);
+      }
+    } catch (error) {
+      console.error('Error deleting question:', error);
+    }
   };
 
   return (

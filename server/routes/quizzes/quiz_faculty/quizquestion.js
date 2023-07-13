@@ -59,7 +59,7 @@ router.get('/quizquestion/:code',QuizAuthorization, async (req, res) => {
     }
 });
 
-//access quiz by id
+//access quiz by code
 router.get('/quizzes/:code', async (req, res) => {
     try {
         const {code} = req.params;
@@ -77,38 +77,97 @@ router.get('/quizzes/:code', async (req, res) => {
     }
 });
 
-// quiz updation
-router.put('/quizzes/:id', async (req, res) => {
+//Quiz question by code and id
+router.get('/quizquestion/:code/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const { startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange} = req.body;
-
-        // Find the quiz by ID and update its properties
-        const quiz = await Quiz.findByPk(id);
-        if (quiz) {
-            quiz.code = code;
-            quiz.startTime = startTime;
-            quiz.marginTime = marginTime;
-            quiz.resultTime = resultTime;
-            quiz.quizName = quizName;
-            quiz.sectionName = sectionName;
-            quiz.creator = creator;
-            quiz.negativeMarking=negativeMarking;
-            quiz.preventMobile=preventMobile;
-            quiz.allowTabchange=allowTabchange;
-            quiz.collaborators = collaborators;
-
-            await quiz.save();
-
-            res.status(200).json({ success: true, data: quiz });
+        const {code} = req.params;
+        console.log(code);
+        const {id}=req.params;
+        console.log(id);
+  // Find a quiz by its code in the database
+  // Find a quiz by its code in the database
+  const quiz = await Quiz.findOne({ where: { code } });
+  console.log(quiz.id);
+  
+  
+  
+  const quizquestion = await QuizQuestion.findOne({ where: { quizId:quiz.id, id:id } });
+//   console.log(quizquestion.id)
+        if (quizquestion) {
+            res.status(200).json({ success: true, data: quizquestion });
         } else {
-            res.status(404).json({ success: false, message: 'Quiz not found' });
+            res.status(404).json({ success: false, message: 'Quiz Question not found' });
         }
     } catch (error) {
-        console.error('Error updating quiz:', error);
+        console.error('Error fetching quiz:', error);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
+
+
+// Delte Quiz question by code and id
+router.delete('/quizquestion/:code/:id', async (req, res) => {
+    try {
+        const {code} = req.params;
+        console.log(code);
+        const {id}=req.params;
+        console.log(id);
+  // Find a quiz by its code in the database
+  // Find a quiz by its code in the database
+  const quiz = await Quiz.findOne({ where: { code } });
+  console.log(quiz.id);
+  
+  
+  
+  const quizquestion = await QuizQuestion.findOne({ where: { quizId:quiz.id, id:id } });
+//   console.log(quizquestion.id)
+        if (quizquestion) {
+            const quizz = await QuizQuestion.destroy({where: { quizId:quiz.id, id:id }});
+           
+            res.status(200).json({ success: true, message: 'question deleted'});
+        } else {
+            res.status(404).json({ success: false, message: 'Quiz Question not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
+
+
+
+// // quiz updation
+// router.put('/quizzes/:id', async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { startTime, marginTime, resultTime, quizName, sectionName, negativeMarking, preventMobile, allowTabchange} = req.body;
+
+//         // Find the quiz by ID and update its properties
+//         const quiz = await Quiz.findByPk(id);
+//         if (quiz) {
+//             quiz.code = code;
+//             quiz.startTime = startTime;
+//             quiz.marginTime = marginTime;
+//             quiz.resultTime = resultTime;
+//             quiz.quizName = quizName;
+//             quiz.sectionName = sectionName;
+//             quiz.creator = creator;
+//             quiz.negativeMarking=negativeMarking;
+//             quiz.preventMobile=preventMobile;
+//             quiz.allowTabchange=allowTabchange;
+//             quiz.collaborators = collaborators;
+
+//             await quiz.save();
+
+//             res.status(200).json({ success: true, data: quiz });
+//         } else {
+//             res.status(404).json({ success: false, message: 'Quiz not found' });
+//         }
+//     } catch (error) {
+//         console.error('Error updating quiz:', error);
+//         res.status(500).json({ success: false, message: 'Internal Server Error' });
+//     }
+// });
 
 //quiz deletion
 router.delete('/quizzes', async (req, res) => {
