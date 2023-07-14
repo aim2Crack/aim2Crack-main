@@ -23,6 +23,7 @@ import jwt_decode from 'jwt-decode';
 import VerificationPage from "./modules/user/VerificationPage";
 import FirsttimeDetails from "./modules/user/firsttimeDetails";
 import NewPassword from "./modules/user/NewPassword";
+import Settings from "./modules/quiz/creator/addQuestion/settings";
 // import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 
 
@@ -75,6 +76,7 @@ const token = localStorage.getItem('token');
         <Route path="/createquiz" element={<CreateQuiz/>}/>
         <Route path="/quiz/:code" element={<AddQuestionHome />} />
         <Route path="/quiz/:code/addinstruction" element={<AddInstruction />} />
+        <Route path="/quiz/:code/settings" element={<Settings/>}/>
       </Routes>
     </Router>
   );

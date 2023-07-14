@@ -132,7 +132,7 @@ export const AddQuestionHome = () => {
     const currentURL = window.location.href;
 
     try {
-      await navigator.clipboard.writeText(currentURL);
+      await navigator.clipboard.writeText(currentURL+'/test');
       console.log('URL copied to clipboard!');
     } catch (error) {
       console.error('Failed to copy URL:', error);
@@ -210,11 +210,11 @@ export const AddQuestionHome = () => {
           <FontAwesomeIcon icon={faCopy} />
         </button>
         <div className="copy_link">Copy Link</div>
-        <Link to="" className="icon-bar-menu icon-2">
+        <Link to={'/quiz/' + `${code}` + '/settings'} className="icon-bar-menu icon-2">
           <FontAwesomeIcon icon={faGear} />
         </Link>
         <div id="settings">Setting</div>
-        <Link to="" className="icon-bar-menu icon-3">
+        <Link to={'/quiz/' + `${code}` + '/settings'} className="icon-bar-menu icon-3">
           <FontAwesomeIcon icon={faCalendar} />
         </Link>
         <div id="result">Result</div>

@@ -96,7 +96,7 @@ const CreateQuiz = () => {
                 <label className="inputbox" htmlFor="startTime">
                   Start Time:
                 </label>
-                <Field type="date" id="startTime" name="startTime" className="inputbox" />
+                <Field type="datetime-local" id="startTime" name="startTime" className="inputbox" />
                 <ErrorMessage name="startTime" component="div" className="error-message" />
               </div>
 
@@ -104,7 +104,7 @@ const CreateQuiz = () => {
                 <label className="inputbox" htmlFor="marginTime">
                   Last login Time:
                 </label>
-                <Field type="date" id="marginTime" name="marginTime" className="inputbox" />
+                <Field type="datetime-local" id="marginTime" name="marginTime" className="inputbox" />
                 <ErrorMessage name="marginTime" component="div" className="error-message" />
               </div>
 
@@ -112,7 +112,7 @@ const CreateQuiz = () => {
                 <label className="inputbox" htmlFor="resultTime">
                   Result Time:
                 </label>
-                <Field type="date" id="resultTime" name="resultTime" className="inputbox" />
+                <Field type="datetime-local" id="resultTime" name="resultTime" className="inputbox" />
                 <ErrorMessage name="resultTime" component="div" className="error-message" />
               </div>
 
