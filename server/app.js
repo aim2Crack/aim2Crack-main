@@ -9,7 +9,8 @@ const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
 const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
-
+const studentAnsRoutes=require("./routes/students/studentans")
+const studentResultRoutes=require("./routes/students/studentresult");
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -72,7 +73,9 @@ app.use('/',quizRoutes);
 app.use('/',quizquestionRoutes);
 testDbConnection();
 sq.sync({ logging: console.log });
-
+//student routes
+app.use('/',studentAnsRoutes);
+app.use('/',studentResultRoutes);
 
 // models.sq.sync({ force: true }).then(result => {
 //   console.log('model synced!')
