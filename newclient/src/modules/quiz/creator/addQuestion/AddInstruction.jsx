@@ -22,6 +22,13 @@ export default function AddInstruction() {
     navigate(targetURL);
   };
 
+  const handlePreview = () => {
+    // const code = window.location.pathname.split('/').filter((path) => path !== 'addinstruction').pop();
+    const code = window.location.pathname.split('/').filter((path) => path !== 'addinstruction').pop();
+    const targetURL2 = `/quiz/${code}/addinstruction/preview`;
+    navigate(targetURL2);
+  };
+
   useEffect(() => {
     // Fetch instructions from the backend
     fetchInstructions();
@@ -116,7 +123,7 @@ export default function AddInstruction() {
         Update Instructions
       </button>
       {message && <p>{message}</p>}
-      <button className="submitb">Preview</button>
+      <button  className="submitb" onClick={handlePreview}>Preview</button>
     </div>
   );
 }

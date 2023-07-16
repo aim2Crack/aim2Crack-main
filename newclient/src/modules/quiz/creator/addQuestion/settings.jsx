@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment-timezone';
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
   const [quizData, setQuizData] = useState({
@@ -10,6 +12,7 @@ const Settings = () => {
     preventMobile: false,
     allowTabchange: false,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch quiz details from the backend
@@ -35,21 +38,24 @@ const Settings = () => {
         // Update the form state with the fetched quiz details
         const quizDetails = quizDetail.data;
         setQuizData({
-          startTime: quizDetails.startTime.slice(0, 16),
-          marginTime: quizDetails.marginTime.slice(0, 16),
-          resultTime: quizDetails.resultTime.slice(0, 16),
+          startTime: convertToIST(quizDetails.startTime),
+          marginTime: convertToIST(quizDetails.marginTime),
+          resultTime: convertToIST(quizDetails.resultTime),
           quizName: quizDetails.quizName,
           negativeMarking: quizDetails.negativeMarking,
           preventMobile: quizDetails.preventMobile,
           allowTabchange: quizDetails.allowTabchange,
         });
-        console.log(quizDetails);
       } else {
         console.error('Failed to fetch quiz details');
       }
     } catch (error) {
       console.error('Error occurred while fetching quiz details:', error);
     }
+  };
+
+  const convertToIST = (utcDateTime) => {
+    return moment.utc(utcDateTime).tz('Asia/Kolkata').format('YYYY-MM-DDTHH:mm');
   };
 
   const handleInputChange = (e) => {
@@ -84,9 +90,9 @@ const Settings = () => {
         },
         body: JSON.stringify({
           ...quizData,
-          startTime: quizData.startTime + ':00.000Z',
-          marginTime: quizData.marginTime + ':00.000Z',
-          resultTime: quizData.resultTime + ':00.000Z',
+          startTime: moment.tz(quizData.startTime, 'YYYY-MM-DDTHH:mm', 'Asia/Kolkata').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+          marginTime: moment.tz(quizData.marginTime, 'YYYY-MM-DDTHH:mm', 'Asia/Kolkata').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+          resultTime: moment.tz(quizData.resultTime, 'YYYY-MM-DDTHH:mm', 'Asia/Kolkata').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
         }),
       });
 
@@ -101,46 +107,33 @@ const Settings = () => {
     }
   };
 
+  const handleGoBack = () => {
+    const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
+    const targetURL = `/quiz/${code}`;
+    navigate(targetURL);
+  };
+
   return (
     <div>
       <h1>Settings</h1>
+
       <form onSubmit={handleSubmit}>
         {/* Form inputs */}
         <div>
           <label>Quiz Name:</label>
-          <input
-            type="text"
-            name="quizName"
-            value={quizData.quizName}
-            onChange={handleInputChange}
-          />
+          <input type="text" name="quizName" value={quizData.quizName} onChange={handleInputChange} />
         </div>
         <div>
           <label>Start Time:</label>
-          <input
-            type="datetime-local"
-            name="startTime"
-            value={quizData.startTime}
-            onChange={handleInputChange}
-          />
+          <input type="datetime-local" name="startTime" value={quizData.startTime} onChange={handleInputChange} />
         </div>
         <div>
           <label>Margin Time:</label>
-          <input
-            type="datetime-local"
-            name="marginTime"
-            value={quizData.marginTime}
-            onChange={handleInputChange}
-          />
+          <input type="datetime-local" name="marginTime" value={quizData.marginTime} onChange={handleInputChange} />
         </div>
         <div>
           <label>Result Time:</label>
-          <input
-            type="datetime-local"
-            name="resultTime"
-            value={quizData.resultTime}
-            onChange={handleInputChange}
-          />
+          <input type="datetime-local" name="resultTime" value={quizData.resultTime} onChange={handleInputChange} />
         </div>
         <div>
           <label>Negative Marking:</label>
@@ -173,6 +166,9 @@ const Settings = () => {
         {/* Submit button */}
         <button type="submit">Submit</button>
       </form>
+
+      {/* Back button */}
+      <button onClick={handleGoBack}>Go Back</button>
     </div>
   );
 };
