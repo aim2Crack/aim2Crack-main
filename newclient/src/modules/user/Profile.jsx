@@ -8,7 +8,7 @@ const Profile = () => {
     lastName: '',
     rollNo: '',
     institute: '',
-    profile: 'Teacher',
+    profileType: '',
     brandName: '',
     brandLogo: null,
     brandLink: '',
@@ -36,13 +36,15 @@ const Profile = () => {
       })
       .then(jsonData => {
         // Populate the form with the retrieved data
-        const { firstName, lastName, rollNo, institute, brandName, brandLink } = jsonData;
+        console.log(jsonData);
+        const { firstName, lastName, rollNo, institute, profileType, brandName, brandLink } = jsonData;
         setFormData(prevData => ({
           ...prevData,
           firstName,
           lastName,
           rollNo,
           institute,
+          profileType,
           brandName,
           brandLink,
         }));
@@ -159,10 +161,10 @@ const Profile = () => {
             <span className="label">Profile Type:</span>
             <input
               type="text"
-              id="profile_type"
+              // id="profile_type"
               name="profile"
-              value={formData.profile}
-              placeholder="Teacher"
+              value={formData.profileType}
+              // placeholder=""
               readOnly
             />
           </div>
