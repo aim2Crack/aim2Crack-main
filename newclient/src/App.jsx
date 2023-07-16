@@ -23,6 +23,7 @@ import jwt_decode from 'jwt-decode';
 import VerificationPage from "./modules/user/VerificationPage";
 import FirsttimeDetails from "./modules/user/firsttimeDetails";
 import NewPassword from "./modules/user/NewPassword";
+import Profile from "./modules/user/Profile";
 import Settings from "./modules/quiz/creator/addQuestion/settings";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 // import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
@@ -65,20 +66,20 @@ const token = localStorage.getItem('token');
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ResetPass />} />
-        <Route path="/addQuestionHome" element={<AddQuestionHome />} />
-        {/* <Route path="/previewInstructions" element={<PreviewInstructions />} /> */}
-        <Route path="/createQuiz" element={<CreateQuiz />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
         <Route path="/reset-password" element={<NewPassword/>}/>
+        <Route path="/profile" element={<Profile/>}/>
 {/* quiz-creator-routes */}
         <Route path="/createquiz" element={<CreateQuiz/>}/>
         <Route path="/quiz/:code" element={<AddQuestionHome />} />
         <Route path="/quiz/:code/addinstruction" element={<AddInstruction />} />
         <Route path="/quiz/:code/addinstruction/preview" element={<PreviewInstructions />} />
         <Route path="/quiz/:code/settings" element={<Settings/>}/>
+        <Route path="/addQuestionHome" element={<AddQuestionHome />} />
+        <Route path="/createQuiz" element={<CreateQuiz />} />
       </Routes>
     </Router>
   );
