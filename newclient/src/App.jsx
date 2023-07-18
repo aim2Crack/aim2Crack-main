@@ -27,7 +27,7 @@ import Profile from "./modules/user/Profile";
 import Settings from "./modules/quiz/creator/addQuestion/settings";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 // import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
-
+import Instructions from "./modules/quiz/student/Instructions";
 
 function App() {
 // // function App() {
@@ -80,6 +80,9 @@ const token = localStorage.getItem('token');
         <Route path="/quiz/:code/settings" element={<Settings/>}/>
         <Route path="/addQuestionHome" element={<AddQuestionHome />} />
         <Route path="/createQuiz" element={<CreateQuiz />} />
+
+{/* quiz-student-routes */}
+        <Route path="/quiz/:code/test" element={<Instructions />} />
       </Routes>
     </Router>
   );
