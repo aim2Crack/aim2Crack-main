@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -28,13 +28,37 @@ function AddQuestion() {
     display: 'none',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [fetchedData, setFetchedData] = useState(null);
+
+  const fetchData = async () => {
+    const token = localStorage.getItem('token');
+    const code = window.location.pathname.split('/').pop();
+  const id=23;
+    const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  
+    if (response.ok) {
+      const data = await response.json();
+      setFetchedData(data);
+    } else {
+      console.error('Failed to fetch data:', response.status);
+    }
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
+    
 
   const handleChangeData = async (values) => {
     const token = localStorage.getItem('token');
-     // Fetch the code value from the current frontend URL
     const code = window.location.pathname.split('/').pop();
-console.log(code);
-    // Submit the data to the backend
+    console.log(code);
     const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}`, {
       method: 'POST',
       headers: {
@@ -44,12 +68,8 @@ console.log(code);
       body: JSON.stringify(values),
     });
 
-      setSubmitted(true);
-      // alert('Data submitted successfully!');
+    setSubmitted(true);
   };
-
-
-
 
   const handleTypeChange = (event) => {
     setQuestionType(event.target.value);
@@ -149,13 +169,11 @@ console.log(code);
     };
     console.log(questionData);
     handleChangeData(questionData);
-  
-    
-    window.location.reload();
 
+    window.location.reload();
   };
 
-  const renderoptions = () => {
+  const renderOptions = () => {
     return options.map((inputField, index) => (
       <div key={index} className="option1">
         {questionType === 'single' && (
@@ -176,98 +194,119 @@ console.log(code);
         <button className="delete_opt" type="button" onClick={() => handleRemoveFields(index)}>
           <FontAwesomeIcon icon={faTrashCan} />
         </button>
-    </div>
+      </div>
     ));
   };
 
   return (
     <div>
-      {!submitted && ( 
-      <form onSubmit={handleSubmit} method="POST" id="top-level">
-        <div className="main_box">
-          {showHeading && (
-            <div className="alert alert-error" style={saveConditionButton}>
-              Please fill all the fields!
-            </div>
-          )}
+      {!submitted && (
+        <form onSubmit={handleSubmit} method="POST" id="top-level">
+          <div className="main_box">
+            {showHeading && (
+              <div className="alert alert-error" style={saveConditionButton}>
+                Please fill all the fields!
+              </div>
+            )}
 
-          <div className="type_box">
-            <div className="type">
-              <label>Type:</label>
-              <select id="questionType" value={questionType} onChange={handleTypeChange}>
-                <option value="single">Objective Type Question</option>
-                <option value="multiple">Multiple Correct Question</option>
-                <option value="numerical">Integer Type Question</option>
-              </select>
+            <div className="type_box">
+              <div className="type">
+                <label>Type:</label>
+                <select id="questionType" value={questionType} onChange={handleTypeChange}>
+                  <option value="single">Objective Type Question</option>
+                  <option value="multiple">Multiple Correct Question</option>
+                  <option value="numerical">Integer Type Question</option>
+                </select>
+              </div>
+              <div className="level">
+                <label>Level: </label>
+                <select value={questionLevel} onChange={handleLevelChange}>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+              <div className="time">
+                Time(s):
+                <input
+                  type="number"
+                  id="quantity"
+                  name="questionTime"
+                  value={data.questionTime}
+                  onChange={(e) => setData({ ...data, questionTime: e.target.value })}
+                  min="1"
+                  max="360"
+                />
+                <br />
+              </div>
             </div>
-            <div className="level">
-              <label>Level: </label>
-              <select value={questionLevel} onChange={handleLevelChange}>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-              </select>
-            </div>
-            <div className="time">
-              Time(s):
-              <input type="number" id="quantity" name="questionTime" value={data.questionTime} onChange={(e) => setData({ ...data, questionTime: e.target.value })} min="1" max="360" />
-              <br />
-            </div>
-          </div>
 
-          <textarea
-            type="text"
-            className="question"
-            id="question"
-            name="question"
-            value={data.question}
-            onChange={(e) => setData({ ...data, question: e.target.value })}
-            placeholder="Write the question here"
-            rows="2"
-            cols="50"
-          ></textarea>
-          <div>
-            <input type="file" name="file" value={data.file} onChange={(e) => setData({ ...data, file: e.target.value })} id="image-option" placeholder="Add Image" accept="image/*" />
-          </div>
-
-          {questionType && (
-            <div>
-              {renderoptions()}
-              <button type="button" className="add-option" id="BUTTON" style={showButton} onClick={handleAddFields}>
-                <FontAwesomeIcon className="faPlus" icon={faPlus} /> Add Options
-              </button>
-            </div>
-          )}
-
-          <input
-            type="number"
-            id="hide"
-            name="correctAnsInteger"
-            value={data.correctAnsInteger}
-            onChange={(e) => setData({ ...data, correctAnsInteger: e.target.value })}
-            style={showCorrectAns}
-            placeholder="Correct answer"
-          />
-          <div className="explanation">
             <textarea
               type="text"
-              id="exp"
-              className="resize fix"
-              name="explanation"
-              value={data.explanation}
-              onChange={(e) => setData({ ...data, explanation: e.target.value })}
-              min="1"
-              max="1000"
-              placeholder="explanation"
+              className="question"
+              id="question"
+              name="question"
+              value={data.question}
+              onChange={(e) => setData({ ...data, question: e.target.value })}
+              placeholder="Write the question here"
+              rows="2"
+              cols="50"
             ></textarea>
+            <div>
+              <input
+                type="file"
+                name="file"
+                value={data.file}
+                onChange={(e) => setData({ ...data, file: e.target.value })}
+                id="image-option"
+                placeholder="Add Image"
+                accept="image/*"
+              />
+            </div>
+
+            {questionType && (
+              <div>
+                {renderOptions()}
+                <button type="button" className="add-option" id="BUTTON" style={showButton} onClick={handleAddFields}>
+                  <FontAwesomeIcon className="faPlus" icon={faPlus} /> Add Options
+                </button>
+              </div>
+            )}
+
+            <input
+              type="number"
+              id="hide"
+              name="correctAnsInteger"
+              value={data.correctAnsInteger}
+              onChange={(e) => setData({ ...data, correctAnsInteger: e.target.value })}
+              style={showCorrectAns}
+              placeholder="Correct answer"
+            />
+            <div className="explanation">
+              <textarea
+                type="text"
+                id="exp"
+                className="resize fix"
+                name="explanation"
+                value={data.explanation}
+                onChange={(e) => setData({ ...data, explanation: e.target.value })}
+                min="1"
+                max="1000"
+                placeholder="explanation"
+              ></textarea>
+            </div>
+            <div className="last">
+              <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
+            </div>
           </div>
-          <div className="last">
-            <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
-          </div>
-        </div>
-      </form>
+        </form>
       )}
-      <script src="https://kit.fontawesome.com/7e7a25b297.js" crossorigin="anonymous"></script>
+      <script src="https://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
+      {fetchedData && (
+        <div>
+          <p>Fetched Data: {JSON.stringify(fetchedData)}</p>
+        </div>
+      )}
     </div>
   );
 }

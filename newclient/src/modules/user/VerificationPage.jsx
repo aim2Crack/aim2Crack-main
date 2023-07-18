@@ -12,7 +12,7 @@ const VerificationPage = () => {
     fetch(`http://127.0.0.1:7000/verify?token=${token}`)
       .then(response => {
         if (response.status === 250) {
-          console.log(response.status);
+          // console.log(response.status);
           setVerificationStatus('Email successfully verified!');
           setTimeout(() => {
             navigate('/login'); // Navigate to sign-in page after 10 seconds
@@ -24,7 +24,7 @@ const VerificationPage = () => {
         }
       })
       .catch(error => {
-        console.error('Error verifying email:', error);
+        // console.error('Error verifying email:', error);
         setVerificationStatus('An error occurred while verifying the email.');
       });
   }, [token, navigate]);
@@ -49,10 +49,11 @@ const VerificationPage = () => {
   }, [countdown, verificationStatus, navigate]);
   
   return (
+    
     <div className="container">
-      <h1>Email Verification</h1>
       {verificationStatus && (
         <div className="popup">
+            <h1>Email Verification</h1>
           <p>{verificationStatus}</p>
           <p className="timer">Redirecting to sign-in page in {countdown} seconds...</p>
         </div>

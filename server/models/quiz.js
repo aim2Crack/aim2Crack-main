@@ -62,12 +62,18 @@ const Quiz = sq.define(
         key: 'id',
       },
     },
-  }
+  },
+  // {
+  //   // Configure timezone option
+  //   timezone: '+05:30', // Replace with your desired timezone offset
+  // }
 );
+
+Quiz.belongsTo(User, { foreignKey: 'userId' }); // Quiz belongs to a user
 
 Quiz.associate = (models) => {
   Quiz.hasMany(models.QuizQuestion, { foreignKey: 'quizId' }); // Quiz has many quiz questions
-  Quiz.belongsTo(models.User, { foreignKey: 'userId' }); // Quiz belongs to a user
+  
 };
 
 Quiz.sync().then(() => {

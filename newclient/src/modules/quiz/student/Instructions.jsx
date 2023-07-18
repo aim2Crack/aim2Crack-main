@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { navigate } from 'gatsby';
 import './PreviewInstructions.css';
 import PropTypes from 'prop-types';
 import logo from '../../../../assets/images/quiz/logo.png';
@@ -7,11 +7,10 @@ import logo from '../../../../assets/images/quiz/logo.png';
 export default function PreviewInstructions() {
   const [instructions, setInstructions] = useState([]);
   const code = window.location.pathname.split('/')[2];
-  const navigate = useNavigate();
 
   const handleGoBack = () => {
     const code = window.location.pathname.split('/')[2];
-    const targetURL = `/quiz/${code}/addinstruction`;
+    const targetURL = `/quiz/${code}`;
     navigate(targetURL);
   };
 
@@ -39,7 +38,7 @@ export default function PreviewInstructions() {
     };
 
     fetchQuizDetails();
-  }, []);
+  }, [code]);
 
   return (
     <>
@@ -89,5 +88,5 @@ export default function PreviewInstructions() {
 }
 
 PreviewInstructions.propTypes = {
-  // code: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
 };

@@ -9,18 +9,39 @@ router.get('/verify', async (req, res) => {
 
     const resetPass = await ResetPass.findOne({ where: { resetToken: token } });
     const user = await User.findOne({ where: { email: resetPass.email } });
-    // console.log(resetPass);
-    if (resetPass && resetPass.resetTokenExpiration > Date.now()) {
+    // console.log(user);
+    // if (resetPass && resetPass.resetTokenExpiration > Date.now()) {
+     if (resetPass) {
+      console.log(token);
+      console.log(user.email);
+      console.log(resetPass.resetToken);
+      console.log(resetPass.passwordReset);
+      console.log(user.emailVerify);
 
-      if (resetPass.resetToken == token & resetPass.passwordReset == false & user.emailVerify==false) {
+      if (resetPass.resetToken == token && resetPass.passwordReset == false && user.emailVerify==false) {
+        console.log(resetPass.resetToken);
+
         res.status(250).json({ success: true, message: 'Email successfully verified!' });
         user.emailVerify = true;
+        console.log(resetPass.resetToken);
         await user.save();
         // if (user.emailVerify === false) {
         //   // await ResetPass.destroy({ where: { resetToken: token } });
           
         // }
-      }else if(resetPass.resetToken == token & resetPass.passwordReset==true){
+      }if (resetPass.resetToken == token && resetPass.passwordReset == false && user.emailVerify==true) {
+        console.log(resetPass.resetToken);
+
+        res.status(250).json({ success: true, message: 'Email already Verified' });
+        // user.emailVerify = true;
+        // console.log(resetPass.resetToken);
+        // await user.save();
+        // if (user.emailVerify === false) {
+        //   // await ResetPass.destroy({ where: { resetToken: token } });
+          
+        // }
+      }     
+      else if(resetPass.resetToken == token && resetPass.passwordReset==true){
         console.log(resetPass);
         res.status(210).json({ success: true, message: 'Email verified!' });
         resetPass.passwordReset = false;
