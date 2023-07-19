@@ -3,11 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import './PreviewInstructions.css';
 import PropTypes from 'prop-types';
 import logo from '../../../assets/images/quiz/logo.png';
+import {formatTime} from '../../../components/timer/formatTime.js';
 
 export default function PreviewInstructions() {
   const [instructions, setInstructions] = useState([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const [timer, setTimer] = useState(0); // Remaining time in seconds
+  const [isTimerComplete, setIsTimerComplete] = useState(false); // Indicates whether the start timer has completed
+  const [marginTimer, setMarginTimer] = useState(0);
+  const [isMarginTimerComplete, setIsMarginTimerComplete] = useState(false);
+  const [isStartButtonVisible, setIsStartButtonVisible] = useState(true); // Indicates whether the start button should be visible
   const code = window.location.pathname.split('/')[2];
   const navigate = useNavigate();
 
@@ -27,6 +32,17 @@ export default function PreviewInstructions() {
         if (response.ok) {
           const data = await response.json();
           setInstructions(data.data.instructions);
+
+          // Calculate remaining start time based on the start time and current time
+          const startTime = new Date(data.data.startTime).getTime();
+          const currentTime = new Date().getTime();
+          const remainingTime = Math.floor((startTime - currentTime) / 1000);
+          setTimer(remainingTime);
+
+          const marginTime = new Date(data.data.marginTime).getTime();
+          // const currentTime = new Date().getTime();
+          const remainingMarginTime = Math.floor((marginTime - currentTime) / 1000);
+          setMarginTimer(remainingMarginTime);
         } else {
           console.error('Failed to fetch quiz details:', response.status);
         }
@@ -39,12 +55,56 @@ export default function PreviewInstructions() {
   }, []);
 
 
+    useEffect(() => {
+      const updateTimer = () => {
+        setTimer(prevTimer => {
+          if (prevTimer <= 0) {
+            setIsTimerComplete(true);
+            setIsStartButtonVisible(true);
+            return 0;
+          }
+          return prevTimer - 1;
+        });
+      };
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    const updateMarginTimer = () => {
+      setMarginTimer(prevTimer => {
+        if (prevTimer <= 0) {
+          setIsMarginTimerComplete(true);
+          // setIsStartButtonVisible(false);
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    };
+
+  const timerInterval2 = setInterval(updateMarginTimer, 1000);
+
+  return () => {
+    clearInterval(timerInterval2);
+  };
+}, []);
   
+
   const handleGoBack = () => {
     if (isFullscreen) {
       navigate(-1);
     }
   };
+
+
+  const formattedTime = formatTime(timer);
+  const marginformattedTime=formatTime(marginTimer);
+  
 
   const handleEnterFullScreen = () => {
     const element = document.documentElement;
@@ -58,8 +118,21 @@ export default function PreviewInstructions() {
       element.msRequestFullscreen();
     }
     setIsFullscreen(true);
-    setIsButtonVisible(false);
   };
+
+  const handleExitFullScreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+    setIsFullscreen(false);
+  };
+
 
   useEffect(() => {
     const exitFullScreenHandler = () => {
@@ -78,6 +151,12 @@ export default function PreviewInstructions() {
       document.removeEventListener('msfullscreenchange', exitFullScreenHandler);
     };
   }, []);
+
+
+  const handleStartQuiz = () => {
+    // Add your logic to start the quiz here
+    console.log('Quiz started!');
+  };
 
   return (
     <div className="preview-instructions">
@@ -102,6 +181,8 @@ export default function PreviewInstructions() {
         Do not attempt to google search on a secondary device, the timer has been set appropriately!
       </p>
 
+
+
       {instructions.length > 0 && (
         <ul className="instruction-list">
           {instructions.map((item, index) => (
@@ -112,26 +193,52 @@ export default function PreviewInstructions() {
           ))}
         </ul>
       )}
-
-      <p className="lines" id="bnd">
+      {!isFullscreen && <p className="lines">
         <i className="bx bxs-right-arrow"></i>
-        Your chance to take this quiz will end in: <span id="the_timer">8789</span>
+        Quiz will start in: <span id="the_timer">{formattedTime}</span>
       </p>
+}
+{isFullscreen && isTimerComplete && (
+  <p className="lines">
+    <i className="bx bxs-right-arrow timer"></i>
+    {isMarginTimerComplete ? (
+      <span className="red-text">Timeup! You cannot take this Quiz! Contact faculty!</span>
+    ) : (
+      <>
+        <span className="red-text"> Your chance to take the quiz will end in: {marginformattedTime}</span>
+      </>
+    )}
+  </p>
+)}
 
-      {!isFullscreen && isButtonVisible && (
+
+
+      {/* {isFullscreen && (
+        <button className="btn-back" onClick={handleGoBack}>
+          Go Back
+        </button>
+      )} */}
+
+
+
+
+      {!isFullscreen && (
         <button className="btn-back" onClick={handleEnterFullScreen}>
           Enter Fullscreen
         </button>
       )}
 
-      <button
-        className={`btn-back ${isFullscreen ? '' : 'disabled'}`}
-        onClick={handleGoBack}
-        disabled={!isFullscreen}
-      >
-        Go Back
-      </button>
+{isFullscreen && !isMarginTimerComplete && (
+  <button className="btn-back" onClick={handleStartQuiz}>
+    {isTimerComplete ? `Start Quiz` : `${formattedTime}`}
+  </button>
+)}
+
+
     </div>
+
+
+
   );
 }
 
