@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
+import MyckEditor from '../../../../components/ckeditor/ckeditor';;
 
 function AddQuestion() {
   const [data, setData] = useState({
@@ -241,7 +242,7 @@ function AddQuestion() {
               </div>
             </div>
 
-            <textarea
+            {/* <textarea
               type="text"
               className="question"
               id="question"
@@ -251,7 +252,12 @@ function AddQuestion() {
               placeholder="Write the question here"
               rows="2"
               cols="50"
-            ></textarea>
+            ></textarea> */}
+             <MyckEditor
+              data={data.question}
+              placeholder="Write the question here"
+              onChange={(content) => setData({ ...data, question: content })}
+            />
             <div>
               <input
                 type="file"

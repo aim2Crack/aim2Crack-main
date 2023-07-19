@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft, faPenToSquare, faCopy, faGear, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestionHome.css';
 import AddQuestion from './AddQuestion';
+import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
 
 const QuestionGet = ({ questionGet, handleEditQuestion, handleDeleteQuestion }) => {
   const { question, answer, explanation, options, mark, questionLevel, questionType } = questionGet;
 
   return (
     <div>
-      <h3>Question: {question}</h3>
+      <p>Question:<CKEditorViewer editorData={question}/></p>
       <p>Answer: {answer}</p>
       <p>Explanation: {explanation}</p>
       <p>Marks: {mark}</p>
@@ -195,15 +196,16 @@ export const AddQuestionHome = () => {
         ) : (
           <AddQuestion editQuestionData={editQuestionData} />
         )}
-        {/* Display quiz questions */}
-        {quizQuestions.map((questionGet) => (
-          <QuestionGet
-            key={questionGet.id}
-            questionGet={questionGet}
-            handleEditQuestion={handleEditQuestion}
-            handleDeleteQuestion={handleDeleteQuestion}
-          />
-        ))}
+        <div>
+      {quizQuestions.map((questionGet) => (
+        <QuestionGet
+          key={questionGet.id}
+          questionGet={questionGet}
+          handleEditQuestion={handleEditQuestion}
+          handleDeleteQuestion={handleDeleteQuestion}
+        />
+      ))}
+    </div>
       </div>
       <div className="icon-bar">
         <button className="icon-bar-menu icon-1" onClick={handleCopyLink}>

@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^38.1.1",
+    "@ckeditor/ckeditor5-react": "^6.1.0",
+    "@ckeditor/ckeditor5-table": "^38.1.1",
     "axios": "^1.4.0",
     "firebase-admin": "^11.9.0",
     "install": "^0.13.0",
