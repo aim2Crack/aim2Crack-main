@@ -4,6 +4,7 @@ import './PreviewInstructions.css';
 import PropTypes from 'prop-types';
 import logo from '../../../assets/images/quiz/logo.png';
 import {formatTime} from '../../../components/timer/formatTime.js';
+// import NoRightClickPage from '../../../components/security/noRightClick';
 
 export default function PreviewInstructions() {
   const [instructions, setInstructions] = useState([]);
@@ -16,6 +17,9 @@ export default function PreviewInstructions() {
   const code = window.location.pathname.split('/')[2];
   const navigate = useNavigate();
 
+
+
+  
   useEffect(() => {
     const fetchQuizDetails = async () => {
       try {
