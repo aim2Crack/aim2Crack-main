@@ -10,10 +10,10 @@ const QuestionGet = ({ questionGet, handleEditQuestion, handleDeleteQuestion }) 
   const { question, answer, explanation, options, mark, questionLevel, questionType } = questionGet;
 
   return (
-    <div>
+    <div >
       <p>Question:<CKEditorViewer editorData={question}/></p>
       <p>Answer: {answer}</p>
-      <p>Explanation: {explanation}</p>
+      <p>Explanation: <CKEditorViewer editorData={explanation}/></p>
       <p>Marks: {mark}</p>
       <p>Level: {questionLevel}</p>
       <p>Type: {questionType}</p>

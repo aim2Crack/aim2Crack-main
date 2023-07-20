@@ -70,7 +70,7 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 .type_box div {
     margin: 5px 7px;
@@ -100,15 +100,16 @@
     /* background: #e11616;  */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    text-align: center;
+    text-align:left;
     font-size: 20px;
     font-weight: 500;
-    padding: 20px 0 5px 0;
+    padding: 20px 0 2px 0;
     width: 80%;
-    margin: auto;
+    margin-top:2px;
+    margin-bottom:2px;
     border: 0;
-    border-bottom: 3px solid #14ebeb;
-    height: 71px;
+    /* border-bottom: 3px solid #14ebeb; */
+    height: 51px;
     outline: none;
     margin-bottom: 2rem;
     resize: none;
@@ -117,8 +118,7 @@
 }
 
 
-.option1{
-    
+.option1 {
     justify-content: center;
     background: #f0f0f0;
     padding: 5px 1.4rem;
@@ -128,10 +128,14 @@
     margin-bottom: 10px;
     width: 45vw;
     transition: transform 0.5s;
-}
-.option1:hover{
-    transform: scale(1.05);
-}
+    border: 1px solid #ccc; /* Add a default border color */
+  }
+  
+  .option1:hover {
+    /* transform: scale(1.05); */
+    border-color:#50d8d7; /* Set the border color to green (#00FF00) on hover */
+  }
+  
 
 .options_written {
     width: 100%;
@@ -212,8 +216,9 @@ select {
     width: 100%;
     color: rgb(255, 255, 255);
     font-size: 20px;
+    margin-top:10px;
     margin-bottom: 10px;
-    padding: 5px 1.4rem;
+    padding: 10px 1.4rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;

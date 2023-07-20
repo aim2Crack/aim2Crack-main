@@ -42,7 +42,7 @@ function MyckEditor({ data, onChange, placeholder }) {
       'redo',
     ],
     placeholder: placeholder, // Add the placeholder here
-    height: '500px',
+    height: '700px',
     image: {
       // Upload URL for image files (replace with your server endpoint)
       uploadUrl: '/api/upload-image',
