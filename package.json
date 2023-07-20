@@ -1,9 +1,15 @@
 {
   "dependencies": {
+    "@ckeditor/ckeditor5-alignment": "^38.1.1",
+    "@ckeditor/ckeditor5-build-classic": "^38.1.1",
+    "@ckeditor/ckeditor5-list": "^38.1.1",
+    "@ckeditor/ckeditor5-react": "^6.1.0",
+    "@ckeditor/ckeditor5-table": "^38.1.1",
     "axios": "^1.4.0",
     "firebase-admin": "^11.9.0",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.1",
-    "react-datepicker": "^4.16.0"
+    "react-datepicker": "^4.16.0",
+    "react-quill": "^2.0.0"
   }
 }

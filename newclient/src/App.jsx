@@ -6,15 +6,17 @@ import { Navigate } from "react-router-dom";
 import Homepage from "./modules/homepage/Homepage";
 import Login from "./modules/user/Login";
 import ResetPass from "./modules/user/ResetPass";
+import Summary from "./components/summary/Summary.jsx"
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
-import Summary from "./modules/summary/Summary";
+// import Summary from "./modules/summary/Summary";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AboutUs from "./modules/homepage/aboutUs/AboutUs";
 import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
 import UserRegister from "./modules/register/UserRegister";
+import Quizzing from "./modules/quiz/creator/quizzing/Quizzing";
 // import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 import Navbar from "./components/navbar/Navbar";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
@@ -27,7 +29,7 @@ import Profile from "./modules/user/Profile";
 import Settings from "./modules/quiz/creator/addQuestion/settings";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 // import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
-
+import Instructions from "./modules/quiz/student/Instructions";
 
 function App() {
 // // function App() {
@@ -65,6 +67,7 @@ const token = localStorage.getItem('token');
         /> */}
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/quizzing" element={<Quizzing />} />
         <Route path="/forgot-password" element={<ResetPass />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<UserRegister />} />
@@ -80,6 +83,9 @@ const token = localStorage.getItem('token');
         <Route path="/quiz/:code/settings" element={<Settings/>}/>
         <Route path="/addQuestionHome" element={<AddQuestionHome />} />
         <Route path="/createQuiz" element={<CreateQuiz />} />
+
+{/* quiz-student-routes */}
+        <Route path="/quiz/:code/test" element={<Instructions />} />
       </Routes>
     </Router>
   );

@@ -21,15 +21,16 @@ router.get('/verify', async (req, res) => {
       if (resetPass.resetToken == token && resetPass.passwordReset == false && user.emailVerify==false) {
         console.log(resetPass.resetToken);
 
-        res.status(250).json({ success: true, message: 'Email successfully verified!' });
+       
         user.emailVerify = true;
         console.log(resetPass.resetToken);
         await user.save();
+        res.status(250).json({ success: true, message: 'Email successfully verified!' });
         // if (user.emailVerify === false) {
         //   // await ResetPass.destroy({ where: { resetToken: token } });
           
         // }
-      }if (resetPass.resetToken == token && resetPass.passwordReset == false && user.emailVerify==true) {
+      }else if (resetPass.resetToken == token && resetPass.passwordReset == false && user.emailVerify==true) {
         console.log(resetPass.resetToken);
 
         res.status(250).json({ success: true, message: 'Email already Verified' });
