@@ -5,7 +5,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
 import MyckEditor from '../../../../components/ckeditor/ckeditor';;
 
-function AddQuestion(question) {
+function AddQuestion({editQuestionData, onClose}) {
   const [data, setData] = useState({
     questionTime: '',
     question: '',
@@ -136,6 +136,10 @@ function AddQuestion(question) {
       setCorrectOptions(correctOptions.filter((e) => e !== value));
     }
   };
+  const handleCancel = () => {
+    // Call the onClose function to close the AddQuestion component
+    onClose();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -153,7 +157,7 @@ function AddQuestion(question) {
       });
       return;
     }
-
+   
     const questionData = {
       questionType,
       questionLevel,
@@ -200,7 +204,7 @@ function AddQuestion(question) {
   };
 
   return (
-    <div>
+    <div className="add-question-container">
       {!submitted && (
         <form onSubmit={handleSubmit} method="POST" id="top-level">
           <div className="main_box">
@@ -285,7 +289,7 @@ function AddQuestion(question) {
               placeholder="Correct answer"
             />
             <div className='question2'>
-             Enter the explanation for this question:
+             Enter the explanation:
             </div>
             <MyckEditor
               data={data.explanation}
@@ -294,9 +298,14 @@ function AddQuestion(question) {
             />
             <div className="last">
               <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
-            </div>
+              <button className="btn" id="cancel_btn" type="button" onClick={handleCancel}>
+                Cancel
+              </button>
+              </div>             
           </div>
+          
         </form>
+        
       )}
       <script src="https://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
       {fetchedData && (

@@ -76,6 +76,7 @@ export const AddQuestionHome = () => {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [showAddQuestionButton, setShowAddQuestionButton] = useState(true);
   const [editQuestionData, setEditQuestionData] = useState(null);
+  
 
   // Fetching individual quiz questions
   useEffect(() => {
@@ -103,6 +104,12 @@ export const AddQuestionHome = () => {
 
     fetchQuizQuestions();
   }, [code]);
+
+
+  const handleCloseAddQuestion = () => {
+    setShowAddQuestionButton(false);
+  };
+  
 
   /// Fetching quiz name
   useEffect(() => {
@@ -194,7 +201,8 @@ export const AddQuestionHome = () => {
             )}
           </div>
         ) : (
-          <AddQuestion editQuestionData={editQuestionData} />
+          <AddQuestion editQuestionData={editQuestionData} onClose={handleCloseAddQuestion} />
+
         )}
         <div>
       {quizQuestions.map((questionGet) => (
