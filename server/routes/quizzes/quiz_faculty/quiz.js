@@ -43,22 +43,9 @@ router.get('/quizzes', FacultyAuthorization, async (req, res) => {
         console.log(reqId);
         const user = await User.findByPk(reqId);
         if (user) {
-            const allQuizzes = await Quiz.findAll({
+            const quizzes = await Quiz.findAll({
                 where: { userId: reqId },
             });
-
-            // Fetch all quizzes from the database with modifiedDate and quizName
-            const quizzes = await Promise.all(
-                allQuizzes.map(async (quiz) => {
-                    const { modifiedDate, quizName } = quiz;
-                    return {
-                        id: quiz.id,
-                        modifiedDate,
-                        quizName,
-                        // Add other relevant properties from the quiz if needed
-                    };
-                })
-            );
 
             res.status(200).json({ success: true, data: quizzes });
         } else {
