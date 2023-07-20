@@ -5,7 +5,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
 import MyckEditor from '../../../../components/ckeditor/ckeditor';;
 
-function AddQuestion() {
+function AddQuestion({editQuestionData, onClose}) {
   const [data, setData] = useState({
     questionTime: '',
     question: '',
@@ -136,6 +136,10 @@ function AddQuestion() {
       setCorrectOptions(correctOptions.filter((e) => e !== value));
     }
   };
+  const handleCancel = () => {
+    // Call the onClose function to close the AddQuestion component
+    onClose();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -153,7 +157,7 @@ function AddQuestion() {
       });
       return;
     }
-
+   
     const questionData = {
       questionType,
       questionLevel,
@@ -200,7 +204,7 @@ function AddQuestion() {
   };
 
   return (
-    <div>
+    <div className="add-question-container">
       {!submitted && (
         <form onSubmit={handleSubmit} method="POST" id="top-level">
           <div className="main_box">
@@ -253,21 +257,17 @@ function AddQuestion() {
               rows="2"
               cols="50"
             ></textarea> */}
+             <div className='question2'>
+             Enter the question below:
+            </div>
+           
              <MyckEditor
               data={data.question}
               placeholder="Write the question here"
               onChange={(content) => setData({ ...data, question: content })}
             />
-            <div>
-              <input
-                type="file"
-                name="file"
-                value={data.file}
-                onChange={(e) => setData({ ...data, file: e.target.value })}
-                id="image-option"
-                placeholder="Add Image"
-                accept="image/*"
-              />
+            <div className='question2'>
+             Enter the options and select correct answer:
             </div>
 
             {questionType && (
@@ -288,24 +288,24 @@ function AddQuestion() {
               style={showCorrectAns}
               placeholder="Correct answer"
             />
-            <div className="explanation">
-              <textarea
-                type="text"
-                id="exp"
-                className="resize fix"
-                name="explanation"
-                value={data.explanation}
-                onChange={(e) => setData({ ...data, explanation: e.target.value })}
-                min="1"
-                max="1000"
-                placeholder="explanation"
-              ></textarea>
+            <div className='question2'>
+             Enter the explanation:
             </div>
+            <MyckEditor
+              data={data.explanation}
+              placeholder="Write the explanation here"
+              onChange={(content) => setData({ ...data, explanation: content })}
+            />
             <div className="last">
               <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
-            </div>
+              <button className="btn" id="cancel_btn" type="button" onClick={handleCancel}>
+                Cancel
+              </button>
+              </div>             
           </div>
+          
         </form>
+        
       )}
       <script src="https://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
       {fetchedData && (
