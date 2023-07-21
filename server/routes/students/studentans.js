@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const QuizAuthorization = require('../../controllers/quizAuthorisation');
+const StudentAuthorization = require('../../controllers/studentAuthorisation');
 const StudentAnswer = require('../../models/studentans');
 const User = require('../../models/user');
 
 // Create a student answer
-router.post('/studentanswer', QuizAuthorization, async (req, res) => {
+router.post('/studentanswer', StudentAuthorization, async (req, res) => {
   try {
     const user = req.user;
     const quiz = req.quiz;
-    const { quizId, questionId, answer, submissionTime, score, sectionId } = req.body;
+    const { questionId, answer, submissionTime, score, sectionId } = req.body;
 
     // Create a new student answer in the database
     const studentAnswer = await StudentAnswer.create({
-      quizId,
+      quizId: quiz.id,
       studentId: user.id,
       questionId,
       answer,
@@ -30,7 +30,7 @@ router.post('/studentanswer', QuizAuthorization, async (req, res) => {
 });
 
 // Get all student answers for a quiz
-router.get('/studentanswer/:quizId', QuizAuthorization, async (req, res) => {
+router.get('/studentanswer/:quizId', StudentAuthorization, async (req, res) => {
   try {
     const quiz = req.quiz;
 
@@ -48,7 +48,7 @@ router.get('/studentanswer/:quizId', QuizAuthorization, async (req, res) => {
 });
 
 // Get a student answer by ID
-router.get('/studentanswer/:quizId/:id', QuizAuthorization, async (req, res) => {
+router.get('/studentanswer/:quizId/:id', StudentAuthorization, async (req, res) => {
   try {
     const quiz = req.quiz;
     const { id } = req.params;
@@ -71,7 +71,7 @@ router.get('/studentanswer/:quizId/:id', QuizAuthorization, async (req, res) => 
 });
 
 // Delete a student answer by ID
-router.delete('/studentanswer/:quizId/:id', QuizAuthorization, async (req, res) => {
+router.delete('/studentanswer/:quizId/:id', StudentAuthorization, async (req, res) => {
   try {
     const quiz = req.quiz;
     const { id } = req.params;
