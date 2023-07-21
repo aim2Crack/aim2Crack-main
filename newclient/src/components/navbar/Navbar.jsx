@@ -1,32 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import '../styles/Navbar.css';
-import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png'
-// import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // import jwt from 'jsonwebtoken';
+import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
 
 function Navbar() {
   const excludedPaths = ['/register', '/login', '/forgot-password'];
   const location = useLocation();
   const isExcludedPath = excludedPaths.includes(location.pathname);
 
+  const code = window.location.pathname.split('/')[2];
+  console.log(code);
+  const isExcludedPath2 = location.pathname === `/quiz/${code}/test`;
+  console.log(location.pathname);
+  console.log(isExcludedPath2);
   const [user, setUser] = useState(null);
 
   // useEffect(() => {
-  //   const token = localStorage.getItem('token'); // Get the JWT token from local storage
+  //   // Check if the user is logged in
+  //   const isLoggedIn = checkUserLoggedIn(); // Replace with your logic to check if the user is logged in
 
-  //   if (token) {
-  //     const decodedToken = decodeToken(token); // Function to decode the JWT token
-  //     const userName = decodedToken.name; // Extract the user's name from the decoded token
-  //     setUser({ name: userName });
+  //   if (isLoggedIn) {
+  //     const userName = getLoggedInUserName(); // Replace with your logic to get the logged-in user's name
+  //     setUser({ displayName: userName });
+  //   } else {
+  //     setUser(null);
   //   }
   // }, []);
 
-  if (isExcludedPath) {
+  // const checkUserLoggedIn = () => {
+  //   // Implement your logic to check if the user is logged in
+  //   // Return true if the user is logged in, false otherwise
+  //   // Example: You can check if a token is present in local storage or if the user is authenticated with your authentication system
+  //   const token = localStorage.getItem('token');
+  //   return !!token;
+  // };
+
+  // const getLoggedInUserName = () => {
+  //   // Implement your logic to get the logged-in user's name
+  //   // Return the user's name if available, or an empty string otherwise
+  //   // Example: You can decode the JWT token and extract the user's name from it
+  //   const token = localStorage.getItem('token');
+  //   // Decode the token and extract the user's name
+  //   const decodedToken = decodeToken(token);
+  //   return decodedToken ? decodedToken.name : '';
+  // };
+
+  // const decodeToken = (token) => {
+  //   // Implement your logic to decode the JWT token
+  //   // Example: You can use a library like jwt.io or jsonwebtoken to decode the token
+  //   // Return the decoded token object or null if decoding fails
+  //   // Example using jsonwebtoken library:
+  //   try {
+  //     const decodedToken = jwt.decode(token);
+  //     return decodedToken;
+  //   } catch (error) {
+  //     console.error('Error decoding token:', error);
+  //     return null;
+  //   }
+  // };
+
+  // const handleLogout = () => {
+  //   // Implement your logic to handle the logout action
+  //   // Example: You can clear the token from local storage or perform any necessary cleanup
+  //   localStorage.removeItem('token');
+  //   setUser(null);
+  //   window.location.href = '/login'; // Redirect to the login page
+  // };
+
+  if (isExcludedPath ||  isExcludedPath2) {
     return null; // Render nothing if the current path is excluded
   }
-  const myFunction = () => {}
-  const openNav = () => {}
+
+  const openNav = () => {
+    // Implement your logic for opening the navigation menu
+  };
+
   return (
     <header>
       <img className="logo" src={aim2CrackLogo} alt="logo" title="home" />
@@ -36,101 +85,39 @@ function Navbar() {
           <li><a href="#">Home</a></li>
           <li><a href="/summary">Dashboard</a></li>
           <li className="dropdown">
-            <a href="javascript:void(0)" className="dropbtn">Quizzes</a>
-            <div className="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>Create Quiz</span>
-                <small>and analyze results</small>
-              </a>
-              <a className="nav-subjective-btn" target="_blank" rel="noopener noreferrer">
-                <span>Subjective Quiz</span>
-                <small>See past results</small>
-              </a>
-              <a className="nav-placement-btn" target="_blank" rel="noopener noreferrer">
-                <span>Placement Quiz</span>
-                <small>See past results</small>
-              </a>
-            </div>
+            {/* ... Quizzes dropdown contents ... */}
           </li>
-
-          {/* DROPDOWN - HR, Interviews, Aptitude */}
           <li className="dropdown">
-            <a href="javascript:void(0)" className="dropbtn">Placements</a>
-            <div className="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>HR Questions</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>Interviews</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>Puzzles</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>Apt Crack</span>
-                <small>abc</small>
-              </a>
-            </div>
+            {/* ... Placements dropdown contents ... */}
           </li>
-
           <li><a href="#">Talks</a></li>
-
-          {/* DROPDOWN - About Us, Meet Our Team, Contact Us */}
           <li className="dropdown">
-            <a href="javascript:void(0)" className="dropbtn">About</a>
-            <div className="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>About Us</span>
-                <small>Know our story</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>Team</span>
-                <small>Meet our superheroes</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>Contact</span>
-                <small>Join us/Reach us</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                <span>Resources</span>
-                <small>Tutorials and more</small>
-              </a>
-            </div>
+            {/* ... About dropdown contents ... */}
           </li>
           {user && (
             <li className="user-info">
               <span className="material-icons">person</span>
               <span className="user-name">{user.displayName}</span>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           )}
-          {/* SEARCH BAR on CLICKING SEARCH ICON */}
+          {!user && (
+            <li>
+              <a href="/login">Login</a>
+            </li>
+          )}
         </ul>
       </nav>
 
-      <div className="click-dropdown profile-dropdown">
-        <button onClick={myFunction} className="click-dropbtn">
-          <a>
-            <span className="material-icons md-24"> person </span>
-            <p className="profile">Profile</p>
-            <span className="material-icons-outlined"> expand_more </span>
-          </a>
-        </button>
-        <div id="myDropdown" className="click-dropdown-content toggle-dd">
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-            <span className="btn-txt">Account</span>
-            <span className="material-icons-outlined md-18"> manage_accounts </span>
-          </a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-            <span className="btn-txt">Logout</span>
-            <span className="material-icons-outlined md-18"> logout </span>
-          </a>
-        </div>
-      </div>
+      {/* ... Profile dropdown ... */}
 
-      <span className="ham" style={{ fontSize: '30px', cursor: 'pointer' }} onClick={openNav}>&#9776;</span>
+      <span
+        className="ham"
+        style={{ fontSize: '30px', cursor: 'pointer' }}
+        onClick={openNav}
+      >
+        &#9776;
+      </span>
     </header>
   );
 }

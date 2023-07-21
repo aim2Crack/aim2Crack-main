@@ -5,6 +5,7 @@ const UserAuthorization = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization; // Get the Authorization header
     const token = authHeader && authHeader.split(' ')[1]; // Extract the token from the Authorization header
+    console.log(token);
     const { username, password } = req.body; // Get the username and password from the request body
 console.log(req.body);
     if (!token && (!username || !password)) {
@@ -23,6 +24,7 @@ console.log(req.body);
       if (!user) {
         return res.status(401).json({ error: 'User not found' });
       }
+      console.log(user);
 
       req.user = user; // Attach the user object to the request for further use
       next(); // Call the next middleware or route handler

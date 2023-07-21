@@ -12,12 +12,12 @@ router.post('/quizquestion/:code',QuizAuthorization, async (req, res) => {
     const quiz=req.quiz;
     console.log(quiz);
     try {
-        const { question, options, explanation, questionTime, marks, sectionId, questionLevel, questionType, negativeMark} = req.body;
-        
+        const { question, options, explanation, questionTime, marks, sectionId, correctAnsInteger, questionLevel, questionType, negativeMark} = req.body;
+        // console.log(req.body);
         // Create a new quiz in the database
         const quizQuestion = await QuizQuestion.create({
             question, 
-            // answer:2,
+            answer:[correctAnsInteger],
              explanation, questionTime, 
              mark:marks,
             options:options,
@@ -169,43 +169,5 @@ router.delete('/quizquestion/:code/:id', async (req, res) => {
 //     }
 // });
 
-//quiz deletion
-router.delete('/quizzes', async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        // Find the quiz by ID and delete it
-        const quiz = await Quiz.destroy({where: {}});
-        // if (quiz) {
-        //     await quiz.destroy();
-        //     res.status(200).json({ success: true, message: 'Quiz deleted successfully' });
-        // } else {
-        //     res.status(404).json({ success: false, message: 'Quiz not found' });
-        // }
-    } catch (error) {
-        console.error('Error deleting quiz:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
-    }
-});
-
-
-//quiz deletion
-router.delete('/quizzes/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        // Find the quiz by ID and delete it
-        const quiz = await Quiz.findByPk(id);
-        if (quiz) {
-            await quiz.destroy();
-            res.status(200).json({ success: true, message: 'Quiz deleted successfully' });
-        } else {
-            res.status(404).json({ success: false, message: 'Quiz not found' });
-        }
-    } catch (error) {
-        console.error('Error deleting quiz:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
-    }
-});
 
 module.exports = router;
