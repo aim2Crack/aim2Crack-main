@@ -20,8 +20,7 @@ email: {
 },
 phone: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+    allowNull: true,
 },
 password: {
     type: DataTypes.STRING,
@@ -29,6 +28,14 @@ password: {
 },
 profileType: {
     type: DataTypes.ENUM('student', 'faculty'),
+    defaultValue: 'student',
+},
+firstName:{
+  type: DataTypes.STRING,
+    allowNull: true,
+},
+lastName:{
+  type: DataTypes.STRING,
     allowNull: true,
 },
 rollNo: {
@@ -51,6 +58,10 @@ brandLogo: {
 brandLink: {
     type: DataTypes.STRING,
     allowNull: true,
+},
+brandFavicon: {
+  type: DataTypes.STRING,
+  allowNull: true,
 },
 emailVerify: {
   type: DataTypes.BOOLEAN,

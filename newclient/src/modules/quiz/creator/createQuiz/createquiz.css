@@ -1,6 +1,6 @@
 .heading{
   text-decoration:underline;
-  margin-bottom: 16px;;
+  margin-bottom: 16px;
 }
 #div1{
   /* height:400px; */
@@ -119,6 +119,7 @@ border-radius:14px;
   border: none;
   outline: none;
   text-align: left;
+  /* font-size: 30px; */
   /* text-align: left; */
   /* padding: 10px; */
 }
@@ -131,9 +132,9 @@ border-radius:14px;
   
 }
 
-#question{
+/* #question{
   background-color: transparent;
   color:white;
   border:none;
   outline:none;
-}
+} */

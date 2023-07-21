@@ -8,5 +8,7 @@ export default defineConfig({
     jsxFactory: 'React.createElement',
     jsxInject: `import React from 'react'`,
   },
-  
+  optimizeDeps: {
+    exclude: ['@fortawesome/fontawesome-svg-core'],
+  },
 })

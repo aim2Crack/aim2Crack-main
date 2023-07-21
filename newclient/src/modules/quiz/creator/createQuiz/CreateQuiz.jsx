@@ -1,122 +1,163 @@
-import React,{useState} from 'react'
-import "./createquiz.css";
-const CreateQuiz=()=>{
-    const [selectedOption, setSelectedOption] = useState('');
-    const [inputValue, setInputValue] = useState('');
-    const [inputValue1, setInputValue2] = useState('');
-    
+import React, { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import moment from 'moment-timezone';
+import './createquiz.css';
 
-    const [labelText, setLabelText] = useState('Course Quiz :');
-    const [labelText2,setLabelText2] = useState('Topic name :');
-  
-    const handleSelect = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedOption(selectedValue);
-    setInputValue('');
-    setInputValue2('');
-   
+const CreateQuiz = () => {
+  const initialValues = {
+    quizName: '',
+    startTime: '',
+    marginTime: '',
+    resultTime: '',
+    negativeMarking: '',
+    preventMobile: false,
+    allowTabchange: false,
+  };
+  const [message, setMessage] = useState('');
+  const [generatedLink, setGeneratedLink] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const token = localStorage.getItem('token');
 
-    // Update the input value and label text based on the selected option
-    if (selectedValue === 'placement') {
+      // Format the date and time values using moment and set the timezone to Indian Standard Time (IST)
+      const formattedValues = {
+        ...values,
+        startTime: moment.tz(values.startTime, 'YYYY-MM-DDTHH:mm', 'Asia/Kolkata').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+        marginTime: moment.tz(values.marginTime, 'YYYY-MM-DDTHH:mm', 'Asia/Kolkata').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+        resultTime: moment.tz(values.resultTime, 'YYYY-MM-DDTHH:mm', 'Asia/Kolkata').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      };
       
-      setLabelText('Company Name:');
-      setLabelText2('First section name');
-    } else if (selectedValue === 'simple') {
-      
-      setLabelText('Course Quiz:');
-      setLabelText2('Topic name')
-    }
-  };
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-    
-  };
-  const handleInputChange1 = (e) => {
-    setInputValue2(e.target.value);
-    
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
+      // Submit the data to the backend
+      const response = await fetch('http://127.0.0.1:7000/quizzes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formattedValues),
+      });
 
-    // Validate the form fields
-    if (selectedOption === '' || inputValue === '' || inputValue1 === '') {
-      alert('Please fill in all the details to continue!');
-    } else {
-      // Form submission logic
-      console.log('Form submitted successfully!');
+      if (response.ok) {
+        // Request was successful
+        const data = await response.json();
+        const allquiz = data.data;
+        console.log(allquiz.code);
+
+        // Access the necessary details from the updated allquiz array
+        const generatedLink = allquiz.code;
+
+        // Set the generated link and submitted state in the component state
+        setGeneratedLink(generatedLink);
+        setSubmitted(true);
+
+        // Redirect to the quiz page
+        const redirectTo = `/quiz/${generatedLink}`;
+        navigate(redirectTo);
+      } else {
+        // Handle error response
+        console.error('Error creating quiz:', response.status);
+        setMessage('An error occurred during quiz creation.');
+      }
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      setMessage('An error occurred during quiz creation.');
     }
+
+    setSubmitting(false);
   };
 
-  return(
+  const validationSchema = Yup.object().shape({
+    quizName: Yup.string().required('Quiz name is required'),
+    startTime: Yup.string().required('Start date and time are required'),
+    marginTime: Yup.string().required('Margin date and time are required'),
+    resultTime: Yup.string().required('Result date and time are required'),
+    negativeMarking: Yup.number().required('Negative marking is required'),
+  });
+
+  return (
     <div id="outer_div">
-        <div id="div1">
-        <form onSubmit={handleSubmit}>
-             
-                <h1 className='heading'>Create Your Own Quiz</h1>
-                <div>
-        <div  id="select">
-           Type of Quiz:    
-        <select className="custom-select" value={selectedOption} onChange={handleSelect}>
-        <option value="">Select an option</option>
-        <option value="placement">Placement Quiz</option>
-        <option value="simple">Simple Quiz</option>
-      </select>
-      </div>
+      <div id="div1">
+        {submitted ? (
+          <div>{message}</div>
+        ) : (
+          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+            {({ values }) => (
+              <Form>
+                <h1 className="heading">Create Your Own Quiz</h1>
 
-      <div id="label">
-      <label className="custom-label">{labelText}</label>
-
-      <input
-        type="text"
-        className="custom-input"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder={labelText}
-        />
-      </div>
-      
-      <div id="label">
-      <label className="custom-label">{labelText2}</label>
-
-      <input
-        type="text"
-        className="custom-input"
-        value={inputValue1}
-        onChange={handleInputChange1}
-        placeholder={labelText2}
-      />
-      </div>
-    
-      <div id="input1">
-            <label className="inputbox" for="starting_time">Start Time:</label>
-                <input className="inputbox" type="date" id="starting_time"/>
+                <div id="label">
+                  <label className="custom-label" htmlFor="quizName">
+                    Course Quiz:
+                  </label>
+                  <Field type="text" id="quizName" name="quizName" className="custom-input" />
+                  <ErrorMessage name="quizName" component="div" className="error-message" />
                 </div>
+
+                <div id="input1">
+                  <label className="inputbox" htmlFor="startTime">
+                    Start Date and Time:
+                  </label>
+                  <Field type="datetime-local" id="startTime" name="startTime" className="inputbox" />
+                  <ErrorMessage name="startTime" component="div" className="error-message" />
+                </div>
+
                 <div id="input2">
-                   <label className="inputbox" for="last_login_time">Last login Time:</label>
-                    <input className="inputbox" type="date" id="last_login_time"/><br/>
+                  <label className="inputbox" htmlFor="marginTime">
+                    Margin Date and Time:
+                  </label>
+                  <Field type="datetime-local" id="marginTime" name="marginTime" className="inputbox" />
+                  <ErrorMessage name="marginTime" component="div" className="error-message" />
                 </div>
-               
+
                 <div id="input3">
-                  <label className="inputbox" for="Result_time">Result Time:</label>
-                  <input className="inputbox" type="date" id="Result_time"/>
+                  <label className="inputbox" htmlFor="resultTime">
+                    Result Date and Time:
+                  </label>
+                  <Field type="datetime-local" id="resultTime" name="resultTime" className="inputbox" />
+                  <ErrorMessage name="resultTime" component="div" className="error-message" />
                 </div>
 
                 <div id="input4">
-                <span>Question Timer: </span>
-                 <select id="question" name="question_time">
-                  <option selected>Individual Question Timer</option>
-                <option >Section/Full Quiz Timer</option></select>
-    
-    </div>
-               <div id="submit">
-                    <input type="submit" id="button" value="Create Quiz"/>
-                </div> 
+                  <label className="inputbox" htmlFor="negativeMarking">
+                    Negative Marking:
+                  </label>
+                  <Field type="number" id="negativeMarking" name="negativeMarking" className="inputbox" />
+                  <ErrorMessage name="negativeMarking" component="div" className="error-message" />
                 </div>
-                
-            </form>
-   </div>
-        </div>
-    )
-}
+
+                <div id="input5">
+                  <label className="inputbox" htmlFor="preventMobile">
+                    Prevent Mobile:
+                  </label>
+                  <Field type="checkbox" id="preventMobile" name="preventMobile" className="inputbox" />
+                  <ErrorMessage name="preventMobile" component="div" className="error-message" />
+                </div>
+
+                <div id="input6">
+                  <label className="inputbox" htmlFor="allowTabchange">
+                    Allow Tab Change:
+                  </label>
+                  <Field type="checkbox" id="allowTabchange" name="allowTabchange" className="inputbox" />
+                  <ErrorMessage name="allowTabchange" component="div" className="error-message" />
+                </div>
+
+                <div id="submit">
+                  <button type="submit" id="button">
+                    Create Quiz
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default CreateQuiz;

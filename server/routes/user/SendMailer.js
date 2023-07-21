@@ -40,8 +40,9 @@ try{
       email: recipientEmail ,
       resetToken: resetToken,
       resetTokenExpiration,
-      passwordReset:status,
+      passwordReset: status,
     });
+    console.log(resetPass);
   
     const mailOptions = {
         from: 'aim2crack@gmail.com',

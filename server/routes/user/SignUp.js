@@ -5,17 +5,84 @@ const passport = require('passport');
 const mailer=require('./SendMailer')
 const ResetPass = require('../../models/resetpass');
 const User = require('../../models/user');
+const jwt = require('jsonwebtoken');
+const authorization = require ('../../controllers/authorisation');
+
 
 // //get all users
-router.get('/users', async (req, res) => {
+router.get('/users',authorization, async (req, res) => {
     try {
-        // const UserModel = await User();
-        const users = await User.findAll();
-        res.json(users);
+             const user=req.user;
+        // console.log(user);
+        res.json(user);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
+router.post('/users', authorization, async (req, res) => {
+  try {
+   
+    const user=req.user;
+    const email = user.email;
+     
+    console.log(email); // Extract the user ID from the decoded token
+   
+    const userData = req.body; // Get the updated user data from the request body
+    console.log(userData);
+   // Update the user in the database based on email or username
+   try {
+    const updatedUser = await User.update(userData, {
+      where: {
+        email: email,
+      },
+      returning: true,
+    });
+    console.log(updatedUser); // Access the updated user record
+  } catch (error) {
+    console.error('Error updating user:', error.message);
+  }
+
+    console.log('data updated')
+    // Return the updated user as the response
+    res.status(200).json({success:true,message:'Data updated'});
+  } catch (error) {
+    // Handle any errors that occur during user update
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.put('/users', authorization, async (req, res) => {
+  try {
+   
+    const user=req.user;
+    const email = user.email;
+     
+    console.log(email); // Extract the user ID from the decoded token
+   
+    const userData = req.body; // Get the updated user data from the request body
+    console.log(userData);
+   // Update the user in the database based on email or username
+   try {
+    const updatedUser = await User.update(userData, {
+      where: {
+        email: email,
+      },
+      returning: true,
+    });
+    console.log(updatedUser); // Access the updated user record
+  } catch (error) {
+    console.error('Error updating user:', error.message);
+  }
+
+    console.log('data updated')
+    // Return the updated user as the response
+    res.status(200).json({success:true,message:'Data updated'});
+  } catch (error) {
+    // Handle any errors that occur during user update
+    res.status(400).json({ error: error.message });
+  }
+});
+
 
 router.delete('/users', async (req, res) => {
   try {
