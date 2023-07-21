@@ -55,7 +55,11 @@ function AddQuestion({editQuestionData, onClose}) {
     fetchData();
   }, []);
     
-
+  const handleCancel = () => {
+    // Call the onClose function to close the AddQuestion component
+    onClose();
+  };
+  
   const handleChangeData = async (values) => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/').pop();
@@ -136,10 +140,8 @@ function AddQuestion({editQuestionData, onClose}) {
       setCorrectOptions(correctOptions.filter((e) => e !== value));
     }
   };
-  const handleCancel = () => {
-    // Call the onClose function to close the AddQuestion component
-    onClose();
-  };
+ 
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

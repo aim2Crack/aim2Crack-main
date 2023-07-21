@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import '../styles/Navbar.css';
 // import jwt from 'jsonwebtoken';
 import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
@@ -8,6 +8,9 @@ function Navbar() {
   const excludedPaths = ['/register', '/login', '/forgot-password'];
   const location = useLocation();
   const isExcludedPath = excludedPaths.includes(location.pathname);
+
+  const { code } = useParams();
+  const isExcludedPath2 = location.pathname === `/quiz/${code}/test`;
 
   const [user, setUser] = useState(null);
 
@@ -63,9 +66,9 @@ function Navbar() {
   //   window.location.href = '/login'; // Redirect to the login page
   // };
 
-  // if (isExcludedPath) {
-  //   return null; // Render nothing if the current path is excluded
-  // }
+  if (isExcludedPath && isExcludedPath2) {
+    return null; // Render nothing if the current path is excluded
+  }
 
   const openNav = () => {
     // Implement your logic for opening the navigation menu
