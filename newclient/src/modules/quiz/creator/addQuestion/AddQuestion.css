@@ -27,9 +27,12 @@
 .main_box {
     background-color: white;
     /* border: 1px solid rgb(110, 110, 110); */
-    width: 45vw;
+    width: 60vw;
     text-align: center;
     margin: auto;
+    position: absolute;
+    top:10%;
+    left:10%;
     margin-top: 12px;
     box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
     font-size: 18px;

@@ -107,7 +107,7 @@ export const AddQuestionHome = () => {
 
 
   const handleCloseAddQuestion = () => {
-    setShowAddQuestionButton(false);
+    setAddQuestion(false);
   };
   
 
@@ -177,7 +177,7 @@ export const AddQuestionHome = () => {
   return (
     <div className="container">
       <div className="left-button-center">
-        <Link to="/createQuiz" className="go_back">
+        <Link to="/summary" className="go_back">
           <FontAwesomeIcon icon={faCircleArrowLeft} />
         </Link>
       </div>
