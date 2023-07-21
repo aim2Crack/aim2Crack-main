@@ -1,7 +1,9 @@
-#heading{
+#createquiz_heading{
   text-decoration:underline;
+  font-size: 45px;
   /* margin-bottom: 16px; */
   font-family:serif;
+  color:white;
 }
 #div1{
   /* height:400px; */

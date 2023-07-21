@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import moment from 'moment-timezone';
 import './createquiz.css';
-import styles from './createquiz.css';
+
 
 const CreateQuiz = () => {
   const initialValues = {
@@ -103,7 +103,7 @@ const CreateQuiz = () => {
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             {({ values }) => (
               <Form>
-                <h1 id="heading">Create your own quiz</h1>
+                <h1 id="createquiz_heading">Create your own quiz</h1>
                 
                 <div id="label">
                   <label className="custom-label" htmlFor="quizName">
