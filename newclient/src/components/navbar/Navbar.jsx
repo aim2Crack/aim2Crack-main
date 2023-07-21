@@ -9,9 +9,11 @@ function Navbar() {
   const location = useLocation();
   const isExcludedPath = excludedPaths.includes(location.pathname);
 
-  const { code } = useParams();
+  const code = window.location.pathname.split('/')[2];
+  console.log(code);
   const isExcludedPath2 = location.pathname === `/quiz/${code}/test`;
-
+  console.log(location.pathname);
+  console.log(isExcludedPath2);
   const [user, setUser] = useState(null);
 
   // useEffect(() => {
@@ -66,7 +68,7 @@ function Navbar() {
   //   window.location.href = '/login'; // Redirect to the login page
   // };
 
-  if (isExcludedPath && isExcludedPath2) {
+  if (isExcludedPath ||  isExcludedPath2) {
     return null; // Render nothing if the current path is excluded
   }
 
