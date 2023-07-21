@@ -16,7 +16,8 @@ import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import AddQuestion from "./modules/quiz/creator/addQuestion/AddQuestion";
 import AddInstruction from "./modules/quiz/creator/addQuestion/AddInstruction";
 import UserRegister from "./modules/register/UserRegister";
-import Quizzing from "./modules/quiz/creator/quizzing/Quizzing";
+import Quizzing from "./modules/quiz/student/quizzing/Quizzing";
+import QuizFeedback from "./modules/quiz/student/quizFeedback/QuizFeedback";
 // import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 import Navbar from "./components/navbar/Navbar";
 import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionHome";
@@ -68,6 +69,7 @@ const token = localStorage.getItem('token');
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/quizzing" element={<Quizzing />} />
+        <Route path="/quiz-feedback" element={<QuizFeedback />} />
         <Route path="/forgot-password" element={<ResetPass />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/register" element={<UserRegister />} />
