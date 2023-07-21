@@ -3,14 +3,32 @@ const router = express.Router();
 const StudentAuthorization = require('../../controllers/studentAuthorisation');
 const StudentAnswer = require('../../models/studentans');
 const User = require('../../models/user');
+const QuizQuestion = require('../../models/quizquestion')
 
 // Create a student answer
-router.post('/studentanswer', StudentAuthorization, async (req, res) => {
+router.post('/studentanswer/:code', StudentAuthorization, async (req, res) => {
   try {
     const user = req.user;
     const quiz = req.quiz;
-    const { questionId, answer, submissionTime, score, sectionId } = req.body;
+    
+    const { code } = req.params;
+    console.log(quiz);
+    console.log(user);
+    const { questionId, answer, submissionTime, sectionId } = req.body;
 
+    const quizQuestion= await QuizQuestion.findByPk(questionId);
+    if (!quizQuestion) {
+      // If the quiz question with the given ID doesn't exist, return an error response
+      return res.status(404).json({ success: false, message: 'Quiz question not found' });
+    }
+
+    console.log(quizQuestion);
+    let score =0;
+    if (quizQuestion)
+    {
+      score = quizQuestion.mark
+    }
+    console.log(score);
     // Create a new student answer in the database
     const studentAnswer = await StudentAnswer.create({
       quizId: quiz.id,

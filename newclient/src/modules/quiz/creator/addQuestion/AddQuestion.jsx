@@ -9,7 +9,7 @@ function AddQuestion({editQuestionData, onClose}) {
   const [data, setData] = useState({
     questionTime: '',
     question: '',
-    marks: 0,
+    marks: '',
     file: '',
     correctAnsInteger: '',
     explanation: '',
@@ -166,7 +166,6 @@ function AddQuestion({editQuestionData, onClose}) {
       questionTime: data.questionTime,
       question: data.question,
       marks: data.marks,
-      file: data.file,
       correctAnsInteger: data.correctAnsInteger,
       explanation: data.explanation,
       options: options.map((option, index) => ({
@@ -244,9 +243,23 @@ function AddQuestion({editQuestionData, onClose}) {
                   min="1"
                   max="360"
                 />
+                <div className="time">
+                Mark:
+                <input
+                  type="number"
+                  id="quantity"
+                  name="mark"
+                  value={data.marks}
+                  onChange={(e) => setData({ ...data, marks: e.target.value })}
+                  min="1"
+                  max="100"
+                /></div>
                 <br />
               </div>
+
+              
             </div>
+            
 
             {/* <textarea
               type="text"
