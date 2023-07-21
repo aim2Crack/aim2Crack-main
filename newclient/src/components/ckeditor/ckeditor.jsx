@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './ckeditor.css';
+// import { SimpleUploadAdapter } from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
+
 // import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 
 function MyckEditor({ data, onChange, placeholder }) {
@@ -51,9 +53,14 @@ function MyckEditor({ data, onChange, placeholder }) {
       'undo',
       'redo',
     ],
+     // Add the upload adapter configuration
+  // simpleUpload: {
+  //   uploadUrl: 'http://127.0.0.1:7000/file/upload', // Replace with the correct upload URL
+  // },
     placeholder: placeholder,
     image: {
-      uploadUrl: '/api/upload-image',
+      uploadUrl: 'uploadUrl: http://127.0.0.1:7000/file/upload ',
+      propertyName: 'path',
       resizeUnit: 'px',
       resizeOptions: [
         {

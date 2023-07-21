@@ -107,7 +107,7 @@ export const AddQuestionHome = () => {
 
 
   const handleCloseAddQuestion = () => {
-    setShowAddQuestionButton(false);
+    setAddQuestion(false);
   };
   
 
