@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const StudentAuthorization = require('../../controllers/studentAuthorisation');
-const StudentAnswer = require('../../models/studentans');
-const User = require('../../models/user');
-const QuizQuestion = require('../../models/quizquestion');
-const QuizOrderArray = require('../../models/quizorderarray');
+const StudentAuthorization = require('../../../controllers/studentAuthorisation');
+const StudentAnswer = require('../../../models/studentans');
+const User = require('../../../models/user');
+const QuizQuestion = require('../../../models/quizquestion');
+const QuizOrderArray = require('../../../models/quizorderarray');
+const {getNextQuestion} = require('./getNextQuestion');
 
 // Create a student answer
 router.post('/studentanswer/:code', StudentAuthorization, async (req, res) => {
@@ -58,7 +59,7 @@ router.get('/studentanswer/:code', StudentAuthorization, async (req, res) => {
     const { code } = req.params;
     // console.log(quiz);
     // console.log(user);
-    console.log(code);
+    // console.log(code);
 
     const now = Date.now(); // Get the current timestamp in milliseconds
 
@@ -97,14 +98,24 @@ shuffleArray(quizQuestions);
 // Extract question IDs into a new array
 const randomQuestionIds = quizQuestions.map((question) => question.id);
 
-console.log(randomQuestionIds);
+// console.log(randomQuestionIds);
     const quizOrder = await QuizOrderArray.create({
       quizId: quiz.id,
       studentId: user.id,
       questionOrder: randomQuestionIds,
     });
+// Fetch the first question based on the currentIndex (which will be 0 initially)
+const firstQuestion = await getNextQuestion(quizOrder.id, 0);
 
-    res.status(201).json({ success: true, data: quizOrder });
+if (!firstQuestion) {
+  // If no question is found, return an error response
+  return res.status(404).json({ success: false, message: 'No questions found' });
+}
+
+// Send the first question details to the front end
+res.status(201).json({ success: true, data: firstQuestion });
+// send question and get answer.
+    // res.status(201).json({ success: true, data: quizOrder });
   } catch (error) {
     console.error('Error creating student answer:', error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
@@ -112,47 +123,61 @@ console.log(randomQuestionIds);
 });
 
 
-// Get a student answer by ID
-router.get('/studentanswer/:quizId/:id', StudentAuthorization, async (req, res) => {
+router.post('/submitAnswer/:code/:quizOrderId/:currentIndex', StudentAuthorization, async (req, res) => {
   try {
-    const quiz = req.quiz;
-    const { id } = req.params;
+    const user = req.user;
+    const { quizOrderId, currentIndex } = req.params;
+    const { answer, timeElapsed } = req.body;
 
-    // Find a student answer by ID for the given quiz in the database
-    const studentAnswer = await StudentAnswer.findOne({
-      where: { quizId: quiz.id, id },
-      include: [User],
+    // Save the student's answer here, assuming you have a separate model for student answers
+    // and you can save the answer along with the question ID, student ID, selectedOption, and timeTaken.
+    const quizOrder = await QuizOrderArray.findByPk(quizOrderId);
+    if (!quizOrder) {
+      // If the quiz order with the given ID doesn't exist, return an error response
+      return res.status(404).json({ success: false, message: 'Quiz order not found' });
+    }
+    console.log(quizOrder);
+    const quizQuestion= await QuizQuestion.findByPk(quizOrder.questionOrder[currentIndex]);
+    console.log(quizQuestion);
+
+    if (!quizQuestion) {
+      // If the quiz question with the given ID doesn't exist, return an error response
+      return res.status(404).json({ success: false, message: 'Quiz question not found' });
+    }
+
+    // console.log(quizQuestion.answer);
+    console.log(answer);
+    let score =0;
+    if (quizQuestion.answer == answer)
+    {
+      score = quizQuestion.mark
+    }
+    console.log(score);
+    const studentAnswer = StudentAnswer.create({
+      questionId: quizOrder.dataValues.questionOrder[currentIndex],
+      studentId: user.id,
+      answer,
+      timeElapsed,
+      score,
     });
 
-    if (studentAnswer) {
-      res.status(200).json({ success: true, data: studentAnswer });
-    } else {
-      res.status(404).json({ success: false, message: 'Student answer not found' });
+    // Increment the currentIndex for the next question
+    const nextIndex = parseInt(currentIndex, 10) + 1;
+
+    // Get the next question based on the new index
+    const nextQuestion = await getNextQuestion(quizOrderId, nextIndex);
+
+    if (!nextQuestion) {
+      return res.status(404).json({ success: false, message: 'No more questions left' });
     }
+
+    // Send the next question details to the front end
+    res.status(200).json({ success: true, data: nextQuestion });
   } catch (error) {
-    console.error('Error fetching student answer:', error);
+    console.error('Error saving answer and getting next question:', error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 
-// Delete a student answer by ID
-router.delete('/studentanswer/:quizId/:id', StudentAuthorization, async (req, res) => {
-  try {
-    const quiz = req.quiz;
-    const { id } = req.params;
-
-    // Find and delete a student answer by ID for the given quiz in the database
-    const studentAnswer = await StudentAnswer.findOne({ where: { quizId: quiz.id, id } });
-    if (studentAnswer) {
-      await studentAnswer.destroy();
-      res.status(200).json({ success: true, message: 'Student answer deleted successfully' });
-    } else {
-      res.status(404).json({ success: false, message: 'Student answer not found' });
-    }
-  } catch (error) {
-    console.error('Error deleting student answer:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
-});
 
 module.exports = router;

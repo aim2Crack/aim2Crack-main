@@ -14,8 +14,8 @@ const StudentAnswer = sq.define('studentans', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  submissionTime: {
-    type: DataTypes.DATE,
+  timeElapsed: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   score: {
@@ -24,7 +24,7 @@ const StudentAnswer = sq.define('studentans', {
   },
   sectionId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   quizId: {
     type: DataTypes.INTEGER,

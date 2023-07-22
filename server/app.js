@@ -9,8 +9,8 @@ const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
 const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
-const studentAnsRoutes=require("./routes/students/studentans")
-const studentResultRoutes=require("./routes/students/studentresult");
+const studentAnsRoutes=require("./routes/quizzes/quiz_student/studentans")
+const studentResultRoutes=require("./routes/quizzes/quiz_student/studentresult");
 const fileUploadRouter=require('./routes/mediaupload/fileupload');
 
 const passport = require('passport');
@@ -71,7 +71,6 @@ app.use('/',mailerRoutes);
 app.use('/file', fileUploadRouter); 
 //quiz routes
 app.use('/',quizRoutes);
-
 app.use('/',quizquestionRoutes);
 testDbConnection();
 sq.sync({ logging: console.log });
