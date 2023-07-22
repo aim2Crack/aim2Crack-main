@@ -3,7 +3,8 @@ const router = express.Router();
 const StudentAuthorization = require('../../controllers/studentAuthorisation');
 const StudentAnswer = require('../../models/studentans');
 const User = require('../../models/user');
-const QuizQuestion = require('../../models/quizquestion')
+const QuizQuestion = require('../../models/quizquestion');
+const QuizOrderArray = require('../../models/quizorderarray');
 
 // Create a student answer
 router.post('/studentanswer/:code', StudentAuthorization, async (req, res) => {
@@ -22,9 +23,10 @@ router.post('/studentanswer/:code', StudentAuthorization, async (req, res) => {
       return res.status(404).json({ success: false, message: 'Quiz question not found' });
     }
 
-    console.log(quizQuestion);
+    console.log(quizQuestion.answer);
+    console.log(answer);
     let score =0;
-    if (quizQuestion)
+    if (quizQuestion.answer == answer)
     {
       score = quizQuestion.mark
     }
@@ -48,22 +50,67 @@ router.post('/studentanswer/:code', StudentAuthorization, async (req, res) => {
 });
 
 // Get all student answers for a quiz
-router.get('/studentanswer/:quizId', StudentAuthorization, async (req, res) => {
+router.get('/studentanswer/:code', StudentAuthorization, async (req, res) => {
   try {
+    const user = req.user;
     const quiz = req.quiz;
+    
+    const { code } = req.params;
+    // console.log(quiz);
+    // console.log(user);
+    console.log(code);
 
-    // Fetch all student answers for the given quiz from the database
-    const studentAnswers = await StudentAnswer.findAll({
-      where: { quizId: quiz.id },
-      include: [User],
+    const now = Date.now(); // Get the current timestamp in milliseconds
+
+    // Check if the quiz time is up
+    if (quiz.marginTime < now) {
+      // If the quiz time is up, return an error response
+      return res.status(404).json({ success: false, message: 'Time up' });
+    }
+
+
+    const quizQuestions= await QuizQuestion.findAll(
+      {
+        where :{ quizId: quiz.id},
+      }
+    );
+
+    if (!quizQuestions || quizQuestions.length === 0) {
+      // If no quiz questions were found for the given quiz ID, return an error response
+      return res.status(404).json({ success: false, message: 'Quiz questions not found' });
+    }
+    
+    const totalQuestions = quizQuestions.length;
+    console.log(totalQuestions);
+    
+// Helper function to shuffle an array in place using Fisher-Yates algorithm
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+// Shuffle the quizQuestions array randomly
+shuffleArray(quizQuestions);
+
+// Extract question IDs into a new array
+const randomQuestionIds = quizQuestions.map((question) => question.id);
+
+console.log(randomQuestionIds);
+    const quizOrder = await QuizOrderArray.create({
+      quizId: quiz.id,
+      studentId: user.id,
+      questionOrder: randomQuestionIds,
     });
 
-    res.status(200).json({ success: true, data: studentAnswers });
+    res.status(201).json({ success: true, data: quizOrder });
   } catch (error) {
-    console.error('Error fetching student answers:', error);
+    console.error('Error creating student answer:', error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
+
 
 // Get a student answer by ID
 router.get('/studentanswer/:quizId/:id', StudentAuthorization, async (req, res) => {
