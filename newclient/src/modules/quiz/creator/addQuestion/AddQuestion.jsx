@@ -243,7 +243,8 @@ function AddQuestion({editQuestionData, onClose}) {
                   min="1"
                   max="360"
                 />
-                <div className="time">
+                
+                <div className="mark">
                 Mark:
                 <input
                   type="number"
@@ -325,7 +326,7 @@ function AddQuestion({editQuestionData, onClose}) {
       <script src="https://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
       {fetchedData && (
         <div>
-          <p>Fetched Data: {JSON.stringify(fetchedData)}</p>
+          {/* <p>Fetched Data: {JSON.stringify(fetchedData)}</p> */}
         </div>
       )}
     </div>

@@ -13,11 +13,29 @@ router.post('/quizquestion/:code',QuizAuthorization, async (req, res) => {
     console.log(quiz);
     try {
         const { question, options, explanation, questionTime, marks, sectionId, correctAnsInteger, questionLevel, questionType, negativeMark} = req.body;
-        // console.log(req.body);
-        // Create a new quiz in the database
+        console.log(req.body);
+        let ans = [];
+        if(questionType=='numerical')
+        {
+            ans=[correctAnsInteger];
+        }
+        if(questionType=='single' || questionType=='multiple')
+        {
+         // Initialize an empty array to store the correct options
+// Loop through the options to find the correct ones
+    for (const option of options) {
+        if (option.isCorrect === true) {
+          ans.push(option.value);
+        }
+      }
+
+
+    }
+    console.log(ans); // Output: ["22222"]
+    // Create a new quiz in the database
         const quizQuestion = await QuizQuestion.create({
             question, 
-            answer:[correctAnsInteger],
+            answer:ans,
              explanation, questionTime, 
              mark:marks,
             options:options,
