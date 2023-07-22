@@ -11,7 +11,7 @@
 .error-message {
     color: red;
     font-size: 12px;
-     margin-top: -16px; 
+     margin-top: -20px; 
   }
   .error-mes {
     color: red;
@@ -304,13 +304,14 @@ option{
     background: #f0f0f0;
 }
 .sign{
+    position:center;
     width: 30%;
     padding: 10px 1.4rem;
     border-radius: 21px;
     background:  linear-gradient(316deg, #50d8d7 0%, #2a2323 140%);
     transition: all 2s ease;
     margin-top:10px;
-    margin-left:150px;
+    
 }
 .sign:hover{
     background:  linear-gradient(316deg,#2a2323  0%, #50d8d7 120%);
@@ -708,7 +709,7 @@ padding:8px
         font-size: 0.7rem;
     }
     .input{
-        margin-bottom: 0.5rem;
+        margin-bottom: 1.25rem;
 width: 75%;
     }
     .input input{
