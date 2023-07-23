@@ -19,7 +19,7 @@ const StudentAuthorization = async (req, res, next) => {
     const taker = await User.findOne({
       where: { email: email }
     });
-    console.log(taker);
+    // console.log(taker);
     if (taker.profileType != 'student') {
       return res.status(401).json({ error: 'The login profile is not faculty profile' });
     }
@@ -29,9 +29,9 @@ const StudentAuthorization = async (req, res, next) => {
     const quiz = await Quiz.findOne({
       where: { code: code}
     });
-    console.log(quiz);
+    // console.log(quiz);
     if (!quiz) {
-      return res.status(404).json({ error: 'Quiz not found' });
+      return res.status(404).json({ error: 'Quiz not found in student side' });
     }
     req.user=taker;
     req.quiz = quiz; // Attach the user object to the request for further use

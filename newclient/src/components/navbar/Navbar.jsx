@@ -11,7 +11,7 @@ function Navbar() {
 
   const code = window.location.pathname.split('/')[2];
   console.log(code);
-  const isExcludedPath2 = location.pathname === `/quiz/${code}/test`;
+  const isExcludedPath2 = location.pathname === `/quiz/${code}/test` || `/quiz/${code}/live` ;
   console.log(location.pathname);
   console.log(isExcludedPath2);
   const [user, setUser] = useState(null);
