@@ -35,7 +35,7 @@ const QuizFeedback = () => {
                     <div>
                         <img src= {logo} className="logo_head" />
                     </div>
-                    <div className="main_box">
+                    <div className="quizFeedback-main_box">
                         <div className="quizFeedback-heading">
                             <h2>Thank you for your valuable feedback.</h2>
                         </div>

@@ -24,7 +24,7 @@
     letter-spacing: 0.5px;}
 
 
-.main_box {
+.addQuestion-main_box {
     background-color: white;
     /* border: 1px solid rgb(110, 110, 110); */
     width: 72%;
@@ -39,13 +39,13 @@
     border-radius: 10px;
 }
 @media(max-width:750px) {
-    .main_box {
+    .addQuestion-main_box {
         width: 85%;
     }
 }
 
 @media(max-width:550px) {
-    .main_box {
+    .addQuestion-main_box {
         width: 95%;
     }
 }

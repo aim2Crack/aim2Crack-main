@@ -202,7 +202,7 @@ function AddQuestion() {
     <div>
       {!submitted && (
         <form onSubmit={handleSubmit} method="POST" id="top-level">
-          <div className="main_box">
+          <div className="addQuestion-main_box">
             {showHeading && (
               <div className="alert alert-error" style={saveConditionButton}>
                 Please fill all the fields!
@@ -243,7 +243,7 @@ function AddQuestion() {
 
             <textarea
               type="text"
-              className="question"
+              className="question2"
               id="question"
               name="question"
               value={data.question}
