@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const QuizAuthorization = require('../../controllers/quizAuthorisation');
-const StudentResult = require('../../models/studentresult');
+const QuizAuthorization = require('../../../controllers/quizAuthorisation');
+const StudentResult = require('../../../models/studentresult');
 
 // Create a student result
 router.post('/studentresult', QuizAuthorization, async (req, res) => {

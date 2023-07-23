@@ -19,17 +19,17 @@ const StudentAuthorization = async (req, res, next) => {
     const taker = await User.findOne({
       where: { email: email }
     });
-    // console.log(taker);
+    console.log(taker);
     if (taker.profileType != 'student') {
       return res.status(401).json({ error: 'The login profile is not faculty profile' });
     }
 
     const {code} = req.params; // Assuming the quiz ID is provided in the request parameters
-    // console.log(code);
+    console.log(code);
     const quiz = await Quiz.findOne({
       where: { code: code}
     });
-    // console.log(quiz);
+    console.log(quiz);
     if (!quiz) {
       return res.status(404).json({ error: 'Quiz not found' });
     }

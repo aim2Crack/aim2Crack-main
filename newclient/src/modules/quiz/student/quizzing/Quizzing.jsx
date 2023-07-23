@@ -1,7 +1,12 @@
 import React from 'react'
-//import logo from '../../../../assets/images/user/Logo enlarged-03.png'
+import logo from '../../../../assets/images/user/Logo enlarged-03.png'
+
 
 import './Quizzing.css'
+
+//fetching question data from backend
+
+
 
 function Quizzing() {
   return (
@@ -10,7 +15,7 @@ function Quizzing() {
         <div className="quizzing-container" id="quiz">
           <div className="quizzing-wrapper">
             <div className="quizzing-logo">
-              <img src="" alt="logo" />
+              <img src="logo" alt="logo" />
             </div>
             <br />
             <h1 id="subject" className="designh1"></h1>

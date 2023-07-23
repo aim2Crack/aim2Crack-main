@@ -88,6 +88,8 @@ const token = localStorage.getItem('token');
 
 {/* quiz-student-routes */}
         <Route path="/quiz/:code/test" element={<Instructions />} />
+        <Route path="/quiz/:code/live" element={<Quizzing />} />
+        <Route path="/quiz/:code/feedback" element={<QuizFeedback />} />
       </Routes>
     </Router>
   );
