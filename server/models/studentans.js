@@ -11,8 +11,8 @@ const StudentAnswer = sq.define('studentans', {
     allowNull: false,
   },
    answer: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    defaultValue: [],
   },
   timeElapsed: {
     type: DataTypes.INTEGER,

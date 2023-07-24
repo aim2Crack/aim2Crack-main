@@ -7,6 +7,18 @@ const QuizQuestion = require('../../../models/quizquestion');
 const QuizOrderArray = require('../../../models/quizorderarray');
 const {getNextQuestion} = require('./getNextQuestion');
 
+// Custom function to compare two arrays and check if they are equal
+const areArraysEqual = (array1, array2) => {
+  if (array1.length !== array2.length) return false;
+
+  for (let i = 0; i < array1.length; i++) {
+    if (array1[i] !== array2[i]) return false;
+  }
+
+  return true;
+};
+
+
 // Create a student answer
 // router.post('/studentanswer/:code', StudentAuthorization, async (req, res) => {
 //   try {
@@ -165,11 +177,19 @@ console.log('current index from front end', currentIndex);
     console.log(quizQuestion.answer);
     console.log(answer);
     let score =0;
-    if (quizQuestion.answer == answer)
-    {
-      score = quizQuestion.mark
-    }
-    console.log(score);
+// For single-choice questions, directly compare the selected answer with the correct answer
+if (quizQuestion.questionType == 'single') {
+  if (quizQuestion.answer == answer[0]) {
+    score = quizQuestion.mark;
+  }
+}
+
+// For multiple-choice questions, use the custom array comparison function to check if the answers match
+if (quizQuestion.questionType == 'multiple') {
+  if (areArraysEqual(quizQuestion.answer, answer)) {
+    score = quizQuestion.mark;
+  }
+}    console.log(score);
     const studentAnswer = StudentAnswer.create({
       questionId: quizOrder.dataValues.questionOrder[currentIndex],
       studentId: user.id,
@@ -185,11 +205,15 @@ console.log('current index from front end', currentIndex);
     const nextQuestion = await getNextQuestion(quizOrder.id, nextIndex);
 
     if (!nextQuestion) {
-      return res.status(404).json({ success: false, message: 'No more questions left' });
+      return res.status(410).json({ success: true, message: 'No more questions left' });
     }
-
+    console.log('Array  length', quizOrder.questionOrder.length);
     // Send the next question details to the front end
-    res.status(200).json({ success: true, data: {nextQuestion,nextIndex} });
+    if (nextIndex < quizOrder.questionOrder.length)
+      res.status(200).json({ success: true, data: {nextQuestion,nextIndex} });
+    else
+      res.status(200).json({ success: true, message: 'End of array' });
+
   } catch (error) {
     console.error('Error saving answer and getting next question:', error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
