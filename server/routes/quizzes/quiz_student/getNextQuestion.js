@@ -8,7 +8,7 @@ async function getNextQuestion(quizOrderId, currentIndex) {
     if (!quizOrder) {
       return null; // Quiz order not found
     }
-
+    console.log('current indezx', currentIndex);
     const { questionOrder } = quizOrder;
     const totalQuestions = questionOrder.length;
 
@@ -18,11 +18,28 @@ async function getNextQuestion(quizOrderId, currentIndex) {
     const questionId = questionOrder[currentIndex];
     const quizQuestion = await QuizQuestion.findOne({
       where: { id: questionId },
-      attributes: ['id', 'question', 'options', 'questionTime', 'mark'],
+      attributes: ['question', 'questionType', 'options', 'questionTime', 'mark'],
     });
 
-    return quizQuestion;
-  } catch (error) {
+  // Extract the isCorrect property from each option string
+  const options = quizQuestion.dataValues.options.map(optionString => {
+    const option = JSON.parse(optionString);
+    return option.value;
+  });
+
+// Create a sanitized quiz question object
+const sanitizedQuizQuestion = {
+  // id: quizQuestion.id,
+  question: quizQuestion.question,
+  options: options,
+  questionTime: quizQuestion.questionTime,
+  questionType:quizQuestion.questionType,
+  mark: quizQuestion.mark,
+};// return quizQuestion;
+// console.log(sanitizedQuizQuestion)
+return sanitizedQuizQuestion;
+
+} catch (error) {
     console.error('Error getting next question:', error);
     return null; // Return null on error
   }
