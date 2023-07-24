@@ -26,13 +26,6 @@ const StudentAnswer = sq.define('studentans', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  quizId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Quiz,
-      key: 'id',
-    },
-  },
   questionId: {
     type: DataTypes.INTEGER,
     references: {
@@ -44,7 +37,6 @@ const StudentAnswer = sq.define('studentans', {
 });
 
 StudentAnswer.associate = (models) => {
-  StudentAnswer.belongsTo(models.Quiz, { foreignKey: 'quizId' }); // student belongs to a quiz
   StudentAnswer.belongsTo(models.QuizQuestion, { foreignKey: 'questionId' }); // student answer belongs to a quiz question
 };
 

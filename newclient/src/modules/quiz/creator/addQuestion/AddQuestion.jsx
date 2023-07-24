@@ -5,7 +5,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
 import MyckEditor from '../../../../components/ckeditor/ckeditor';;
 
-function AddQuestion({editQuestionData, onClose}) {
+function AddQuestion({ editQuestionData, onClose }) {
   const [data, setData] = useState({
     questionTime: '',
     question: '',
@@ -34,7 +34,7 @@ function AddQuestion({editQuestionData, onClose}) {
   const fetchData = async () => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/').pop();
-  const id=23;
+    const id = 23;
     const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${id}`, {
       method: 'GET',
       headers: {
@@ -42,7 +42,7 @@ function AddQuestion({editQuestionData, onClose}) {
         Authorization: `Bearer ${token}`,
       },
     });
-  
+
     if (response.ok) {
       const data = await response.json();
       setFetchedData(data);
@@ -50,16 +50,16 @@ function AddQuestion({editQuestionData, onClose}) {
       console.error('Failed to fetch data:', response.status);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
-    
+
   const handleCancel = () => {
     // Call the onClose function to close the AddQuestion component
     onClose();
   };
-  
+
   const handleChangeData = async (values) => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/').pop();
@@ -140,8 +140,8 @@ function AddQuestion({editQuestionData, onClose}) {
       setCorrectOptions(correctOptions.filter((e) => e !== value));
     }
   };
- 
-  
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -159,7 +159,7 @@ function AddQuestion({editQuestionData, onClose}) {
       });
       return;
     }
-   
+
     const questionData = {
       questionType,
       questionLevel,
@@ -208,7 +208,7 @@ function AddQuestion({editQuestionData, onClose}) {
     <div className="add-question-container">
       {!submitted && (
         <form onSubmit={handleSubmit} method="POST" id="top-level">
-          <div className="main_box">
+          <div className="addQuestion-main_box">
             {showHeading && (
               <div className="alert alert-error" style={saveConditionButton}>
                 Please fill all the fields!
@@ -243,8 +243,8 @@ function AddQuestion({editQuestionData, onClose}) {
                   min="1"
                   max="360"
                 />
-                
-                <div className="mark">
+              </div>
+              <div className="mark">
                 Mark:
                 <input
                   type="number"
@@ -254,17 +254,15 @@ function AddQuestion({editQuestionData, onClose}) {
                   onChange={(e) => setData({ ...data, marks: e.target.value })}
                   min="1"
                   max="100"
-                /></div>
-                <br />
+                />
               </div>
 
-              
             </div>
-            
+
 
             {/* <textarea
               type="text"
-              className="question"
+              className="question2"
               id="question"
               name="question"
               value={data.question}
@@ -273,23 +271,23 @@ function AddQuestion({editQuestionData, onClose}) {
               rows="2"
               cols="50"
             ></textarea> */}
-             <div className='question2'>
-             Enter the question below:
+            <div className='question2'>
+              Enter the question below:
             </div>
-           
-             <MyckEditor
+
+            <MyckEditor
               data={data.question}
               placeholder="Write the question here"
               onChange={(content) => setData({ ...data, question: content })}
             />
             <div className='question2'>
-             Enter the options and select correct answer:
+              Enter the options and select correct answer:
             </div>
 
             {questionType && (
               <div>
                 {renderOptions()}
-                <button type="button" className="add-option" id="BUTTON" style={showButton} onClick={handleAddFields}>
+                <button type="button" className="add-option" id="add-BUTTON" style={showButton} onClick={handleAddFields}>
                   <FontAwesomeIcon className="faPlus" icon={faPlus} /> Add Options
                 </button>
               </div>
@@ -305,7 +303,7 @@ function AddQuestion({editQuestionData, onClose}) {
               placeholder="Correct answer"
             />
             <div className='question2'>
-             Enter the explanation:
+              Enter the explanation:
             </div>
             <MyckEditor
               data={data.explanation}
@@ -317,11 +315,11 @@ function AddQuestion({editQuestionData, onClose}) {
               <button className="btn" id="cancel_btn" type="button" onClick={handleCancel}>
                 Cancel
               </button>
-              </div>             
+            </div>
           </div>
-          
+
         </form>
-        
+
       )}
       <script src="https://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
       {fetchedData && (
