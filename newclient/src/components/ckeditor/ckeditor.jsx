@@ -101,7 +101,7 @@ function MyckEditor({ data, onChange, placeholder }) {
   };
 
   return (
-    <div style={{ width: '80%', maxWidth: '800px' }}>
+    <div style={{ width: '80%', maxWidth: '800px', margin: 'auto' }}>
       <CKEditor
         editor={ClassicEditor}
         data={editorData}
