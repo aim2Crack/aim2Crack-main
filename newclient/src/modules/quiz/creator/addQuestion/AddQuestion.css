@@ -24,10 +24,11 @@
     letter-spacing: 0.5px;}
 
 
-.main_box {
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(110, 110, 110);
-    width: 60vw;
+
+.addQuestion-main_box {
+    background-color: white;
+    /* border: 1px solid rgb(110, 110, 110); */
+    width: 72%;
     text-align: center;
     margin: auto;
     position: absolute;
@@ -42,13 +43,13 @@
     /* border-radius: 10px; */
 }
 @media(max-width:750px) {
-    .main_box {
+    .addQuestion-main_box {
         width: 85%;
     }
 }
 
 @media(max-width:550px) {
-    .main_box {
+    .addQuestion-main_box {
         width: 95%;
     }
 }
