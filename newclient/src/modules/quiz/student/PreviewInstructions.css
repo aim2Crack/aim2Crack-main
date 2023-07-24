@@ -1,14 +1,31 @@
+.preview-instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 .instructions-content h2 {
     font-size: 2rem;
     margin: 10px auto;
     font-weight: bold;
     color: #e60000;
 }
+
+#the_timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+  }
+
 #logo {
     margin-top: 50px;
 }
 
-
+.red-text {
+    color: red;
+  }
+  
 .lines {
     font-weight: bold;
 }

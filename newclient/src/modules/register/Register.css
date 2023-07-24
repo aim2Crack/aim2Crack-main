@@ -1,15 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;500&display=swap');
 
+#email1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    background-color: white;
+  }
 /* Add styles for error messages */
 .error-message {
     color: red;
     font-size: 12px;
-    /* margin-top: -16px; */
+     margin-top: -20px; 
   }
-  
+  .error-mes {
+    color: red;
+    font-size: 12px;
+     margin-top: -22px; 
+  }
+  .profile{
+    flex-basis: 48%;
+height: 48px;
+border: 1px solid #acacac1a;
+background: #f0f0f0;
+color: rgb(10, 8, 8);
+font-size: 0.9rem;
+font-weight: 400;
+
+align-items: center;
+justify-content: center;
+border-radius: 0.5rem;
+margin-top: 10px;
+  }
   /* Add styles for the fields with errors */
   .field-error {
     border: 1px solid red;
+    color: red;
+    font-size: 12px;
+    margin-top: -70px; 
   }
 .alert-success{
  
@@ -183,6 +211,7 @@ transition: all 0.5s ease;
     border: none;
     width: 89%;
 }
+
 .form__label{
     position: absolute;
     left: 1rem;
@@ -231,6 +260,7 @@ transition: all 0.5s ease;
     left: .8rem;
     font-size: 0.9rem;
     font-weight: 500;
+    
     z-index: 10;
   }
   .id_password1:not(:placeholder-shown).id_password1:not(:focus)+ #password_label{
@@ -274,12 +304,14 @@ option{
     background: #f0f0f0;
 }
 .sign{
-    width: 100%;
+    position:center;
+    width: 30%;
     padding: 10px 1.4rem;
     border-radius: 21px;
     background:  linear-gradient(316deg, #50d8d7 0%, #2a2323 140%);
     transition: all 2s ease;
-    margin-top:5px;
+    margin-top:10px;
+    
 }
 .sign:hover{
     background:  linear-gradient(316deg,#2a2323  0%, #50d8d7 120%);
@@ -677,7 +709,7 @@ padding:8px
         font-size: 0.7rem;
     }
     .input{
-        margin-bottom: 0.5rem;
+        margin-bottom: 1.25rem;
 width: 75%;
     }
     .input input{

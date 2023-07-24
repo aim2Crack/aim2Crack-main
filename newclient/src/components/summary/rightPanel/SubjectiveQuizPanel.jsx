@@ -1,11 +1,12 @@
-import React from 'react'
-import '../../styles/rightPanel.css'
-import searchImage from  '../../../assets/images/summary/searchBar.svg'
-import pdfImage from '../../../assets/images/summary/pdfImage.svg'
-import {Link} from "react-router-dom";
-const SubjectiveQuizPanel = ()=>{
-    return(
+import React from 'react';
+import ReactPropTypes from 'prop-types';
+import '../../styles/rightPanel.css';
+import searchImage from  '../../../assets/images/summary/searchBar.svg';
+import pdfImage from '../../../assets/images/summary/pdfImage.svg';
+import { Link } from "react-router-dom";
 
+const SubjectiveQuizPanel = ({ quizName, modifiedDate }) => {
+    return (
         <div>
             <div className="search-bar-panel">
                 <input
@@ -28,12 +29,12 @@ const SubjectiveQuizPanel = ()=>{
                 </div>
 
                 <Link to="/createQuiz">
-                <div className="upload-button-container">
-                    <button className="upload-button">
-                        Create Quiz
-                        <i className="fa fa-upload" aria-hidden="true"></i>
-                    </button>
-                </div>
+                    <div className="upload-button-container">
+                        <button className="upload-button">
+                            Create Quiz
+                            <i className="fa fa-upload" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </Link>
 
                 <div className="cards-container d-flex">
@@ -43,16 +44,15 @@ const SubjectiveQuizPanel = ()=>{
                                 <img src= {pdfImage} className="content-card-image"/>
                             </div>
                             <div className="name-box flex-f-col">
-                                <p className="file-name">Introduction to Machine Learning</p>
-                                <div className="sub-heading ">
+                                <p className="file-name">{quizName}</p>
+                                <div className="sub-heading">
                                     <span className="naam">Subject : </span>
                                     <span className="sub-name">EMF Theory</span>
                                 </div>
-
                             </div>
 
                             <div className="middle-container d-flex">
-                                <div className="last-mod"> Modified : Dec-23-2022</div>
+                                <div className="last-mod"> Modified : {modifiedDate}</div>
                                 <div className="vie">Views : 5</div>
                             </div>
 
@@ -69,6 +69,12 @@ const SubjectiveQuizPanel = ()=>{
                 </div>
             </div>
         </div>
-    )
-}
-export default SubjectiveQuizPanel
+    );
+};
+
+SubjectiveQuizPanel.propTypes = {
+    quizName: ReactPropTypes.string.isRequired,
+    modifiedDate: ReactPropTypes.string.isRequired,
+};
+
+export default SubjectiveQuizPanel;

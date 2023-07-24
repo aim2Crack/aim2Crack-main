@@ -9,6 +9,9 @@ const mailerRoutes=require('./routes/user/VerifyMailer')
 const loginRoutes= require('./routes/user/login');
 const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
 const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
+const studentAnsRoutes=require("./routes/quizzes/quiz_student/studentans")
+const studentResultRoutes=require("./routes/quizzes/quiz_student/studentresult");
+const fileUploadRouter=require('./routes/mediaupload/fileupload');
 
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -65,14 +68,15 @@ app.use('/',signupRoutes);
 app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 app.use('/',mailerRoutes);
-
+app.use('/file', fileUploadRouter); 
 //quiz routes
 app.use('/',quizRoutes);
-
 app.use('/',quizquestionRoutes);
 testDbConnection();
 sq.sync({ logging: console.log });
-
+//student routes
+app.use('/',studentAnsRoutes);
+app.use('/',studentResultRoutes);
 
 // models.sq.sync({ force: true }).then(result => {
 //   console.log('model synced!')
