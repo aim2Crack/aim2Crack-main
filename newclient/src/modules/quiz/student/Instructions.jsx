@@ -159,7 +159,10 @@ export default function PreviewInstructions() {
 
   const handleStartQuiz = () => {
     // Add your logic to start the quiz here
+    const code = window.location.pathname.split('/')[2];
     console.log('Quiz started!');
+    const targetURL = `/quiz/${code}/live`;
+    navigate(targetURL);
   };
 
   return (

@@ -147,6 +147,16 @@ const handleSubmit = async (event) => {
       // Scroll to the top of the page after the data is updated
       window.scrollTo(0, 0);
       
+      // Set the initial timer value for the question
+      setTimeElapsed(responseData.data.firstQuestion.questionTime);
+      
+      // Start the timer countdown
+      const timer = setInterval(() => {
+        setTimeElapsed((prevTime) => prevTime - 1);
+      }, 1000);
+
+      // Clean up the timer when component unmounts or moves to the next question
+      return () => clearInterval(timer);
       // Log the updated questionData (Note: The state update might not be synchronous)
       console.log('Updated questionData:', responseData.data.nextQuestion);
     } else if (response.status === 410) {
