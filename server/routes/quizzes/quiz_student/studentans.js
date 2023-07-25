@@ -149,6 +149,7 @@ res.status(201).json({ success: true, data: {firstQuestion, currentIndex} });
 router.post('/studentanswer/:code/:currentIndex', StudentAuthorization, async (req, res) => {
   try {
     const user = req.user;
+    const quiz=req.quiz;
     const {currentIndex } = req.params;
     const { answer, timeElapsed } = req.body;
 console.log('current index from front end', currentIndex);
@@ -158,7 +159,7 @@ console.log('current index from front end', currentIndex);
     // // Save the student's answer here, assuming you have a separate model for student answers
     // and you can save the answer along with the question ID, student ID, selectedOption, and timeTaken.
     const quizOrder = await QuizOrderArray.findOne({
-      where:{studentId:user.id}
+      where:{studentId:user.id, quizId:quiz.id}
     });
     console.log(quizOrder.questionOrder);
     if (!quizOrder) {
