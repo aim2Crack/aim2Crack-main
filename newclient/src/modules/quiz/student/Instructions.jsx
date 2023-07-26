@@ -159,10 +159,13 @@ export default function PreviewInstructions() {
 
   const handleStartQuiz = () => {
     // Add your logic to start the quiz here
+    // Add your logic to start the quiz here
+  if (isTimerComplete && !isMarginTimerComplete) {
     const code = window.location.pathname.split('/')[2];
     console.log('Quiz started!');
     const targetURL = `/quiz/${code}/live`;
     navigate(targetURL);
+  }
   };
 
   return (
