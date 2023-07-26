@@ -82,7 +82,7 @@ export default function PreviewInstructions() {
           Your chance to take this quiz will end in: <span id="the_timer">8789</span>
         </p>
 
-        <button className="btn-back" onClick={handleGoBack}>Go Back</button>
+        <button  onClick={handleGoBack}>Go Back</button>
       </div>
     </>
   );

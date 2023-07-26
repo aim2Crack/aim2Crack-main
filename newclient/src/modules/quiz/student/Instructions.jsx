@@ -169,7 +169,8 @@ export default function PreviewInstructions() {
   };
 
   return (
-    <div className="preview-instructions">
+<>    <body>
+    <div className="instructions1">
       <img src={logo} alt="" id="logo" />
       <h2>Instructions to the candidates</h2>
 
@@ -233,19 +234,21 @@ export default function PreviewInstructions() {
 
 
       {!isFullscreen && (
-        <button className="btn-back" onClick={handleEnterFullScreen}>
+        <button className="start-btn" onClick={handleEnterFullScreen}>
           Enter Fullscreen
         </button>
       )}
-
+  
+   
 {isFullscreen && !isMarginTimerComplete && (
-  <button className="btn-back" onClick={handleStartQuiz}>
+  <button id='start-btn' onClick={handleStartQuiz}>
     {isTimerComplete ? `Start Quiz` : `${formattedTime}`}
   </button>
 )}
 
-
-    </div>
+</div>
+</body>
+</>
 
 
 
