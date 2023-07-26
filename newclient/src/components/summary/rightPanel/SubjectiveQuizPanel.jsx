@@ -44,7 +44,7 @@ const SubjectiveQuizPanel = ({ quizName, modifiedDate }) => {
                                 <img src= {pdfImage} className="content-card-image"/>
                             </div>
                             <div className="name-box flex-f-col">
-                                <p className="file-name">{quizName}</p>
+                                <p className="file-name">{}</p>
                                 <div className="sub-heading">
                                     <span className="naam">Subject : </span>
                                     <span className="sub-name">EMF Theory</span>

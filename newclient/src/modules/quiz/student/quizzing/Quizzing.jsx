@@ -37,6 +37,16 @@ function Quizzing() {
         console.log(responseData);
           setQuestionData(responseData.data.firstQuestion);
           setCurrentIndex(responseData.data.currentIndex); 
+              // Set the initial timer value for the question
+      // setTimeElapsed(questionData.questionTime);
+      // console.log('Updated questionData:', questionData.questionTime);
+      // // // Start the timer countdown
+      // const timer = setInterval(() => {
+      //   setTimeElapsed((prevTime) => prevTime - 1);
+      // }, 1000);
+
+      // // Clean up the timer when component unmounts or moves to the next question
+      // return () => clearInterval(timer);
         } 
         else {
           console.error('Failed to fetch quiz details:', response.status);
@@ -45,9 +55,10 @@ function Quizzing() {
         console.error('Error fetching quiz details:', error);
       }
     };
-       
+    // 
     fetchQuestionDetails();
   }, [navigate]);
+
 
 
  // Function to open the page in full screen
@@ -67,7 +78,51 @@ function Quizzing() {
 useEffect(() => {
   setSelectedOptions([]);
   setAnswer([]);
+
+  if (questionData) {
+    setTimeElapsed(questionData.questionTime);
+    console.log('Updated questionData:', questionData.questionTime);
+    const timer = setInterval(() => {
+      setTimeElapsed((prevTime) => {
+        if (prevTime > 0) {
+          return prevTime - 1;
+        } else {
+          // Time's up, auto-submit the question
+          setTimeElapsed(0);
+          clearInterval(timer);
+          handleSubmit();
+          return 0;
+        }
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }
 }, [questionData]);
+
+
+
+// const startQuestionTimer = () => {
+//  ;
+//   console.log(questionData.questionTime);
+// };
+
+// useEffect(() => {
+//   let timer = null;
+
+//   if (timeElapsed > 0) {
+//     timer = setInterval(() => {
+//       setTimeElapsed((prevTime) => prevTime - 1);
+//     }, 1000);
+//   } else {
+//     // Time's up, handle it here (e.g., auto-submit the question)
+//     clearInterval(timer);
+//     // Add your logic here to handle when the time is up for the question.
+//     // For example, auto-submit the question.
+//     handleSubmit();
+//   }
+
+//   return () => clearInterval(timer); // Clean up the timer when the component unmounts or moves to the next question.
+// }, [timeElapsed]);
 
   // Render a loading message while waiting for data
   if (!questionData) {
@@ -92,7 +147,7 @@ const handleAnswerSelect = (option) => {
   if (questionData.questionType === 'single') {
     setAnswer([option]); // Store the single option answer as an array with a single element
     setSelectedOptions([option]);
-    setTimeElapsed(10);
+    // setTimeElapsed(10);
   } else if (questionData.questionType === 'multiple') {
     setSelectedOptions((prevSelectedOptions) => {
       const isOptionSelected = prevSelectedOptions.some((selectedOption) => areArraysEqual(selectedOption, option));
@@ -114,15 +169,17 @@ const handleAnswerSelect = (option) => {
       }
     });
 
-    setTimeElapsed(10);
+    // setTimeElapsed(10);
   }
 };
+
 
     
   
 const handleSubmit = async (event) => {
   event.preventDefault();
-  
+    // Reset the timer and clear the interval
+   
   try {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/')[2];
@@ -147,18 +204,18 @@ const handleSubmit = async (event) => {
       // Scroll to the top of the page after the data is updated
       window.scrollTo(0, 0);
       
-      // Set the initial timer value for the question
-      setTimeElapsed(responseData.data.firstQuestion.questionTime);
-      
-      // Start the timer countdown
-      const timer = setInterval(() => {
-        setTimeElapsed((prevTime) => prevTime - 1);
-      }, 1000);
+      // // Set the initial timer value for the question
+      // setTimeElapsed(questionData.questionTime);
+      // console.log('Updated questionData:', questionData.questionTime);
+      // // // Start the timer countdown
+      // const timer = setInterval(() => {
+      //   setTimeElapsed((prevTime) => prevTime - 1);
+      // }, 1000);
 
-      // Clean up the timer when component unmounts or moves to the next question
-      return () => clearInterval(timer);
+      // // Clean up the timer when component unmounts or moves to the next question
+      // return () => clearInterval(timer);
       // Log the updated questionData (Note: The state update might not be synchronous)
-      console.log('Updated questionData:', responseData.data.nextQuestion);
+     
     } else if (response.status === 410) {
       // Redirect to the result page when quiz data is not found (status code: 210)
       const targetURL = `/quiz/${code}/feedback`;
@@ -171,7 +228,6 @@ const handleSubmit = async (event) => {
   }
 };
 
-  
 
   return (
     <div>
@@ -194,7 +250,7 @@ const handleSubmit = async (event) => {
             <div id="quizzing-hide1">
               <div className="time maxwidth1 m_auto">
                 <h2>Section Time Left : <span id="timeLeft">00:00</span></h2>
-                <h2>Question Time Left : <span id="questionTimeLeft">{questionData.questionTime}</span></h2>
+                <h2>Question Time Left: <span id="questionTimeLeft">{timeElapsed} seconds</span></h2>
               </div>
 
               <div id="help" className="maxwidth1 m_auto t_auto">
