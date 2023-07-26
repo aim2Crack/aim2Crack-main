@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../../../assets/images/user/Logo enlarged-03.png';
 import './Quizzing.css';
 import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
-
+// import Notification from '../../../../components/notification';
+// import TabVisibilityHandler from '../../../../components/tabchange/TabVisibilityHandler';
 
 function Quizzing() {
   const navigate = useNavigate(); 
@@ -12,6 +13,13 @@ function Quizzing() {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeElapsed, setTimeElapsed]=useState(0);
+  const [isTabActive, setIsTabActive] = useState(true);
+
+  const handleTabChange = (isActive) => {
+    setIsTabActive(isActive);
+    // You can perform additional actions when the tab changes, if needed.
+  };
+
 
   useEffect(() => {
     const fetchQuestionDetails = async () => {
@@ -37,16 +45,6 @@ function Quizzing() {
         console.log(responseData);
           setQuestionData(responseData.data.firstQuestion);
           setCurrentIndex(responseData.data.currentIndex); 
-              // Set the initial timer value for the question
-      // setTimeElapsed(questionData.questionTime);
-      // console.log('Updated questionData:', questionData.questionTime);
-      // // // Start the timer countdown
-      // const timer = setInterval(() => {
-      //   setTimeElapsed((prevTime) => prevTime - 1);
-      // }, 1000);
-
-      // // Clean up the timer when component unmounts or moves to the next question
-      // return () => clearInterval(timer);
         } 
         else {
           console.error('Failed to fetch quiz details:', response.status);
@@ -61,19 +59,33 @@ function Quizzing() {
 
 
 
- // Function to open the page in full screen
- const openFullScreen = () => {
-  const docElem = document.documentElement;
-  if (docElem.requestFullscreen) {
-    docElem.requestFullscreen();
-  } else if (docElem.mozRequestFullScreen) {
-    docElem.mozRequestFullScreen();
-  } else if (docElem.webkitRequestFullscreen) {
-    docElem.webkitRequestFullscreen();
-  } else if (docElem.msRequestFullscreen) {
-    docElem.msRequestFullscreen();
-  }
-};
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      if (!document.fullscreenElement) {
+        showExitFullscreenWarning(); // Show the warning when fullscreen is exited
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullScreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullScreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullScreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullScreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullScreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullScreenChange);
+    };
+  }, []);
+
+  const showExitFullscreenWarning = () => {
+    setExitFullscreenWarning(true);
+  };
+
+  const hideExitFullscreenWarning = () => {
+    setExitFullscreenWarning(false);
+  };
 
 useEffect(() => {
   setSelectedOptions([]);
@@ -82,47 +94,23 @@ useEffect(() => {
   if (questionData) {
     setTimeElapsed(questionData.questionTime);
     console.log('Updated questionData:', questionData.questionTime);
+
     const timer = setInterval(() => {
       setTimeElapsed((prevTime) => {
         if (prevTime > 0) {
           return prevTime - 1;
         } else {
           // Time's up, auto-submit the question
-          setTimeElapsed(0);
           clearInterval(timer);
-          handleSubmit();
+          handleSubmit(); // Call the handleSubmit function to submit the answer
           return 0;
         }
       });
     }, 1000);
+
     return () => clearInterval(timer);
   }
 }, [questionData]);
-
-
-
-// const startQuestionTimer = () => {
-//  ;
-//   console.log(questionData.questionTime);
-// };
-
-// useEffect(() => {
-//   let timer = null;
-
-//   if (timeElapsed > 0) {
-//     timer = setInterval(() => {
-//       setTimeElapsed((prevTime) => prevTime - 1);
-//     }, 1000);
-//   } else {
-//     // Time's up, handle it here (e.g., auto-submit the question)
-//     clearInterval(timer);
-//     // Add your logic here to handle when the time is up for the question.
-//     // For example, auto-submit the question.
-//     handleSubmit();
-//   }
-
-//   return () => clearInterval(timer); // Clean up the timer when the component unmounts or moves to the next question.
-// }, [timeElapsed]);
 
   // Render a loading message while waiting for data
   if (!questionData) {
@@ -176,8 +164,8 @@ const handleAnswerSelect = (option) => {
 
     
   
-const handleSubmit = async (event) => {
-  event.preventDefault();
+const handleSubmit = async () => {
+  // event.preventDefault();
     // Reset the timer and clear the interval
    
   try {
@@ -194,28 +182,11 @@ const handleSubmit = async (event) => {
     });
    
     if (response.ok) {
-      // Successfully saved the selected option
-      // Now navigate to the next question
       const responseData = await response.json();
       setQuestionData(responseData.data.nextQuestion); // Update the state with the next question's data
       setCurrentIndex(responseData.data.nextIndex); // Update the currentIndex state
       setAnswer([]); // Clear the selected answer for the next question
-      
-      // Scroll to the top of the page after the data is updated
       window.scrollTo(0, 0);
-      
-      // // Set the initial timer value for the question
-      // setTimeElapsed(questionData.questionTime);
-      // console.log('Updated questionData:', questionData.questionTime);
-      // // // Start the timer countdown
-      // const timer = setInterval(() => {
-      //   setTimeElapsed((prevTime) => prevTime - 1);
-      // }, 1000);
-
-      // // Clean up the timer when component unmounts or moves to the next question
-      // return () => clearInterval(timer);
-      // Log the updated questionData (Note: The state update might not be synchronous)
-     
     } else if (response.status === 410) {
       // Redirect to the result page when quiz data is not found (status code: 210)
       const targetURL = `/quiz/${code}/feedback`;
