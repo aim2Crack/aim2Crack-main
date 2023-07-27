@@ -13,8 +13,11 @@ function Quizzing() {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [totalQuizTime, setTotalQuizTime] = useState(0);
+  const [totalQuestions, setTotalQuestions] = useState(0);
   const [timeElapsed, setTimeElapsed]=useState(0);
   const [isTabActive, setIsTabActive] = useState(true);
+  const [progress, setProgress] = useState(0);
+
 
 
   const handleTabChange = (isActive) => {
@@ -47,7 +50,11 @@ function Quizzing() {
         console.log(responseData);
           setQuestionData(responseData.data.firstQuestion);
           setCurrentIndex(responseData.data.currentIndex); 
-          setTotalQuizTime(responseData.data.totalQuizTime)
+          setTotalQuizTime(responseData.data.totalQuizTime);
+          setTotalQuestions(responseData.data.totalQuestions);
+           // Calculate the progress based on the current index and the total number of questions
+        const totalQuestions = responseData.data.totalQuestions;
+        setProgress((currentIndex + 1) / totalQuestions);
         } 
         else {
           console.error('Failed to fetch quiz details:', response.status);
@@ -138,6 +145,10 @@ useEffect(() => {
           return 0;
         }
       });
+
+         // Update the progress bar based on the current question index and total questions
+    // const totalQuestions = questionData ? questionData.totalQuestions : 1;
+    setProgress((currentIndex + 1) / totalQuestions);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -218,6 +229,8 @@ const handleSubmit = async () => {
       setQuestionData(responseData.data.nextQuestion); // Update the state with the next question's data
       setCurrentIndex(responseData.data.nextIndex); // Update the currentIndex state
       setAnswer([]); // Clear the selected answer for the next question
+      setProgress((currentIndex + 1) / totalQuestions);
+      // console.log('progress',((currentIndex + 1) / totalQuestions));
       window.scrollTo(0, 0);
     } else if (response.status === 410) {
       // Redirect to the result page when quiz data is not found (status code: 210)
@@ -237,28 +250,27 @@ const handleSubmit = async () => {
       <div className="quizzing-box">
         <div className="quizzing-container" id="quiz">
           <div className="quizzing-wrapper">
-            {/* <div className="quizzing-logo">
+            <div className="quizzing-logo">
               <img src={logo} alt="logo" />
-            </div> */}
+            </div>
             <br />
             <h1 id="subject" className="designh1"></h1>
           </div>
 
           <section id="nav">
-            <div id="chance">
+            {/* <div id="chance">
               <h5 className="whichtypeof">Relax Timer <span id="reltime">00:10</span></h5>
               <h5 className="whichtypeof1" align="left">Choose the Section :</h5>
-            </div>
+            </div> */}
 
             <div id="quizzing-hide1">
               <div className="time maxwidth1 m_auto">
                 <h2>Quiz Time Left : <span id="timeLeft">{timeRemaining}</span></h2>
-                <h2>Question Time Left: <span id="questionTimeLeft">{timeElapsed} seconds</span></h2>
+                <h2>Question Time Left: <span id="timeLeft">{timeElapsed} seconds</span></h2>
               </div>
 
-              <div id="help" className="maxwidth1 m_auto t_auto">
-                <span id="green">Attempted <span id="attempted"> 0 </span></span>
-                &nbsp; <span id="red">Missed <span id="missed">0 </span></span> &nbsp; Left <span id="left"></span>
+              <div className="maxwidth1 m_auto">
+               <h2>Total Number of questions: <span id="timeLeft">{totalQuestions}</span>  Current Question Number: <span id="timeLeft">{currentIndex+1}</span></h2>
               </div>
             </div>
             
@@ -266,7 +278,7 @@ const handleSubmit = async () => {
 
           <div className="quizzing-hide">
             <div id="progressBar" className="m_auto">
-              <div id="progressBarFull" className="colorbar"></div>
+              <div id="progressBarFull" className="colorbar" style={{ width: `${progress * 100}%` }}></div>
             </div>
 
             

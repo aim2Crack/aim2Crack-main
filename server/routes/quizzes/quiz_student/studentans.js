@@ -134,7 +134,7 @@ if (!firstQuestion) {
 }
 
 // Send the first question details to the front end
-res.status(201).json({ success: true, data: {firstQuestion, currentIndex, totalQuizTime} });
+res.status(201).json({ success: true, data: {firstQuestion, currentIndex, totalQuizTime, totalQuestions} });
 // send question and get answer.
     // res.status(201).json({ success: true, data: quizOrder });
   } catch (error) {
