@@ -23,8 +23,10 @@ async function getNextQuestion(quizOrderId, currentIndex) {
 
   // Extract the isCorrect property from each option string
   const options = quizQuestion.dataValues.options.map(optionString => {
+    if (optionString){
     const option = JSON.parse(optionString);
     return option.value;
+    }
   });
 
 // Create a sanitized quiz question object

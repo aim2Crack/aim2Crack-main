@@ -398,6 +398,9 @@ input[type="text"] {
 #timeLeft{
     color:red;
 }
+#timeUsed{
+    color:#0f1389;
+}
 
 .choose:hover {
     transition: all 0.2s ease-in;

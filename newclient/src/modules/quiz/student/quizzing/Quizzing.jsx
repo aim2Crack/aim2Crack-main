@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../../../assets/images/user/Logo enlarged-03.png';
 import './Quizzing.css';
 import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
+import { formatMinutes } from '../../../../components/timer/formatMinutes';
 // import Notification from '../../../../components/notification';
 // import TabVisibilityHandler from '../../../../components/tabchange/TabVisibilityHandler';
 
@@ -17,6 +18,21 @@ function Quizzing() {
   const [timeElapsed, setTimeElapsed]=useState(0);
   const [isTabActive, setIsTabActive] = useState(true);
   const [progress, setProgress] = useState(0);
+
+  
+  // State to store the total time taken for the quiz
+  const [totalTimeTaken, setTotalTimeTaken] = useState(0);
+
+   // Separate useEffect hook for the timer increment
+   useEffect(() => {
+    // Start the timer increment if quiz is ongoing and a question is present
+    const timer = setInterval(() => {
+      setTotalTimeTaken((prevTotalTime) => prevTotalTime + 1);
+    }, 1000);
+
+    // Clear the interval timer for the timer increment when the component unmounts
+    return () => clearInterval(timer);
+  }, []);
 
 
 
@@ -226,6 +242,7 @@ const handleSubmit = async () => {
    
     if (response.ok) {
       const responseData = await response.json();
+      console.log(responseData.data)
       setQuestionData(responseData.data.nextQuestion); // Update the state with the next question's data
       setCurrentIndex(responseData.data.nextIndex); // Update the currentIndex state
       setAnswer([]); // Clear the selected answer for the next question
@@ -265,12 +282,12 @@ const handleSubmit = async () => {
 
             <div id="quizzing-hide1">
               <div className="time maxwidth1 m_auto">
-                <h2>Quiz Time Left : <span id="timeLeft">{timeRemaining}</span></h2>
-                <h2>Question Time Left: <span id="timeLeft">{timeElapsed} seconds</span></h2>
+                <h2>Time taken for this quiz: <span id="timeUsed">{formatMinutes(totalTimeTaken)}</span></h2>
+                <h2>Question Time Left: <span id="timeLeft">{formatMinutes(timeElapsed)} </span></h2>
               </div>
 
               <div className="maxwidth1 m_auto">
-               <h2>Total Number of questions: <span id="timeLeft">{totalQuestions}</span>  Current Question Number: <span id="timeLeft">{currentIndex+1}</span></h2>
+               <h2>Total Number of questions: <span id="timeUsed">{totalQuestions}</span>  Current Question Number: <span id="timeUsed">{currentIndex+1}</span></h2>
               </div>
             </div>
             
@@ -307,22 +324,29 @@ const handleSubmit = async () => {
 
 
                       
-
 {questionData.questionType === 'numerical' && (
-            <div id="numerical">
-              <h2><span id="quizType">Numerical Type Question</span></h2>
-              <div className="quizzing-header">
-                {/* Render the question content */}
-                {/* Render the question content */}
-                <CKEditorViewer editorData={questionData.question}/>
-                {/* Render the options */}
-                {/* Render the input field for numerical answer */}
-                <form autoComplete="off" onKeyDown={(event) => event.key !== 'Enter'}>
-                  <h3><input id="numericalAns" type="text" onChange={(e) => setAnswer(e.target.value)} /><br /></h3>
-                </form>
-              </div>
-            </div>
-          )}
+  <div className='colorbar'>
+    <h2><span id="quizType">Numerical Type Question</span></h2>
+    <div className="quizzing-header">
+      {/* Render the question content */}
+      <CKEditorViewer editorData={questionData.question} />
+      {/* Render the input field for numerical answer */}
+      <form autoComplete="off" onKeyDown={(event) => event.key !== 'Enter'}>
+        <label htmlFor="numericalAns">Enter your numerical answer:</label>
+        <input
+          // id="numericalAns"
+          type="number"
+          min="0" // Add any constraints if applicable (minimum value, maximum value, etc.)
+          max="100"
+          onChange={(e) => setAnswer([e.target.value])} // Convert the numerical answer to an array
+          placeholder="Type your answer here"
+        />
+      </form>
+    </div>
+  </div>
+)}
+
+
 
 {questionData.questionType === 'multiple' && (
   <div id="multiCorrect">

@@ -177,7 +177,7 @@ console.log('current index from front end', currentIndex);
     console.log(answer);
     let score =0;
 // For single-choice questions, directly compare the selected answer with the correct answer
-if (quizQuestion.questionType == 'single') {
+if (quizQuestion.questionType == 'single' || quizQuestion.questionType == 'numerical' ) {
   if (quizQuestion.answer == answer[0]) {
     score = quizQuestion.mark;
   }
@@ -207,6 +207,7 @@ if (quizQuestion.questionType == 'multiple') {
       return res.status(410).json({ success: true, message: 'No more questions left' });
     }
     console.log('Array  length', quizOrder.questionOrder.length);
+    // console.log(nextQuestion)
     // Send the next question details to the front end
     if (nextIndex < quizOrder.questionOrder.length)
       res.status(200).json({ success: true, data: {nextQuestion,nextIndex} });
