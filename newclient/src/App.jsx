@@ -61,13 +61,13 @@ const token = localStorage.getItem('token');
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/homepage" element={<Homepage />} />
+        {/* <Route path="/homepage" element={<Homepage />} /> */}
         {/* <Route
           path="/summary"
           element={isAuthenticated? <Summary /> : <Navigate to="/login" />}
         /> */}
         <Route path="/summary" element={<Summary/>}></Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/quizzing" element={<Quizzing />} />
         <Route path="/quiz-feedback" element={<QuizFeedback />} />
         <Route path="/forgot-password" element={<ResetPass />} />

@@ -157,12 +157,12 @@ function Login() {
 
       <div>
 
-        <Link
+        {/* <Link
             to="/"
             id="a__home"
         >
           <FontAwesomeIcon icon={faHouse} />
-        </Link>
+        </Link> */}
         <div className="login-container">
           <div className="content-section">
             <div>

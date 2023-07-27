@@ -12,8 +12,10 @@ function Quizzing() {
   const [answer, setAnswer] = useState([]); // State to track the selected answer (if applicable)
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [totalQuizTime, setTotalQuizTime] = useState(0);
   const [timeElapsed, setTimeElapsed]=useState(0);
   const [isTabActive, setIsTabActive] = useState(true);
+
 
   const handleTabChange = (isActive) => {
     setIsTabActive(isActive);
@@ -45,6 +47,7 @@ function Quizzing() {
         console.log(responseData);
           setQuestionData(responseData.data.firstQuestion);
           setCurrentIndex(responseData.data.currentIndex); 
+          setTotalQuizTime(responseData.data.totalQuizTime)
         } 
         else {
           console.error('Failed to fetch quiz details:', response.status);
@@ -57,7 +60,30 @@ function Quizzing() {
     fetchQuestionDetails();
   }, [navigate]);
 
-
+  const [timeRemaining, setTimeRemaining] = useState(totalQuizTime);
+  // console.log('remaining time',timeRemaining);
+  
+    // Separate useEffect hook for the total quiz timer
+    useEffect(() => {
+      // Start the total quiz timer if it hasn't started already
+      if (timeRemaining > 0) {
+        const quizTimer = setInterval(() => {
+          setTimeRemaining((prevTotalTime) => {
+            if (prevTotalTime > 0) {
+              return prevTotalTime - 1;
+            } else {
+              // Total quiz time's up, you might want to handle this here
+              // For example, show a notification or auto-submit the quiz
+              clearInterval(quizTimer);
+              return 0;
+            }
+          });
+        }, 1000);
+  
+        // Clear the interval timer for the total quiz timer when the component unmounts
+        return () => clearInterval(quizTimer);
+      }
+    }, [timeRemaining]);
 
   useEffect(() => {
     const handleFullScreenChange = () => {
@@ -87,9 +113,15 @@ function Quizzing() {
     setExitFullscreenWarning(false);
   };
 
+ // Separate useEffect hook for updating total quiz time
+ useEffect(() => {
+  setTimeRemaining(totalQuizTime);
+}, [totalQuizTime]);
+
 useEffect(() => {
   setSelectedOptions([]);
   setAnswer([]);
+  // setTimeRemaining(totalQuizTime);
 
   if (questionData) {
     setTimeElapsed(questionData.questionTime);
@@ -220,7 +252,7 @@ const handleSubmit = async () => {
 
             <div id="quizzing-hide1">
               <div className="time maxwidth1 m_auto">
-                <h2>Section Time Left : <span id="timeLeft">00:00</span></h2>
+                <h2>Quiz Time Left : <span id="timeLeft">{timeRemaining}</span></h2>
                 <h2>Question Time Left: <span id="questionTimeLeft">{timeElapsed} seconds</span></h2>
               </div>
 

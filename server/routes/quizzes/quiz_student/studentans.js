@@ -11,56 +11,52 @@ const {getNextQuestion} = require('./getNextQuestion');
 const areArraysEqual = (array1, array2) => {
   if (array1.length !== array2.length) return false;
 
-  for (let i = 0; i < array1.length; i++) {
-    if (array1[i] !== array2[i]) return false;
+  // Create a frequency map for elements in array1
+  const frequencyMap = {};
+
+  // Count occurrences of elements in array1
+  for (const element of array1) {
+    frequencyMap[element] = (frequencyMap[element] || 0) + 1;
+  }
+
+  // Decrement the count for elements in array2
+  for (const element of array2) {
+    if (!frequencyMap[element]) {
+      // If an element in array2 doesn't exist in array1, arrays are not equal
+      return false;
+    }
+    frequencyMap[element]--;
+  }
+
+  // Check if all element counts are zero, meaning arrays are equal
+  for (const element in frequencyMap) {
+    if (frequencyMap[element] !== 0) {
+      return false;
+    }
   }
 
   return true;
 };
 
+// Function to calculate the total time for the quiz
+const calculateTotalTime = (questions) => {
+  let totalTime = 0;
+  console.log(totalTime);
 
-// Create a student answer
-// router.post('/studentanswer/:code', StudentAuthorization, async (req, res) => {
-//   try {
-//     const user = req.user;
-//     const quiz = req.quiz;
-    
-//     const { code } = req.params;
-//     console.log(quiz);
-//     console.log(user);
-//     const { questionId, answer, submissionTime, sectionId } = req.body;
+  for (const question of questions) {
+    // Assuming the time property in each quizQuestion represents the time for that question (in seconds)
+    const questionTime = question.questionTime;
+    totalTime += questionTime;
+    console.log(totalTime);
+  }
 
-//     const quizQuestion= await QuizQuestion.findByPk(questionId);
-//     if (!quizQuestion) {
-//       // If the quiz question with the given ID doesn't exist, return an error response
-//       return res.status(404).json({ success: false, message: 'Quiz question not found' });
-//     }
+  // Convert totalTime to desired format if needed (e.g., minutes, hours)
+  // For example, if totalTime is in seconds, you can convert it to minutes by dividing by 60.
+  // totalTime /= 60;
 
-//     console.log(quizQuestion.answer);
-//     console.log(answer);
-//     let score =0;
-//     if (quizQuestion.answer == answer)
-//     {
-//       score = quizQuestion.mark
-//     }
-//     console.log(score);
-//     // Create a new student answer in the database
-//     const studentAnswer = await StudentAnswer.create({
-//       quizId: quiz.id,
-//       studentId: user.id,
-//       questionId,
-//       answer,
-//       submissionTime,
-//       score,
-//       sectionId,
-//     });
+  return totalTime;
+};
 
-//     res.status(201).json({ success: true, data: studentAnswer });
-//   } catch (error) {
-//     console.error('Error creating student answer:', error);
-//     res.status(500).json({ success: false, message: 'Internal Server Error' });
-//   }
-// });
 
 // Get all student answers for a quiz
 router.get('/studentanswer/:code', StudentAuthorization, async (req, res) => {
@@ -94,7 +90,9 @@ router.get('/studentanswer/:code', StudentAuthorization, async (req, res) => {
     }
     
     const totalQuestions = quizQuestions.length;
-    // console.log(totalQuestions);
+// Calculate the total time for the quiz
+    const totalQuizTime = calculateTotalTime(quizQuestions);
+    console.log('total quiz time',totalQuizTime);
     
 // Helper function to shuffle an array in place using Fisher-Yates algorithm
 function shuffleArray(array) {
@@ -136,7 +134,7 @@ if (!firstQuestion) {
 }
 
 // Send the first question details to the front end
-res.status(201).json({ success: true, data: {firstQuestion, currentIndex} });
+res.status(201).json({ success: true, data: {firstQuestion, currentIndex, totalQuizTime} });
 // send question and get answer.
     // res.status(201).json({ success: true, data: quizOrder });
   } catch (error) {
