@@ -106,14 +106,14 @@ const Profile = () => {
   return (
     <div id="profile">
        
-      <div id="block"></div>
+      {/* <div id="block"></div> */}
       <div id="email">
-      <h2>Profile</h2>
-        <p className="email1">{formData.email}</p>
+        <h2>Profile</h2>
+          <p className="email1">{formData.email}</p>
       </div>
       <form className="details" onSubmit={handleSubmit}>
         <fieldset className="forms">
-          <div className="roll_no">
+          <div className="first_name">
             <span className="label">First Name:</span>
             <input
               type="text"
@@ -136,6 +136,7 @@ const Profile = () => {
             />
           </div>
           <div className="roll_no">
+          
             <span className="label">Roll number/Employee Id:</span>
             <input
               type="text"
@@ -161,7 +162,7 @@ const Profile = () => {
             <span className="label">Profile Type:</span>
             <input
               type="text"
-              // id="profile_type"
+              id="profile_type"
               name="profile"
               value={formData.profileType}
               // placeholder=""
@@ -218,7 +219,7 @@ const Profile = () => {
         </div>
       {message && <p>{message}</p>}
         
-        <div id="button">
+        <div id="button_save">
           <button className="submit" type="submit">
             Save
           </button>
