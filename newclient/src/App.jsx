@@ -61,17 +61,12 @@ const token = localStorage.getItem('token');
     <Router>
       <Navbar />
       <Routes>
-        {/* <Route path="/homepage" element={<Homepage />} /> */}
-        {/* <Route
-          path="/summary"
-          element={isAuthenticated? <Summary /> : <Navigate to="/login" />}
-        /> */}
         <Route path="/summary" element={<Summary/>}></Route>
-        <Route path="/" element={<Login />} />
-        <Route path="/quizzing" element={<Quizzing />} />
-        <Route path="/quiz-feedback" element={<QuizFeedback />} />
-        <Route path="/forgot-password" element={<ResetPass />} />
         <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+{/* user-registration and updation-routes */}      
+        <Route path="/forgot-password" element={<ResetPass />} />  
         <Route path="/register" element={<UserRegister />} />
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
@@ -85,7 +80,6 @@ const token = localStorage.getItem('token');
         <Route path="/quiz/:code/settings" element={<Settings/>}/>
         <Route path="/addQuestionHome" element={<AddQuestionHome />} />
         <Route path="/createQuiz" element={<CreateQuiz />} />
-
 {/* quiz-student-routes */}
         <Route path="/quiz/:code/test" element={<Instructions />} />
         <Route path="/quiz/:code/live" element={<Quizzing />} />
