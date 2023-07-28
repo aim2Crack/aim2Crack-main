@@ -242,17 +242,16 @@ margin-top: 3px;
     text-decoration: none;
     text-transform: uppercase;
     border: 2px solid rgb(11, 172 ,170);
-    /* margin-top: 9px; */
     position: relative;
-    padding: 10px 1.4rem
-    ;
+    padding: 10px 1.4rem;
     z-index: 1;
     transition: all 0.5s ease;
      background: white;
 }
  button:hover{
     color: white;
-    cursor: pointer
+    cursor: pointer;
+    background: rgb(11, 172 ,170);
 }
  button::before{
     transition: all 0.5s ease;
@@ -265,13 +264,13 @@ margin-top: 3px;
     content: '';
     background-color: rgb(11, 172 ,170);
 }
- button:hover::before{
+ /* button:hover::before{
 transition: all 0.5s ease;
 left: -1px;
 right: -1px;
 opacity: 1;
 z-index: -1;
-}
+} */
 
 #start_timer{
     display: none;
