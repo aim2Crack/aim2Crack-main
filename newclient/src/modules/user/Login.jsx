@@ -85,7 +85,7 @@ function Login() {
           }
         }
       } else if (response.status === 401) {
-        setMessage('Invalid username or password.');
+        setMessage('Invalid username or password');
       } else if (response.status === 403) {
         setMessage('Please verify email. Check registered mail inbox!!');
       } else {
@@ -165,9 +165,9 @@ function Login() {
         </Link> */}
         <div className="login-container">
           <div className="content-section">
-            <div>
+            {/* <div>
               <img src= {logo} alt="logo" className='login-logo' />
-            </div>
+            </div> */}
             {message && (
                 <div className={`alert ${submitted ? 'success' : 'error'}`}>
                   {message}

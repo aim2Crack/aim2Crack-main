@@ -59,7 +59,7 @@ const token = localStorage.getItem('token');
 
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/aboutUs" element={<AboutUs />} />

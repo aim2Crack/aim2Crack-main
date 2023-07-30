@@ -2,12 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
-    
-*{
-    margin: 0;
-    padding: 0;
-    /* text-align: center; */
-}
+
 body{
     background-color: white;
 }
@@ -251,7 +246,7 @@ margin-top: 3px;
  button:hover{
     color: white;
     cursor: pointer;
-    background: rgb(11, 172 ,170);
+    /* background: rgb(11, 172 ,170); */
 }
  button::before{
     transition: all 0.5s ease;

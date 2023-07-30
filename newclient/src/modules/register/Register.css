@@ -47,7 +47,7 @@ margin-top: 10px;
    border: 3px solid  #00d000;
 }
 .alert-error{
-color:#ff2121;
+color:#df8282;
  
   background: #ffc5c5;
      border: 3px solid #ff2121;
@@ -70,10 +70,11 @@ margin-top: 2rem;
 .register_container{
     display: flex;
     align-items: center;
+    height: 600px;
     justify-content: center;
     flex-direction: column;
     position: relative;
-        min-height: 100vh;
+        /* min-height: 100vh; */
 }
 .bxs-left-arrow-circle{
     position: absolute;

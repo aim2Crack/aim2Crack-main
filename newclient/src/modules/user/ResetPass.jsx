@@ -63,11 +63,7 @@ const PasswordReset = () => {
 
   return (
     <div>
-        {message && (
-      <div className={`alert ${submitted ? 'success' : 'error'}`}>
-  {message}
-</div>
-)}
+       
       {!submitted ? (
         <div>
        
@@ -81,6 +77,11 @@ const PasswordReset = () => {
             <div className="heading">
               <h1>Password Reset</h1>
             </div>
+            {message && (
+      <div className={`alert ${submitted ? 'success' : 'error'}`}>
+  {message}
+</div>
+)}
             <div className="text">
               Seems like you forgot the password for Aim2Crack.No worries! It happens to the Best too!!            </div>
             <form onSubmit={submitHandler} method="post">
