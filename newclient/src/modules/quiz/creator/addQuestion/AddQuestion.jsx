@@ -7,9 +7,9 @@ import MyckEditor from '../../../../components/ckeditor/ckeditor';;
 
 function AddQuestion({ editQuestionData, onClose }) {
   const [data, setData] = useState({
-    questionTime: '',
+    questionTime: 60,
     question: '',
-    marks: '',
+    marks: 1,
     file: '',
     correctAnsInteger: '',
     explanation: '',
