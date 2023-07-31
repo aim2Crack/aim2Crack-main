@@ -112,8 +112,9 @@ const randomQuestionIds = quizQuestions.map((question) => question.id);
 const quizOrder = await QuizOrderArray.findOne(
   {
     where: {studentId:user.id, quizId:quiz.id}
-  }
+  }  
 )
+
 // console.log(randomQuestionIds);
 if(!quizOrder)
 {
@@ -121,11 +122,26 @@ if(!quizOrder)
       quizId: quiz.id,
       studentId: user.id,
       questionOrder: randomQuestionIds,
+      status: new Array(quizQuestions.length).fill(0),
     });
   }
-    console.log(quizOrder);
+    console.log(quizOrder.status);
 // Fetch the first question based on the currentIndex (which will be 0 initially)
-let currentIndex=0;
+let currentIndex;
+if (quizOrder) {
+  // Check if quizOrder.status is an array and not empty
+  if (Array.isArray(quizOrder.status) && quizOrder.status.length > 0) {
+    // Get the last index from the quizOrder.status array
+    console.log('get quiz order',quizOrder.status)
+    currentIndex = quizOrder.status[quizOrder.status.length - 1];
+  } else {
+    // If quizOrder.status is empty or not an array, set currentIndex to 0
+    currentIndex = 0;
+  }
+} else {
+  currentIndex = 0;
+}
+console.log(quizOrder.status);
 const firstQuestion = await getNextQuestion(quizOrder.id, currentIndex);
 
 if (!firstQuestion) {
@@ -160,6 +176,19 @@ console.log('current index from front end', currentIndex);
       where:{studentId:user.id, quizId:quiz.id}
     });
     console.log(quizOrder.questionOrder);
+    if (quizOrder && Array.isArray(quizOrder.status)) {
+      // Append the value of 1 to the status array
+      quizOrder.status[currentIndex]='1';
+    
+      // Save the updated quizOrder back to the database
+      await quizOrder.save();
+    
+      console.log(quizOrder.status); // Print the updated status array
+    } else {
+      // Handle the case when quizOrder is not found or status is not an array
+      console.error('Error updating quizOrder status');
+    }
+    
     if (!quizOrder) {
       // If the quiz order with the given ID doesn't exist, return an error response
       return res.status(404).json({ success: false, message: 'Quiz order not found' });
