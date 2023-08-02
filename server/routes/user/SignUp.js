@@ -103,24 +103,42 @@ router.delete('/users', async (req, res) => {
 });
 
 
-router.post(
-  '/signup',
-  passport.authenticate('signup', { session: false }),
-  async (req, res, next) => {
-     const {username,email} = req.body;
-    //  console.log(username);
-          // Send the verification email
-      try{
-          mailer.sendVerificationEmail(username, email,false);
-      
-          res.status(200).json({ success: true, message: 'User Created and Email Sent to registered Id for verification' });
-     } catch (error) {
-      console.error('Error storing reset token:', error);
-      res.status(500).json({ success:false, error: 'An error occurred while storing the reset token.' });
+router.post('/signup', (req, res, next) => {
+  passport.authenticate('signup', { session: false }, (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    
+    // Check if there's a message in the `info` object
+    if (info && info.message) {
+      // Send the message to the frontend
+      console.log(info);
+      console.log(info.message);
+      return res.status(400).json({ success: false, message: info.message });
     }
 
-  }
-);
+    // At this point, user registration is successful.
+    // You can send any other necessary response data to the frontend.
+
+    const { username, email } = req.body;
+
+    // Send the verification email
+    try {
+      mailer.sendVerificationEmail(username, email, false);
+
+      return res.status(200).json({
+        success: true,
+        message: 'User Created and Email Sent to registered Id for verification',
+      });
+    } catch (error) {
+      console.error('Error storing reset token:', error);
+      return res
+        .status(500)
+        .json({ success: false, error: 'An error occurred while storing the reset token.' });
+    }
+  })(req, res, next);
+});
+
 
 router.delete('/resetpass', async (req, res) => {
   try {

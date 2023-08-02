@@ -1,0 +1,62 @@
+/* Apply some basic styles to the entire form container */
+.quiz-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Style the heading */
+  .quiz-form h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style the labels */
+  .quiz-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Style the input fields */
+  .quiz-form input[type="text"],
+  .quiz-form input[type="datetime-local"],
+  .quiz-form input[type="number"],
+  .quiz-form input[type="checkbox"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Style the submit button */
+  .quiz-form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  /* Style the "Go Back" button */
+  .quiz-form button {
+    background-color: #ccc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  /* Style the "Go Back" button on hover */
+  .quiz-form button:hover {
+    background-color: #aaa;
+  }
+  

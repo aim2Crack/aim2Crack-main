@@ -7,9 +7,9 @@ import MyckEditor from '../../../../components/ckeditor/ckeditor';;
 
 function AddQuestion({ editQuestionData, onClose }) {
   const [data, setData] = useState({
-    questionTime: '',
+    questionTime: 60,
     question: '',
-    marks: '',
+    marks: 1,
     file: '',
     correctAnsInteger: '',
     explanation: '',
@@ -31,29 +31,29 @@ function AddQuestion({ editQuestionData, onClose }) {
   const [submitted, setSubmitted] = useState(false);
   const [fetchedData, setFetchedData] = useState(null);
 
-  const fetchData = async () => {
-    const token = localStorage.getItem('token');
-    const code = window.location.pathname.split('/').pop();
-    const id = 23;
-    const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  // const fetchData = async () => {
+  //   const token = localStorage.getItem('token');
+  //   const code = window.location.pathname.split('/').pop();
+  //   const id = 23;
+  //   const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${id}`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
-    if (response.ok) {
-      const data = await response.json();
-      setFetchedData(data);
-    } else {
-      console.error('Failed to fetch data:', response.status);
-    }
-  };
+  //   if (response.ok) {
+  //     const data = await response.json();
+  //     setFetchedData(data);
+  //   } else {
+  //     console.error('Failed to fetch data:', response.status);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const handleCancel = () => {
     // Call the onClose function to close the AddQuestion component

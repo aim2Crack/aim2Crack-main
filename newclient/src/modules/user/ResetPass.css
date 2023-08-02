@@ -11,7 +11,7 @@
     color: white;
     font-size: 16px;
     font-weight: bold;
-    padding: 10px;
+    padding: 5px;
     border-radius: 4px;
   }
   
@@ -32,7 +32,7 @@
       
 
 .main_box {
-    border: 5px solid white;
+    border: 5px solid rgb(248, 249, 249);
     background-color: white;
     border-radius: 6px;
     width: 45%;
@@ -46,9 +46,9 @@
 }
 
 .logo_head {
-    margin-top: 80px;
+    margin-top: 40px;
     margin-bottom: 20px;
-    width: 175px;
+    width: 295px;
 }
 
 .reset-btn {
@@ -139,5 +139,5 @@
 }
 .main_box2{
     background-color: white;
-    padding: 20px;
+    padding: 5px;
 }

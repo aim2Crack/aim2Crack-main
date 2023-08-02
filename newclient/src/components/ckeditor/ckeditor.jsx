@@ -3,8 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './ckeditor.css';
 // import { SimpleUploadAdapter } from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
-
-// import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
+import CustomUploadAdapter from './customUploadAdapter'; // Adjust the path to the customUploadAdapter.js if needed
 
 function MyckEditor({ data, onChange, placeholder }) {
   const [editorData, setEditorData] = useState(data);
@@ -19,23 +18,14 @@ function MyckEditor({ data, onChange, placeholder }) {
     onChange(content);
   };
 
-  // Add the alignment plugin to the build
-  // ClassicEditor.builtinPlugins = [
-  //   ...ClassicEditor.builtinPlugins,
-  //   Alignment,
-  // ];
-
   const editorConfig = {
+    debug: true,
    
     toolbar: [
       'heading',
       '|',
       'bold',
       'italic',
-      '|',
-      'alignment:left', // Add alignment options (left, center, right)
-      'alignment:center',
-      'alignment:right', // Add the alignment option to the toolbar
       '|',
       'numberedList',
       'bulletedList',
@@ -44,7 +34,6 @@ function MyckEditor({ data, onChange, placeholder }) {
       'indent',
       '|',
       'link',
-      'unlink',
       '|',
       'blockQuote',
       'imageUpload',
@@ -53,51 +42,17 @@ function MyckEditor({ data, onChange, placeholder }) {
       'undo',
       'redo',
     ],
-     // Add the upload adapter configuration
-  // simpleUpload: {
-  //   uploadUrl: 'http://127.0.0.1:7000/file/upload', // Replace with the correct upload URL
-  // },
-    placeholder: placeholder,
     image: {
-      uploadUrl: 'uploadUrl: http://127.0.0.1:7000/file/upload ',
-      propertyName: 'path',
-      resizeUnit: 'px',
-      resizeOptions: [
-        {
-          name: 'imageResize:original',
-          value: null,
-          icon: 'original',
-          title: 'Original Size',
-        },
-        {
-          name: 'imageResize:50',
-          value: '50',
-          icon: 'medium',
-          title: 'Medium (50%)',
-        },
-      ],
-      resizeType: 'imageResize:ratio',
-      styles: [
-        {
-          name: 'alignLeft',
-          icon: 'left',
-          title: 'Align left',
-          class: 'image-align-left',
-        },
-        {
-          name: 'alignCenter',
-          icon: 'center',
-          title: 'Align center',
-          class: 'image-align-center',
-        },
-        {
-          name: 'alignRight',
-          icon: 'right',
-          title: 'Align right',
-          class: 'image-align-right',
-        },
-      ],
+      toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'],
+      styles: ['full', 'alignLeft', 'alignRight'],
+      resizeOptions: [],
+      upload: {
+        // Use the custom upload adapter here
+        uploadUrl: 'http://127.0.0.1:7000/upload', // Replace with the correct upload URL
+        adapter: CustomUploadAdapter,
+      }, 
     },
+      placeholder: placeholder,
   };
 
   return (

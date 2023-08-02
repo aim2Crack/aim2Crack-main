@@ -41,13 +41,13 @@ const areArraysEqual = (array1, array2) => {
 // Function to calculate the total time for the quiz
 const calculateTotalTime = (questions) => {
   let totalTime = 0;
-  console.log(totalTime);
+  // console.log(totalTime);
 
   for (const question of questions) {
     // Assuming the time property in each quizQuestion represents the time for that question (in seconds)
     const questionTime = question.questionTime;
     totalTime += questionTime;
-    console.log(totalTime);
+    // console.log(totalTime);
   }
 
   // Convert totalTime to desired format if needed (e.g., minutes, hours)
@@ -65,8 +65,6 @@ router.get('/studentanswer/:code', StudentAuthorization, async (req, res) => {
     const quiz = req.quiz;
     
     const { code } = req.params;
-    // console.log(quiz);
-    // console.log(user);
     // console.log(code);
 
     const now = Date.now(); // Get the current timestamp in milliseconds
@@ -92,7 +90,7 @@ router.get('/studentanswer/:code', StudentAuthorization, async (req, res) => {
     const totalQuestions = quizQuestions.length;
 // Calculate the total time for the quiz
     const totalQuizTime = calculateTotalTime(quizQuestions);
-    console.log('total quiz time',totalQuizTime);
+    // console.log('total quiz time',totalQuizTime);
     
 // Helper function to shuffle an array in place using Fisher-Yates algorithm
 function shuffleArray(array) {
@@ -112,20 +110,42 @@ const randomQuestionIds = quizQuestions.map((question) => question.id);
 const quizOrder = await QuizOrderArray.findOne(
   {
     where: {studentId:user.id, quizId:quiz.id}
-  }
+  }  
 )
+
 // console.log(randomQuestionIds);
 if(!quizOrder)
 {
-    const quizOrder = await QuizOrderArray.create({
+    
+  console.log('quiz order not present')
+  const quizOrder = await QuizOrderArray.create({
       quizId: quiz.id,
       studentId: user.id,
       questionOrder: randomQuestionIds,
+      status: new Array(quizQuestions.length).fill(0),
     });
   }
-    console.log(quizOrder);
+    // console.log(quizOrder.status);
 // Fetch the first question based on the currentIndex (which will be 0 initially)
-let currentIndex=0;
+let currentIndex;
+let indexOne;
+if (quizOrder) {
+    // Get the last index from the quizOrder.status array
+    console.log('quiz order present')
+    const indexOne = quizOrder.status.indexOf('1');
+    console.log('indexOne value:',indexOne)
+     if (indexOne !== -1) {
+      // If the value 1 is found, set currentIndex to indexOne + 1
+      currentIndex = indexOne + 2;
+    }  else {
+  currentIndex = 0;
+}
+}else {
+  currentIndex = 0;
+}
+console.log('index value', currentIndex)
+console.log(quizOrder.id);
+console.log(quizOrder.status); 
 const firstQuestion = await getNextQuestion(quizOrder.id, currentIndex);
 
 if (!firstQuestion) {
@@ -151,15 +171,35 @@ router.post('/studentanswer/:code/:currentIndex', StudentAuthorization, async (r
     const {currentIndex } = req.params;
     const { answer, timeElapsed } = req.body;
 console.log('current index from front end', currentIndex);
-    // console.log(user);
-    // console.log(req.body);
+    console.log(user.id);
+    console.log(quiz.id);
     // console.log(answer);
     // // Save the student's answer here, assuming you have a separate model for student answers
     // and you can save the answer along with the question ID, student ID, selectedOption, and timeTaken.
     const quizOrder = await QuizOrderArray.findOne({
       where:{studentId:user.id, quizId:quiz.id}
     });
-    console.log(quizOrder.questionOrder);
+    console.log(quizOrder.id);
+    if (quizOrder) {
+      // Append the value of 1 to the status array
+      quizOrder.status[currentIndex] = '1';
+
+   // Use the update method to directly update the status field in the database
+   await QuizOrderArray.update(
+    { status: quizOrder.status },
+    { where: { id: quizOrder.id } }
+  );
+      // await quizOrder.save();
+
+      console.log('Updated status array:', quizOrder.status);
+    } else {
+      // Handle the case when quizOrder is not found or status is not an array
+      console.error('Error updating quizOrder status');
+    }
+    const quizOrder2 = await QuizOrderArray.findOne({
+      where:{studentId:user.id, quizId:quiz.id}
+    });
+    console.log('Current status array:', quizOrder2.status); 
     if (!quizOrder) {
       // If the quiz order with the given ID doesn't exist, return an error response
       return res.status(404).json({ success: false, message: 'Quiz order not found' });

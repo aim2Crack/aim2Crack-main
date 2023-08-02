@@ -31,7 +31,7 @@ import Settings from "./modules/quiz/creator/addQuestion/settings";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 // import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import Instructions from "./modules/quiz/student/Instructions";
-
+import PrivateRoute from "./components/privateroutes/PrivateRoute";
 function App() {
 // // function App() {
   // const firebaseConfig = {
@@ -71,7 +71,7 @@ const token = localStorage.getItem('token');
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
         <Route path="/reset-password" element={<NewPassword/>}/>
-        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/profile" isAuthenticated={true} element={<Profile/>}/>
 {/* quiz-creator-routes */}
         <Route path="/createquiz" element={<CreateQuiz/>}/>
         <Route path="/quiz/:code" element={<AddQuestionHome />} />

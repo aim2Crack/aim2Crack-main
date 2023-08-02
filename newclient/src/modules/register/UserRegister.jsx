@@ -21,50 +21,44 @@ const UserRegister = () => {
   };
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false); // Add this line to define the `submitted` state variable
-
   const handleSubmit = (values) => {
     fetch('http://127.0.0.1:7000/signup', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(values),
     })
-      .then(response => {
-        if (response.ok) {
-          // Check if the request was successful
-          return response.json();
-        } else {
-          // Handle error response
-          console.error('User registration request failed:', response.status);
-          throw new Error('An error occurred during user registration.');
-        }
+      .then((response) => {
+        // Parse the response JSON, regardless of whether it's an error or success
+        return response.json();
       })
-      .then(jsonData => {
+      .then((jsonData) => {
         // Handle the response data
-        setMessage(jsonData.message); // Set the server message
-
+        console.log(jsonData);
+        setMessage(jsonData.message);
+  
         if (jsonData.success) {
           // If the request was successful and the server responded with success
           setSubmitted(true); // Set the submitted state to true
         }
-
+  
         // Display the verification message to the user
-        console.log(jsonData.message);
-        alert(jsonData.message);
-
+        // alert(jsonData.message);
+  
         // Clear the message after 5 seconds
-        setTimeout(() => {
-          setMessage('');
-        }, 5000);
+        // setTimeout(() => {
+        //   setMessage('');
+        // }, 5000);
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle any network or other errors
         console.error('User registration request failed:', error);
-        setMessage('An error occurred during user registration.');
+        setMessage('Error occurred during user registration.');
       });
   };
-const validationSchema = Yup.object().shape({
+  
+  const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
     phone: Yup.string().required('Phone number is required'),
@@ -89,11 +83,18 @@ const validationSchema = Yup.object().shape({
     validationSchema={validationSchema}
     onSubmit={handleSubmit}
   >
+    
       <div className="register_container">
-      
+      {message && (
+                <div className={`alert ${submitted ? 'success' : 'error'}`}>
+                  {message}
+                </div>
+            )}
       <div className="register_box">
   <div className="left_panel">
   <h2>Register Yourself on Aim2Crack!!</h2>
+ 
+
     <Form className="form_method">
    
      <fieldset className="form-group bottom_error"> 

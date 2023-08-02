@@ -29,6 +29,10 @@ const QuizOrderArray = sq.define('quizorderarray', {
     type: DataTypes.INTEGER,
     defaultValue:1,
   },
+  status: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    defaultValue: [],
+  },
 });
 
 QuizOrderArray.associate = (models) => {

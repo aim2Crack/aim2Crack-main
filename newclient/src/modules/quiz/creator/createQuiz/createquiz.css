@@ -137,12 +137,12 @@ font-weight: bolder;
 transition: all 2s ease;
 border-radius:14px;
 }
-.alert {
+/* .alert {
   background: black;
   padding: 9px;
   color: #0a0e22;
   border-radius: 0.5rem;
-}
+} */
  
 
  
@@ -211,10 +211,10 @@ border-radius:14px;
   /* margin-top: -16px; */
 }
 
-input[type="text"] {
+/* input[type="text"] {
   
   margin-left: 3px;
 }
 .custom-label{
   margin-left:3px;
-}
+} */

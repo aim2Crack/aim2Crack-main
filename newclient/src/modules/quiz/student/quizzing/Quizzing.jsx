@@ -12,7 +12,7 @@ function Quizzing() {
   const [questionData, setQuestionData] = useState(null); // State to store the fetched question data
   const [answer, setAnswer] = useState([]); // State to track the selected answer (if applicable)
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(null);
   const [totalQuizTime, setTotalQuizTime] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
