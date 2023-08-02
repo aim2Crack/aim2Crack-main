@@ -110,7 +110,7 @@ const QuizFeedback = () => {
                     allowFullScreen
                 ></iframe>
             </div>
-
+{/* 
             <div className="quizFeedback-container">
                 <form method="POST" onSubmit={handleSubmit}>
                     <input
@@ -160,7 +160,7 @@ const QuizFeedback = () => {
                     <input type="submit" className="quizFeedback-submit s" value="Submit" />
 
                 </form>
-            </div>
+            </div> */}
             </>
             )}
         </div>
