@@ -310,9 +310,9 @@ function AddQuestion({ editQuestionData, onClose }) {
               placeholder="Write the explanation here"
               onChange={(content) => setData({ ...data, explanation: content })}
             />
-            <div className="last">
-              <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
-              <button className="btn" id="cancel_btn" type="button" onClick={handleCancel}>
+            <div className="add-question-last">
+              <input className="add-question-btn" id="save_btn" type="submit" value="Save" placeholder="save" />
+              <button className="add-question-btn" id="cancel_btn" type="button" onClick={handleCancel}>
                 Cancel
               </button>
             </div>

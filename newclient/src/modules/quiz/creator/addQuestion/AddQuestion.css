@@ -211,13 +211,12 @@ select {
     border-top-right-radius: 10px;
     border-bottom: 3px solid #3b7474;
 }
-
-.btn{
+.add-question-btn{
     background-color: #3b7474;
-    width: 100%;
+    width: 60%;
     color: rgb(255, 255, 255);
     font-size: 20px;
-    margin-top:10px;
+    margin-top:15px;
     margin-bottom: 10px;
     padding: 10px 1.4rem;
     border: none;
