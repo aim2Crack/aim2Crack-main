@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import moment from 'moment-timezone';
 import './createquiz.css';
-
+import StudentProfileChecker from '../../../../components/privateroutes/studentprofilechecker';
 
 const CreateQuiz = () => {
   const initialValues = {
@@ -16,6 +16,7 @@ const CreateQuiz = () => {
     preventMobile: false,
     allowTabchange: false,
   };
+
   const [message, setMessage] = useState('');
   const [generatedLink, setGeneratedLink] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -96,7 +97,7 @@ const CreateQuiz = () => {
 
   return (
     <div id="outer_div">
-     
+   {/* <StudentProfileChecker />    */}
         {submitted ? (
           <div>{message}</div>
         ) : (

@@ -32,6 +32,8 @@ import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstr
 // import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import Instructions from "./modules/quiz/student/Instructions";
 import PrivateRoute from "./components/privateroutes/PrivateRoute";
+import Error from "./components/error/Error";
+import StudentProfileChecker from "./components/privateroutes/studentprofilechecker";
 function App() {
 // // function App() {
   // const firebaseConfig = {
@@ -71,15 +73,22 @@ const token = localStorage.getItem('token');
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
         <Route path="/reset-password" element={<NewPassword/>}/>
-        <Route path="/profile" isAuthenticated={true} element={<Profile/>}/>
+        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/error-page" element={<Error/>}/>
 {/* quiz-creator-routes */}
-        <Route path="/createquiz" element={<CreateQuiz/>}/>
-        <Route path="/quiz/:code" element={<AddQuestionHome />} />
-        <Route path="/quiz/:code/addinstruction" element={<AddInstruction />} />
-        <Route path="/quiz/:code/addinstruction/preview" element={<PreviewInstructions />} />
-        <Route path="/quiz/:code/settings" element={<Settings/>}/>
-        <Route path="/addQuestionHome" element={<AddQuestionHome />} />
-        <Route path="/createQuiz" element={<CreateQuiz />} />
+        {/* <Route path="/createquiz" element={<StudentProfileChecker/>, <CreateQuiz/>}/> */}
+        <Route path="/createquiz" element={<>
+              <StudentProfileChecker />
+              <createQuiz />
+            </>
+          }
+        />
+        <Route path="/quiz/:code" element={ <><StudentProfileChecker/> <AddQuestionHome />   </>} />
+        <Route path="/quiz/:code/addinstruction" element={<> <StudentProfileChecker /><AddInstruction /></>} />
+        <Route path="/quiz/:code/addinstruction/preview" element={<> <StudentProfileChecker /><PreviewInstructions /></>} />
+        <Route path="/quiz/:code/settings" element={<> <StudentProfileChecker /><Settings/></>}/>
+        <Route path="/addQuestionHome" element={<> <StudentProfileChecker /><AddQuestionHome /></>} />
+        {/* <Route path="/createQuiz" element={<CreateQuiz />} /> */}
 {/* quiz-student-routes */}
         <Route path="/quiz/:code/test" element={<Instructions />} />
         <Route path="/quiz/:code/live" element={<Quizzing />} />

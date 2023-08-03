@@ -19,6 +19,7 @@ router.get('/users',authorization, async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
 router.post('/users', authorization, async (req, res) => {
   try {
    

@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 
-const StudentResult = sq.define('student_result', {
+const StudentResult = sq.define('studentresult', {
   quizId: {
     type: DataTypes.INTEGER,
     allowNull: false,
