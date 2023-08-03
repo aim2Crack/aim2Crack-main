@@ -133,14 +133,20 @@ let indexOne;
 if (quizOrder) {
     // Get the last index from the quizOrder.status array
     console.log('quiz order present')
-    const indexOne = quizOrder.index;
+    indexOne = quizOrder.index;
     console.log('indexOne value:',indexOne)
      if (indexOne !== 0) {
       // If the value 1 is found, set currentIndex to indexOne + 1
-      currentIndex = indexOne + 1;
-    }  else if (indexOne == quizQuestions.length-1){
-  currentIndex = quizQuestions.length;
-} else{
+      currentIndex =  indexOne+1;
+     // Use an IIFE to wait for the update operation to complete
+  //    (async () => {
+  //     await QuizOrderArray.update(
+  //         { index: indexOne+1 },
+  //         { where: { id: quizOrder.id } }
+  //     );
+  //     console.log('index updated in the database');
+  // })();
+    }  else{
   currentIndex = 0;
 }
 }else {
@@ -155,7 +161,7 @@ if (!firstQuestion) {
   // If no question is found, return an error response
   return res.status(404).json({ success: false, message: 'No questions found' });
 }
-
+console.log(firstQuestion);
 // Send the first question details to the front end
 res.status(201).json({ success: true, data: {firstQuestion, currentIndex, totalQuizTime, totalQuestions} });
 // send question and get answer.
@@ -190,7 +196,7 @@ console.log('current index from front end', currentIndex);
    // Use the update method to directly update the status field in the database
    await QuizOrderArray.update(
     { status: quizOrder.status,
-      index: currentIndex+1, },
+      index: parseInt(currentIndex, 10)+1 },
     { where: { id: quizOrder.id } }
   );
       // await quizOrder.save();

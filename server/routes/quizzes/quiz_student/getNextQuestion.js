@@ -16,6 +16,8 @@ async function getNextQuestion(quizOrderId, currentIndex) {
       return null; // No more questions left
     }
     const questionId = questionOrder[currentIndex];
+    console.log('questionId',questionId);
+    console.log('currentIndex', currentIndex);
     const quizQuestion = await QuizQuestion.findOne({
       where: { id: questionId },
       attributes: ['question', 'questionType', 'options', 'questionTime', 'mark'],
