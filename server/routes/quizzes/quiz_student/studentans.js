@@ -113,12 +113,32 @@ const quizOrder = await QuizOrderArray.findOne(
   }  
 )
 
+let currentIndex;
+if (quizOrder) {
+    // Get the last index from the quizOrder.status array
+    console.log('quiz order present')
+    indexOne = quizOrder.index;
+    console.log('indexOne value:',indexOne)
+     if (indexOne !== 0) {
+      // / If the value 1 is found, set currentIndex to indexOne + 1
+      currentIndex = indexOne + 1;
+
+      // Update the currentIndex in the database
+      quizOrder.index = currentIndex;
+      await quizOrder.save();
+    }  else{
+  currentIndex = 0;
+}
+}else {
+  currentIndex = 0;
+}
+
 // console.log(randomQuestionIds);
 if(!quizOrder)
 {
     
   console.log('quiz order not present')
-  const quizOrder = await QuizOrderArray.create({
+  quizOrder = await QuizOrderArray.create({
       quizId: quiz.id,
       studentId: user.id,
       questionOrder: randomQuestionIds,
@@ -126,42 +146,17 @@ if(!quizOrder)
       status: new Array(quizQuestions.length).fill(0),
     });
   }
-    // console.log(quizOrder.status);
-// Fetch the first question based on the currentIndex (which will be 0 initially)
-let currentIndex;
-let indexOne;
-if (quizOrder) {
-    // Get the last index from the quizOrder.status array
-    console.log('quiz order present')
-    indexOne = quizOrder.index;
-    console.log('indexOne value:',indexOne)
-     if (indexOne !== 0) {
-      // If the value 1 is found, set currentIndex to indexOne + 1
-      currentIndex =  indexOne+1;
-     // Use an IIFE to wait for the update operation to complete
-  //    (async () => {
-  //     await QuizOrderArray.update(
-  //         { index: indexOne+1 },
-  //         { where: { id: quizOrder.id } }
-  //     );
-  //     console.log('index updated in the database');
-  // })();
-    }  else{
-  currentIndex = 0;
-}
-}else {
-  currentIndex = 0;
-}
-console.log('index value', currentIndex)
-console.log(quizOrder.id);
-console.log(quizOrder.status); 
-const firstQuestion = await getNextQuestion(quizOrder.id, currentIndex);
 
+  // console.log(quizOrder.status);
+// Fetch the first question based on the currentIndex (which will be 0 initially)
+
+const firstQuestion = await getNextQuestion(quizOrder.id, currentIndex);
+// await quizOrder.update({ index: currentIndex});
 if (!firstQuestion) {
   // If no question is found, return an error response
   return res.status(404).json({ success: false, message: 'No questions found' });
 }
-console.log(firstQuestion);
+// console.log(firstQuestion);
 // Send the first question details to the front end
 res.status(201).json({ success: true, data: {firstQuestion, currentIndex, totalQuizTime, totalQuestions} });
 // send question and get answer.
@@ -177,11 +172,8 @@ router.post('/studentanswer/:code/:currentIndex', StudentAuthorization, async (r
   try {
     const user = req.user;
     const quiz=req.quiz;
-    const {currentIndex } = req.params;
+    // const {currentIndex } = req.params;
     const { answer, timeElapsed } = req.body;
-console.log('current index from front end', currentIndex);
-    console.log(user.id);
-    console.log(quiz.id);
     // console.log(answer);
     // // Save the student's answer here, assuming you have a separate model for student answers
     // and you can save the answer along with the question ID, student ID, selectedOption, and timeTaken.
@@ -191,12 +183,12 @@ console.log('current index from front end', currentIndex);
     console.log(quizOrder.id);
     if (quizOrder) {
       // Append the value of 1 to the status array
-      quizOrder.status[currentIndex] = '1';
+      // quizOrder.status[currentIndex] = '1';
+    currentIndex = quizOrder.index;
 
    // Use the update method to directly update the status field in the database
    await QuizOrderArray.update(
-    { status: quizOrder.status,
-      index: parseInt(currentIndex, 10)+1 },
+    { index: parseInt(currentIndex, 10)+1 },
     { where: { id: quizOrder.id } }
   );
       // await quizOrder.save();
@@ -206,10 +198,7 @@ console.log('current index from front end', currentIndex);
       // Handle the case when quizOrder is not found or status is not an array
       console.error('Error updating quizOrder status');
     }
-    const quizOrder2 = await QuizOrderArray.findOne({
-      where:{studentId:user.id, quizId:quiz.id}
-    });
-    console.log('Current status array:', quizOrder2.status); 
+
     if (!quizOrder) {
       // If the quiz order with the given ID doesn't exist, return an error response
       return res.status(404).json({ success: false, message: 'Quiz order not found' });
@@ -248,6 +237,10 @@ if (quizQuestion.questionType == 'multiple') {
     });
 // console.log(studentAnswer);
     // Increment the currentIndex for the next question
+     // Update the currentIndex in the database
+     quizOrder.index = currentIndex + 1;
+     await quizOrder.save();
+
     const nextIndex = parseInt(currentIndex, 10) + 1;
 
     console.log('Updated index:', nextIndex);

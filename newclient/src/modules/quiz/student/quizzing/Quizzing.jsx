@@ -55,7 +55,7 @@ function Quizzing() {
           },
         });
 
-        if (response.status === 210) {
+        if (response.status === 404) {
           // Redirect to the result page when quiz data is not found (status code: 404)
           const code = window.location.pathname.split('/')[2];
           const targetURL = `/quiz/${code}/feedback`;

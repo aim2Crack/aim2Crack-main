@@ -31,7 +31,7 @@ import Settings from "./modules/quiz/creator/addQuestion/settings";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
 // import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import Instructions from "./modules/quiz/student/Instructions";
-import PrivateRoute from "./components/privateroutes/PrivateRoute";
+// import PrivateRoute from "./components/privateroutes/PrivateRoute";
 import Error from "./components/error/Error";
 import StudentProfileChecker from "./components/privateroutes/studentprofilechecker";
 function App() {
@@ -77,10 +77,10 @@ const token = localStorage.getItem('token');
         <Route path="/error-page" element={<Error/>}/>
 {/* quiz-creator-routes */}
         {/* <Route path="/createquiz" element={<StudentProfileChecker/>, <CreateQuiz/>}/> */}
-        <Route path="/createquiz" element={<>
-              <StudentProfileChecker />
-              <createQuiz />
-            </>
+        <Route path="/createquiz" element={
+              <StudentProfileChecker>
+              <CreateQuiz />
+              </StudentProfileChecker>
           }
         />
         <Route path="/quiz/:code" element={ <><StudentProfileChecker/> <AddQuestionHome />   </>} />
