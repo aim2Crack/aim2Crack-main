@@ -122,6 +122,7 @@ if(!quizOrder)
       quizId: quiz.id,
       studentId: user.id,
       questionOrder: randomQuestionIds,
+      index:0,
       status: new Array(quizQuestions.length).fill(0),
     });
   }
@@ -132,12 +133,14 @@ let indexOne;
 if (quizOrder) {
     // Get the last index from the quizOrder.status array
     console.log('quiz order present')
-    const indexOne = quizOrder.status.indexOf('1');
+    const indexOne = quizOrder.index;
     console.log('indexOne value:',indexOne)
-     if (indexOne !== -1) {
+     if (indexOne !== 0) {
       // If the value 1 is found, set currentIndex to indexOne + 1
-      currentIndex = indexOne + 2;
-    }  else {
+      currentIndex = indexOne + 1;
+    }  else if (indexOne == quizQuestions.length-1){
+  currentIndex = quizQuestions.length;
+} else{
   currentIndex = 0;
 }
 }else {
@@ -186,7 +189,8 @@ console.log('current index from front end', currentIndex);
 
    // Use the update method to directly update the status field in the database
    await QuizOrderArray.update(
-    { status: quizOrder.status },
+    { status: quizOrder.status,
+      index: currentIndex+1, },
     { where: { id: quizOrder.id } }
   );
       // await quizOrder.save();
@@ -206,15 +210,15 @@ console.log('current index from front end', currentIndex);
     }
     // console.log(quizOrder);
     const quizQuestion= await QuizQuestion.findByPk(quizOrder.questionOrder[currentIndex]);
-    console.log(quizQuestion.id);
+    // console.log(quizQuestion.id);
 
     if (!quizQuestion) {
       // If the quiz question with the given ID doesn't exist, return an error response
       return res.status(404).json({ success: false, message: 'Quiz question not found in currentindex' });
     }
 
-    console.log(quizQuestion.answer);
-    console.log(answer);
+    // console.log(quizQuestion.answer);
+    // console.log(answer);
     let score =0;
 // For single-choice questions, directly compare the selected answer with the correct answer
 if (quizQuestion.questionType == 'single' || quizQuestion.questionType == 'numerical' ) {
@@ -239,6 +243,8 @@ if (quizQuestion.questionType == 'multiple') {
 // console.log(studentAnswer);
     // Increment the currentIndex for the next question
     const nextIndex = parseInt(currentIndex, 10) + 1;
+
+    console.log('Updated index:', nextIndex);
 
     // Get the next question based on the new index
     const nextQuestion = await getNextQuestion(quizOrder.id, nextIndex);
