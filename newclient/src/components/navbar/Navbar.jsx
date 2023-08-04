@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
 // import jwt from 'jsonwebtoken';
-// import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
+import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
 
 function Navbar() {
   const code = window.location.pathname.split('/')[2];
@@ -69,11 +69,11 @@ function Navbar() {
 
   return (
     <header>
-      {/* <img className="logo" src={aim2CrackLogo} alt="logo" title="home" /> */}
+      <img className="" src={aim2CrackLogo} alt="logo" title="home" />
 
       <nav className="main-menu">
         <ul className="nav_links">
-          <li><a href="#">Home</a></li>
+          {/* <li><a href="#">Home</a></li> */}
           <li><a href="/summary">Dashboard</a></li>
           <li className="dropdown">
             {/* ... Quizzes dropdown contents ... */}
@@ -81,10 +81,17 @@ function Navbar() {
           <li className="dropdown">
             {/* ... Placements dropdown contents ... */}
           </li>
-          <li><a href="#">Talks</a></li>
+          {/* <li><a href="#">Talks</a></li> */}
           <li className="dropdown">
             {/* ... About dropdown contents ... */}
           </li>
+          {tokenState && (
+          <li className="user-info">
+            <span className="material-icons"></span>
+            {/* <span className="user-name">{user.displayName}</span> */}
+            <a href="/profile">Profile</a>
+             </li>
+)}
           {tokenState && (
             <li className="user-info">
               <span className="material-icons"></span>

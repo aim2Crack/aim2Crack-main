@@ -33,7 +33,7 @@ const StudentProfileChecker = ({ children }) => {
 
   if (isStudent) {
     // Redirect to the error page if the user is a student
-    navigate('/error-page');
+    navigate('/error-page?message=You are not authorized to access this page.');
     return null;
   }
 

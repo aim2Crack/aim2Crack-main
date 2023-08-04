@@ -23,7 +23,7 @@ function Login() {
   };
 
   const location = useLocation();
-  const { from } = location.state || { from: { pathname: '/' } };
+  const { from } = location.state || { from: { pathname: '/summary' } };
   console.log('pathname',location.state)
   // Validation schema
   const formValidationSchema = yup.object().shape({
