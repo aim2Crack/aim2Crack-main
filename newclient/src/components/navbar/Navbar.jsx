@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
 // import jwt from 'jsonwebtoken';
 // import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
@@ -29,7 +29,7 @@ function Navbar() {
     const checkLoginStatus = async () => {
       if (!token) {
         // No token, navigate to login
-        navigate('/login');
+        navigate('/login',{state:{from: location.pathname}});
         // setTokenState(false);
       } else {
         // Token found, set tokenState to true

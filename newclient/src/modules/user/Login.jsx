@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik} from 'formik';
 import * as yup from 'yup';
@@ -21,6 +21,10 @@ function Login() {
     userOrEmail: '',
     password: '',
   };
+
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
+  console.log('pathname',location.state)
   // Validation schema
   const formValidationSchema = yup.object().shape({
     userOrEmail: yup.string().required('Email or username is required').max(30, 'Email not greater than 30 character'),
@@ -80,8 +84,12 @@ function Login() {
           {
             navigate('/onetimedetails'); // Redirect to the dashboard or desired page
           }
-          else{
-            navigate('/summary'); // Redirect to the dashboard or desired page
+          // else if(form){
+          //   navigate(form);
+          // }
+          else
+          {
+            navigate(from); // Redirect to the dashboard or desired page
           }
         }
       } else if (response.status === 401) {
