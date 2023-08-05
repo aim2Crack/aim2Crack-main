@@ -6,6 +6,7 @@ import './AddQuestionHome.css';
 import AddQuestion from './AddQuestion';
 import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
 
+
 const QuestionGet = ({ questionGet, handleEditQuestion, handleDeleteQuestion }) => {
   const { question, answer, explanation, options, mark, questionLevel, questionType } = questionGet;
 

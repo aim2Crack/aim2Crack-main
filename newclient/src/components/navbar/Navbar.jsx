@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
-import '../styles/Navbar.css';
+import './Navbar.css';
 // import jwt from 'jsonwebtoken';
 import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
 
@@ -69,7 +69,7 @@ function Navbar() {
 
   return (
     <header>
-      <img className="" src={aim2CrackLogo} alt="logo" title="home" />
+      {/* <img className="logo_nav" src={aim2CrackLogo} alt="logo" title="home" /> */}
 
       <nav className="main-menu">
         <ul className="nav_links">

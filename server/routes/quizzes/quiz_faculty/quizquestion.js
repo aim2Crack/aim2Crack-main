@@ -124,7 +124,7 @@ router.get('/quizquestion/:code/:id', async (req, res) => {
 
 
 // Delte Quiz question by code and id
-router.delete('/quizquestion/:code/:id', async (req, res) => {
+router.delete('/quizquestion/:code/:id', FacultyAuthorization, async (req, res) => {
     try {
         const {code} = req.params;
         console.log(code);
@@ -138,10 +138,9 @@ router.delete('/quizquestion/:code/:id', async (req, res) => {
   
   
   const quizquestion = await QuizQuestion.findOne({ where: { quizId:quiz.id, id:id } });
-//   console.log(quizquestion.id)
+console.log(quizquestion.id)
         if (quizquestion) {
-            const quizz = await QuizQuestion.destroy({where: { quizId:quiz.id, id:id }});
-           
+            await quizquestion.destroy();
             res.status(200).json({ success: true, message: 'question deleted'});
         } else {
             res.status(404).json({ success: false, message: 'Quiz Question not found' });

@@ -29,11 +29,11 @@ import NewPassword from "./modules/user/NewPassword";
 import Profile from "./modules/user/Profile";
 import Settings from "./modules/quiz/creator/addQuestion/settings";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
-// import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import Instructions from "./modules/quiz/student/Instructions";
 // import PrivateRoute from "./components/privateroutes/PrivateRoute";
 import Error from "./components/error/Error";
 import StudentProfileChecker from "./components/privateroutes/studentprofilechecker";
+import ConfirmationNotification from "./components/notification/notification";
 function App() {
 // // function App() {
   // const firebaseConfig = {

@@ -13,26 +13,26 @@ function Quizzing() {
   const [answer, setAnswer] = useState([]); // State to track the selected answer (if applicable)
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [totalQuizTime, setTotalQuizTime] = useState(0);
+  // const [totalQuizTime, setTotalQuizTime] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [timeElapsed, setTimeElapsed]=useState(0);
   const [isTabActive, setIsTabActive] = useState(true);
   const [progress, setProgress] = useState(0);
-
+  const [isDataFetched, setDataFetched] = useState(false);
   
   // State to store the total time taken for the quiz
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
 
    // Separate useEffect hook for the timer increment
-   useEffect(() => {
-    // Start the timer increment if quiz is ongoing and a question is present
-    const timer = setInterval(() => {
-      setTotalTimeTaken((prevTotalTime) => prevTotalTime + 1);
-    }, 1000);
+  //  useEffect(() => {
+  //   // Start the timer increment if quiz is ongoing and a question is present
+  //   const timer = setInterval(() => {
+  //     setTotalTimeTaken((prevTotalTime) => prevTotalTime + 1);
+  //   }, 1000);
 
-    // Clear the interval timer for the timer increment when the component unmounts
-    return () => clearInterval(timer);
-  }, []);
+  //   // Clear the interval timer for the timer increment when the component unmounts
+  //   return () => clearInterval(timer);
+  // }, []);
 
 
 
@@ -42,134 +42,77 @@ function Quizzing() {
   };
 
 
-  useEffect(() => {
-    const fetchQuestionDetails = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const code = window.location.pathname.split('/')[2];
+  const fetchQuestionDetails = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const code = window.location.pathname.split('/')[2];
 
-        const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status === 404) {
-          // Redirect to the result page when quiz data is not found (status code: 404)
-          const code = window.location.pathname.split('/')[2];
-          const targetURL = `/quiz/${code}/feedback`;
-          navigate(targetURL);
-              }
-        else if (response.ok) {
-          const responseData = await response.json();
-        console.log(responseData);
-          setQuestionData(responseData.data.firstQuestion);
-          setCurrentIndex(responseData.data.currentIndex); 
-          setTotalQuizTime(responseData.data.totalQuizTime);
-          setTotalQuestions(responseData.data.totalQuestions);
-           // Calculate the progress based on the current index and the total number of questions
-        const totalQuestions = responseData.data.totalQuestions;
-        setProgress((currentIndex + 1) / totalQuestions);
-        } 
-        else {
-          console.error('Failed to fetch quiz details:', response.status);
-        }
-      } catch (error) {
-        console.error('Error fetching quiz details:', error);
-      }
-    };
-    // 
-    fetchQuestionDetails();
-  }, [navigate]);
-
-  const [timeRemaining, setTimeRemaining] = useState(totalQuizTime);
-  // console.log('remaining time',timeRemaining);
-  
-    // Separate useEffect hook for the total quiz timer
-    useEffect(() => {
-      // Start the total quiz timer if it hasn't started already
-      if (timeRemaining > 0) {
-        const quizTimer = setInterval(() => {
-          setTimeRemaining((prevTotalTime) => {
-            if (prevTotalTime > 0) {
-              return prevTotalTime - 1;
-            } else {
-              // Total quiz time's up, you might want to handle this here
-              // For example, show a notification or auto-submit the quiz
-              clearInterval(quizTimer);
-              return 0;
-            }
-          });
-        }, 1000);
-  
-        // Clear the interval timer for the total quiz timer when the component unmounts
-        return () => clearInterval(quizTimer);
-      }
-    }, [timeRemaining]);
-
-  useEffect(() => {
-    const handleFullScreenChange = () => {
-      if (!document.fullscreenElement) {
-        showExitFullscreenWarning(); // Show the warning when fullscreen is exited
-      }
-    };
-
-    document.addEventListener('fullscreenchange', handleFullScreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullScreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullScreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullScreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullScreenChange);
-    };
-  }, []);
-
-  const showExitFullscreenWarning = () => {
-    setExitFullscreenWarning(true);
-  };
-
-  const hideExitFullscreenWarning = () => {
-    setExitFullscreenWarning(false);
-  };
-
- // Separate useEffect hook for updating total quiz time
- useEffect(() => {
-  setTimeRemaining(totalQuizTime);
-}, [totalQuizTime]);
-
-useEffect(() => {
-  setSelectedOptions([]);
-  setAnswer([]);
-  // setTimeRemaining(totalQuizTime);
-
-  if (questionData) {
-    setTimeElapsed(questionData.questionTime);
-    console.log('Updated questionData:', questionData.questionTime);
-
-    const timer = setInterval(() => {
-      setTimeElapsed((prevTime) => {
-        if (prevTime > 0) {
-          return prevTime - 1;
-        } else {
-          // Time's up, auto-submit the question
-          clearInterval(timer);
-          handleSubmit(); // Call the handleSubmit function to submit the answer
-          return 0;
-        }
+      const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-         // Update the progress bar based on the current question index and total questions
-    // const totalQuestions = questionData ? questionData.totalQuestions : 1;
-    setProgress((currentIndex + 1) / totalQuestions);
-    }, 1000);
+      if (response.status === 404) {
+        // Redirect to the result page when quiz data is not found (status code: 404)
+        const targetURL = `/quiz/${code}/feedback`;
+        navigate(targetURL);
+      } else if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
 
-    return () => clearInterval(timer);
-  }
-}, [questionData]);
+        setQuestionData(responseData.data.firstQuestion);
+        setCurrentIndex(responseData.data.currentIndex);
+        setTotalQuestions(responseData.data.totalQuestions);
+
+        // Calculate the progress based on the current index and the total number of questions
+        const totalQuestions = responseData.data.totalQuestions;
+        setProgress((currentIndex + 1) / totalQuestions);
+
+        setDataFetched(true); // Mark data as fetched
+      } else {
+        throw new Error(`Failed to fetch quiz details: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error fetching quiz details:', error);
+      // Handle error (e.g., show error message to the user)
+    }
+  };
+
+  useEffect(() => {
+    if (!isDataFetched) {
+      fetchQuestionDetails();
+    }
+  }, [isDataFetched]);
+
+  useEffect(() => {
+    setSelectedOptions([]);
+    setAnswer([]);
+
+    if (questionData) {
+      setTimeElapsed(questionData.questionTime);
+
+      const timer = setInterval(() => {
+        setTimeElapsed((prevTime) => {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          } else {
+            // Time's up, auto-submit the question
+            clearInterval(timer);
+            handleSubmit(); // Call the handleSubmit function to submit the answer
+            return 0;
+          }
+        });
+
+        // Update the progress bar based on the current question index and total questions
+        setProgress((currentIndex + 1) / totalQuestions);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [questionData]);
+
 
   // Render a loading message while waiting for data
   if (!questionData) {
@@ -282,7 +225,7 @@ const handleSubmit = async () => {
 
             <div id="quizzing-hide1">
               <div className="time maxwidth1 m_auto">
-                <h2>Time taken for this quiz: <span id="timeUsed">{formatMinutes(totalTimeTaken)}</span></h2>
+                {/* <h2>Time taken for this quiz: <span id="timeUsed">{formatMinutes(totalTimeTaken)}</span></h2> */}
                 <h2>Question Time Left: <span id="timeLeft">{formatMinutes(timeElapsed)} </span></h2>
               </div>
 

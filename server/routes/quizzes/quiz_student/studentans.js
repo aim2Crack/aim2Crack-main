@@ -134,8 +134,10 @@ if (quizOrder) {
 }
 
 // console.log(randomQuestionIds);
+
 if(!quizOrder)
 {
+  let quizOrder;
     
   console.log('quiz order not present')
   quizOrder = await QuizOrderArray.create({
