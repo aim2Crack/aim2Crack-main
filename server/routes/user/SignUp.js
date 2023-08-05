@@ -20,6 +20,24 @@ router.get('/users',authorization, async (req, res) => {
     }
 });
 
+
+
+router.get('/users/:id', authorization, async (req, res) => {
+  try {
+const {id} =req.params;
+    const user= await User.findOne({where: {id:id}}) ; 
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
 router.post('/users', authorization, async (req, res) => {
   try {
    
