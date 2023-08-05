@@ -174,7 +174,7 @@ router.post('/studentanswer/:code/:currentIndex', StudentAuthorization, async (r
   try {
     const user = req.user;
     const quiz=req.quiz;
-    // const {currentIndex } = req.params;
+    const {code } = req.params;
     const { answer, timeElapsed } = req.body;
     // console.log(answer);
     // // Save the student's answer here, assuming you have a separate model for student answers
@@ -236,6 +236,7 @@ if (quizQuestion.questionType == 'multiple') {
       answer: answer,
       timeElapsed: timeElapsed,
       score,
+      quizId: quizOrder.quizId,
     });
 // console.log(studentAnswer);
     // Increment the currentIndex for the next question
