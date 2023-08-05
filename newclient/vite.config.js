@@ -10,5 +10,6 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['@fortawesome/fontawesome-svg-core'],
+    // include: ['xlsx'],
   },
 })

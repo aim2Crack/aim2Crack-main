@@ -19,14 +19,17 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "file-saver": "^2.0.5",
     "formik": "^2.4.2",
     "jsonwebtoken": "^9.0.1",
     "jwt-decode": "^3.1.2",
     "moment-timezone": "^0.5.43",
+    "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.0",
+    "xlsx": "^0.18.5",
     "yup": "^1.2.0"
   },
   "devDependencies": {

@@ -34,6 +34,7 @@ import Instructions from "./modules/quiz/student/Instructions";
 import Error from "./components/error/Error";
 import StudentProfileChecker from "./components/privateroutes/studentprofilechecker";
 import ConfirmationNotification from "./components/notification/notification";
+import ResultSummary from "./modules/quiz/creator/resultsummary/resultsummary";
 function App() {
 // // function App() {
   // const firebaseConfig = {
@@ -88,7 +89,7 @@ const token = localStorage.getItem('token');
         <Route path="/quiz/:code/addinstruction/preview" element={<> <StudentProfileChecker /><PreviewInstructions /></>} />
         <Route path="/quiz/:code/settings" element={<> <StudentProfileChecker /><Settings/></>}/>
         <Route path="/addQuestionHome" element={<> <StudentProfileChecker /><AddQuestionHome /></>} />
-        {/* <Route path="/createQuiz" element={<CreateQuiz />} /> */}
+        <Route path="/quiz/:code/result" element={<ResultSummary />} />
 {/* quiz-student-routes */}
         <Route path="/quiz/:code/test" element={<Instructions />} />
         <Route path="/quiz/:code/live" element={<Quizzing />} />
