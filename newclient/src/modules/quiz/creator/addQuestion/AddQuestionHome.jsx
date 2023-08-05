@@ -225,7 +225,7 @@ export const AddQuestionHome = () => {
           <FontAwesomeIcon icon={faGear} />
         </Link>
         <div id="settings">Setting</div>
-        <Link to={'/quiz/' + `${code}` + '/settings'} className="icon-bar-menu icon-3">
+        <Link to={'/quiz/' + `${code}` + '/result'} className="icon-bar-menu icon-3">
           <FontAwesomeIcon icon={faCalendar} />
         </Link>
         <div id="result">Result</div>
