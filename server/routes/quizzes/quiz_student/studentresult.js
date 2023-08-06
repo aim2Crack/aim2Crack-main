@@ -6,24 +6,24 @@ const StudentAnswer = require('../../../models/studentans');
 const StudentAuthorization = require('../../../controllers/studentAuthorisation');
 const FacultyAuthorization = require('../../../controllers/facultyAuthorisation');
 
-// Create a student result
-// router.post('/studentresult', QuizAuthorization, async (req, res) => {
-//   try {
-//     const { quizId, studentId, totalScore } = req.body;
+// // Get all student results for a quiz
+router.get('/studentresultsummary/:code/all', QuizAuthorization, async (req, res) => {
+  try {
+    const quiz = req.quiz;
+    const user = req.user;
 
-//     // Create a new student result in the database
-//     const studentResult = await StudentResult.create({
-//       quizId,
-//       studentId,
-//       totalScore,
-//     });
+    // Fetch all student results for the given quiz from the database
+    const summaryResults = await StudentAnswer.findAll({
+      where: { quizId: quiz.id },
+    });
 
-//     res.status(201).json({ success: true, data: studentResult });
-//   } catch (error) {
-//     console.error('Error creating student result:', error);
-//     res.status(500).json({ success: false, message: 'Internal Server Error' });
-//   }
-// });
+    res.status(200).json({ success: true, data: summaryResults });
+  } catch (error) {
+    console.error('Error fetching student results:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
 
 // // Get all student results for a quiz
 router.get('/studentresult/:code/all', QuizAuthorization, async (req, res) => {
