@@ -1,5 +1,5 @@
-const {sq} = require('../db');
-const {DataTypes} = require('sequelize');
+const { sq } = require('../db');
+const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 
@@ -9,69 +9,69 @@ const User = sq.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-},
-email: {
+  },
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
     validate: {
-        isEmail: true,
+      isEmail: true,
     },
-},
-phone: {
+  },
+  phone: {
     type: DataTypes.STRING,
     allowNull: true,
-},
-password: {
+  },
+  password: {
     type: DataTypes.STRING,
     allowNull: false,
-},
-profileType: {
+  },
+  profileType: {
     type: DataTypes.ENUM('student', 'faculty'),
     defaultValue: 'student',
-},
-firstName:{
-  type: DataTypes.STRING,
-    allowNull: true,
-},
-lastName:{
-  type: DataTypes.STRING,
-    allowNull: true,
-},
-rollNo: {
+  },
+  firstName: {
     type: DataTypes.STRING,
     allowNull: true,
-},
-institute: {
+  },
+  lastName: {
     type: DataTypes.STRING,
     allowNull: true,
-},
-brandName: {
+  },
+  rollNo: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  institute: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  brandName: {
     type: DataTypes.STRING,
     allowNull: true,
     defaultValue: 'none',
-},
-brandLogo: {
+  },
+  brandLogo: {
     type: DataTypes.STRING,
     allowNull: true,
-},
-brandLink: {
+  },
+  brandLink: {
     type: DataTypes.STRING,
     allowNull: true,
-},
-brandFavicon: {
-  type: DataTypes.STRING,
-  allowNull: true,
-},
-emailVerify: {
-  type: DataTypes.BOOLEAN,
-  defaultValue: false,
-},
+  },
+  brandFavicon: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  emailVerify: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 
-  // //password-matching
-  // Instance method to compare password
+// //password-matching
+// Instance method to compare password
 User.prototype.isValidPassword = async function (password) {
   try {
     return await bcrypt.compare(password, this.password);
@@ -79,11 +79,11 @@ User.prototype.isValidPassword = async function (password) {
     throw new Error(error);
   }
 };
-  
-  User.sync().then(() => {
-    console.log("User Model synced");
-  });
+
+User.sync().then(() => {
+  console.log("User Model synced");
+});
 
 
 //   return User
-  module.exports = User;
+module.exports = User;
