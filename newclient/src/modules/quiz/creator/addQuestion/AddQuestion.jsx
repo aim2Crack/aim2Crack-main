@@ -311,7 +311,7 @@ function AddQuestion({ editQuestionData, onClose }) {
               Enter the explanation:
             </div>
             <QuillEditor
-            ref={quillRef.current} 
+            ref={quillRef} 
   value={data.explanation}
   onChange={(content) => setData({ ...data, explanation: content })}
   placeholder="Write the explanation here"
