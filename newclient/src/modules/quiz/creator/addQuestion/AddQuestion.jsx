@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
-import MyckEditor from '../../../../components/ckeditor/ckeditor';;
+import MyckEditor from '../../../../components/ckeditor/ckeditor';
+import QuillEditor from '../../../../components/quill/quillEditor';
+
 
 function AddQuestion({ editQuestionData, onClose }) {
   const [data, setData] = useState({
@@ -141,7 +143,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     }
   };
 
-
+  const quillRef = useRef(null); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -159,7 +161,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       });
       return;
     }
-
+    const quillEditor = quillRef.current;
     const questionData = {
       questionType,
       questionLevel,
@@ -178,6 +180,9 @@ function AddQuestion({ editQuestionData, onClose }) {
 
     window.location.reload();
   };
+
+
+
 
   const renderOptions = () => {
     return options.map((inputField, index) => (
@@ -305,11 +310,17 @@ function AddQuestion({ editQuestionData, onClose }) {
             <div className='question2'>
               Enter the explanation:
             </div>
-            <MyckEditor
+            <QuillEditor
+            ref={quillRef.current} 
+  value={data.explanation}
+  onChange={(content) => setData({ ...data, explanation: content })}
+  placeholder="Write the explanation here"
+/>  
+            {/* <MyckEditor
               data={data.explanation}
               placeholder="Write the explanation here"
               onChange={(content) => setData({ ...data, explanation: content })}
-            />
+            /> */}
             <div className="last">
               <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
               <button className="btn" id="cancel_btn" type="button" onClick={handleCancel}>

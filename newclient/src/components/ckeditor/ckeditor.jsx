@@ -20,7 +20,7 @@ function MyckEditor({ data, onChange, placeholder }) {
 
   const editorConfig = {
     debug: true,
-   
+  
     toolbar: [
       'heading',
       '|',
@@ -33,7 +33,7 @@ function MyckEditor({ data, onChange, placeholder }) {
       'outdent',
       'indent',
       '|',
-      'link',
+      'link', // Include the unlink button to remove existing links
       '|',
       'blockQuote',
       'imageUpload',
@@ -42,19 +42,24 @@ function MyckEditor({ data, onChange, placeholder }) {
       'undo',
       'redo',
     ],
+  
     image: {
       toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'],
       styles: ['full', 'alignLeft', 'alignRight'],
       resizeOptions: [],
       upload: {
-        // Use the custom upload adapter here
         uploadUrl: 'http://127.0.0.1:7000/upload', // Replace with the correct upload URL
         adapter: CustomUploadAdapter,
-      }, 
+      },
     },
-      placeholder: placeholder,
+  
+    link: {
+      addTargetToExternalLinks: true, // Open external links in a new tab by default
+    },
+      
+    placeholder: placeholder,
   };
-
+  
   return (
     <div style={{ width: '80%', maxWidth: '800px', margin: 'auto' }}>
       <CKEditor

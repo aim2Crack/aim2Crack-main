@@ -13,6 +13,7 @@ const studentAnsRoutes=require("./routes/quizzes/quiz_student/studentans")
 const studentResultRoutes=require("./routes/quizzes/quiz_student/studentresult");
 const fileUploadRouter=require('./routes/mediaupload/fileupload');
 
+
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -68,7 +69,7 @@ app.use('/',signupRoutes);
 app.use('/',resetRoutes);
 app.use('/',loginRoutes);
 app.use('/',mailerRoutes);
-app.use('/file', fileUploadRouter); 
+app.use('/', fileUploadRouter); 
 //quiz routes
 app.use('/',quizRoutes);
 app.use('/',quizquestionRoutes);
