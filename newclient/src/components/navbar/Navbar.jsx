@@ -69,7 +69,7 @@ function Navbar() {
 
   return (
     <header>
-      {/* <img className="logo_nav" src={aim2CrackLogo} alt="logo" title="home" /> */}
+      <img className="logo_nav" src={aim2CrackLogo} alt="logo" title="home" />
 
       <nav className="main-menu">
         <ul className="nav_links">
@@ -86,15 +86,15 @@ function Navbar() {
             {/* ... About dropdown contents ... */}
           </li>
           {tokenState && (
-          <li className="user-info">
-            <span className="material-icons"></span>
+          <li className="nav_links">
+            {/* <span className="nav_links"></span> */}
             {/* <span className="user-name">{user.displayName}</span> */}
             <a href="/profile">Profile</a>
              </li>
 )}
           {tokenState && (
-            <li className="user-info">
-              <span className="material-icons"></span>
+            <li className="nav_links">
+              {/* <span className="material-icons"></span> */}
               {/* <span className="user-name">{user.displayName}</span> */}
               <button onClick={handleLogout}>Logout</button>
             </li>

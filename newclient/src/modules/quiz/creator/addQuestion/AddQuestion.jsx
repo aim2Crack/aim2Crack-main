@@ -323,7 +323,7 @@ function AddQuestion({ editQuestionData, onClose }) {
             /> */}
             <div className="last">
               <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
-              <button className="btn" id="cancel_btn" type="button" onClick={handleCancel}>
+              <button className="btn_cancel" id="cancel_btn" type="button" onClick={handleCancel}>
                 Cancel
               </button>
             </div>

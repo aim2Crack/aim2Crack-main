@@ -170,47 +170,47 @@ export default function PreviewInstructions() {
 
   return (
 <>    <body>
-    <div className="instructions1">
-      <img src={logo} alt="" id="logo" />
+    <div className="instructions_student">
+      <img src={logo} className="logo2" alt="" />
       <h2>Instructions to the candidates</h2>
 
-      <p className="lines">
+      <div className="lines_s">
         <i className="bx bxs-right-arrow"></i>
         Do not try to refresh your tab while taking the exam! Test will be submitted automatically!
-      </p>
+      </div>
 
-      <p className="lines">
+      <div className="lines_s">
         <i className="bx bxs-right-arrow"></i>
         Do not attempt to change the tab while taking the exam! Test will be submitted automatically!
-      </p>
-      <p className="lines">
+      </div>
+      <div className="lines_s">
         <i className="bx bxs-right-arrow"></i>
         Individual questions are timed, you don't have any chance to answer it later!
-      </p>
-      <p className="lines">
+      </div>
+      <div className="lines_s">
         <i className="bx bxs-right-arrow"></i>
         Do not attempt to google search on a secondary device, the timer has been set appropriately!
-      </p>
+      </div>
 
 
 
       {instructions.length > 0 && (
         <ul className="instruction-list">
           {instructions.map((item, index) => (
-            <li className="lines" key={index}>
+            <li className="lines_s" key={index}>
               <i className="bx bxs-right-arrow"></i>
               {item}
             </li>
           ))}
         </ul>
       )}
-      {!isFullscreen && <p className="lines">
+      {!isFullscreen && <div className="lines_s">
         <i className="bx bxs-right-arrow"></i>
         Quiz will start in: <span id="the_timer">{formattedTime}</span>
-      </p>
+      </div>
 }
 {isFullscreen && isTimerComplete && (
-  <p className="lines">
+  <div className="lines_s">
     <i className="bx bxs-right-arrow timer"></i>
     {isMarginTimerComplete ? (
       <span className="red-text">Timeup! You cannot take this Quiz! Contact faculty!</span>
@@ -219,7 +219,7 @@ export default function PreviewInstructions() {
         <span className="red-text"> Your chance to take the quiz will end in: {marginformattedTime}</span>
       </>
     )}
-  </p>
+  </div>
 )}
 
 
@@ -234,14 +234,14 @@ export default function PreviewInstructions() {
 
 
       {!isFullscreen && (
-        <button className="start-btn" onClick={handleEnterFullScreen}>
+        <button className="btn_start" onClick={handleEnterFullScreen}>
           Enter Fullscreen
         </button>
       )}
   
    
 {isFullscreen && !isMarginTimerComplete && (
-  <button id='start-btn' onClick={handleStartQuiz}>
+  <button onClick={handleStartQuiz}>
     {isTimerComplete ? `Start Quiz` : `${formattedTime}`}
   </button>
 )}

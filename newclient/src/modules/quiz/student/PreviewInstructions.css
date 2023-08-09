@@ -58,7 +58,7 @@ body{
 }
  img{
     width: 250px;
-    height: 200px;
+    height: auto;
 }
 #correction{
     margin-top: 10px;
@@ -137,6 +137,7 @@ margin-top: 3px;
 }
 .red-text {
     color: red;
+    /* padding: 10px; */
   }
   #the_timer {
     font-size: 24px;
@@ -146,14 +147,15 @@ margin-top: 3px;
 
 
 
-.instructions1{
-    width: 70%;
-    display: flex;
+.instructions_student{
+    width: 80%;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin: 3% auTto;
-    padding: 50px;
+    justify-content: left;
+    margin: 10vh;
+    padding: 10px;
+/* margin-top: 3% auTto; */
     border-radius: 0.5rem;
     box-shadow: 0 6px 12px 0 rgb(0 0 0 / 20%), 0 8px 20px 0 rgb(0 0 0 / 19%);
     text-align: left;
@@ -166,11 +168,11 @@ margin-top: 3px;
     background-repeat: no-repeat; */
     /* margin: 3%; */
 }
-* {
+/* * {
     margin: 0;
     padding: 0;
     text-align: center;
-  }
+  } */
 .instructions1 p {
   width: 100%;
   font-size: 1.1rem;
@@ -179,14 +181,14 @@ margin-top: 3px;
 }
 #logo2{
     width: auto;
-    height: 150px;
+    height: 250px;
 }
 .box{
     position: absolute;
     top: 0;
     left: 0;
 }
-.instructions1 h2{
+.instructions_student h2{
     font-size: 1.6rem;
     margin: 10px auto;
     font-weight: bold;
@@ -201,10 +203,13 @@ margin-top: 3px;
 .bxs-right-arrow{
     color: #1ec7c5;
 }
-.lines{
-    
+.lines_s{
+    width: 80%;
     font-weight: bold;
     text-align: left;
+    align-content: left;
+    margin-bottom: 20px;
+
     
 }
 
@@ -222,7 +227,7 @@ margin-top: 3px;
     text-decoration: none;
     text-transform: uppercase;
     border: 2px solid rgb(11, 172 ,170);
-    /* margin-top: 9px; */
+    margin-top: 9px;
     position: relative;
     padding: 10px 1.4rem
     ;
@@ -239,6 +244,7 @@ margin-top: 3px;
     border: 2px solid rgb(11, 172 ,170);
     position: relative;
     padding: 10px 1.4rem;
+    margin-top: 20 px;
     z-index: 1;
     transition: all 0.5s ease;
      background: white;
@@ -319,7 +325,7 @@ z-index: -1;
     } 
     #logo2{
         display: inline;
-        height: 80px;
+        height: 100px;
     }
     .fresh{
 
@@ -337,15 +343,15 @@ z-index: -1;
     .ed{
         font-size: 1rem;
     }
-    .instructions1 h2{
+    /* .instructions1 h2{
         text-align: center;
-    }
+    } */
     #name{
         text-align: center;
     }
-    .info p{
+    /* .info p{
         text-align: center;
-    }
+    } */
  
 }
 .bxs-right-arrow::before {

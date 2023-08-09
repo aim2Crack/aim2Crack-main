@@ -20,7 +20,7 @@ header {
   background-color: #000;
 }
 
-img {
+.logo_nav {
   width: 250px;
 }
 
@@ -36,7 +36,7 @@ img {
 
 .nav_links li {
   display: inline-block;
-  padding: 0px 10px;
+  padding: 0px 5px;
 }
 
 .nav-subjective-btn:hover {
