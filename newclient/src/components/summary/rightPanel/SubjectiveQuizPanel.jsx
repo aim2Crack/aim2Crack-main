@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactPropTypes from 'prop-types';
 import '../../styles/rightPanel.css';
-import searchImage from  '../../../assets/images/summary/searchBar.svg';
+import searchImage from '../../../assets/images/summary/searchBar.svg';
 import pdfImage from '../../../assets/images/summary/pdfImage.svg';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import SubjectiveQuizList from './SubjectiveQuizList';
 
 const SubjectiveQuizPanel = ({ quizName, modifiedDate }) => {
     return (
@@ -19,7 +20,7 @@ const SubjectiveQuizPanel = ({ quizName, modifiedDate }) => {
                     type="image"
                     className="search-button-image"
                     name="search"
-                    src= {searchImage}
+                    src={searchImage}
                     alt="Search"
                 />
             </div>
@@ -41,10 +42,10 @@ const SubjectiveQuizPanel = ({ quizName, modifiedDate }) => {
                     <div className="content-card">
                         <div className="upper-container d-flex">
                             <div className="content-card-icon">
-                                <img src= {pdfImage} className="content-card-image"/>
+                                <img src={pdfImage} className="content-card-image" />
                             </div>
                             <div className="name-box flex-f-col">
-                                <p className="file-name">{}</p>
+                                <p className="file-name">{quizName}</p>
                                 <div className="sub-heading">
                                     <span className="naam">Subject : </span>
                                     <span className="sub-name">EMF Theory</span>
