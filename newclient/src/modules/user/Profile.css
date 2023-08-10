@@ -11,6 +11,14 @@ body{
     align-items: center;
     /* background-color: white; */
 }
+#profile h2 {
+    font-size: 40px;
+    margin: 20px;
+    color: #3c8a7c;
+    font-family: serif;
+
+}
+  
 #block{
     display:flex;
     /* height:40%;background:url(profile.svg); */
@@ -21,7 +29,6 @@ body{
    
     display: flex;
     justify-content: center;
-    
     color:#2eb7b6;
     width: 50%;
 
@@ -48,12 +55,12 @@ body{
         width: 350px;;
     }
 }
-/* .forms{
+.forms{
     
     
     border:none;
     
-} */
+}
 
 
 .first_name,.last_name,.roll_no{
@@ -146,6 +153,7 @@ body{
     display:flex;
     display: flex;
     flex-direction: row-reverse;
+    padding:20px;
 }
 
 .password{
@@ -165,6 +173,7 @@ body{
 @media screen and (max-width:600px) {
     #button_save{
         width: 50%;
+        font-family: sans-serif;
     }
 }
 .submit{

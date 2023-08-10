@@ -169,6 +169,10 @@ const Profile = () => {
               readOnly
             />
           </div>
+          </fieldset>
+
+          {formData.profileType === 'faculty' && (
+        <fieldset className="forms">
           <div className="roll_no">
             <span className="label">Brand Name:</span>
             <input
@@ -212,6 +216,7 @@ const Profile = () => {
             />
           </div>
         </fieldset>
+          )}
         <div className="change_password">
           <a className="password" href="/forgot-password">
             Change Password
