@@ -1,0 +1,119 @@
+/* styles.css */
+/* * {
+    margin: 0;
+    padding: 5PX;
+    box-sizing: border-box;
+    text-align: center;
+    border-color: #3b7474
+} */
+.container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+    height: 80vh;
+    /* border: 2px solid #76d2be; */
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .heading {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem
+  }
+  
+  .form {
+    width: 300px;
+    margin-bottom: 10px;
+    border:10px solid #343f3d;
+    
+
+  }
+  
+  .form label {
+    display: block;
+    margin-bottom: 5px;
+    /* padding:20px; */
+  }
+  
+  .form input,
+  .form select {
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* .button_update {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+  } */
+  
+  .formdiv {
+    padding: 10px;
+    border: 5px solid #2ec19f;
+    border-radius: 12px;
+}
+  
+  .alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  
+  .success {
+    background-color: #dff0d8;
+    color: #3c763d;
+  }
+  
+  .error {
+    background-color: #e81010;
+    color: white;
+    border-radius:4px;
+    padding:5px;
+  }
+  /* firsttime.css */
+/* ... your existing styles ... */
+
+.form-table {
+    display: table;
+    width: 100%;
+    /* padding:10px; */
+  }
+  
+  .form-row {
+    display: table-row;
+    margin-bottom: 10px;
+    /* padding:10px; */
+  }
+  
+  .form-row label,
+  .form-row input,
+  .form-row select {
+    display: table-cell;
+    padding: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .form-row label {
+    width: 30%;
+    text-align: right;
+    padding-right: 10px;
+  }
+  
+  .form-row input,
+  .form-row select {
+    width: 70%;
+
+  }
+  
+  .form-row.center {
+    text-align: center;
+  }
+  
