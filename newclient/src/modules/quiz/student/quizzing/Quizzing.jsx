@@ -4,6 +4,7 @@ import logo from '../../../../assets/images/user/Logo enlarged-03.png';
 import './Quizzing.css';
 import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
 import { formatMinutes } from '../../../../components/timer/formatMinutes';
+import Error from "../../../../components/error/Error";
 // import Notification from '../../../../components/notification';
 // import TabVisibilityHandler from '../../../../components/tabchange/TabVisibilityHandler';
 
@@ -24,6 +25,10 @@ function Quizzing() {
   // State to store the total time taken for the quiz
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
 
+
+  const token = localStorage.getItem('token');
+  const code = window.location.pathname.split('/')[2];
+
    // Separate useEffect hook for the timer increment
   //  useEffect(() => {
   //   // Start the timer increment if quiz is ongoing and a question is present
@@ -34,41 +39,49 @@ function Quizzing() {
   //   // Clear the interval timer for the timer increment when the component unmounts
   //   return () => clearInterval(timer);
   // }, []);
-  // useEffect(() => {
-  //     const handleBlur = () => {
-  //       // This function will be triggered when the user switches away from your webpage.
-  //       // You can use this as an indicator that a screenshot might have been taken.
-  //       const token = localStorage.getItem('token');
-  //       const code = window.location.pathname.split('/')[2];
-    
-  //       const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}/${currentIndex}`, {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({ answer, timeElapsed }),
-  //       });
-    
-
-  //       // setCurrentIndex('999');
-  //       console.log(currentIndex);
-  //       const code = window.location.pathname.split('/')[2];
-  //       const targetURL = `/quiz/${code}/feedback`;
-  //       navigate(targetURL);
-  //       setEndQuiz('true');
-  //       console.log(endQuiz)
-        
-  //       console.log('Possible screenshot taken');
-  //     };
+  useEffect(() => {
+    const handleBlur = async () => {
+      const token = localStorage.getItem('token');
+      const extractedCode = window.location.pathname.split('/')[2];
   
-  //     window.addEventListener('blur', handleBlur);
+      const postData = {
+        status: false,
+        // You can include other data here if needed
+      };
+      // const targetURL = `/quiz/${extractedCode}/feedback`;
+      navigate('/error-page?message=Your Quiz is submitted due to unfair attempts!.');
+      // console.log('Possible screenshot taken');
+      
+      try {
+        const response = await fetch(`http://127.0.0.1:7000/endquiz/${extractedCode}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(postData),
+        });
   
-  //     return () => {
-  //       window.removeEventListener('blur', handleBlur);
-  //     };
-  //   }, []);
-
+        if (response.ok) {
+          // Handle successful response if needed
+          console.log('POST request successful:', responseData);
+        } else {
+          // Handle error response if needed
+          console.error('POST request failed:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+  
+    };
+  
+    window.addEventListener('blur', handleBlur);
+  
+    return () => {
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, []);
+  
 
   const handleTabChange = (isActive) => {
     setIsTabActive(isActive);
@@ -78,8 +91,6 @@ function Quizzing() {
 
   const fetchQuestionDetails = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const code = window.location.pathname.split('/')[2];
 
       const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}`, {
         method: 'GET',

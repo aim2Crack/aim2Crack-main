@@ -144,8 +144,7 @@ if(!quizOrder)
       quizId: quiz.id,
       studentId: user.id,
       questionOrder: randomQuestionIds,
-      index:0,
-      status: new Array(quizQuestions.length).fill(0),
+      index:0
     });
   }
 
@@ -154,7 +153,7 @@ if(!quizOrder)
 
 const firstQuestion = await getNextQuestion(quizOrder.id, currentIndex);
 // await quizOrder.update({ index: currentIndex});
-if (!firstQuestion) {
+if (!firstQuestion || !quizOrder.status) {
   // If no question is found, return an error response
   return res.status(404).json({ success: false, message: 'No questions found' });
 }
@@ -249,9 +248,10 @@ if (quizQuestion.questionType == 'multiple') {
     console.log('Updated index:', nextIndex);
 
     // Get the next question based on the new index
+   
     const nextQuestion = await getNextQuestion(quizOrder.id, nextIndex);
-
-    if (!nextQuestion) {
+   
+    if (!nextQuestion || !quizOrder.status) {
       return res.status(410).json({ success: true, message: 'No more questions left' });
     }
     console.log('Array  length', quizOrder.questionOrder.length);
@@ -270,42 +270,45 @@ if (quizQuestion.questionType == 'multiple') {
 
 // quizorderarray status updation to make it end the quiz upon blur event
 
-// router.post('endquiz/:code/', StudentAuthorization, async (req, res) => {
-//   try {
-//     const user = req.user;
-//     const quiz=req.quiz;
-//     const {code } = req.params;
-//     // const { answer, timeElapsed } = req.body;
-//     // console.log(answer);
-//     // // Save the student's answer here, assuming you have a separate model for student answers
-//     // and you can save the answer along with the question ID, student ID, selectedOption, and timeTaken.
-//     const quizOrder = await QuizOrderArray.findOne({
-//       where:{studentId:user.id, quizId:quiz.id}
-//     });
-//     // console.log(quizOrder.id);
-//     if (quizOrder) {
-//       // Append the value of 1 to the status array
-//       // quizOrder.status[currentIndex] = '1';
-//     // currentStatus = quizOrder.index;
+router.post('/endquiz/:code', StudentAuthorization, async (req, res) => {
+  try {
+    const user = req.user;
+    const quiz=req.quiz;
+    const {code } = req.params;
+    const { status } = req.body;
+    // console.log(answer);
+    // // Save the student's answer here, assuming you have a separate model for student answers
+    // and you can save the answer along with the question ID, student ID, selectedOption, and timeTaken.
+    const quizOrder = await QuizOrderArray.findOne({
+      where:{studentId:user.id, quizId:quiz.id}
+    });
+    console.log(quizOrder.id);
+    if (quizOrder) {
+      // Append the value of 1 to the status array
+      // quizOrder.status[currentIndex] = '1';
+    // currentStatus = quizOrder.index;
 
-//    // Use the update method to directly update the status field in the database
-//    await QuizOrderArray.update(
-//     { status: 1 },
-//     { where: { id: quizOrder.id } }
-//   );
-//       // await quizOrder.save();
+   // Use the update method to directly update the status field in the database
+   await QuizOrderArray.update(
+    { status: status },
+    { where: { id: quizOrder.id } }
+  );
+      // await quizOrder.save();
 
-//       console.log('Updated status array:', quizOrder.status);
-//     } else {
-//       // Handle the case when quizOrder is not found or status is not an array
-//       console.error('Error updating quizOrder status');
-//     }
+      console.log('Updated status array:', quizOrder.status);
+    } else {
+      // Handle the case when quizOrder is not found or status is not an array
+      console.error('Error updating quizOrder status');
+    }
 
-//     if (!quizOrder) {
-//       // If the quiz order with the given ID doesn't exist, return an error response
-//       return res.status(404).json({ success: false, message: 'Quiz order not found' });
-//     }
-// }
-// });
+    if (!quizOrder) {
+      // If the quiz order with the given ID doesn't exist, return an error response
+      return res.status(404).json({ success: false, message: 'Quiz order not found' });
+    }
+  } catch (error) {
+    console.error('Error posting data:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;
