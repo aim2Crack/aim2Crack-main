@@ -29,8 +29,8 @@ const QuizOrderArray = sq.define('quizorderarray', {
     type: DataTypes.INTEGER,
   },
   status: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
-    defaultValue: [],
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
   },
 });
 

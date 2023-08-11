@@ -19,6 +19,7 @@ function Quizzing() {
   const [isTabActive, setIsTabActive] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isDataFetched, setDataFetched] = useState(false);
+  const [endQuiz,setEndQuiz]=useState(false);
   
   // State to store the total time taken for the quiz
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
@@ -33,7 +34,40 @@ function Quizzing() {
   //   // Clear the interval timer for the timer increment when the component unmounts
   //   return () => clearInterval(timer);
   // }, []);
+  // useEffect(() => {
+  //     const handleBlur = () => {
+  //       // This function will be triggered when the user switches away from your webpage.
+  //       // You can use this as an indicator that a screenshot might have been taken.
+  //       const token = localStorage.getItem('token');
+  //       const code = window.location.pathname.split('/')[2];
+    
+  //       const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}/${currentIndex}`, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({ answer, timeElapsed }),
+  //       });
+    
 
+  //       // setCurrentIndex('999');
+  //       console.log(currentIndex);
+  //       const code = window.location.pathname.split('/')[2];
+  //       const targetURL = `/quiz/${code}/feedback`;
+  //       navigate(targetURL);
+  //       setEndQuiz('true');
+  //       console.log(endQuiz)
+        
+  //       console.log('Possible screenshot taken');
+  //     };
+  
+  //     window.addEventListener('blur', handleBlur);
+  
+  //     return () => {
+  //       window.removeEventListener('blur', handleBlur);
+  //     };
+  //   }, []);
 
 
   const handleTabChange = (isActive) => {
@@ -183,7 +217,7 @@ const handleSubmit = async () => {
       body: JSON.stringify({ answer, timeElapsed }),
     });
    
-    if (response.ok) {
+    if (response.ok && !endQuiz ) {
       const responseData = await response.json();
       console.log(responseData.data)
       setQuestionData(responseData.data.nextQuestion); // Update the state with the next question's data
@@ -207,6 +241,7 @@ const handleSubmit = async () => {
 
   return (
     <div>
+      {!endQuiz ? (
       <div className="quizzing-box">
         <div className="quizzing-container" id="quiz">
           <div className="quizzing-wrapper">
@@ -326,8 +361,13 @@ const handleSubmit = async () => {
           <input type="submit" className="quizzing-hide" style={{ display: 'none' }} id="quiz_submit_button" value="submit test" />
         </form>
       </div>
-    </div>
-  )
+    
+  ):(
+
+<div>Error</div>
+  )}
+  </div>
+  );
 }
 
 export default Quizzing

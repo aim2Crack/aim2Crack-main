@@ -268,5 +268,44 @@ if (quizQuestion.questionType == 'multiple') {
   }
 });
 
+// quizorderarray status updation to make it end the quiz upon blur event
+
+// router.post('endquiz/:code/', StudentAuthorization, async (req, res) => {
+//   try {
+//     const user = req.user;
+//     const quiz=req.quiz;
+//     const {code } = req.params;
+//     // const { answer, timeElapsed } = req.body;
+//     // console.log(answer);
+//     // // Save the student's answer here, assuming you have a separate model for student answers
+//     // and you can save the answer along with the question ID, student ID, selectedOption, and timeTaken.
+//     const quizOrder = await QuizOrderArray.findOne({
+//       where:{studentId:user.id, quizId:quiz.id}
+//     });
+//     // console.log(quizOrder.id);
+//     if (quizOrder) {
+//       // Append the value of 1 to the status array
+//       // quizOrder.status[currentIndex] = '1';
+//     // currentStatus = quizOrder.index;
+
+//    // Use the update method to directly update the status field in the database
+//    await QuizOrderArray.update(
+//     { status: 1 },
+//     { where: { id: quizOrder.id } }
+//   );
+//       // await quizOrder.save();
+
+//       console.log('Updated status array:', quizOrder.status);
+//     } else {
+//       // Handle the case when quizOrder is not found or status is not an array
+//       console.error('Error updating quizOrder status');
+//     }
+
+//     if (!quizOrder) {
+//       // If the quiz order with the given ID doesn't exist, return an error response
+//       return res.status(404).json({ success: false, message: 'Quiz order not found' });
+//     }
+// }
+// });
 
 module.exports = router;
