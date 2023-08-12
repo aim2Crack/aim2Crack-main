@@ -3,13 +3,18 @@ import '../../styles/rightPanel.css';
 import searchImage from '../../../assets/images/summary/searchBar.svg';
 import pdfImage from '../../../assets/images/summary/pdfImage.svg';
 import {extractDateTime} from '../../timer/extractDateTime.js';
-import { Link } from 'react-router-dom';
-import { faTrash, faPencil, faUserShield, faGears, faRotate, faShareNodes } from '@fortawesome/free-solid-svg-icons';
+// import { Link } from 'react-router-dom';
+import { faTrash, faLink, faChartColumn, faGears, faRotate, faShareNodes, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 
 const SubjectiveQuizPanel = () => {
   const [quizDetails, setQuizDetails] = useState([]);
+  const navigate = useNavigate(); 
+  
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -37,6 +42,13 @@ const SubjectiveQuizPanel = () => {
 
     fetchQuiz();
   }, []);
+
+  // Redirection to settings page
+  const handleNavigateSettings = (quizCode) => {
+    navigate(`../quiz/${quizCode}/settings`);
+  };
+
+
 
   return (
     <div>
@@ -104,18 +116,33 @@ const SubjectiveQuizPanel = () => {
           </div>
         </Link>     
                 <div className="middle-container d-flex">
-                    
-                           </div>
-
+           
+           
                            <div className="end-container d-flex">
+                           <button className="icon-button" onClick={() => handleLink(quiz.code)}>
+    <FontAwesomeIcon icon={faLink} className="icons card-icons" />
+  </button>
+
+    
+    <button className="icon-button" onClick={() => handleDownload(quiz.code)}>
+    <FontAwesomeIcon icon={faDownload} className="icons card-icons" />
+  </button>
+
+
   <button className="icon-button" onClick={() => handleDeleteQuiz(quiz.id)}>
     <FontAwesomeIcon icon={faTrash} className="icons card-icons" />
   </button>
-  <button className="icon-button" onClick={() => handleEditQuiz(quiz.id)}>
+  <button className="icon-button" onClick={() => handleNavigateSettings(quiz.code)}>
     <FontAwesomeIcon icon={faGears} className="icons card-icons" />
   </button>
+
+  <button className="icon-button" onClick={() => handleChart(quiz.code)}>
+    <FontAwesomeIcon icon={faChartColumn} className="icons card-icons" />
+  </button>
+
   {/* Add other icon buttons with event handlers as needed */}
-</div>
+  </div>
+  </div>
 
               </div>
             </div>
