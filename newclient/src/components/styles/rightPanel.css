@@ -672,8 +672,9 @@ body {
 .content-card:hover {
     transform: scale(1.02);
     cursor: pointer;
-    background-color: #caeff7;
-    box-shadow: 0 15px 30px 0 rgba(204, 228, 243, 0.15);
+    /* border: rgb(138, 220, 138); */
+    background-color: #b8efef;
+    /* box-shadow: 0 15px 30px 0 rgba(164, 183, 175, 0.15); */
 }
 .d-flex {
     display: flex;
