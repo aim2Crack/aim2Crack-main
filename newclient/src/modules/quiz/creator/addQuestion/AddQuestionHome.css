@@ -87,7 +87,7 @@
 }
 
 .instructions {
-    position: fixed;
+    position: absolute;
     bottom: 2rem;
     left: 4%;
     font-size: 18px;
@@ -100,7 +100,6 @@
     font-weight: bold;
     border-radius: 21px;
     transition: all 0.5s ease;
-    transform: translateX(-50%);
     z-index:999;
 }
 

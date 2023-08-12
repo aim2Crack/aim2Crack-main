@@ -14,7 +14,7 @@
       <div >
         Question:<CKEditorViewer editorData={question}/>
         <p>Answer: {answer}</p>
-        Explanation: <QuillEditor value={explanation} onChange={handleEditorChange}/>
+        Explanation: <CKEditorViewer editorData={explanation} />
         <p>Marks: {mark}</p>
         <p>Level: {questionLevel}</p>
         <p>Type: {questionType}</p>

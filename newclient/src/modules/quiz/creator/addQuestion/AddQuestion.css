@@ -30,11 +30,11 @@
     /* border: 1px solid rgb(110, 110, 110); */
     width: 72%;
     text-align: center;
-    margin: auto;
-    position: absolute;
-    top:10%;
-    left:10%;
-    margin-top: 2px;
+    margin-top: 5px;
+    position: fixed;
+    top:10;
+    left:15%;
+    /* margin-top: 2px; */
     box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
     font-size: 18px;
     /* display: flex;    */
@@ -105,7 +105,7 @@
     text-align:center;
     font-size: 20px;
     font-weight: 500;
-    padding: 20px 0 2px 0;
+    padding: 2px 0 2px 0;
     margin-top: 20px;
     border: 0;
     /* border-bottom: 3px solid #14ebeb; */
@@ -261,7 +261,7 @@ select {
 /* AddQuestion.css */
 
 .add-question-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -269,9 +269,9 @@ select {
     background-color: rgba(17, 44, 24, 0.7); /* Semi-transparent background */
     z-index: 9999;
      /* Set a high z-index to appear on top of other elements */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
   }
  /* Apply backdrop blur to all other elements on the page */
 body:not(.add-question-container) {
