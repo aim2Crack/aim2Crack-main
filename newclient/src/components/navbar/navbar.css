@@ -1,7 +1,7 @@
 /* NAVBAR */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Lato:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Lato:wght@400;700;900&display=swap"); */
 * {
   margin: 0;
   padding: 0;
@@ -20,7 +20,7 @@ header {
   background-color: #000;
 }
 
-.logo_nav {
+/* .logo_nav {
   width: 250px;
 }
 
@@ -215,7 +215,7 @@ button:hover a span,
 button:hover a p {
   color: #50d8d7;
 }
-
+ */
 /* GOOGLE FONTS ICONS */
 
 /* ICONS-SIZE */

@@ -12,9 +12,9 @@
 
     return (
       <div >
-        <p>Question:<CKEditorViewer editorData={question}/></p>
+        Question:<CKEditorViewer editorData={question}/>
         <p>Answer: {answer}</p>
-        <p>Explanation: <QuillEditor value={explanation} onChange={handleEditorChange}/></p>
+        Explanation: <QuillEditor value={explanation} onChange={handleEditorChange}/>
         <p>Marks: {mark}</p>
         <p>Level: {questionLevel}</p>
         <p>Type: {questionType}</p>
@@ -51,6 +51,7 @@
                     name={`answer-${index}`}
                     value={parsedOption.value}
                     checked={parsedOption.isCorrect}
+                    readOnly
                   />
                   <label>{parsedOption.value}</label>
                 </div>
@@ -180,7 +181,7 @@
     };
 
     return (
-      <div className="container">
+      <div>
         <div className="left-button-center">
           <Link to="/summary" className="go_back">
             <FontAwesomeIcon icon={faCircleArrowLeft} />

@@ -33,30 +33,63 @@ function AddQuestion({ editQuestionData, onClose }) {
   const [submitted, setSubmitted] = useState(false);
   const [fetchedData, setFetchedData] = useState(null);
 
-  // const fetchData = async () => {
-  //   const token = localStorage.getItem('token');
-  //   const code = window.location.pathname.split('/').pop();
-  //   const id = 23;
-  //   const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${id}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
+  useEffect(() => {
+    if (editQuestionData) {
+      fetchData();
+    }
+  }, [editQuestionData]);
+  
 
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     setFetchedData(data);
-  //   } else {
-  //     console.error('Failed to fetch data:', response.status);
-  //   }
-  // };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
+  const fetchData = async () => {
+    const token = localStorage.getItem('token');
+    const code = window.location.pathname.split('/').pop();
+    const id = editQuestionData.id;
+  
+    try {
+      const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        const dat = await response.json();
+        console.log('Fetched data:', dat);
+        const data=dat.data;
+        if (data.options && Array.isArray(data.options)) {
+          const parsedOptions = data.options.map(option => JSON.parse(option));
+          const fetchedOptions = parsedOptions.map(option => option.value);
+          const fetchedCorrectOptions = parsedOptions
+            .filter(option => option.isCorrect)
+            .map(option => `option ${parsedOptions.indexOf(option) + 1}`);
+            console.log(fetchedOptions)
+          setOptions(fetchedOptions);
+          setCorrectOptions(fetchedCorrectOptions);
+  
+          setData({
+            questionTime: data.questionTime,
+            question: data.question,
+            marks: data.mark,
+            correctAnsInteger: '',
+            explanation: data.explanation,
+          });
+  
+          setQuestionType(data.questionType);
+          setQuestionLevel(data.questionLevel);
+        } else {
+          console.error('Invalid options data:', data.options);
+        }
+      } else {
+        console.error('Failed to fetch data:', response.status);
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching data:', error);
+    }
+  };
+  
   const handleCancel = () => {
     // Call the onClose function to close the AddQuestion component
     onClose();
@@ -115,7 +148,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       alert('Please fill the current text field');
       return;
     }
-    setOptions([...options, { value: '' }]);
+    setOptions([...options, '']);
   };
 
   const handleRemoveFields = (index) => {
@@ -133,16 +166,17 @@ function AddQuestion({ editQuestionData, onClose }) {
     }
   };
 
-  const handleCheckbox = (e) => {
+  const handleCheckbox = (e, index) => {
     const value = e.target.value;
     const checked = e.target.checked;
+  
     if (checked) {
-      setCorrectOptions([...correctOptions, value]);
+      setCorrectOptions([...correctOptions, `option ${index + 1}`]);
     } else {
-      setCorrectOptions(correctOptions.filter((e) => e !== value));
+      setCorrectOptions(correctOptions.filter((opt) => opt !== `option ${index + 1}`));
     }
   };
-
+   
   const quillRef = useRef(null); 
 
   const handleSubmit = (e) => {
@@ -181,34 +215,56 @@ function AddQuestion({ editQuestionData, onClose }) {
     window.location.reload();
   };
 
-
-
-
   const renderOptions = () => {
     return options.map((inputField, index) => (
       <div key={index} className="option1">
         {questionType === 'single' && (
-          <input type="radio" name="o" value={'option ' + (index + 1)} onChange={handleRadiobox} />
+          <input
+            type="radio"
+            name="o"
+            value={'option ' + (index + 1)}
+            onChange={handleRadiobox}
+            checked={correctOptions.includes(`option ${index + 1}`)}
+          />
         )}
         {questionType === 'multiple' && (
-          <input type="checkbox" name="m" value={'option ' + (index + 1)} onChange={handleCheckbox} />
+          <input
+          type="checkbox"
+          name="m"
+          value={'option ' + (index + 1)}
+          onChange={(e) => handleCheckbox(e, index)}  // Add the index parameter here
+          checked={correctOptions.includes(`option ${index + 1}`)}
+        />
+        
         )}
-        {questionType === 'numerical' && <input type="text" id="hide" name="correct" value="" placeholder="Correct answer" />}
-
+        {questionType === 'numerical' && (
+          <input
+            type="text"
+            id="hide"
+            name="correct"
+            value=""
+            placeholder="Correct answer"
+          />
+        )}
+  
         <input
           className="options_written"
           placeholder={'Option ' + (index + 1)}
           type="text"
-          value={inputField.value}
+          value={inputField}
           onChange={(event) => handleChange(index, event)}
         />
-        <button className="delete_opt" type="button" onClick={() => handleRemoveFields(index)}>
+        <button
+          className="delete_opt"
+          type="button"
+          onClick={() => handleRemoveFields(index)}
+        >
           <FontAwesomeIcon icon={faTrashCan} />
         </button>
       </div>
     ));
   };
-
+  
   return (
     <div className="add-question-container">
       {!submitted && (
