@@ -21,8 +21,8 @@ const LeftNavigationPanel = () => {
                 </button>
                 {quizDropdown &&
                     <div className="dropdown-container">
-                    <Link to="/summary/subjective-quiz" id="btn-subjective-quiz">Subjective Quiz</Link>
-                    <Link to="/summary/placement-quiz" id="btn-placement-quiz">Placement Quiz</Link>
+                    <Link to="/summary/quiz" id="btn-subjective-quiz">Subjective Quiz</Link>
+                    {/* <Link to="/summary/placement-quiz" id="btn-placement-quiz">Placement Quiz</Link> */}
                     </div>
             }
 

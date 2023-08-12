@@ -24,7 +24,7 @@ import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionH
 // import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import jwt_decode from 'jwt-decode';
 import VerificationPage from "./modules/user/VerificationPage";
-import FirsttimeDetails from "./modules/user/firsttimeDetails";
+import FirsttimeDetails from "./modules/user/FirsttimeDetails";
 import NewPassword from "./modules/user/NewPassword";
 import Profile from "./modules/user/Profile";
 import Settings from "./modules/quiz/creator/addQuestion/settings";
@@ -64,6 +64,7 @@ const token = localStorage.getItem('token');
     <Router>
       <Navbar />
       <Routes>
+        <Route path="/summary/quiz" element={<Summary/>}></Route>
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/" element={<Login />} />

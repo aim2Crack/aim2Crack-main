@@ -1,81 +1,129 @@
-import React, { useEffect } from 'react';
-import ReactPropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import '../../styles/rightPanel.css';
 import searchImage from '../../../assets/images/summary/searchBar.svg';
 import pdfImage from '../../../assets/images/summary/pdfImage.svg';
+import {extractDateTime} from '../../timer/extractDateTime.js';
 import { Link } from 'react-router-dom';
-import SubjectiveQuizList from './SubjectiveQuizList';
+import { faTrash, faPencil, faUserShield, faGears, faRotate, faShareNodes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SubjectiveQuizPanel = ({ quizName, modifiedDate }) => {
-    return (
-        <div>
-            <div className="search-bar-panel">
-                <input
-                    type="text"
-                    className="search"
-                    name="Search..."
-                    placeholder="Search...."
-                />
-                <input
-                    type="image"
-                    className="search-button-image"
-                    name="search"
-                    src={searchImage}
-                    alt="Search"
-                />
-            </div>
-            <div className="panel-item" id="panel-subjective-quiz">
-                <div className="upload">
-                    <p className="uploaded">SUBJECTIVE QUIZ</p>
-                </div>
 
-                <Link to="/createQuiz">
-                    <div className="upload-button-container">
-                        <button className="upload-button">
-                            Create Quiz
-                            <i className="fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </Link>
+const SubjectiveQuizPanel = () => {
+  const [quizDetails, setQuizDetails] = useState([]);
 
-                <div className="cards-container d-flex">
-                    <div className="content-card">
-                        <div className="upper-container d-flex">
-                            <div className="content-card-icon">
-                                <img src={pdfImage} className="content-card-image" />
-                            </div>
-                            <div className="name-box flex-f-col">
-                                <p className="file-name">{quizName}</p>
-                                <div className="sub-heading">
-                                    <span className="naam">Subject : </span>
-                                    <span className="sub-name">EMF Theory</span>
-                                </div>
-                            </div>
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const token = localStorage.getItem('token');
 
-                            <div className="middle-container d-flex">
-                                <div className="last-mod"> Modified : {modifiedDate}</div>
-                                <div className="vie">Views : 5</div>
-                            </div>
+        const response = await fetch(`http://localhost:7000/quizzes`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-                            <div className="end-container d-flex">
-                                <i className="fa-solid fa-trash icons card-icons"></i>
-                                <i className="fa-sharp fa-solid fa-pencil icons card-icons"></i>
-                                <i className="fa-solid fa-user-shield icons card-icons"></i>
-                                <i className="fa-solid fa-gears icons card-icons"></i>
-                                <i className="fa-sharp fa-solid fa-rotate icons card-icons"></i>
-                                <i className="fa-sharp fa-solid fa-share-nodes icons card-icons"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setQuizDetails(data.data);
+        } else {
+          console.error('Failed to fetch quiz details:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching quiz details:', error);
+      }
+    };
+
+    fetchQuiz();
+  }, []);
+
+  return (
+    <div>
+      <div className="search-bar-panel">
+        <input
+          type="text"
+          className="search"
+          name="Search..."
+          placeholder="Search...."
+        />
+        <input
+          type="image"
+          className="search-button-image"
+          name="search"
+          src={searchImage}
+          alt="Search"
+        />
+      </div>
+      <div className="panel-item" id="panel-subjective-quiz">
+        <div className="upload">
+          <p className="uploaded">YOUR QUIZZES</p>
         </div>
-    );
-};
 
-SubjectiveQuizPanel.propTypes = {
-    quizName: ReactPropTypes.string.isRequired,
-    modifiedDate: ReactPropTypes.string.isRequired,
+        <Link to="/createQuiz">
+          <div className="upload-button-container">
+            <button className="upload-button">
+              Create Quiz
+              <i className="fa fa-upload" aria-hidden="true"></i>
+            </button>
+          </div>
+        </Link>
+
+        <div className="cards-container d-flex">
+          {quizDetails.map((quiz) => (
+            <div className="content-card" key={quiz.id}>
+              <div className="upper-container d-flex">
+                <div className="content-card-icon">
+                  {/* <img src={pdfImage} className="content-card-image" alt="Quiz" /> */}
+                </div>
+                <div >
+                  <p className="file-name">{quiz.quizName}</p>
+                  <div className="sub-heading">
+                    <span className="naam">Start Time: {extractDateTime(quiz.startTime)} </span>
+                  </div>
+                  <div className="sub-heading">
+                    <span className="naam">Result Time: {extractDateTime(quiz.resultTime)} </span>
+                  </div>
+
+                </div>
+                <Link to={`../quiz/${quiz.code}`}>
+          <div className="upload-button-container">
+            <button className="upload-button">
+              Questions
+              <i className="fa fa-upload" aria-hidden="true"></i>
+            </button>
+          </div>
+        </Link>     
+
+                <Link to={`../quiz/${quiz.code}/result`}>
+          <div className="upload-button-container">
+            <button className="upload-button">
+              View Result
+              <i className="fa fa-upload" aria-hidden="true"></i>
+            </button>
+          </div>
+        </Link>     
+                <div className="middle-container d-flex">
+                    
+                           </div>
+
+                           <div className="end-container d-flex">
+  <button className="icon-button" onClick={() => handleDeleteQuiz(quiz.id)}>
+    <FontAwesomeIcon icon={faTrash} className="icons card-icons" />
+  </button>
+  <button className="icon-button" onClick={() => handleEditQuiz(quiz.id)}>
+    <FontAwesomeIcon icon={faGears} className="icons card-icons" />
+  </button>
+  {/* Add other icon buttons with event handlers as needed */}
+</div>
+
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SubjectiveQuizPanel;
