@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path'); // Import the 'path' module
 const router = express.Router();
+require('dotenv').config();
 
 // Multer Configuration
 const storage = multer.diskStorage({
@@ -26,7 +27,8 @@ router.post('/upload', upload.single('file'), (req, res) => {
 
   // You can access the file properties using `file` object
   const { originalname, filename, path } = file;
-  return res.json({ message: 'File uploaded successfully', originalname, filename, path });
+  const newpath= `${process.env.MEDIA_URL}/`+path;
+  return res.json({ message: 'File uploaded successfully', originalname, filename, newpath });
 });
 
 // Route to serve uploaded images
@@ -34,6 +36,7 @@ router.get('/uploads/:filename', (req, res) => {
   const filename = req.params.filename;
   // Use path.join to construct the absolute file path correctly
   const imagePath = path.join(__dirname, '../../uploads', filename);
+  console.log(imagePath);
   res.sendFile(imagePath);
 });
 

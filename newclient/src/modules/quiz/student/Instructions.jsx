@@ -17,36 +17,51 @@ export default function PreviewInstructions() {
   const code = window.location.pathname.split('/')[2];
   const navigate = useNavigate();
 
+  const [facultyDetails, setFacultyDetails] = useState({});
 
-
-  
   useEffect(() => {
     const fetchQuizDetails = async () => {
       try {
         const token = localStorage.getItem('token');
         const code = window.location.pathname.split('/')[2];
-
+  
         const response = await fetch(`http://localhost:7000/quizzes/${code}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
         if (response.ok) {
           const data = await response.json();
           setInstructions(data.data.instructions);
-
+  
           // Calculate remaining start time based on the start time and current time
           const startTime = new Date(data.data.startTime).getTime();
           const currentTime = new Date().getTime();
           const remainingTime = Math.floor((startTime - currentTime) / 1000);
           setTimer(remainingTime);
-
+  
           const marginTime = new Date(data.data.marginTime).getTime();
-          // const currentTime = new Date().getTime();
           const remainingMarginTime = Math.floor((marginTime - currentTime) / 1000);
           setMarginTimer(remainingMarginTime);
+  
+          // Fetch user details
+          const response2 = await fetch(`http://localhost:7000/users/${data.data.userId}`, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+  
+          if (response2.ok) {
+            const facultyData = await response2.json();
+            console.log(facultyData);
+            setFacultyDetails(facultyData);
+          } else {
+            console.error('Failed to fetch faculty details:', response2.status);
+          }
+  
         } else {
           console.error('Failed to fetch quiz details:', response.status);
         }
@@ -54,10 +69,10 @@ export default function PreviewInstructions() {
         console.error('Error fetching quiz details:', error);
       }
     };
-
+  
     fetchQuizDetails();
   }, []);
-
+  
 
     useEffect(() => {
       const updateTimer = () => {
@@ -171,7 +186,7 @@ export default function PreviewInstructions() {
   return (
 <>    <body>
     <div className="instructions_student">
-      <img src={logo} className="logo2" alt="" />
+      <img src={facultyDetails.brandLogo?facultyDetails.brandLogo:logo} className="logo2" alt="" />
       <h2>Instructions to the candidates</h2>
 
       <div className="lines_s">
