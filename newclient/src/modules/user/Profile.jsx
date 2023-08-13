@@ -103,6 +103,41 @@ const Profile = () => {
     }));
   };
 
+
+  const handleImageUpload = (file, fieldName) => {
+    const formData = new FormData();
+    formData.append('file', file); // Use 'file' as the field name
+  
+    const token = localStorage.getItem('token');
+    fetch('http://127.0.0.1:7000/upload', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          console.error('Image upload failed:', response.status);
+          throw new Error('An error occurred while uploading the image.');
+        }
+      })
+      .then(jsonData => {
+        setFormData(prevData => ({
+          ...prevData,
+          [fieldName]: jsonData.path, // Use 'path' instead of 'imageUrl'
+        }));
+      })
+      .catch(error => {
+        console.error('Image upload failed:', error);
+        setMessage('An error occurred while uploading the image.');
+      });
+  };
+  
+
+  
   return (
     <div id="profile">
        
@@ -191,7 +226,7 @@ const Profile = () => {
               id="brand_logo"
               name="brandLogo"
               accept="image/*"
-              onChange={handleFileChange}
+              onChange={(event) => handleImageUpload(event.target.files[0], 'brandLogo')}
             />
           </div>
           <div className="roll_no">

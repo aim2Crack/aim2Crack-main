@@ -166,9 +166,10 @@ const Settings = () => {
         </table>
 
       </form>
-      <div className="button-group">
-          <button type="submit" className="button button-primary" onClick={handleSubmit}>Submit</button>
-          <button type="button" className="button button-secondary" onClick={handleGoBack}>Go Back</button>
+      <div className="button-group-settings">
+          <button type="submit" className="btn_save" onClick={handleSubmit}>Submit</button>
+
+          <button type="button" className="btn_back" onClick={handleGoBack}>Back</button>
         </div>
 
       </div>
