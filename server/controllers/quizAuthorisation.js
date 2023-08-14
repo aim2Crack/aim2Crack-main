@@ -7,7 +7,7 @@ const UserAuthorization = require('./authorisation');
 const QuizAuthorization = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization; // Get the Authorization header
-    const token = authHeader && authHeader.split(' ')[1]; // Extract the token from the Authorization header
+    const token = authHeader?.split(' ')[1]; // Extract the token from the Authorization header
     console.log(token);
 
     if (!token) {
