@@ -104,27 +104,33 @@ router.put('/quizzes/:code', QuizAuthorization, async (req, res) => {
     }
 });
 
-// Quiz deletion
-router.delete('/quizzes', async (req, res) => {
-    try {
-        // Delete all quizzes
-        await Quiz.destroy({ where: {} });
-        res.status(200).json({ success: true, message: 'Quizzes deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting quizzes:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
-    }
-});
+// // Quiz deletion
+// router.delete('/quizzes', async (req, res) => {
+//     try {
+//         // Delete all quizzes
+//         await Quiz.destroy({ where: {} });
+//         res.status(200).json({ success: true, message: 'Quizzes deleted successfully' });
+//     } catch (error) {
+//         console.error('Error deleting quizzes:', error);
+//         res.status(500).json({ success: false, message: 'Internal Server Error' });
+//     }
+// });
 
 // Quiz deletion by id
 router.delete('/quizzes/:id', async (req, res) => {
     try {
         const { id } = req.params;
+        console.log('quiz id',id);
 
         // Find the quiz by ID and delete it
         const quiz = await Quiz.findByPk(id);
-        if (quiz) {
-            await quiz.destroy();
+        console.log(quiz);
+        if (id) {
+            await Quiz.destroy({
+                where: {
+                  id: id,
+                },
+              });
             res.status(200).json({ success: true, message: 'Quiz deleted successfully' });
         } else {
             res.status(404).json({ success: false, message: 'Quiz not found' });

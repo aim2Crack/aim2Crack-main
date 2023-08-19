@@ -43,6 +43,32 @@ const SubjectiveQuizPanel = () => {
     fetchQuiz();
   }, []);
 
+
+    const handleDeleteQuiz = async (quizId) => {
+      try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://localhost:7000/quizzes/${quizId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          console.log('Quiz deleted successfully');
+        } else {
+          console.error('Failed to fetch quiz details:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching quiz details:', error);
+      }
+    };
+
+
+
+
+
   // Redirection to settings page
   const handleNavigateSettings = (quizCode) => {
     navigate(`../quiz/${quizCode}/settings`);
