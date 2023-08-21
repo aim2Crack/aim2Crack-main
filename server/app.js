@@ -20,7 +20,7 @@ const cors = require('cors');
 const app = express()
 const PORT = 7000
 
-
+const apiRoutes = require('./routes');
 
 // admin.initializeApp({
 //   credential: admin.credential.cert(firebaseConfig),
@@ -82,6 +82,12 @@ app.use('/',studentResultRoutes);
 // models.sq.sync({ force: true }).then(result => {
 //   console.log('model synced!')
 // })
+
+// Refractored routes
+
+app.use('/api', apiRoutes);
+
+
 
 app.listen(PORT, () => { 
   console.log(`Example app listening on PORT ${PORT}`)
