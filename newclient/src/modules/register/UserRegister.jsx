@@ -22,7 +22,7 @@ const UserRegister = () => {
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false); // Add this line to define the `submitted` state variable
   const handleSubmit = (values) => {
-    fetch('http://127.0.0.1:7000/signup', {
+    fetch('http://127.0.0.1:7000/api/users/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

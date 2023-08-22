@@ -1,4 +1,6 @@
 const Joi = require('joi');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const userSchema = Joi.object({
     username: Joi.string().alphanum().min(3).max(30).required(),
@@ -31,7 +33,6 @@ const getUserDetails = async (user) => {
     };
 }
 
-
 const transporter = nodemailer.createTransport({
     service:'gmail',
     auth: {
@@ -40,8 +41,7 @@ const transporter = nodemailer.createTransport({
     },
   });
 
-
-const mailDetails = async (recipientEmail) =>{
+const mailDetails = async (recipientEmail,resetToken) =>{
 const mailOptions = {
     from: 'aim2crack@gmail.com',
     to: recipientEmail,

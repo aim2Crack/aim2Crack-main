@@ -1,4 +1,5 @@
 const { User, ResetPass } = require('../../../models/models');
+const { Op } = require('sequelize');
 
 const bcrypt = require('bcrypt');
 
@@ -35,10 +36,10 @@ const createUser = async (details) => {
 }
 
 
-const createResetDetails = async (details) => {
+const createResetDetails = async (username,email,resetToken,resetTokenExpiration, status) => {
   try {
 
-      let { username, email, resetToken, resetTokenExpiration, status } = details;
+    //   let { username, email, resetToken, resetTokenExpiration, status } = resetdetails;
       const resetPass = await ResetPass.create({
         username: username,
         email: email ,
@@ -59,9 +60,8 @@ const createResetDetails = async (details) => {
 
 const deleteResetDetails = async (details) => {
   try {
-
-      let { username } = details;
-      await ResetPass.destroy({ where: { username: username } });     
+    //   let { username } = details;
+      await ResetPass.destroy({ where: { username: details} });     
     } catch (err) {
       throw new Error(err.errors[0].message);
   }

@@ -1,8 +1,10 @@
-const { validateUserData, getUserDetails, mailDetails, transporter } = require('./helper');
+const { validateUserData, getUserDetails, mailDetails} = require('./helper');
 const { createUser, findUser, deleteResetDetails, createResetDetails} = require('./dto');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
 
 const signin = async (req, res) => {
     try {
@@ -32,17 +34,16 @@ const signup = async (req, res) => {
 
 
 // Function to send the verification email
-const sendVerificationEmail = async (username, recipientEmail,status) => {
+const sendVerificationEmail = async (username, email,status) => {
     const resetToken = crypto.randomBytes(20).toString('hex');
     const resetTokenExpiration = new Date(Date.now() + 60000); // Token expires in 1o minutes
-    const user = await findUser({ username, recipientEmail });
-     // Find and delete the existing resetPass record for the username
-    await deleteResetDetails(username);
+    const user = await findUser({ username, email });
+     // when the user request multiple times, old link will get deleted even if the token is not expired
+    await deleteResetDetails(user.username);
      // Create a new resetPass record
-    const resetPass = await createResetDetails(username, user.email,resetToken,resetTokenExpiration, status);
-    console.log(resetPass);
+    const resetPass = await createResetDetails(username, user.email,resetToken,resetTokenExpiration, false);
     //Mail verification link to the user
-    await mailDetails(user.email);
+    await mailDetails(user.email,resetToken);
   };
   
 
