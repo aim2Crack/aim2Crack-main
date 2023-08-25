@@ -42,10 +42,11 @@ const transporter = nodemailer.createTransport({
   });
 
 
-const mailDetails = async (recipientEmail,resetToken) =>{
-const mailOptions = {
+const mailDetails = async (details) =>{
+const {email,resetToken}=details;
+  const mailOptions = {
     from: 'aim2crack@gmail.com',
-    to: recipientEmail,
+    to: email,
     subject: 'Email Verification',
     text: `Click the following link to verify your email:  ${process.env.BASE_URL}/verify/${resetToken}`,
   };

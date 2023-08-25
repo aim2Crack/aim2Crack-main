@@ -21,41 +21,32 @@ const UserRegister = () => {
   };
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false); // Add this line to define the `submitted` state variable
-  const handleSubmit = (values) => {
-    fetch('http://127.0.0.1:7000/api/users/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => {
-        // Parse the response JSON, regardless of whether it's an error or success
-        return response.json();
-      })
-      .then((jsonData) => {
-        // Handle the response data
-        console.log(jsonData);
-        setMessage(jsonData.message);
-  
-        if (jsonData.success) {
-          // If the request was successful and the server responded with success
-          setSubmitted(true); // Set the submitted state to true
-        }
-  
-        // Display the verification message to the user
-        // alert(jsonData.message);
-  
-        // Clear the message after 5 seconds
-        // setTimeout(() => {
-        //   setMessage('');
-        // }, 5000);
-      })
-      .catch((error) => {
-        // Handle any network or other errors
-        console.error('User registration request failed:', error);
-        setMessage('Error occurred during user registration.');
+  const handleSubmit = async (values) => {
+    try {
+      const response = await fetch('http://127.0.0.1:7000/api/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
       });
+  
+      const jsonData = await response.json();
+  
+      console.log(jsonData);
+  
+      if (response.ok) {
+        // Successful response (200 status code)
+        setMessage(jsonData.message);
+        setSubmitted(true);
+      } else {
+        // Error response (400 or 500 status code)
+        setMessage(jsonData.error);
+      }
+    } catch (error) {
+      console.error('Error during signup:', error);
+      setMessage('An error occurred during user registration.');
+    }
   };
   
   const validationSchema = Yup.object().shape({
@@ -90,6 +81,7 @@ const UserRegister = () => {
                   {message}
                 </div>
             )}
+        
       <div className="register_box">
   <div className="left_panel">
   <h2>Register Yourself on Aim2Crack!!</h2>

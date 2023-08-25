@@ -23,15 +23,27 @@ const signin = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        const userDetails = await validateUserData(req.body);
-        const user = await createUser(userDetails);
-        const mailer = await sendVerificationEmail (user.username, user.email, false)
-        return res.json({ newUser: user });
+      const userDetails = await validateUserData(req.body);
+      const user = await createUser(userDetails);
+  
+      try {
+        const mailer = await sendVerificationEmail(user.username, user.email, false);
+  
+        return res.status(200).json({
+          success: true,
+          message: 'User Created and Email Sent to registered Id for verification',
+        });
+      } catch (error) {
+        console.error('Error sending mail:', error);
+        return res.status(500).json({ success: false, error: 'An error occurred.' });
+      }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+      // Handle validation errors here
+      console.error('Validation error:', error);
+      return res.status(400).json({ success: false, error: error.message });
     }
-}
-
+  };
+  
 
 // Function to send the verification email
 const sendVerificationEmail = async (username, email,status) => {
@@ -48,7 +60,13 @@ const sendVerificationEmail = async (username, email,status) => {
         status: false
     });
     
-    await mailDetails(user.email,resetToken);
+    await mailDetails({
+        email: user.email,
+        resetToken: resetToken
+    });
+
+
+
   };
   
 
