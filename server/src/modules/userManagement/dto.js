@@ -19,7 +19,7 @@ const findUser = async (details) => {
 const createUser = async (details) => {
     try {
 
-        let { username, password, email, phone, profileType } = details;
+        const { username, password, email, phone, profileType } = details;
         hashedPassword = await bcrypt.hash(password, 12);
         const user = await User.create({
             username: username.toLowerCase(),
@@ -36,11 +36,14 @@ const createUser = async (details) => {
 }
 
 
-const createResetDetails = async (username,email,resetToken,resetTokenExpiration, status) => {
-  try {
+const createResetDetails = async (details) => {
+    const { username, email, resetToken, resetTokenExpiration, status} = details;
 
-    //   let { username, email, resetToken, resetTokenExpiration, status } = resetdetails;
-      const resetPass = await ResetPass.create({
+    try {
+    console.log(username);
+    console.log(details);
+ 
+    const resetPass = await ResetPass.create({
         username: username,
         email: email ,
         resetToken: resetToken,
@@ -55,13 +58,9 @@ const createResetDetails = async (username,email,resetToken,resetTokenExpiration
 }
 
 
-
-
-
-const deleteResetDetails = async (details) => {
+const deleteResetDetails = async (username) => {
   try {
-    //   let { username } = details;
-      await ResetPass.destroy({ where: { username: details} });     
+      await ResetPass.destroy({ where: { username: username} });     
     } catch (err) {
       throw new Error(err.errors[0].message);
   }

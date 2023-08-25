@@ -40,9 +40,14 @@ const sendVerificationEmail = async (username, email,status) => {
     const user = await findUser({ username, email });
      // when the user request multiple times, old link will get deleted even if the token is not expired
     await deleteResetDetails(user.username);
-     // Create a new resetPass record
-    const resetPass = await createResetDetails(username, user.email,resetToken,resetTokenExpiration, false);
-    //Mail verification link to the user
+    const resetPass = await createResetDetails({
+        username: username,
+        email: user.email, 
+        resetToken: resetToken,
+        resetTokenExpiration: resetTokenExpiration,
+        status: false
+    });
+    
     await mailDetails(user.email,resetToken);
   };
   

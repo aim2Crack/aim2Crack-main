@@ -41,6 +41,7 @@ const transporter = nodemailer.createTransport({
     },
   });
 
+
 const mailDetails = async (recipientEmail,resetToken) =>{
 const mailOptions = {
     from: 'aim2crack@gmail.com',
@@ -53,8 +54,6 @@ transporter.sendMail(mailOptions, (error, info) => {
     if (error) throw new Error(`Error: ${error} `);
     return info;
   });
-  
-
 }
 
 
