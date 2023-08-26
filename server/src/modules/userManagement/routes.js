@@ -18,5 +18,9 @@ module.exports = (authentication) => {
         controller.verifymail
     );
 
+    router.post(`${baseUrl}/forgot-password`,
+    controller.forgotpassword
+);
+
     return router;
 }

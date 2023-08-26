@@ -12,6 +12,7 @@ function Navbar() {
   const excludedPaths = [
     '/register',
     '/login',
+    '/verify',
     '/forgot-password',
     `/quiz/${code}/test`,
     `/quiz/${code}/live`,

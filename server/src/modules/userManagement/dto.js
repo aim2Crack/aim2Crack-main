@@ -5,19 +5,18 @@ const bcrypt = require('bcrypt');
 
 const findUser = async (details) => {
     const { username, email } = details;
-
-    if (username) {
-        const user = await User.findOne({
-            where: { username: username }
-        });
-        return user;
-    } else if (email) {
-        const user = await User.findOne({
-            where: { email: email }
-        });
-        return user;
+    if (username|| email)
+    {
+    const user = await User.findOne({
+        where: {
+          [Op.or]: [
+             { username: username },
+             { email: email }
+          ]
+        }
+      });        return user;
     } else {
-        throw new Error("Either username or email must be provided.");
+        throw new Error("User not found");
     }
 };
 

@@ -1,5 +1,7 @@
 const { validateUserData, getUserDetails, sendVerificationEmail} = require('./helper');
 const { createUser, findUser, findResetDetails} = require('./dto');
+require('dotenv').config();
+
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -7,10 +9,16 @@ const jwt = require('jsonwebtoken');
 
 const signin = async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await findUser({ username });
-        if (!(user && await bcrypt.compare(password, user.password))) {
-            throw new Error('Either username or password is wrong.');
+        const { usernameOrEmail, password } = req.body;
+        const user = await findUser({ username: usernameOrEmail, email: usernameOrEmail });
+        if (!(user)) {
+          throw new Error('User not found! Signup!');
+      }
+        if (!(await bcrypt.compare(password, user.password))) {
+          throw new Error('Password is wrong.');
+      }
+        if (user.emailVerify ==false) {
+          throw new Error('Please verify email. Check registered mail inbox!!');
         }
         const userDetails = await getUserDetails(user);
         const token = jwt.sign(userDetails, process.env.SECRET_KEY, { expiresIn: '1h' });
@@ -24,10 +32,8 @@ const signup = async (req, res) => {
     try {
       const userDetails = await validateUserData(req.body);
       const user = await createUser(userDetails);
-  
       try {
-        const mailer = await sendVerificationEmail(user.username, user.email, false);
-  
+        const mailer = await sendVerificationEmail(user.username, user.email, false)
         return res.status(200).json({
           success: true,
           message: 'User Created and Email Sent to registered Id for verification',
@@ -47,7 +53,6 @@ const signup = async (req, res) => {
 const verifymail = async (req, res) => {
     try {
       const { token } = req.query;
-      
       const resetPass = await findResetDetails(token); 
       const user = await findUser({email:resetPass.email}); 
       if (resetPass.resetToken == token) {
@@ -58,7 +63,7 @@ const verifymail = async (req, res) => {
         } else if (resetPass.passwordReset == false && user.emailVerify == true) {
           res.status(250).json({ success: true, message: 'Email already Verified' });
         } else if (resetPass.passwordReset == true) {
-          res.status(210).json({ success: true, message: 'Email verified!' });
+          res.status(210).json({ success: true, message: 'Email verified for password reset!' });
           resetPass.passwordReset = false;
           await resetPass.save();
         } else {
@@ -73,8 +78,31 @@ const verifymail = async (req, res) => {
     }
   };
 
+
+const forgotpassword = async (req, res) => {  
+    const {username,email} = req.body;
+    try {
+      const user = await findUser({ username, email });
+      if (user) {
+             await sendVerificationEmail(user.username,user.email,true);          
+            res.status(210).json({success:true, message:'Verification mail sent successfully'});
+      } else {
+        // If a user is not found, send a failure response with the message
+        throw new Error('User not found!');
+     }
+    } catch (error) {
+      // Handle any errors that occur during the query
+     // If any errors occur during the process, send a failure response with the error message
+  res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+  };
+
+
+
+
   module.exports = {
     signin,
     signup,
-    verifymail
+    verifymail,
+    forgotpassword
   }

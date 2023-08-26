@@ -17,7 +17,32 @@ const FirsttimeDetails = () => {
   const navigate = useNavigate(); // Access the navigate function
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    // ... same code as before ...
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch('http://127.0.0.1:7000/api/users/signup', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(values),
+      });
+      console.log(response.json);
+      if (response.ok) {
+        console.log(response);
+        setMessage('User details updated successfully.');
+        navigate('/summary');
+      } else {
+        setMessage('Failed to update user details.');
+      }
+    } catch (error) {
+      setMessage('An error occurred while updating user details.');
+      console.error(error);
+    }
+
+    setSubmitting(false);
+    setSubmitted(true);
   };
 
   const validationSchema = Yup.object().shape({

@@ -73,7 +73,7 @@ const sendVerificationEmail = async (username, email,status) => {
       email: user.email, 
       resetToken: resetToken,
       resetTokenExpiration: resetTokenExpiration,
-      status: false
+      status: status
   });
   
   await mailDetails({
