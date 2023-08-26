@@ -5,16 +5,21 @@ const bcrypt = require('bcrypt');
 
 const findUser = async (details) => {
     const { username, email } = details;
-    const user = await User.findOne({
-        where: {
-          [Op.or]: [
-            { username: username },
-            { email: email }
-        ]
-        }
-    })
-    return user;
-}
+
+    if (username) {
+        const user = await User.findOne({
+            where: { username: username }
+        });
+        return user;
+    } else if (email) {
+        const user = await User.findOne({
+            where: { email: email }
+        });
+        return user;
+    } else {
+        throw new Error("Either username or email must be provided.");
+    }
+};
 
 const createUser = async (details) => {
     try {
@@ -40,9 +45,6 @@ const createResetDetails = async (details) => {
     const { username, email, resetToken, resetTokenExpiration, status} = details;
 
     try {
-    console.log(username);
-    console.log(details);
- 
     const resetPass = await ResetPass.create({
         username: username,
         email: email ,
@@ -66,12 +68,16 @@ const deleteResetDetails = async (username) => {
   }
 }
 
-
+const findResetDetails = async (token) => {
+    const resetDetails =await ResetPass.findOne({ where: { resetToken: token } })
+    return resetDetails;
+}
 
 
 module.exports = {
     createUser,
     findUser,
     deleteResetDetails,
-    createResetDetails
+    createResetDetails,
+    findResetDetails
 }

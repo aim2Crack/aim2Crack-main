@@ -14,6 +14,9 @@ module.exports = (authentication) => {
         controller.signup
     );
 
+    router.get(`${baseUrl}/verifymail`,
+        controller.verifymail
+    );
 
     return router;
 }

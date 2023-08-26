@@ -1,9 +1,8 @@
-const { validateUserData, getUserDetails, mailDetails} = require('./helper');
-const { createUser, findUser, deleteResetDetails, createResetDetails} = require('./dto');
+const { validateUserData, getUserDetails, sendVerificationEmail} = require('./helper');
+const { createUser, findUser, findResetDetails} = require('./dto');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 
 
 const signin = async (req, res) => {
@@ -45,35 +44,37 @@ const signup = async (req, res) => {
   };
   
 
-// Function to send the verification email
-const sendVerificationEmail = async (username, email,status) => {
-    const resetToken = crypto.randomBytes(20).toString('hex');
-    const resetTokenExpiration = new Date(Date.now() + 60000); // Token expires in 1o minutes
-    const user = await findUser({ username, email });
-     // when the user request multiple times, old link will get deleted even if the token is not expired
-    await deleteResetDetails(user.username);
-    const resetPass = await createResetDetails({
-        username: username,
-        email: user.email, 
-        resetToken: resetToken,
-        resetTokenExpiration: resetTokenExpiration,
-        status: false
-    });
-    
-    await mailDetails({
-        email: user.email,
-        resetToken: resetToken
-    });
-
-
-
+const verifymail = async (req, res) => {
+    try {
+      const { token } = req.query;
+      
+      const resetPass = await findResetDetails(token); 
+      const user = await findUser({email:resetPass.email}); 
+      if (resetPass.resetToken == token) {
+        if (resetPass.passwordReset == false && user.emailVerify == false) {
+          user.emailVerify = true;
+          await user.save();
+          res.status(250).json({ success: true, message: 'Email successfully verified!' });
+        } else if (resetPass.passwordReset == false && user.emailVerify == true) {
+          res.status(250).json({ success: true, message: 'Email already Verified' });
+        } else if (resetPass.passwordReset == true) {
+          res.status(210).json({ success: true, message: 'Email verified!' });
+          resetPass.passwordReset = false;
+          await resetPass.save();
+        } else {
+          res.json({ success: false, message: 'Verification failed. Token not available.' });
+        }
+      } else {
+        res.json({ success: false, message: 'Verification failed. Token Expired' });
+      }
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      res.json({ success: false, message: 'An error occurred while verifying the email.' });
+    }
   };
-  
 
-
-
-module.exports = {
+  module.exports = {
     signin,
     signup,
-    sendVerificationEmail
-}
+    verifymail
+  }

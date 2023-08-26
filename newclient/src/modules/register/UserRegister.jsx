@@ -33,8 +33,6 @@ const UserRegister = () => {
   
       const jsonData = await response.json();
   
-      console.log(jsonData);
-  
       if (response.ok) {
         // Successful response (200 status code)
         setMessage(jsonData.message);
