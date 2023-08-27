@@ -81,8 +81,6 @@ const signup = async (req, res) => {
       
       const resetTokenExpirationTimestamp = new Date(resetPass.resetTokenExpiration);
       const currentTimestamp = Date.now();
-      console.log(Date.now());
-      console.log(resetTokenExpirationTimestamp>currentTimestamp);
 
       if (resetPass.resetToken === token && resetTokenExpirationTimestamp > currentTimestamp)
        {
@@ -92,7 +90,7 @@ const signup = async (req, res) => {
             await user.save();
             res.status(250).json({ success: true, message: 'Email successfully verified!' });
           } else {
-            res.status(250).json({ success: true, message: 'Email already verified.' });
+            res.status(251).json({ success: true, message: 'Email already verified.' });
           }
         } else {
           resetPass.passwordReset = false;

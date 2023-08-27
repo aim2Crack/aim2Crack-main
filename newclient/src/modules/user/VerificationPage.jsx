@@ -7,22 +7,27 @@ const VerificationPage = () => {
   const [verificationStatus, setVerificationStatus] = useState('');
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   
-  const [countdown, setCountdown] = useState(5); // Countdown timer value
-  const navigate = useNavigate(); // Access the navigate function
+  const [countdown, setCountdown] = useState(5);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function verifyEmail() {
       try {
-        const response = await fetch(`http://127.0.0.1:7000/api/users/verifymail?token=${token}`);
+        const response = await fetch(`http://127.0.0.1:7000/api/users/verifymail?token=${token}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         
         const jsonData = await response.json();
-        if (response.status === 250) {
+        if (response.status === 250 || response.status === 251) {
           setVerificationStatus(jsonData.message);
           setIsEmailVerified(true);
         } else if (response.status === 210) {
           navigate(`/reset-password/${token}`);
           setVerificationStatus(jsonData.message);
-        } else if (response.status===400) {
+        } else if (response.status === 400) {
           setVerificationStatus(jsonData.message);
         }
       } catch (error) {
@@ -33,22 +38,19 @@ const VerificationPage = () => {
     verifyEmail();
   }, [token, navigate]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(prevCountdown => prevCountdown - 1);
-    }, 1000);
+  // useEffect(() => {
+  //   if (isEmailVerified && countdown > 0) {
+  //     const timer = setInterval(() => {
+  //       setCountdown(prevCountdown => prevCountdown - 1);
+  //     }, 1000);
 
-    if (countdown === 0) {
-      clearInterval(timer);
-      if (isEmailVerified) {
-        navigate('/login');
-      }
-    }
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [countdown, verificationStatus, navigate]);
+  //     return () => {
+  //       clearInterval(timer);
+  //     };
+  //   } else if (isEmailVerified && countdown === 0) {
+  //     navigate('/login');
+  //   }
+  // }, [countdown, isEmailVerified, navigate]);
 
   return (
     <div className="container">
@@ -56,7 +58,7 @@ const VerificationPage = () => {
         <div className="popup">
           <h1>Email Verification</h1>
           <p>{verificationStatus}</p>
-          {/* <p className="timer">Redirecting to sign-in page in {countdown} seconds...</p> */}
+          <a className="ml-2" href="/login">Sign In</a>
         </div>
       )}
     </div>

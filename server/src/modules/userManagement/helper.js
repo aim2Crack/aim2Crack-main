@@ -64,7 +64,7 @@ transporter.sendMail(mailOptions, (error, info) => {
 // Function to send the verification email
 const sendVerificationEmail = async (username, email,status) => {
   const resetToken = crypto.randomBytes(20).toString('hex');
-  const resetTokenExpiration = new Date(Date.now() + 60000); // Token expires in 1o minutes
+  const resetTokenExpiration = new Date(Date.now() + 600000); // Token expires in 1o minutes
   const user = await findUser({ username, email });
    // when the user request multiple times, old link will get deleted even if the token is not expired
   await deleteResetDetails(user.username);
