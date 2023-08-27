@@ -63,7 +63,7 @@ const Profile = () => {
     event.preventDefault();
 
     const token = localStorage.getItem('token');
-    fetch('http://127.0.0.1:7000/users', {
+    fetch('http://127.0.0.1:7000/api/users/signup', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

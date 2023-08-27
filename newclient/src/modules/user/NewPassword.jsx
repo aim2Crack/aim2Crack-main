@@ -28,11 +28,11 @@ const NewPassword = () => {
 
   const { token } = useParams();
 
-
+  const [message, setMessage] = useState('');
+  const [submitted, setSubmitted] = useState('');
   const handleSubmit = async (values, { setSubmitting }) => {
   const { password, confirmPassword } = values;
-  // const [message, setMessage] = useState('');
-
+  // 
 
     const data = {
       password,
@@ -62,9 +62,9 @@ const NewPassword = () => {
         setMessage(jsonData.message); // Set the server message
       } else {
         // Handle error response
-        const jsonData = await response.json();
+        // const jsonData = await response.json();
         setMessage(jsonData.message); // Set the server error message
-        console.error('Password reset request failed:', response.status);
+        // console.error('Password reset request failed:', response.status);
       }
     } catch (error) {
       // Handle network error
@@ -81,6 +81,7 @@ const NewPassword = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
+
         {({ isSubmitting }) => (
           <Form>
             {/* <Link to="/login" id="a_home">
@@ -89,6 +90,12 @@ const NewPassword = () => {
             <div>
               <img src={logo} alt="" className="logo_head" />
             </div>
+            {message && (
+                <div className={`alert ${submitted ? 'success' : 'error'}`}>
+                  {message}
+                </div>
+            )}
+      
             <div className="main_box">
             <div className="heading">
               <h1>Password Reset</h1>

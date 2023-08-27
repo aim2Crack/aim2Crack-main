@@ -7,7 +7,7 @@ const VerificationPage = () => {
   const [verificationStatus, setVerificationStatus] = useState('');
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   
-  const [countdown, setCountdown] = useState(10); // Countdown timer value
+  const [countdown, setCountdown] = useState(5); // Countdown timer value
   const navigate = useNavigate(); // Access the navigate function
 
   useEffect(() => {
@@ -21,8 +21,9 @@ const VerificationPage = () => {
           setIsEmailVerified(true);
         } else if (response.status === 210) {
           navigate(`/reset-password/${token}`);
-        } else {
-          setVerificationStatus('Verification failed. Please try again.');
+          setVerificationStatus(jsonData.message);
+        } else if (response.status===400) {
+          setVerificationStatus(jsonData.message);
         }
       } catch (error) {
         setVerificationStatus('An error occurred while verifying the email.');
@@ -55,7 +56,7 @@ const VerificationPage = () => {
         <div className="popup">
           <h1>Email Verification</h1>
           <p>{verificationStatus}</p>
-          <p className="timer">Redirecting to sign-in page in {countdown} seconds...</p>
+          {/* <p className="timer">Redirecting to sign-in page in {countdown} seconds...</p> */}
         </div>
       )}
     </div>

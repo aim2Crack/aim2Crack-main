@@ -53,13 +53,16 @@ const signup = async (req, res) => {
   const updateuserdetails = async (req, res) => {
     try {
       const {token} = req.query;
-      console.log('expected token from frontend',token);
       if (token)
       {
-        const password = req.body; // Get the updated user data from the request body
+        const pass = req.body; // Get the updated user data from the request body
         const user = await findResetDetails(token);
-        const newuser =  await updateUser(password, user.email);
-        }
+        const newuser =  await updateUser({password:pass.password, email:user.email});
+        return res.status(200).json({ success: true, message: 'Details updated' });
+      }
+      else{
+
+      }
       
     } catch (error) {
       // Handle validation errors here
@@ -70,34 +73,41 @@ const signup = async (req, res) => {
 
 
 
-const verifymail = async (req, res) => {
+  const verifymail = async (req, res) => {
     try {
       const { token } = req.query;
       const resetPass = await findResetDetails(token); 
-      const user = await findUser({username:null , email:resetPass.email}); 
-      if (resetPass.resetToken == token) {
-        if (resetPass.passwordReset == false && user.emailVerify == false) {
-          user.emailVerify = true;
-          await user.save();
-          res.status(250).json({ success: true, message: 'Email successfully verified!' });
-        } else if (resetPass.passwordReset == false && user.emailVerify == true) {
-          res.status(250).json({ success: true, message: 'Email already Verified' });
-        } else if (resetPass.passwordReset == true) {
-          res.status(210).json({ success: true, message: 'Email verified for password reset!' });
+      const user = await findUser({ username: null, email: resetPass.email });
+      
+      const resetTokenExpirationTimestamp = new Date(resetPass.resetTokenExpiration);
+      const currentTimestamp = Date.now();
+      console.log(Date.now());
+      console.log(resetTokenExpirationTimestamp>currentTimestamp);
+
+      if (resetPass.resetToken === token && resetTokenExpirationTimestamp > currentTimestamp)
+       {
+        if (!resetPass.passwordReset) {
+          if (!user.emailVerify) {
+            user.emailVerify = true;
+            await user.save();
+            res.status(250).json({ success: true, message: 'Email successfully verified!' });
+          } else {
+            res.status(250).json({ success: true, message: 'Email already verified.' });
+          }
+        } else {
           resetPass.passwordReset = false;
           await resetPass.save();
-        } else {
-          res.json({ success: false, message: 'Verification failed. Token not available.' });
+          res.status(210).json({ success: true, message: 'Email verified for password reset!' });
         }
       } else {
-        res.json({ success: false, message: 'Verification failed. Token Expired' });
+        res.status(400).json({ success: false, message: 'Verification failed. Token expired or invalid.' });
       }
     } catch (error) {
       console.error('Error verifying email:', error);
-      res.json({ success: false, message: 'An error occurred while verifying the email.' });
+      res.status(500).json({ success: false, message: 'An error occurred while verifying the email.' });
     }
   };
-
+  
 
 const forgotpassword = async (req, res) => {  
     const {username,email} = req.body;
