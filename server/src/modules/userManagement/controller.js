@@ -1,5 +1,5 @@
 const { validateUserData, getUserDetails, sendVerificationEmail} = require('./helper');
-const { createUser, findUser, findResetDetails} = require('./dto');
+const { createUser, findUser, updateUser, findResetDetails} = require('./dto');
 require('dotenv').config();
 
 
@@ -50,11 +50,31 @@ const signup = async (req, res) => {
   };
   
 
+  const updateuserdetails = async (req, res) => {
+    try {
+      const {token} = req.query;
+      console.log('expected token from frontend',token);
+      if (token)
+      {
+        const password = req.body; // Get the updated user data from the request body
+        const user = await findResetDetails(token);
+        const newuser =  await updateUser(password, user.email);
+        }
+      
+    } catch (error) {
+      // Handle validation errors here
+      console.error('Validation error:', error);
+      return res.status(400).json({ success: false, error: error.message });
+    }
+  };
+
+
+
 const verifymail = async (req, res) => {
     try {
       const { token } = req.query;
       const resetPass = await findResetDetails(token); 
-      const user = await findUser({email:resetPass.email}); 
+      const user = await findUser({username:null , email:resetPass.email}); 
       if (resetPass.resetToken == token) {
         if (resetPass.passwordReset == false && user.emailVerify == false) {
           user.emailVerify = true;
@@ -87,13 +107,10 @@ const forgotpassword = async (req, res) => {
              await sendVerificationEmail(user.username,user.email,true);          
             res.status(210).json({success:true, message:'Verification mail sent successfully'});
       } else {
-        // If a user is not found, send a failure response with the message
         throw new Error('User not found!');
      }
     } catch (error) {
-      // Handle any errors that occur during the query
-     // If any errors occur during the process, send a failure response with the error message
-  res.status(500).json({ success: false, message: 'Internal Server Error' });
+     return res.status(400).json({ error: error.message });
     }
   };
 
@@ -104,5 +121,6 @@ const forgotpassword = async (req, res) => {
     signin,
     signup,
     verifymail,
-    forgotpassword
+    forgotpassword,
+    updateuserdetails
   }

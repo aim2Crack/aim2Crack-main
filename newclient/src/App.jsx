@@ -74,7 +74,7 @@ const token = localStorage.getItem('token');
         <Route path="/register" element={<UserRegister />} />
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
-        <Route path="/reset-password" element={<NewPassword/>}/>
+        <Route path="/reset-password/:token" element={<NewPassword/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/error-page" element={<Error/>}/>
 {/* quiz-creator-routes */}

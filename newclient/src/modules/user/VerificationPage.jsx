@@ -20,7 +20,7 @@ const VerificationPage = () => {
           setVerificationStatus(jsonData.message);
           setIsEmailVerified(true);
         } else if (response.status === 210) {
-          navigate('/reset-password');
+          navigate(`/reset-password/${token}`);
         } else {
           setVerificationStatus('Verification failed. Please try again.');
         }

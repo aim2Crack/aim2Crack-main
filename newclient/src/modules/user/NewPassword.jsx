@@ -1,61 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+// import React from 'react';
 import logo from '../../assets/images/user/Logo enlarged-03.png';
 import './ResetPass.css';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const NewPassword = () => {
-  const handleSubmit = async (values, { setSubmitting }) => {
-    const { password, confirmPassword } = values;
-
-    const data = {
-      password,
-      confirmPassword
-    };
-
-    try {
-      const response = await fetch('http://127.0.0.1:7000/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        // Check if the request was successful
-        const jsonData = await response.json();
-
-        if (jsonData.success) {
-          // If the request was successful and the server responded with success
-          setSubmitted(true); // Set the submitted state to true
-        }
-
-        setMessage(jsonData.message); // Set the server message
-      } else {
-        // Handle error response
-        const jsonData = await response.json();
-        setMessage(jsonData.message); // Set the server error message
-        console.error('Password reset request failed:', response.status);
-      }
-
-      // Clear the message after 5 seconds
-      setTimeout(() => {
-        setMessage('');
-      }, 5000);
-    } catch (error) {
-      // Handle network error
-      console.error('Password reset request failed:', error);
-    }
-
-    setSubmitting(false);
-  };
-
   const initialValues = {
     password: '',
     confirmPassword: ''
@@ -73,6 +24,55 @@ const NewPassword = () => {
       .required('Confirm New Password is required')
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
   });
+
+
+  const { token } = useParams();
+
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+  const { password, confirmPassword } = values;
+  // const [message, setMessage] = useState('');
+
+
+    const data = {
+      password,
+      confirmPassword
+    };
+
+    try {
+      const response = await fetch(`http://127.0.0.1:7000/api/users/signup?token=${token}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          //  Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      const jsonData = await response.json();
+      console.log(jsonData);
+
+      if (response.ok) {
+        // Check if the request was successful
+        
+        if (jsonData.success) {
+          // If the request was successful and the server responded with success
+          setSubmitted(true); // Set the submitted state to true
+        }
+
+        setMessage(jsonData.message); // Set the server message
+      } else {
+        // Handle error response
+        const jsonData = await response.json();
+        setMessage(jsonData.message); // Set the server error message
+        console.error('Password reset request failed:', response.status);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Password reset request failed:', error);
+    }
+
+    setSubmitting(false);
+  };
 
   return (
     <div>

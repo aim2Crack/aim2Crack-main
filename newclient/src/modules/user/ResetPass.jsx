@@ -48,15 +48,9 @@ const PasswordReset = () => {
           setSubmitted(true); // Set the submitted state to true
         }
       } else {
-        // Handle error response
-        console.log(jsonData.error);
-        setMessage(jsonData.message); // Set the server error message
+        setMessage(jsonData.error); // Set the server error message
         console.error('Password reset request failed:', response.status);
       }
-      // Clear the message after 5 seconds
-      setTimeout(() => {
-        setMessage('');
-      }, 5000);
     } catch (error) {
       // Handle network error
       console.error('Password reset request failed:');

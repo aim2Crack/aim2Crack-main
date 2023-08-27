@@ -13,6 +13,7 @@ function Navbar() {
     '/register',
     '/login',
     '/verify',
+    '/reset-password',
     '/forgot-password',
     `/quiz/${code}/test`,
     `/quiz/${code}/live`,
