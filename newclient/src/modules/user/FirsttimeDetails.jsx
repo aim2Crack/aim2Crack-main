@@ -18,7 +18,9 @@ const FirsttimeDetails = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      console.log('handleSubmit called'); 
       const token = localStorage.getItem('token');
+      console.log(token);
 
       const response = await fetch('http://127.0.0.1:7000/api/users/signup', {
         method: 'PUT',
@@ -98,10 +100,11 @@ const FirsttimeDetails = () => {
             </div>
 
             
-          </Form>
+         
           <div style={{ textAlign: 'center' }}>
               <button type="submit">Update User</button>
             </div>
+            </Form>
         </div>
       </Formik>
     </div>

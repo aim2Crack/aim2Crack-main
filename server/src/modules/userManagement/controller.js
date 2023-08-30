@@ -52,6 +52,7 @@ const signup = async (req, res) => {
 
   const updateuserdetails = async (req, res) => {
     try {
+      console.log(req.body);
       const {token} = req.query;
       if (token)
       {
@@ -61,7 +62,26 @@ const signup = async (req, res) => {
         return res.status(200).json({ success: true, message: 'Details updated' });
       }
       else{
-
+        const user=req.user;
+        const {firstName,
+          lastName,
+          rollNo,
+          institute,
+          profileType,
+          brandName,
+          brandLink,
+          brandLogo,
+          brandFavicon}=req.body;
+        const updatedUserData = await updateUser({email:user.email, firstName,
+          lastName,
+          rollNo,
+          institute,
+          profileType,
+          brandName,
+          brandLink,
+          brandLogo,
+          brandFavicon})
+        return res.status(200).json({ success: true, message: 'Details updated' });
       }
       
     } catch (error) {

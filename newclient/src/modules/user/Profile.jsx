@@ -21,7 +21,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
 
     // Fetch the profile details from the backend
-    fetch('http://127.0.0.1:7000/users', {
+    fetch('http://127.0.0.1:7000/api/users/signup', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

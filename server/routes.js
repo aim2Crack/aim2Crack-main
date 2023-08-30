@@ -1,9 +1,8 @@
-const authentication = require('./controllers/authorisation');
+// const authentication = require('./controllers/authorisation');
 const userRoutes = require('./src/modules/userManagement/routes')
 const express = require('express');
 const apiRouter = express.Router();
-
-
+const authentication = require('./authentication')
 
 apiRouter.get('/healthCheck', authentication, async (req, res) => {
     return res.json({

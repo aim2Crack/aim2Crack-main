@@ -1,6 +1,7 @@
 const Router = require('express-promise-router');
 const router = Router({ mergeParams: true });
 const controller = require('./controller');
+// const authentication = require('../../../authentication')
 
 
 module.exports = (authentication) => {
@@ -14,7 +15,12 @@ module.exports = (authentication) => {
         controller.signup
     );
 
-    router.put(`${baseUrl}/signup`,
+    router.get(`${baseUrl}/signup`, authentication,
+);
+
+
+
+    router.put(`${baseUrl}/signup`, authentication,
         controller.updateuserdetails
 );
 
