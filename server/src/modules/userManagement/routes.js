@@ -16,9 +16,8 @@ module.exports = (authentication) => {
     );
 
     router.get(`${baseUrl}/signup`, authentication,
+        controller.getuser
 );
-
-
 
     router.put(`${baseUrl}/signup`, authentication,
         controller.updateuserdetails

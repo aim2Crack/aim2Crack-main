@@ -19,7 +19,7 @@ const Profile = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-
+console.log(token);
     // Fetch the profile details from the backend
     fetch('http://127.0.0.1:7000/api/users/signup', {
       method: 'GET',
@@ -38,8 +38,8 @@ const Profile = () => {
       })
       .then(jsonData => {
         // Populate the form with the retrieved data
-        console.log(jsonData);
-        const { firstName, lastName, rollNo, institute, profileType, brandName, brandLink,brandLogo,brandFavicon } = jsonData;
+        console.log(jsonData.user.firstName);
+        const { firstName, lastName, rollNo, institute, profileType, brandName, brandLink,brandLogo,brandFavicon } = jsonData.user;
         setFormData(prevData => ({
           ...prevData,
           firstName,

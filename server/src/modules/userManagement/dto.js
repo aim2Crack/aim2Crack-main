@@ -24,20 +24,29 @@ const createUser = async (details) => {
 }
 
 const findUser = async (details) => {
+  try {
     const { username, email } = details;
-    if (username|| email)
-    {
-    const user = await User.findOne({
+    if (username || email) {
+      const user = await User.findOne({
         where: {
           [Op.or]: [
-             { username: username },
-             { email: email }
+            { username: username },
+            { email: email }
           ]
         }
-      });        return user;
-    } else {
+      });
+      if (user) {
+        return user;
+      } else {
         throw new Error("User not found");
+      }
+    } else {
+      throw new Error("Invalid input: Provide either username or email.");
     }
+  } catch (error) {
+    console.error("Error in findUser:", error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
 };
 
 

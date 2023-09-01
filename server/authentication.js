@@ -1,8 +1,9 @@
 const User = require('./models/user'); // Assuming you have a User model defined
 const jwt = require('jsonwebtoken');
+const { findUser } = require('./src/modules/userManagement/dto');
 require('dotenv').config();
 
-function authentication(req, res, next) {
+async function authentication(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   console.log(token);
@@ -11,14 +12,20 @@ function authentication(req, res, next) {
     return res.sendStatus(401); // Unauthorized
   }
 
-  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-    if (err) {
+  try {
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    console.log(decodedToken)
+    const newuser = await findUser({ username:decodedToken.username, email: decodedToken.email });
+    console.log(newuser)
+    if (!newuser) {
       return res.sendStatus(403); // Forbidden
     }
-    req.user = user;
-    console.log(req.user); // Store the user object in the request for later use
+
+    req.user = newuser;
     next(); // Proceed to the next middleware/route handler
-  });
+  } catch (err) {
+    return res.sendStatus(403); // Forbidden
+  }
 }
 
 module.exports = authentication;

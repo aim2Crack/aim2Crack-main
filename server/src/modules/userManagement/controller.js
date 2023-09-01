@@ -7,6 +7,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
+const getuser= async (req,res) =>{
+  const user=req.user;
+  return res.json({user})
+}
+
+
 const signin = async (req, res) => {
     try {
         const { usernameOrEmail, password } = req.body;
@@ -148,6 +154,7 @@ const forgotpassword = async (req, res) => {
   module.exports = {
     signin,
     signup,
+    getuser,
     verifymail,
     forgotpassword,
     updateuserdetails
