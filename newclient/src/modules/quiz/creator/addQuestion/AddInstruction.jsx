@@ -39,7 +39,7 @@ export default function AddInstruction() {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'addinstruction').pop();
 
-      const response = await fetch(`http://127.0.0.1:7000/quizzes/${code}`, {
+      const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export default function AddInstruction() {
           instructions: instructions,
         };
 
-        const response = await fetch(`http://127.0.0.1:7000/quizzes/${code}`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
