@@ -30,7 +30,10 @@ module.exports = (authentication) => {
         controller.addQuizQuestion
     );
     router.get(`${baseUrl}/quizquestion/:code`, authentication, facultyCheck, belongsToCheck,
-        controller.getQuizQuestion
+        controller.getAllQuestion
+    );
+    router.get(`${baseUrl}/quizquestion/:code/:id`, authentication, facultyCheck, belongsToCheck,
+        controller.getAQuestion
     );
     router.delete(`${baseUrl}/quizquestion/:code/:id`, authentication, facultyCheck, belongsToCheck,
         controller.deleteQuizQuestion

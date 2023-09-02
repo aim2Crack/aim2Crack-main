@@ -128,7 +128,7 @@ const addQuizQuestion = async(req,res) => {
 };
 
 // get all the questions in a particular quiz 
-const getQuizQuestion = async (req, res) => {
+const getAllQuestion = async (req, res) => {
 try { 
         const user=req.user.id;
         const quiz=req.quiz;
@@ -140,6 +140,24 @@ try {
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 };
+
+
+const getAQuestion = async (req, res) => {
+    try {
+        const {code} = req.params;
+        const {id}=req.params;
+        const quiz = await findQuiz(code);
+        const quizquestion = await findQuestionById(quiz, id);
+        if (quizquestion) {
+            res.status(200).json({ success: true, data: quizquestion });
+        } else {
+            res.status(404).json({ success: false, message: 'Quiz Question not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+}; 
 
 //delete a question in a quiz
 const deleteQuizQuestion= async (req, res) => {
@@ -169,5 +187,6 @@ getQuizByCode,
 editQuizByCode,
 deleteQuiz,
 addQuizQuestion,
-getQuizQuestion,
+getAllQuestion,
+getAQuestion,
 deleteQuizQuestion }
