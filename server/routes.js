@@ -1,5 +1,7 @@
 // const authentication = require('./controllers/authorisation');
 const userRoutes = require('./src/modules/userManagement/routes')
+const quizRoutes = require('./src/modules/quiz/quiz_faculty/routes')
+
 const express = require('express');
 const apiRouter = express.Router();
 const authentication = require('./authentication')
@@ -11,6 +13,7 @@ apiRouter.get('/healthCheck', authentication, async (req, res) => {
 });
 
 apiRouter.use(userRoutes(authentication));
+apiRouter.use(quizRoutes(authentication));
 
 module.exports = apiRouter;
 

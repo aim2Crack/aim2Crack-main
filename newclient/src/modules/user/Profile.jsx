@@ -124,7 +124,6 @@ console.log(token);
   
       if (response.ok) {
         const jsonData = await response.json();
-        console.log(jsonData);
         setFormData(prevData => ({
           ...prevData,
           [fieldName]: jsonData.newpath, // Use 'path' instead of 'imageUrl'

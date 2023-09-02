@@ -20,8 +20,8 @@ const SubjectiveQuizPanel = () => {
     const fetchQuiz = async () => {
       try {
         const token = localStorage.getItem('token');
-
-        const response = await fetch(`http://localhost:7000/quizzes`, {
+        console.log(token);
+        const response = await fetch(`http://localhost:7000/api/quiz/quizzes`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,

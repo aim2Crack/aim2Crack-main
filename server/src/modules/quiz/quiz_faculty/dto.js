@@ -1,9 +1,20 @@
-const User = require('../../../models/user');
-const Quiz = require('../models/quiz');
+const User = require('../../../../models/user');
+const Quiz = require('../../../../models/quiz');
 
-const newQuiz = async ()=>{
+const newQuiz = async (details)=>{
 
-  const quiz = await Quiz.create({
+  const { generatedLink,
+    startTime, 
+    marginTime,
+    resultTime,
+    quizName,
+    sectionName,
+    negativeMarking,
+    preventMobile,
+    allowTabchange,
+  userId } = details;
+  
+  const newquiz = await Quiz.create({
     code: generatedLink,
     startTime,
     marginTime,
@@ -13,17 +24,41 @@ const newQuiz = async ()=>{
     negativeMarking,
     preventMobile,
     allowTabchange,
-    creator: user.id,
+    creator: userId,
     collaborators: []
 });
-
+return newquiz;
 }
 
 
-const getUserDetails = async (email) =>{
-const user = await User.findOne({
-    where: { email: email }
-  });
+// Check if the generated link exists in the "Quizzes" table
+const findQuiz = async (code) =>{
+const oldQuiz = await Quiz.findOne({
+  where: {
+    code: code,
+  },
+});
+return oldQuiz;
 }
 
-module.exports = {getUserDetails}
+const findallQuiz = async (reqId) =>{
+
+const user = await User.findByPk(reqId);
+        if (user) {
+            const quizzes = await Quiz.findAll({
+                where: { userId: reqId },
+            });
+            if (!quizzes) throw new Error('Unable to find quizzes.');
+            return quizzes;
+        } else {
+            throw new Error('User not found');
+                
+        }
+      }
+
+
+module.exports = {
+  newQuiz,
+  findQuiz,
+  findallQuiz
+}

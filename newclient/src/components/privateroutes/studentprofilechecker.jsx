@@ -10,16 +10,17 @@ const StudentProfileChecker = ({ children }) => {
       try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`http://localhost:7000/users`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/users/signup`, {
           method: 'GET',
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         });
 
         if (response.ok) {
           const data = await response.json();
-          setIsStudent(data.profileType === 'student');
+          setIsStudent(data.user.profileType == 'student');
         } else {
           console.error('Failed to fetch user details:', response.status);
         }
