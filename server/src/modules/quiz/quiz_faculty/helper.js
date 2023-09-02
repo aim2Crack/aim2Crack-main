@@ -1,6 +1,7 @@
 // const Quiz = require('../models/quiz');
 const {findQuiz, verifyQuiz} = require('./dto');
-// const User = require('../../../../models/user');
+
+const QuizQuestion = require('../../../../models/quizquestion');
 const { validateUserData, getUserDetails, sendVerificationEmail} = require('../../userManagement/helper');
 const { createUser, findUser, updateUser, findResetDetails} = require('../../userManagement/dto');
 
@@ -52,9 +53,7 @@ async function facultyCheck(req, res, next){
 async function belongsToCheck(req, res, next){
   try {
     user=req.user;
-    
     const {code} = req.params; // Assuming the quiz ID is provided in the request parameters
-   
    const quiz = await verifyQuiz(code, user);
    console.log(quiz); 
     if (!quiz) {
@@ -69,10 +68,47 @@ async function belongsToCheck(req, res, next){
   }
 };
 
+// save answer from the option structure
+const saveAnswer = async(options, correctAnsInteger, questionType) =>{
+let ans = [];
+if(questionType=='numerical')
+{
+    ans=[correctAnsInteger];
+}
+if(questionType=='single' || questionType=='multiple')
+{
+ // Initialize an empty array to store the correct options
+// Loop through the options to find the correct ones
+for (const option of options) {
+if (option.isCorrect === true) {
+  ans.push(option.value);
+}
+}
+return ans;
+}
+};
 
+const addQuestion= async(details)=>{
+  const {question, ans, explanation, questionTime, marks, options, questionLevel,
+        sectionId, questionType, negativeMark, quiz}=details;
+  const quizQuestion = await QuizQuestion.create({
+    question, 
+    answer:ans,
+     explanation, questionTime, 
+     mark:marks,
+    options:options,
+    questionLevel:questionLevel,
+    sectionId, 
+    questionType:questionType,
+    negativeMark, quizId: quiz.id,
+});
+return quizQuestion;
+}
 
 module.exports = {
 generateUniqueLink,
 facultyCheck,
-belongsToCheck
+belongsToCheck,
+saveAnswer,
+addQuestion
 };

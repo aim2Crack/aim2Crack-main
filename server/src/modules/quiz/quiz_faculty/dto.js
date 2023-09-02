@@ -1,5 +1,6 @@
 const User = require('../../../../models/user');
 const Quiz = require('../../../../models/quiz');
+const QuizQuestion = require('../../../../models/quizquestion');
 
 const newQuiz = async (details)=>{
 
@@ -42,9 +43,6 @@ return oldQuiz;
 }
 
 const verifyQuiz = async (code, user) =>{
-  // console.log(code);
-  // console.log(user);
-  
   const foundQuiz = await Quiz.findOne({
     where: {
       code: code,
@@ -56,7 +54,6 @@ const verifyQuiz = async (code, user) =>{
 
 
 const findallQuiz = async (reqId) =>{
-
 const user = await User.findByPk(reqId);
         if (user) {
             const quizzes = await Quiz.findAll({
@@ -85,10 +82,36 @@ const deleteQuizByCode = async(code)=>{
 }
 };
 
+const getAllQuestions = async(quiz) =>{
+if (quiz.id) {
+  const allques = await QuizQuestion.findAll({
+  where: { quizId:quiz.id},
+   });
+   return allques;
+  }
+else
+{
+  throw new Error('No Quiz Questions found');
+}
+}
+
+const findQuestionById = async(quiz, id) =>{
+  if (quiz && id) {
+  const ques=QuizQuestion.findOne({ where: { quizId:quiz.id, id:id } });
+  return ques
+  }
+  else
+  {
+    throw new Error('No Quiz Question found');
+  }
+  }
+  
 module.exports = {
   newQuiz,
   findQuiz,
   findallQuiz,
   deleteQuizByCode,
-  verifyQuiz
+  verifyQuiz,
+  getAllQuestions,
+  findQuestionById
 }

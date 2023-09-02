@@ -1,6 +1,6 @@
 const express = require('express');
-const {generateUniqueLink} = require('./helper');
-const {newQuiz, findallQuiz, findQuiz, deleteQuizByCode} = require('./dto');
+const {generateUniqueLink, saveAnswer, addQuestion} = require('./helper');
+const {newQuiz, findallQuiz, findQuiz, deleteQuizByCode, getAllQuestions, findQuestionById} = require('./dto');
 
 
 const createQuiz = async (req, res) => {
@@ -103,9 +103,71 @@ const deleteQuiz = async (req, res) => {
     };
     
 
+const addQuizQuestion = async(req,res) => {
+    const quiz=req.quiz;
+    console.log(quiz);
+    try {
+        const { question,
+            options,
+            explanation,
+            questionTime,
+            marks,
+            sectionId,
+            correctAnsInteger,
+            questionLevel, questionType, negativeMark} = req.body;
+         const ans= await saveAnswer(options, correctAnsInteger, questionType);
+         const quizQuestion = await addQuestion({question, ans, explanation, questionTime, marks, options, questionLevel,
+            sectionId, questionType, negativeMark, quiz})
+        // await quiz.addQuizQuestion(quizQuestion);
+        console.log(quizQuestion);
+        res.status(201).json({ success: true, data: quizQuestion });
+    } catch (error) {
+        console.error('Error creating quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
+
+// get all the questions in a particular quiz 
+const getQuizQuestion = async (req, res) => {
+try { 
+        const user=req.user.id;
+        const quiz=req.quiz;
+        const allques = await getAllQuestions(quiz); 
+        allques.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        res.status(200).json({ success: true, data: allques });
+    } catch (error) {
+        console.error('Error fetching quizzes:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
+
+//delete a question in a quiz
+const deleteQuizQuestion= async (req, res) => {
+    try {
+        const {code} = req.params;
+        const {id}=req.params;
+        const quiz = await findQuiz(code);
+        const quizquestion = await findQuestionById(quiz, id);
+        if (quizquestion) {
+            await quizquestion.destroy();
+            res.status(200).json({ success: true, message: 'question deleted'});
+        } else {
+            res.status(404).json({ success: false, message: 'Quiz Question not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
+
+
+
 
 module.exports = { createQuiz,
 getallQuiz,
 getQuizByCode,
 editQuizByCode,
-deleteQuiz }
+deleteQuiz,
+addQuizQuestion,
+getQuizQuestion,
+deleteQuizQuestion }
