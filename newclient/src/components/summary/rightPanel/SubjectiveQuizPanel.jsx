@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const SubjectiveQuizPanel = () => {
   const [quizDetails, setQuizDetails] = useState([]);
+  const [message, setMessage]=useState();
   const navigate = useNavigate(); 
   
   
@@ -47,8 +48,8 @@ const SubjectiveQuizPanel = () => {
     const handleDeleteQuiz = async (quizId) => {
       try {
         const token = localStorage.getItem('token');
-
-        const response = await fetch(`http://localhost:7000/quizzes/${quizId}`, {
+        // console.log(token);
+        const response = await fetch(`http://localhost:7000/api/quiz/quizzes/${quizId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,6 +58,7 @@ const SubjectiveQuizPanel = () => {
 
         if (response.ok) {
           console.log('Quiz deleted successfully');
+          setMessage('Quiz Deleted Successfully')
         } else {
           console.error('Failed to fetch quiz details:', response.status);
         }
@@ -103,6 +105,12 @@ const handleChart = (quizCode) => {
 
   return (
     <div>
+      {message && (
+                <div className='success'>
+                  {message}
+                </div>
+            )}
+
       <div className="search-bar-panel">
         <input
           type="text"
@@ -188,7 +196,7 @@ const handleChart = (quizCode) => {
   </button>
 
 
-  <button className="icon-button" onClick={() => handleDeleteQuiz(quiz.id)}>
+  <button className="icon-button" onClick={() => handleDeleteQuiz(quiz.code)}>
     <FontAwesomeIcon icon={faTrash} className="icons card-icons" />
   </button>
   {/* Add other icon buttons with event handlers as needed */}

@@ -7,6 +7,7 @@ async function authentication(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (token == null) {
+    console.log('notoken');
     return res.sendStatus(401); // Unauthorized
   }
   try {
@@ -16,6 +17,7 @@ async function authentication(req, res, next) {
       return res.sendStatus(403); // Forbidden
     }
     req.user = newuser;
+    // console.log(req.user);
     next(); // Proceed to the next middleware/route handler
   } catch (err) {
     return res.sendStatus(403); // Forbidden

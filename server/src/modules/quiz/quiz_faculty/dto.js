@@ -41,6 +41,20 @@ const oldQuiz = await Quiz.findOne({
 return oldQuiz;
 }
 
+const verifyQuiz = async (code, user) =>{
+  // console.log(code);
+  // console.log(user);
+  
+  const foundQuiz = await Quiz.findOne({
+    where: {
+      code: code,
+      userId: user.id 
+    },
+  });
+  return foundQuiz;
+  }
+
+
 const findallQuiz = async (reqId) =>{
 
 const user = await User.findByPk(reqId);
@@ -56,9 +70,25 @@ const user = await User.findByPk(reqId);
         }
       }
 
+const deleteQuizByCode = async(code)=>{
+  // const quiz = await Quiz.findByPk(id);
+  if (code) {
+      await Quiz.destroy({
+          where: {
+            code: code,
+          },
+        });
+      return true;
+  } else {
+    throw new Error('Quiz not found');
+
+}
+};
 
 module.exports = {
   newQuiz,
   findQuiz,
-  findallQuiz
+  findallQuiz,
+  deleteQuizByCode,
+  verifyQuiz
 }

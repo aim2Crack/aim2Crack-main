@@ -28,7 +28,8 @@ const Settings = () => {
       // Make an API call to fetch quiz details
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
-      const response = await fetch(`http://127.0.0.1:7000/quizzes/${code}`, {
+      console.log(token);
+      const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -39,6 +40,7 @@ const Settings = () => {
 
       if (response.ok) {
         const quizDetail = await response.json();
+        // console.log(quizDetail)
         // Update the form state with the fetched quiz details
         const quizDetails = quizDetail.data;
         setQuizData({
@@ -85,8 +87,8 @@ const Settings = () => {
     try {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
-
-      const response = await fetch(`http://127.0.0.1:7000/quizzes/${code}`, {
+      console.log(code);
+      const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

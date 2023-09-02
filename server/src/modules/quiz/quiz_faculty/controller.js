@@ -1,6 +1,6 @@
 const express = require('express');
 const {generateUniqueLink} = require('./helper');
-const {newQuiz, findallQuiz} = require('./dto');
+const {newQuiz, findallQuiz, findQuiz, deleteQuizByCode} = require('./dto');
 
 
 const createQuiz = async (req, res) => {
@@ -48,7 +48,64 @@ const getallQuiz = async (req, res) => {
     }
 };
 
+const getQuizByCode = async(req,res)=>{
+try {
+    const { code } = req.params;
+    const quiz = await findQuiz(code);
+    if (quiz) {
+        res.status(200).json({ success: true, data: quiz });
+    } else {
+        res.status(404).json({ success: false, message: 'Quiz not found' });
+    }
+} catch (error) {
+    console.error('Error fetching quiz:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+}
+};
+
+const editQuizByCode = async (req, res) => {
+    try {
+        const user = req.user;
+        console.log(user.id);
+        const { code } = req.params;
+        const {...fields } = req.body;
+
+        // Find the quiz by code and update its fields
+        const quiz = await findQuiz(code);
+        if (quiz) {
+            // Update the fields
+            for (const key of Object.keys(fields)) {
+                quiz[key] = fields[key];
+            }
+            // Save the quiz
+            await quiz.save();
+            res.status(200).json({ success: true, data: quiz });
+        } else {
+            res.status(404).json({ success: false, message: 'Quiz not found' });
+        }
+    } catch (error) {
+        console.error('Error updating quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
+
+
+const deleteQuiz = async (req, res) => {
+       try {
+            const { code} = req.params;
+            // console.log('quiz id',id);
+            const deleteQuiz= await deleteQuizByCode (code)
+            res.status(200).json({ success: true, message: 'Quiz deleted successfully' });
+        } catch (error) {
+            console.error('Error deleting quiz:', error);
+            res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
+    };
+    
 
 
 module.exports = { createQuiz,
-getallQuiz }
+getallQuiz,
+getQuizByCode,
+editQuizByCode,
+deleteQuiz }

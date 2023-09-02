@@ -1,5 +1,6 @@
 const { validateUserData, getUserDetails, sendVerificationEmail} = require('./helper');
 const { createUser, findUser, updateUser, findResetDetails} = require('./dto');
+const {loginTokenExpiry} = require('./constants');
 require('dotenv').config();
 
 
@@ -27,7 +28,7 @@ const signin = async (req, res) => {
           throw new Error('Please verify email. Check registered mail inbox!!');
         }
         const userDetails = await getUserDetails(user);
-        const token = jwt.sign(userDetails, process.env.SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign(userDetails, process.env.SECRET_KEY, { expiresIn: loginTokenExpiry });
         return res.json({ user, token });
     } catch (error) {
         return res.status(400).json({ error: error.message });
