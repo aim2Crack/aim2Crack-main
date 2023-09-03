@@ -94,11 +94,14 @@ function AddQuestion({ editQuestionData, onClose }) {
     // Call the onClose function to close the AddQuestion component
     onClose();
   };
-
+  
   const handleChangeData = async (values) => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/').pop();
     console.log(code);
+    const id = editQuestionData.id;
+    if (!id)
+    {
     const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}`, {
       method: 'POST',
       headers: {
@@ -107,6 +110,17 @@ function AddQuestion({ editQuestionData, onClose }) {
       },
       body: JSON.stringify(values),
     });
+  }else{
+    const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(values),
+    });
+
+  }
 
     setSubmitted(true);
   };

@@ -1,11 +1,21 @@
-const express = require('express');
-const router = express.Router();
-const QuizAuthorization = require('../../../controllers/quizAuthorisation');
-const StudentResult = require('../../../models/studentresult');
-const StudentAnswer = require('../../../models/studentans');
-const StudentAuthorization = require('../../../controllers/studentAuthorisation');
-const FacultyAuthorization = require('../../../controllers/facultyAuthorisation');
-const {getStudentResultSummary}= require('./controller')
+const Router = require('express-promise-router');
+const router = Router({ mergeParams: true });
+const controller = require('./controller');
+const {facultyCheck, belongsToCheck} = require('./helper');
+// const authentication = require('../../../authentication')
 
 
-router.get('/studentresultsummary/:code/all', QuizAuthorization, getStudentResultSummary)
+module.exports = (authentication) => {
+    baseUrl = '/quiz'
+
+    // student answer routes
+    router.get(`${baseUrl}/studentanswer/:code`, authentication,
+        controller.getfirstquestion
+    );
+
+    router.post(`${baseUrl}/studentanswer/:code/:currentIndex`, authentication,
+    controller.saveAnsAndGetQues
+);
+
+    return router;
+}

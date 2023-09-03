@@ -69,11 +69,12 @@ async function belongsToCheck(req, res, next){
 };
 
 // save answer from the option structure
-const saveAnswer = async(options, correctAnsInteger, questionType) =>{
+const correctAnswer = async(options, correctAnsInteger, questionType) =>{
 let ans = [];
 if(questionType=='numerical')
 {
     ans=[correctAnsInteger];
+    return ans;
 }
 if(questionType=='single' || questionType=='multiple')
 {
@@ -86,6 +87,7 @@ if (option.isCorrect === true) {
 }
 return ans;
 }
+
 };
 
 const addQuestion= async(details)=>{
@@ -105,10 +107,29 @@ const addQuestion= async(details)=>{
 return quizQuestion;
 }
 
+const editQuestion= async(details)=>{
+  const {question, ans, explanation, questionTime, marks, options, questionLevel,
+        sectionId, questionType, negativeMark, quiz,id}=details;
+  const quizQuestion = await QuizQuestion.update({
+    question, 
+    answer:ans,
+     explanation, questionTime, 
+     mark:marks,
+    options:options,
+    questionLevel:questionLevel,
+    sectionId, 
+    questionType:questionType,
+    negativeMark, quizId: quiz.id,
+}, {where: {id:id}});
+return quizQuestion;
+}
+
+
 module.exports = {
 generateUniqueLink,
 facultyCheck,
 belongsToCheck,
-saveAnswer,
-addQuestion
+correctAnswer,
+addQuestion,
+editQuestion
 };

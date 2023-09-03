@@ -1,5 +1,5 @@
 const express = require('express');
-const {generateUniqueLink, saveAnswer, addQuestion} = require('./helper');
+const {generateUniqueLink, correctAnswer, addQuestion, editQuestion} = require('./helper');
 const {newQuiz, findallQuiz, findQuiz, deleteQuizByCode, getAllQuestions, findQuestionById} = require('./dto');
 
 
@@ -115,7 +115,7 @@ const addQuizQuestion = async(req,res) => {
             sectionId,
             correctAnsInteger,
             questionLevel, questionType, negativeMark} = req.body;
-         const ans= await saveAnswer(options, correctAnsInteger, questionType);
+         const ans= await correctAnswer(options, correctAnsInteger, questionType);
          const quizQuestion = await addQuestion({question, ans, explanation, questionTime, marks, options, questionLevel,
             sectionId, questionType, negativeMark, quiz})
         // await quiz.addQuizQuestion(quizQuestion);
@@ -126,6 +126,31 @@ const addQuizQuestion = async(req,res) => {
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 };
+const editQuizQuestion = async(req,res) => {
+    const quiz=req.quiz;
+    const {id}=req.params;
+    try {
+        const { question,
+            options,
+            explanation,
+            questionTime,
+            marks,
+            sectionId,
+            correctAnsInteger,
+            questionLevel, questionType, negativeMark} = req.body;
+         const ans= await correctAnswer(options, correctAnsInteger, questionType);
+         const quizQuestion = await editQuestion({question, ans, explanation, questionTime, marks, options, questionLevel,
+            sectionId, questionType, negativeMark, quiz,id})
+        // await quiz.addQuizQuestion(quizQuestion);
+        console.log(quizQuestion);
+        res.status(201).json({ success: true, data: quizQuestion });
+    } catch (error) {
+        console.error('Error creating quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
+
+
 
 // get all the questions in a particular quiz 
 const getAllQuestion = async (req, res) => {
@@ -187,6 +212,7 @@ getQuizByCode,
 editQuizByCode,
 deleteQuiz,
 addQuizQuestion,
+editQuizQuestion,
 getAllQuestion,
 getAQuestion,
 deleteQuizQuestion }

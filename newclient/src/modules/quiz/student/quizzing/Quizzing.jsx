@@ -17,82 +17,24 @@ function Quizzing() {
   // const [totalQuizTime, setTotalQuizTime] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [timeElapsed, setTimeElapsed]=useState(0);
-  const [isTabActive, setIsTabActive] = useState(true);
+  // const [isTabActive, setIsTabActive] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [isDataFetched, setDataFetched] = useState(false);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [firstData, setFirstData] = useState(false);
   const [endQuiz,setEndQuiz]=useState(false);
   
   // State to store the total time taken for the quiz
-  const [totalTimeTaken, setTotalTimeTaken] = useState(0);
+  // const [totalTimeTaken, setTotalTimeTaken] = useState(0);
 
 
   const token = localStorage.getItem('token');
   const code = window.location.pathname.split('/')[2];
 
-   // Separate useEffect hook for the timer increment
-  //  useEffect(() => {
-  //   // Start the timer increment if quiz is ongoing and a question is present
-  //   const timer = setInterval(() => {
-  //     setTotalTimeTaken((prevTotalTime) => prevTotalTime + 1);
-  //   }, 1000);
-
-  //   // Clear the interval timer for the timer increment when the component unmounts
-  //   return () => clearInterval(timer);
-  // }, []);
-  useEffect(() => {
-    const handleBlur = async () => {
-      const token = localStorage.getItem('token');
-      const extractedCode = window.location.pathname.split('/')[2];
-  
-      const postData = {
-        status: false,
-        // You can include other data here if needed
-      };
-      // const targetURL = `/quiz/${extractedCode}/feedback`;
-      navigate('/error-page?message=Your Quiz is submitted due to unfair attempts!.');
-      // console.log('Possible screenshot taken');
-      
-      try {
-        const response = await fetch(`http://127.0.0.1:7000/endquiz/${extractedCode}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(postData),
-        });
-  
-        if (response.ok) {
-          // Handle successful response if needed
-          console.log('POST request successful:', responseData);
-        } else {
-          // Handle error response if needed
-          console.error('POST request failed:', response.status, response.statusText);
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
-      }
-  
-    };
-  
-    window.addEventListener('blur', handleBlur);
-  
-    return () => {
-      window.removeEventListener('blur', handleBlur);
-    };
-  }, []);
-  
-
-  const handleTabChange = (isActive) => {
-    setIsTabActive(isActive);
-    // You can perform additional actions when the tab changes, if needed.
-  };
-
 
   const fetchQuestionDetails = async () => {
     try {
 
-      const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}`, {
+      const response = await fetch(`http://127.0.0.1:7000/api/quiz/studentanswer/${code}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,8 +47,13 @@ function Quizzing() {
         navigate(targetURL);
       } else if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
+        console.log('fetched data',responseData);
 
+        // console.log('fetched data', responseData);
+
+        // Ensure that this line is executed after a successful API response
+        setDataFetched(true); // Mark data as fetched
+        console.log('dataFetched', dataFetched);  
         setQuestionData(responseData.data.firstQuestion);
         setCurrentIndex(responseData.data.currentIndex);
         setTotalQuestions(responseData.data.totalQuestions);
@@ -115,7 +62,6 @@ function Quizzing() {
         const totalQuestions = responseData.data.totalQuestions;
         setProgress((currentIndex + 1) / totalQuestions);
 
-        setDataFetched(true); // Mark data as fetched
       } else {
         throw new Error(`Failed to fetch quiz details: ${response.status}`);
       }
@@ -126,10 +72,13 @@ function Quizzing() {
   };
 
   useEffect(() => {
-    if (!isDataFetched) {
-      fetchQuestionDetails();
+    if (!dataFetched) {
+      fetchQuestionDetails();      
+  console.log('insideloop',dataFetched)
     }
-  }, [isDataFetched]);
+  }, [dataFetched]);
+
+  
 
   useEffect(() => {
     setSelectedOptions([]);
@@ -219,7 +168,7 @@ const handleSubmit = async () => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/')[2];
 
-    const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}/${currentIndex}`, {
+    const response = await fetch(`http://127.0.0.1:7000/api/quiz/studentanswer/${code}/${currentIndex}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

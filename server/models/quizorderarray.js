@@ -32,6 +32,10 @@ const QuizOrderArray = sq.define('quizorderarray', {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
+  firstQues: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 QuizOrderArray.associate = (models) => {

@@ -15,7 +15,7 @@ module.exports = (authentication) => {
     router.get(`${baseUrl}/quizzes`, authentication, facultyCheck,
          controller.getallQuiz
      );
-    router.get(`${baseUrl}/quizzes/:code`, authentication, facultyCheck, belongsToCheck,
+    router.get(`${baseUrl}/quizzes/:code`, authentication,
          controller.getQuizByCode
      );
     router.put(`${baseUrl}/quizzes/:code`, authentication, facultyCheck, belongsToCheck,
@@ -29,6 +29,10 @@ module.exports = (authentication) => {
     router.post(`${baseUrl}/quizquestion/:code`, authentication, facultyCheck, belongsToCheck,
         controller.addQuizQuestion
     );
+    router.put(`${baseUrl}/quizquestion/:code/:id`, authentication, facultyCheck, belongsToCheck,
+        controller.editQuizQuestion
+    );
+
     router.get(`${baseUrl}/quizquestion/:code`, authentication, facultyCheck, belongsToCheck,
         controller.getAllQuestion
     );

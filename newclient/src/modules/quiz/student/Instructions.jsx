@@ -9,9 +9,9 @@ import {formatTime} from '../../../components/timer/formatTime.js';
 export default function PreviewInstructions() {
   const [instructions, setInstructions] = useState([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [timer, setTimer] = useState(0); // Remaining time in seconds
+  const [timer, setTimer] = useState(); // Remaining time in seconds
   const [isTimerComplete, setIsTimerComplete] = useState(false); // Indicates whether the start timer has completed
-  const [marginTimer, setMarginTimer] = useState(0);
+  const [marginTimer, setMarginTimer] = useState();
   const [isMarginTimerComplete, setIsMarginTimerComplete] = useState(false);
   const [isStartButtonVisible, setIsStartButtonVisible] = useState(true); // Indicates whether the start button should be visible
   const code = window.location.pathname.split('/')[2];
@@ -25,7 +25,7 @@ export default function PreviewInstructions() {
         const token = localStorage.getItem('token');
         const code = window.location.pathname.split('/')[2];
   
-        const response = await fetch(`http://localhost:7000/quizzes/${code}`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,6 +34,7 @@ export default function PreviewInstructions() {
   
         if (response.ok) {
           const data = await response.json();
+          console.log(data)
           setInstructions(data.data.instructions);
   
           // Calculate remaining start time based on the start time and current time
@@ -41,13 +42,13 @@ export default function PreviewInstructions() {
           const currentTime = new Date().getTime();
           const remainingTime = Math.floor((startTime - currentTime) / 1000);
           setTimer(remainingTime);
-  
+          console.log(remainingTime);
           const marginTime = new Date(data.data.marginTime).getTime();
           const remainingMarginTime = Math.floor((marginTime - currentTime) / 1000);
           setMarginTimer(remainingMarginTime);
-  
+          console.log(remainingMarginTime);
           // Fetch user details
-          const response2 = await fetch(`http://localhost:7000/users/${data.data.userId}`, {
+          const response2 = await fetch(`http://localhost:7000/api/users/${data.data.userId}`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -96,17 +97,16 @@ export default function PreviewInstructions() {
 
   useEffect(() => {
     const updateMarginTimer = () => {
-      setMarginTimer(prevTimer => {
-        if (prevTimer <= 0) {
+      setMarginTimer(prevTimer2 => {
+        if (prevTimer2 < 0) {
           setIsMarginTimerComplete(true);
           // setIsStartButtonVisible(false);
           return 0;
         }
-        return prevTimer - 1;
-      });
+        return prevTimer2 - 1;
+      });  
     };
-
-  const timerInterval2 = setInterval(updateMarginTimer, 1000);
+      const timerInterval2 = setInterval(updateMarginTimer, 1000);
 
   return () => {
     clearInterval(timerInterval2);
