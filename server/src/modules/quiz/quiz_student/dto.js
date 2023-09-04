@@ -53,11 +53,20 @@ const {quizOrder, user, answer, timeElapsed, score}=details;
 return studentAnswer;
 }
 
+const updateEndQuiz = async (quizOrder)=>{
+  await QuizOrderArray.update(
+    { status: false},
+    { where: { id: quizOrder.id } }
+  );
+  return true;
+}
+
 
   module.exports = {
   findOrderArrayById,
   findOrderArrayByUser,
   findQuestion,
   createOrderArray,
-  saveAnswer
+  saveAnswer,
+  updateEndQuiz
 }

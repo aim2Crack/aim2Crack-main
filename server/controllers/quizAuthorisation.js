@@ -30,7 +30,7 @@ const QuizAuthorization = async (req, res, next) => {
     const quiz = await Quiz.findOne({
       where: { code: code, userId: user.id }
     });
-    console.log(quiz);
+    // console.log(quiz);
     if (!quiz) {
       return res.status(404).json({ error: 'Quiz not found' });
     }

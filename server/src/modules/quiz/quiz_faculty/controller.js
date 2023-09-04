@@ -105,7 +105,7 @@ const deleteQuiz = async (req, res) => {
 
 const addQuizQuestion = async(req,res) => {
     const quiz=req.quiz;
-    console.log(quiz);
+    // console.log(quiz);
     try {
         const { question,
             options,

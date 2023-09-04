@@ -103,7 +103,6 @@ const calculateScore = async(quizQuestion, answer) =>{
 
 
 
-
 module.exports = {
   getNextQuestion,
   areArraysEqual,

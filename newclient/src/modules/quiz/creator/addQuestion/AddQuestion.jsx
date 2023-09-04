@@ -98,33 +98,50 @@ function AddQuestion({ editQuestionData, onClose }) {
   const handleChangeData = async (values) => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/').pop();
-    console.log(code);
-    const id = editQuestionData.id;
-    if (!id)
-    {
-    const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(values),
-    });
-  }else{
-    const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(values),
-    });
-
-  }
-
-    setSubmitted(true);
+    
+    if (editQuestionData) {
+      const id = editQuestionData.id;
+      try {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        });
+        
+        if (response.ok) {
+          setSubmitted(true);
+        } else {
+          console.error('Failed to edit question:', response.status);
+        }
+      } catch (error) {
+        console.error('An error occurred while editing question:', error);
+      }
+    } else {
+      try {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        });
+        
+        if (response.ok) {
+          setSubmitted(true);
+        } else {
+          console.error('Failed to create question:', response.status);
+        }
+      } catch (error) {
+        console.error('An error occurred while creating question:', error);
+      }
+    }
   };
-
+  
+  
   const handleTypeChange = (event) => {
     setQuestionType(event.target.value);
     setOptions([]);

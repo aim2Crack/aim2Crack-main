@@ -10,7 +10,7 @@ const QuizQuestion = require('../../../models/quizquestion');
 // Create a quiz
 router.post('/quizquestion/:code',QuizAuthorization, async (req, res) => {
     const quiz=req.quiz;
-    console.log(quiz);
+    // console.log(quiz);
     try {
         const { question, options, explanation, questionTime, marks, sectionId, correctAnsInteger, questionLevel, questionType, negativeMark} = req.body;
         console.log(req.body);

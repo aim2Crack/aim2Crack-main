@@ -124,7 +124,7 @@ router.delete('/quizzes/:id', async (req, res) => {
 
         // Find the quiz by ID and delete it
         const quiz = await Quiz.findByPk(id);
-        console.log(quiz);
+        // console.log(quiz);
         if (id) {
             await Quiz.destroy({
                 where: {

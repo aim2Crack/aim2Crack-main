@@ -17,5 +17,11 @@ module.exports = (authentication) => {
     controller.saveAnsAndGetQues
 );
 
+
+// router.post(`${baseUrl}/endquiz/:code`, authentication,
+// controller.endQuizAndCalScore
+// );
+
+
     return router;
 }

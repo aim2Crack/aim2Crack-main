@@ -55,7 +55,7 @@ async function belongsToCheck(req, res, next){
     user=req.user;
     const {code} = req.params; // Assuming the quiz ID is provided in the request parameters
    const quiz = await verifyQuiz(code, user);
-   console.log(quiz); 
+  //  console.log(quiz); 
     if (!quiz) {
       return res.status(404).json({ error: 'Quiz not found' });
     }
