@@ -6,7 +6,7 @@ const QuizOrderArray = require('../../../../models/quizorderarray');
 
 const { getAllQuestions, findQuiz } = require('../quiz_faculty/dto');
 const { calculateTotalTime, shuffleArray, getNextQuestion, calculateScore,  } = require('./helper');
-const { findOrderArrayById, findOrderArrayByUser, createOrderArray, findQuestion,saveAnswer } = require('./dto');
+const { findOrderArrayById, findOrderArrayByUser, createOrderArray, findQuestion,saveAnswer, updateOrderArray } = require('./dto');
 
 
 // router.get('/studentanswer/:code', StudentAuthorization, 
@@ -34,7 +34,7 @@ const getfirstquestion = async (req, res) => {
       console.log('quiz order present')
       indexOne = quizOrder.index;
       console.log('indexOne value:',indexOne)
-       if (indexOne !== 0 && quizOrder.firstQues == true) {
+       if (indexOne !== 0 || quizOrder.firstQues == true) {
         currentIndex = indexOne + 1;
         quizOrder.index = currentIndex;
         await quizOrder.save();
@@ -106,6 +106,7 @@ const saveAnsAndGetQues = async (req,res) =>{
         }
         else
         {
+          await updateEndQuiz(quizOrder);
           res.status(200).json({ success: true, message: 'End of array' });
         }
       } catch (error) {
@@ -114,6 +115,31 @@ const saveAnsAndGetQues = async (req,res) =>{
       }
     };
 
+
+//   const endQuizAndCalScore = async(res,req)=>{
+
+//     try {
+//       const user = req.user;
+//       const {code } = req.params;
+//       // const { status } = req.body;
+//       const quiz= await findQuiz(code);
+//       const quizOrder =  await findOrderArrayByUser(user, quiz)
+//       if (quizOrder) {
+//         await updateOrderArray(quizOrder);
+//         console.log('Updated status array:', quizOrder.status);
+//       } else {
+//         // Handle the case when quizOrder is not found or status is not an array
+//         return res.status(404).json({ success: false, message: 'Quiz order not found' });
+//  }
+//       } catch (error) {
+//       console.error('Error posting data:', error);
+//       res.status(500).json({ success: false, message: 'Internal Server Error' });
+//     }
+//   };
+
+
+
+
 module.exports = { 
     getfirstquestion,
-    saveAnsAndGetQues }
+    saveAnsAndGetQues}
