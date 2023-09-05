@@ -95,9 +95,9 @@ else
 }
 }
 
-const findQuestionById = async(quiz, id) =>{
-  if (quiz && id) {
-  const ques=QuizQuestion.findOne({ where: { quizId:quiz.id, id:id } });
+const findQuestionById = async(id) =>{
+  if (id) {
+  const ques=QuizQuestion.findOne({ where: { id:id } });
   return ques
   }
   else

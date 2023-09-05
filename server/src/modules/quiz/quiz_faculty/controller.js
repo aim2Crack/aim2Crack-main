@@ -172,7 +172,7 @@ const getAQuestion = async (req, res) => {
         const {code} = req.params;
         const {id}=req.params;
         const quiz = await findQuiz(code);
-        const quizquestion = await findQuestionById(quiz, id);
+        const quizquestion = await findQuestionById(id);
         if (quizquestion) {
             res.status(200).json({ success: true, data: quizquestion });
         } else {
@@ -190,7 +190,7 @@ const deleteQuizQuestion= async (req, res) => {
         const {code} = req.params;
         const {id}=req.params;
         const quiz = await findQuiz(code);
-        const quizquestion = await findQuestionById(quiz, id);
+        const quizquestion = await findQuestionById(id);
         if (quizquestion) {
             await quizquestion.destroy();
             res.status(200).json({ success: true, message: 'question deleted'});

@@ -1,6 +1,7 @@
 const QuizOrderArray = require('../../../../models/quizorderarray');
 const QuizQuestion = require('../../../../models/quizquestion')
 const StudentAnswer = require('../../../../models/studentans');
+const StudentResult = require('../../../../models/studentresult');
 
 const findOrderArrayById = async (quizOrderId) =>{
   const orderArray = await QuizOrderArray.findByPk(quizOrderId);
@@ -61,6 +62,63 @@ const updateEndQuiz = async (quizOrder)=>{
   return true;
 }
 
+const findStudentAnswer = async (quiz, user)=>{
+  const allStudentAnswer = await StudentAnswer.findAll(
+    {where:{
+      quizId:quiz.id, 
+      studentId:user.id}})
+      return allStudentAnswer;
+}
+
+const updateScore = async (studentAnsId, score)=>{
+  await StudentAnswer.update(
+    { score: score },
+    { where: { id: studentAnsId } }
+  );
+  return true;
+}
+
+const findAanswer = async(questionId) =>{
+  await StudentAnswer.findOne(
+    {where:{
+      questionId:questionId
+    }
+  });
+  return StudentAnswer;
+}
+
+const findQuizResult = async(quiz,user) =>{
+  finalResult = await StudentResult.findOne({
+    where: { quizId: quiz.id, studentId: user.id },
+  });
+  return finalResult;
+}
+
+const createResult = async(details)=>{
+
+  const {user, quiz, totalScore,correctlyAnswered,wronglyAnswered, unattempted}=details;
+  const finalResult = await StudentResult.create({
+    studentId: user.id,
+    quizId: quiz.id,
+    totalScore:totalScore,
+    totalCorrect: correctlyAnswered,
+    totalWrong: wronglyAnswered,
+    totalUnattempt: unattempted,
+  });
+return finalResult;
+
+}
+
+const deleteResult = async(quiz, user)=>{
+
+  await StudentResult.destroy({
+    where: {
+      studentId: user.id,
+    quizId: quiz.id,
+    },
+  });
+  return true;
+}
 
   module.exports = {
   findOrderArrayById,
@@ -68,5 +126,11 @@ const updateEndQuiz = async (quizOrder)=>{
   findQuestion,
   createOrderArray,
   saveAnswer,
-  updateEndQuiz
+  updateEndQuiz,
+  findStudentAnswer,
+  updateScore,
+  findAanswer,
+  findQuizResult, 
+  createResult,
+  deleteResult
 }

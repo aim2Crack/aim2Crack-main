@@ -5,8 +5,8 @@ const QuizOrderArray = require('../../../../models/quizorderarray');
 
 
 const { getAllQuestions, findQuiz } = require('../quiz_faculty/dto');
-const { calculateTotalTime, shuffleArray, getNextQuestion, calculateScore,  } = require('./helper');
-const { findOrderArrayById, findOrderArrayByUser, createOrderArray, findQuestion,saveAnswer, updateOrderArray } = require('./dto');
+const { calculateTotalTime, shuffleArray, getNextQuestion, calculateScore, generateResult,  } = require('./helper');
+const { findOrderArrayById, findOrderArrayByUser, createOrderArray, findQuestion,saveAnswer, updateEndQuiz } = require('./dto');
 
 
 // router.get('/studentanswer/:code', StudentAuthorization, 
@@ -98,6 +98,9 @@ const saveAnsAndGetQues = async (req,res) =>{
         console.log('Updated index:', nextIndex);  
         const nextQuestion = await getNextQuestion(quizOrder.id, nextIndex);
         if (!nextQuestion || !quizOrder.status) {
+          await updateEndQuiz(quizOrder);
+          await calculateScore(quiz,user);
+          await generateResult(quiz,user);
           return res.status(410).json({ success: true, message: 'No more questions left' });
         }
         console.log('Array  length', quizOrder.questionOrder.length);
@@ -106,7 +109,6 @@ const saveAnsAndGetQues = async (req,res) =>{
         }
         else
         {
-          await updateEndQuiz(quizOrder);
           res.status(200).json({ success: true, message: 'End of array' });
         }
       } catch (error) {
@@ -115,31 +117,24 @@ const saveAnsAndGetQues = async (req,res) =>{
       }
     };
 
-
-//   const endQuizAndCalScore = async(res,req)=>{
-
-//     try {
-//       const user = req.user;
-//       const {code } = req.params;
-//       // const { status } = req.body;
-//       const quiz= await findQuiz(code);
-//       const quizOrder =  await findOrderArrayByUser(user, quiz)
-//       if (quizOrder) {
-//         await updateOrderArray(quizOrder);
-//         console.log('Updated status array:', quizOrder.status);
-//       } else {
-//         // Handle the case when quizOrder is not found or status is not an array
-//         return res.status(404).json({ success: false, message: 'Quiz order not found' });
-//  }
-//       } catch (error) {
-//       console.error('Error posting data:', error);
-//       res.status(500).json({ success: false, message: 'Internal Server Error' });
-//     }
-//   };
-
-
-
+const getstudentresult = async(req,res) =>{
+  try{
+    const {code}=req.params;
+    const quiz = await findQuiz(code);
+    const user=req.user;
+    const finalResult= await generateResult(quiz,user);
+    if (finalResult) {
+      res.status(200).json({ success: true, message:'total marks calculated', data: finalResult});
+    } else {
+      res.status(404).json({ success: false, message: 'Student result not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching student result:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
 
 module.exports = { 
     getfirstquestion,
-    saveAnsAndGetQues}
+    saveAnsAndGetQues,
+  getstudentresult}

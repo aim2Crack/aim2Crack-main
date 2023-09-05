@@ -1,5 +1,7 @@
 
-const { findOrderArrayById, findQuestion } = require('./dto');
+const StudentResult = require('../../../../models/studentresult');
+const { getAllQuestions, findQuestionById } = require('../quiz_faculty/dto');
+const { findOrderArrayById, findQuestion, findStudentAnswer, findAanswer, updateScore, findQuizResult, createResult, deleteResult } = require('./dto');
 
 // Helper function to retrieve the next question based on the current index
 async function getNextQuestion(quizOrderId, currentIndex) {
@@ -81,26 +83,80 @@ async function shuffleArray(array) {
     return array;
   }
     
-const calculateScore = async(quizQuestion, answer) =>{
-    let score=0;
-    // For single-choice questions, directly compare the selected answer with the correct answer
-    if (quizQuestion.questionType == 'single' || quizQuestion.questionType == 'numerical' ) {
-      if (quizQuestion.answer == answer[0]) {
-        score = quizQuestion.mark;
-        return score;
+  const calculateScore = async (quiz, user) => {
+    try {
+      const allAnswers = await findStudentAnswer(quiz, user);
+      console.log(allAnswers);
+  
+      for (const ans of allAnswers) {
+        const ques = await findQuestionById(ans.dataValues.questionId);
+        const answer = ans.dataValues.answer;
+        let score = 0;
+  
+        // For single-choice questions or numerical questions, compare the selected answer with the correct answer
+        if (ques.questionType === 'single' || ques.questionType === 'numerical') {
+          if (ques.answer == answer[0]) {
+            score = ques.mark;
+            console.log(score);
+            await updateScore(ans.dataValues.id, score); // Use ans.id to update the score for the specific answer
+          }
+        }
+  
+        // For multiple-choice questions, check if the answers match
+        if (ques.questionType === 'multiple') {
+          if (areArraysEqual(ques.answer, answer)) {
+            score = ques.mark;
+            console.log(score);
+            await updateScore(ans.dataValues.id, score); // Use ans.id to update the score for the specific answer
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error calculating and updating scores:', error);
+    }
+  };
+
+ const generateResult = async (quiz,user)=>{
+  try {
+    const student = await findStudentAnswer(quiz, user);
+    const totalScore = student.reduce((accumulator, answer) => {
+      return accumulator + (answer.dataValues.score || 0);
+    }, 0);
+    
+    console.log('Total Score:', totalScore);
+    
+    let correctlyAnswered = 0;
+    let wronglyAnswered = 0;
+    let unattempted = 0;
+    
+    for (const answer of student) {
+      if (answer.dataValues.score > 0) {
+        correctlyAnswered++;
+      } else if (answer.dataValues.score === 0) {
+        wronglyAnswered++;
+      } else if (answer.dataValues.score === null || isNaN(answer.dataValues.score)) {
+        unattempted++;
       }
     }
     
-    // For multiple-choice questions, use the custom array comparison function to check if the answers match
-    if (quizQuestion.questionType == 'multiple') {
-      if (areArraysEqual(quizQuestion.answer, answer)) {
-        score = quizQuestion.mark;
-        return score;
+    const totalQuestions = correctlyAnswered + wronglyAnswered;
+    const finalResult = await findQuizResult(quiz,user)
+    if(finalResult)
+    {
+      // await deleteResult(quiz,user);
+    }
+    else
+    {
+      let newResult;
+      newResult = await createResult({user, quiz, totalScore, correctlyAnswered, wronglyAnswered, unattempted});
+      return newResult; 
+    }
+    return (finalResult)
+      } catch (error) {
+        console.error('Error fetching student result:', error);
       }
-    }  
-
-}
-
+    };
+    
 
 
 module.exports = {
@@ -108,5 +164,6 @@ module.exports = {
   areArraysEqual,
   calculateTotalTime,
   shuffleArray,
-  calculateScore
+  calculateScore,
+  generateResult
 };

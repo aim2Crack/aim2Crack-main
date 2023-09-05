@@ -15,6 +15,10 @@ module.exports = (authentication) => {
 
     router.post(`${baseUrl}/studentanswer/:code/:currentIndex`, authentication,
     controller.saveAnsAndGetQues
+    );
+
+    router.get(`${baseUrl}/studentresult/:code`, authentication,
+    controller.getstudentresult
 );
 
 
