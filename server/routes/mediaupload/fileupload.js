@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/'); // Specify the destination folder for uploaded files
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Generate unique filenames
+    cb(null,'branding/' + Date.now() + '-' + file.originalname); // Generate unique filenames
   },
 });
 

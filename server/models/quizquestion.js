@@ -14,7 +14,7 @@ const QuizQuestion = sq.define(
       defaultValue: [],
     },
     explanation: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     questionTime: {

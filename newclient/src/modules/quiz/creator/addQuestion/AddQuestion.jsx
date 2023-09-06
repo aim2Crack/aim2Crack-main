@@ -215,6 +215,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     const field1 = data.questionTime;
     const field2 = data.question;
     const field3 = data.explanation;
+    console.log(field3)
 
     if (field1 === '' || field2 === '' || field3 === '') {
       setShowHeading(true);
@@ -400,7 +401,9 @@ function AddQuestion({ editQuestionData, onClose }) {
             <QuillEditor
             ref={quillRef} 
   value={data.explanation}
-  onChange={(content) => setData({ ...data, explanation: content })}
+  onChange={(content) => {
+    // console.log(content);
+    setData({ ...data, explanation: content })}}
   placeholder="Write the explanation here"
 />  
             {/* <MyckEditor
