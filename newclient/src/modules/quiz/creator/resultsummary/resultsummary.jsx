@@ -331,7 +331,7 @@ console.log(quizDetails);
             {questionDetails.map((question) => (
               <React.Fragment key={question.id}>
                 <th colSpan="3">
-                  Question: {question.question} (Correct Answer: {question.answer?.join(', ')})
+                  Q: {question.question.substring(3,20)+'...'} (Correct Answer: {question.answer?.join(', ')})
                 </th>
               </React.Fragment>
             ))}

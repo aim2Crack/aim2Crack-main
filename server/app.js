@@ -1,16 +1,16 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
 const {User, ResetPass, Quiz} = require("./models/models");
-const signupRoutes = require('./routes/user/SignUp');
-// const firebaseConfig = require('./serviceAccountCredentials.json')
-const resetRoutes= require('./routes/user/passwordReset');
-// const admin = require('firebase-admin')
-const mailerRoutes=require('./routes/user/VerifyMailer')
-const loginRoutes= require('./routes/user/login');
-const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
-const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
-const studentAnsRoutes=require("./routes/quizzes/quiz_student/studentans")
-const studentResultRoutes=require("./routes/quizzes/quiz_student/studentresult");
+// const signupRoutes = require('./routes/user/SignUp');
+// // const firebaseConfig = require('./serviceAccountCredentials.json')
+// const resetRoutes= require('./routes/user/passwordReset');
+// // const admin = require('firebase-admin')
+// const mailerRoutes=require('./routes/user/VerifyMailer')
+// const loginRoutes= require('./routes/user/login');
+// const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
+// const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
+// const studentAnsRoutes=require("./routes/quizzes/quiz_student/studentans")
+// const studentResultRoutes=require("./routes/quizzes/quiz_student/studentresult");
 const fileUploadRouter=require('./routes/mediaupload/fileupload');
 
 
@@ -49,7 +49,7 @@ app.options('*', cors({
   allowedHeaders: ['Authorization', 'Content-Type'],
 }));
 
-require('./auth/auth');
+// require('./auth/auth');
 
 const secureRoute = require('./routes/user/profile');
 const {config} = require("dotenv");
@@ -67,19 +67,19 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 //user routes
-app.use('/',signupRoutes);
-app.use('/',resetRoutes);
-app.use('/',loginRoutes);
-app.use('/',mailerRoutes);
+// app.use('/',signupRoutes);
+// app.use('/',resetRoutes);
+// app.use('/',loginRoutes);
+// app.use('/',mailerRoutes);
 app.use('/', fileUploadRouter); 
 //quiz routes
-app.use('/',quizRoutes);
-app.use('/',quizquestionRoutes);
+// app.use('/',quizRoutes);
+// app.use('/',quizquestionRoutes);
 testDbConnection();
 sq.sync({ logging: console.log });
 //student routes
-app.use('/',studentAnsRoutes);
-app.use('/',studentResultRoutes);
+// app.use('/',studentAnsRoutes);
+// app.use('/',studentResultRoutes);
 
 // models.sq.sync({ force: true }).then(result => {
 //   console.log('model synced!')

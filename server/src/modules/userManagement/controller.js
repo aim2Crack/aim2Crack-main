@@ -169,7 +169,7 @@ const forgotpassword = async (req, res) => {
   
 const getbrandlogo = async(req,res)=>{
   const filename = req.params.filename;
-  console.log(filename)
+  console.log(filename);
   const imagePath = path.join(__dirname, '../../../uploads/branding', filename);
   res.sendFile(imagePath);
 }

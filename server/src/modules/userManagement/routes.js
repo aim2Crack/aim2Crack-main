@@ -35,7 +35,7 @@ router.post(`${baseUrl}/uploadbrand`,
     controller.uploadbrandlogo
 );
 
-router.get(`${baseUrl}/uploadbrand/:filename`,
+router.get(`/uploads/branding/:filename`,
     controller.getbrandlogo
 );
 

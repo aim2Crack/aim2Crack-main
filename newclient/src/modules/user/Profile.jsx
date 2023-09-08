@@ -129,7 +129,7 @@ console.log(token);
           ...prevData,
           [fieldName]: jsonData.newpath, // Use 'path' instead of 'imageUrl'
         }));
-        // console.log(jsonData.newpath);
+        console.log(jsonData.newpath);
         // document.getElementById(fieldName).value = '';
       } else {
         console.error('Image upload failed:', response.status);

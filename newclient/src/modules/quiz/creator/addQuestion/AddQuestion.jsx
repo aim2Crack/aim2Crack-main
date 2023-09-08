@@ -209,13 +209,14 @@ function AddQuestion({ editQuestionData, onClose }) {
   };
    
   const quillRef = useRef(null); 
-
+  // const quillRef2 = useRef(null); 
   const handleSubmit = (e) => {
     e.preventDefault();
     const field1 = data.questionTime;
     const field2 = data.question;
     const field3 = data.explanation;
-    console.log(field3)
+    console.log(field3);
+    console.log(field1);
 
     if (field1 === '' || field2 === '' || field3 === '') {
       setShowHeading(true);
@@ -368,8 +369,9 @@ function AddQuestion({ editQuestionData, onClose }) {
               Enter the question below:
             </div>
 
-            <MyckEditor
-              data={data.question}
+            <QuillEditor
+            // ref={quillRef2} 
+            value={data.question}
               placeholder="Write the question here"
               onChange={(content) => setData({ ...data, question: content })}
             />
@@ -399,7 +401,7 @@ function AddQuestion({ editQuestionData, onClose }) {
               Enter the explanation:
             </div>
             <QuillEditor
-            ref={quillRef} 
+            // ref={quillRef} 
   value={data.explanation}
   onChange={(content) => {
     // console.log(content);
