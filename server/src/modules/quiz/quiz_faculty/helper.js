@@ -125,11 +125,49 @@ return quizQuestion;
 }
 
 
+const consolidateStudentData = (studentSummary) => {
+  const consolidatedData = {};
+  console.log(studentSummary);
+
+  // Sort the student summary by questionId value
+  studentSummary.sort((a, b) => a.questionId - b.questionId);
+
+  // Loop through the sorted data and group it based on studentId
+  studentSummary.forEach((item) => {
+    const studentId = item.studentId;
+
+    if (!consolidatedData[studentId]) {
+      consolidatedData[studentId] = {
+        studentDetails: {
+          // rollNo: studentDetails[studentId].rollNo,
+          // firstName: studentDetails[studentId].firstName,
+          // lastName: studentDetails[studentId].lastName,
+        },
+        answers: [],
+      };
+    }
+
+    consolidatedData[studentId].answers.push({
+      // id: item.id,
+      // quizId: item.quizId,
+      questionId: item.questionId,
+      answer: item.answer,
+      timeElapsed: item.timeElapsed,
+      score: item.score,
+    });
+  });
+
+  return consolidatedData;
+};
+
+
+
 module.exports = {
 generateUniqueLink,
 facultyCheck,
 belongsToCheck,
 correctAnswer,
 addQuestion,
-editQuestion
+editQuestion,
+consolidateStudentData
 };

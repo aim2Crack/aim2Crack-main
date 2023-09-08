@@ -10,144 +10,145 @@ const ResultSummary = () => {
   const [quizDetails, setQuizDetails] = useState([]);
   const [studentDetails, setStudentDetails] = useState({}); // Initialize as an empty object
   const [studentSummary, setStudentSummary] = useState([]);
+  const [consolidatedData, setConsolidatedData] = useState([]);
   
 
   //get ther student results including id, score and questions attempted, correct and wrong
-  useEffect(() => {
-    const fetchResultDetails = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const code = window.location.pathname.split('/')[2];
+  // useEffect(() => {
+  //   const fetchResultDetails = async () => {
+  //     try {
+  //       const token = localStorage.getItem('token');
+  //       const code = window.location.pathname.split('/')[2];
 
-        const response = await fetch(`http://localhost:7000/studentresult/${code}/all`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  //       const response = await fetch(`http://localhost:7000/studentresult/${code}/all`, {
+  //         method: 'GET',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
 
-        if (response.ok) {
-          const data = await response.json();
-          // console.log(data.data);
-          setQuizDetails(data.data); // Update the state with fetched quiz details
-        } else {
-          console.error('Failed to fetch quiz details:', response.status);
-        }
-      } catch (error) {
-        console.error('Error fetching quiz details:', error);
-      }
-    };
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         // console.log(data.data);
+  //         setQuizDetails(data.data); // Update the state with fetched quiz details
+  //       } else {
+  //         console.error('Failed to fetch quiz details:', response.status);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching quiz details:', error);
+  //     }
+  //   };
 
-    fetchResultDetails();
-  }, []);
+  //   fetchResultDetails();
+  // }, []);
 
   // match the student id with the profile data to get details of student like roll no, name, etc..
-  useEffect(() => {
-    const fetchStudentDetails = async () => {
-      try {
-        const token = localStorage.getItem('token');
+  // useEffect(() => {
+  //   const fetchStudentDetails = async () => {
+  //     try {
+  //       const token = localStorage.getItem('token');
 
-        // Create an array to store all the student IDs
-        const studentIds = quizDetails.map((quizResult) => quizResult.studentId);
+  //       // Create an array to store all the student IDs
+  //       const studentIds = quizDetails.map((quizResult) => quizResult.studentId);
 
-        // Fetch student details for each student ID and store in an object
-        const studentDetailsObj = {};
-        for (const studentId of studentIds) {
-          const response = await fetch(`http://localhost:7000/users/${studentId}`, {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+  //       // Fetch student details for each student ID and store in an object
+  //       const studentDetailsObj = {};
+  //       for (const studentId of studentIds) {
+  //         const response = await fetch(`http://localhost:7000/users/${studentId}`, {
+  //           method: 'GET',
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         });
 
-          if (response.ok) {
-            const data = await response.json();
-            studentDetailsObj[studentId] = data;
-          } else {
-            console.error('Failed to fetch student details:', response.status);
-          }
-        }
+  //         if (response.ok) {
+  //           const data = await response.json();
+  //           studentDetailsObj[studentId] = data;
+  //         } else {
+  //           console.error('Failed to fetch student details:', response.status);
+  //         }
+  //       }
 
-        // console.log(studentDetailsObj);
-        setStudentDetails(studentDetailsObj); // Update the state with fetched student details
-      } catch (error) {
-        console.error('Error fetching student details:', error);
-      }
-    };
+  //       // console.log(studentDetailsObj);
+  //       setStudentDetails(studentDetailsObj); // Update the state with fetched student details
+  //     } catch (error) {
+  //       console.error('Error fetching student details:', error);
+  //     }
+  //   };
 
-    if (quizDetails.length > 0) {
-      fetchStudentDetails();
-    }
-  }, [quizDetails]);
+  //   if (quizDetails.length > 0) {
+  //     fetchStudentDetails();
+  //   }
+  // }, [quizDetails]);
 
   // get the individual anwers of student for each question
-  useEffect(() => {
-    const fetchStudentSummary = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const code = window.location.pathname.split('/')[2];
+  // useEffect(() => {
+  //   const fetchStudentSummary = async () => {
+  //     try {
+  //       const token = localStorage.getItem('token');
+  //       const code = window.location.pathname.split('/')[2];
   
-        const response = await fetch(`http://localhost:7000/studentresultsummary/${code}/all`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  //       const response = await fetch(`http://localhost:7000/studentresultsummary/${code}/all`, {
+  //         method: 'GET',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
   
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data.data)
-          setStudentSummary(data.data);
-        } else {
-          console.error('Failed to fetch student summary answers:', response.status);
-        }
-      } catch (error) {
-        console.error('Error fetching student summary answers:', error);
-      }
-    };
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log(data.data)
+  //         setStudentSummary(data.data);
+  //       } else {
+  //         console.error('Failed to fetch student summary answers:', response.status);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching student summary answers:', error);
+  //     }
+  //   };
   
-    fetchStudentSummary();
-  }, []);
+  //   fetchStudentSummary();
+  // }, []);
   
 // get the detailed summary results organised with custom function
 
-const consolidateStudentData = (studentSummary) => {
-  const consolidatedData = {};
+// const consolidateStudentData = (studentSummary) => {
+//   const consolidatedData = {};
 
-  // Sort the student summary by questionId value
-  studentSummary.sort((a, b) => a.questionId - b.questionId);
+//   // Sort the student summary by questionId value
+//   studentSummary.sort((a, b) => a.questionId - b.questionId);
 
-  // Loop through the sorted data and group it based on studentId
-  studentSummary.forEach((item) => {
-    const studentId = item.studentId;
+//   // Loop through the sorted data and group it based on studentId
+//   studentSummary.forEach((item) => {
+//     const studentId = item.studentId;
 
-    if (!consolidatedData[studentId]) {
-      consolidatedData[studentId] = {
-        studentDetails: {
-          // rollNo: studentDetails[studentId].rollNo,
-          // firstName: studentDetails[studentId].firstName,
-          // lastName: studentDetails[studentId].lastName,
-        },
-        answers: [],
-      };
-    }
+//     if (!consolidatedData[studentId]) {
+//       consolidatedData[studentId] = {
+//         studentDetails: {
+//           // rollNo: studentDetails[studentId].rollNo,
+//           // firstName: studentDetails[studentId].firstName,
+//           // lastName: studentDetails[studentId].lastName,
+//         },
+//         answers: [],
+//       };
+//     }
 
-    consolidatedData[studentId].answers.push({
-      // id: item.id,
-      // quizId: item.quizId,
-      questionId: item.questionId,
-      answer: item.answer,
-      timeElapsed: item.timeElapsed,
-      score: item.score,
-    });
-  });
+//     consolidatedData[studentId].answers.push({
+//       // id: item.id,
+//       // quizId: item.quizId,
+//       questionId: item.questionId,
+//       answer: item.answer,
+//       timeElapsed: item.timeElapsed,
+//       score: item.score,
+//     });
+//   });
 
-  return consolidatedData;
-};
+//   return consolidatedData;
+// };
 
-const consolidatedData = consolidateStudentData(studentSummary);
+// const consolidatedData = consolidateStudentData(studentSummary);
 
-// Calculate the total number of questions in the quiz
+// // Calculate the total number of questions in the quiz
 const totalQuestionsInQuiz = Object.values(consolidatedData).reduce((total, studentData) => {
   const { totalCorrect, totalWrong } = studentData.answers.reduce((acc, answer) => {
     if (answer.score === 1) {
@@ -173,7 +174,7 @@ useEffect(() => {
       const code = window.location.pathname.split('/')[2];
 
       // Fetch all question details and store in state
-      const response = await fetch(`http://localhost:7000/quizquestion/${code}`, {
+      const response = await fetch(`http://localhost:7000/api/quiz/studentresultsummary/${code}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -182,8 +183,14 @@ useEffect(() => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        setQuestionDetails(data.data); // Update the state with fetched question details
+        // console.log(data);
+        // setQuizDetails(data.quiz);
+        setQuestionDetails(data.data.questionDetails); 
+        setStudentSummary(data.data.allAnswers);
+        setQuizDetails(data.data.summaryResults);
+        setStudentDetails(data.data.studentDetailsObj);
+        setConsolidatedData(data.data.consolidatedData);
+        // Update the state with fetched question details
       } else {
         console.error('Failed to fetch question details:', response.status);
       }
@@ -193,9 +200,13 @@ useEffect(() => {
   };
 
   fetchQuestionDetails();
-},  [quizDetails, studentSummary]);
+},  []);
 
-// Conditional rendering when studentDetails or quizDetails are not available yet
+console.log(quizDetails);
+        console.log(studentDetails);
+        console.log('questiondetails',questionDetails);
+        console.log('consolidated',consolidatedData);
+// // Conditional rendering when studentDetails or quizDetails are not available yet
   if (Object.keys(studentDetails).length === 0 || quizDetails.length === 0) {
     return <div>Loading...</div>;
   }
@@ -257,7 +268,7 @@ useEffect(() => {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'tab2_results.csv');
   };
-  
+   
   
   
   return (
@@ -341,6 +352,7 @@ useEffect(() => {
         <tbody>
           {Object.keys(consolidatedData).map((studentId, index) => {
             const studentData = consolidatedData[studentId];
+            // <p>{studentData}</p>
             return (
               <tr key={index}>
                 <td>{index + 1}</td>

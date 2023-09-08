@@ -23,6 +23,12 @@ const createUser = async (details) => {
     }
 }
 
+const findUserById = async(id)=>{
+  const user =await User.findOne({ where: { id: id } })
+  if(!user) throw new Error('unable to find user')
+  return user;
+}
+
 const findUser = async (details) => {
   try {
     const { username, email } = details;
@@ -151,6 +157,7 @@ const findResetDetails = async (token) => {
 module.exports = {
     createUser,
     findUser,
+    findUserById,
     updateUser,
     deleteResetDetails,
     createResetDetails,

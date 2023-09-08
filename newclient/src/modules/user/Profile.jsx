@@ -114,7 +114,7 @@ console.log(token);
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://127.0.0.1:7000/upload', {
+      const response = await fetch('http://127.0.0.1:7000/api/users/uploadbrand', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -124,12 +124,13 @@ console.log(token);
   
       if (response.ok) {
         const jsonData = await response.json();
+        console.log(jsonData);
         setFormData(prevData => ({
           ...prevData,
           [fieldName]: jsonData.newpath, // Use 'path' instead of 'imageUrl'
         }));
-        console.log(jsonData.newpath);
-        document.getElementById(fieldName).value = '';
+        // console.log(jsonData.newpath);
+        // document.getElementById(fieldName).value = '';
       } else {
         console.error('Image upload failed:', response.status);
         // throw new Error('An error occurred while uploading the image.');

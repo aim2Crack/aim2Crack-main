@@ -16,26 +16,26 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Route to handle file upload
-router.post('/upload', upload.single('file'), (req, res) => {
-  // Handle file upload here
-  const file = req.file;
-  console.log(file);
-  if (!file) {
-    return res.status(400).json({ message: 'No file uploaded' });
-  }
+// // Route to handle file upload
+// router.post('/upload', upload.single('file'), (req, res) => {
+//   // Handle file upload here
+//   const file = req.file;
+//   console.log(file);
+//   if (!file) {
+//     return res.status(400).json({ message: 'No file uploaded' });
+//   }
 
-  // You can access the file properties using `file` object
-  const { originalname, filename, path } = file;
-  const newpath= `${process.env.MEDIA_URL}/`+path;
-  return res.json({ message: 'File uploaded successfully', originalname, filename, newpath });
-});
+//   // You can access the file properties using `file` object
+//   const { originalname, filename, path } = file;
+//   const newpath= `${process.env.MEDIA_URL}/`+path;
+//   return res.json({ message: 'File uploaded successfully', originalname, filename, newpath });
+// });
 
-// Route to serve uploaded images
+// // Route to serve uploaded images
 router.get('/uploads/:filename', (req, res) => {
   const filename = req.params.filename;
   // Use path.join to construct the absolute file path correctly
-  const imagePath = path.join(__dirname, '../../uploads', filename);
+  const imagePath = path.join('../../uploads/branding', filename);
   console.log(imagePath);
   res.sendFile(imagePath);
 });

@@ -1,6 +1,8 @@
 const User = require('../../../../models/user');
 const Quiz = require('../../../../models/quiz');
 const QuizQuestion = require('../../../../models/quizquestion');
+const StudentAnswer = require('../../../../models/studentans');
+const StudentResult = require('../../../../models/studentresult');
 
 const newQuiz = async (details)=>{
 
@@ -105,7 +107,24 @@ const findQuestionById = async(id) =>{
     throw new Error('No Quiz Question found');
   }
   }
+
+  const getAllAnswers = async(quiz) =>{
+    const ans= await StudentAnswer.findAll({
+      where: { quizId: quiz.id },
+    });
+    if(!ans) throw new Error('No Answer found');
+    return ans
+    }
+
+    const getAllResults = async(quiz) =>{
+      const ans= await StudentResult.findAll({
+        where: { quizId: quiz.id },
+      });
+      if(!ans) throw new Error('No Result found');
+      return ans
+      }  
   
+
 module.exports = {
   newQuiz,
   findQuiz,
@@ -113,5 +132,7 @@ module.exports = {
   deleteQuizByCode,
   verifyQuiz,
   getAllQuestions,
-  findQuestionById
+  findQuestionById,
+  getAllAnswers,
+  getAllResults
 }

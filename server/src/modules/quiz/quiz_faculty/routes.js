@@ -43,5 +43,9 @@ module.exports = (authentication) => {
         controller.deleteQuizQuestion
     );
 
+    router.get(`${baseUrl}/studentresultsummary/:code`, authentication, facultyCheck, belongsToCheck,
+    controller.studentResultSummary
+);
+
     return router;
 }

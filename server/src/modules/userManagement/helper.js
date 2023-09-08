@@ -1,7 +1,10 @@
 const Joi = require('joi');
 const nodemailer = require('nodemailer');
+const express = require('express');
+const multer = require('multer');
+const path = require('path'); // Import the 'path' module
+const router = express.Router();
 require('dotenv').config();
-
 const {resetTokenExpTime} = require('./constants')
 const { findUser, deleteResetDetails, createResetDetails} = require('./dto');
 
@@ -83,11 +86,39 @@ const sendVerificationEmail = async (username, email,status) => {
   });
 };
 
+// Multer Configuration
+
+const fileupload = async (req, filepath) => {
+  // Create an instance of multer and configure it with the storage options
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/'+filepath); // Specify the destination folder for uploaded files
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname); // Generate unique filenames
+    },
+  });
+
+  const upload = multer({ storage });
+
+  // Use the `upload.single` middleware to handle a single file upload
+  return new Promise((resolve, reject) => {
+    upload.single('file')(req, {}, (err) => {
+      if (err) {
+        reject(err); // Handle any errors that occurred during file upload
+      } else {
+        resolve(); // File upload succeeded
+      }
+    });
+  });
+};
+
 
 module.exports = {
     validateUserData,
     getUserDetails,
     mailDetails,
     transporter,
-    sendVerificationEmail
+    sendVerificationEmail,
+    fileupload
 }

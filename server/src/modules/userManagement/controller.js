@@ -1,4 +1,4 @@
-const { validateUserData, getUserDetails, sendVerificationEmail} = require('./helper');
+const { validateUserData, getUserDetails, sendVerificationEmail,fileupload} = require('./helper');
 const { createUser, findUser, updateUser, findResetDetails} = require('./dto');
 const {loginTokenExpiry} = require('./constants');
 require('dotenv').config();
@@ -149,6 +149,30 @@ const forgotpassword = async (req, res) => {
     }
   };
 
+  const uploadbrandlogo = async (req, res) => {
+    // Handle file upload here
+    const filefolder='branding/'
+   
+   await fileupload(req,filefolder);
+    const file = req.file;
+    console.log(file);
+    if (!file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+  
+    // You can access the file properties using `file` object
+    const { originalname, filename, path } = file;
+    const newpath= `${process.env.MEDIA_URL}/`+path;
+    return res.json({ message: 'File uploaded successfully', originalname, filename, newpath });
+  };
+  
+  
+const getbrandlogo = async(req,res)=>{
+  const filename = req.params.filename;
+  console.log(filename)
+  const imagePath = path.join(__dirname, '../../../uploads/branding', filename);
+  res.sendFile(imagePath);
+}
 
 
 
@@ -158,5 +182,7 @@ const forgotpassword = async (req, res) => {
     getuser,
     verifymail,
     forgotpassword,
-    updateuserdetails
+    updateuserdetails,
+    uploadbrandlogo,
+    getbrandlogo
   }

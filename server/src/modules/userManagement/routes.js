@@ -31,5 +31,13 @@ module.exports = (authentication) => {
     controller.forgotpassword
 );
 
+router.post(`${baseUrl}/uploadbrand`,
+    controller.uploadbrandlogo
+);
+
+router.get(`${baseUrl}/uploadbrand/:filename`,
+    controller.getbrandlogo
+);
+
     return router;
 }

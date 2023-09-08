@@ -1,6 +1,8 @@
 const express = require('express');
-const {generateUniqueLink, correctAnswer, addQuestion, editQuestion} = require('./helper');
-const {newQuiz, findallQuiz, findQuiz, deleteQuizByCode, getAllQuestions, findQuestionById} = require('./dto');
+const {generateUniqueLink, correctAnswer, addQuestion, editQuestion, consolidateStudentData} = require('./helper');
+const {newQuiz, findallQuiz, findQuiz, deleteQuizByCode, getAllQuestions, findQuestionById, getAllAnswers, getAllResults} = require('./dto');
+const StudentAnswer = require('../../../../models/studentans');
+const { findUser, findUserById } = require('../../userManagement/dto');
 
 
 const createQuiz = async (req, res) => {
@@ -141,7 +143,12 @@ const editQuizQuestion = async(req,res) => {
          const ans= await correctAnswer(options, correctAnsInteger, questionType);
          const quizQuestion = await editQuestion({question, ans, explanation, questionTime, marks, options, questionLevel,
             sectionId, questionType, negativeMark, quiz,id})
-        // await quiz.addQuizQuestion(quizQuestion);
+        if (quizQuestion && quiz.startTime > Date.now()){
+            const studentans = await getAllAnswers(quiz);
+            if (studentans){
+                console.log(studentans);
+            }
+        }
         console.log(quizQuestion);
         res.status(201).json({ success: true, data: quizQuestion });
     } catch (error) {
@@ -203,7 +210,28 @@ const deleteQuizQuestion= async (req, res) => {
     }
 };
 
-
+const studentResultSummary= async (req, res) => {
+    try {
+        const {code} = req.params;
+        const quiz = await findQuiz(code);
+        const {user} = req.user;
+        const summaryResults = await getAllResults(quiz);
+        const allAnswers= await getAllAnswers(quiz);   
+        const studentIds = summaryResults.map((quizResult) => quizResult.studentId);
+        const studentDetailsObj = {};
+        for (const studentId of studentIds) {
+            const studentData = await findUserById(studentId);
+            studentDetailsObj[studentId] = studentData;
+        }
+        const questionDetails = await getAllQuestions(quiz);
+        const consolidatedData = await consolidateStudentData(allAnswers);
+        res.status(200).json({ success: true, data: {allAnswers,summaryResults, studentDetailsObj, questionDetails, consolidatedData, quiz} });
+    
+    } catch (error) {
+        console.error('Error fetching quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+}
 
 
 module.exports = { createQuiz,
@@ -215,4 +243,5 @@ addQuizQuestion,
 editQuizQuestion,
 getAllQuestion,
 getAQuestion,
-deleteQuizQuestion }
+deleteQuizQuestion,
+studentResultSummary }
