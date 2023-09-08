@@ -1,17 +1,7 @@
 const express = require('express')
 const {sq,testDbConnection} = require('./db')
 const {User, ResetPass, Quiz} = require("./models/models");
-// const signupRoutes = require('./routes/user/SignUp');
-// // const firebaseConfig = require('./serviceAccountCredentials.json')
-// const resetRoutes= require('./routes/user/passwordReset');
-// // const admin = require('firebase-admin')
-// const mailerRoutes=require('./routes/user/VerifyMailer')
-// const loginRoutes= require('./routes/user/login');
-// const quizRoutes=require('./routes/quizzes/quiz_faculty/quiz');
-// const quizquestionRoutes=require('./routes/quizzes/quiz_faculty/quizquestion');
-// const studentAnsRoutes=require("./routes/quizzes/quiz_student/studentans")
-// const studentResultRoutes=require("./routes/quizzes/quiz_student/studentresult");
-const fileUploadRouter=require('./routes/mediaupload/fileupload');
+// const fileUploadRouter=require('./routes/mediaupload/fileupload');
 
 
 const passport = require('passport');
@@ -51,7 +41,7 @@ app.options('*', cors({
 
 // require('./auth/auth');
 
-const secureRoute = require('./routes/user/profile');
+// const secureRoute = require('./routes/user/profile');
 const {config} = require("dotenv");
 
 
@@ -61,7 +51,7 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json());
 
 // Plug in the JWT strategy as a middleware so only verified users can access this route.
-app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
+// app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -71,7 +61,7 @@ app.get('/', (req, res) => {
 // app.use('/',resetRoutes);
 // app.use('/',loginRoutes);
 // app.use('/',mailerRoutes);
-app.use('/', fileUploadRouter); 
+// app.use('/', fileUploadRouter); 
 //quiz routes
 // app.use('/',quizRoutes);
 // app.use('/',quizquestionRoutes);

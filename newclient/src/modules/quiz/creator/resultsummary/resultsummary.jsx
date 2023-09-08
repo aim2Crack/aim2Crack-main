@@ -238,7 +238,7 @@ console.log(quizDetails);
         '',
         '',
         '',
-        `Question: ${question.question}`,
+        `Question: ${question.question.substring(3,20)+'...'}`,
         '',
         '',
         question.answer?.join(', ') || '',
@@ -266,7 +266,7 @@ console.log(quizDetails);
   
     const csv = Papa.unparse([headersRow1, questionHeaders, ...csvData]);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'tab2_results.csv');
+    saveAs(blob, 'Detailed_results.csv');
   };
    
   
