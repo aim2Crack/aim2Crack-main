@@ -5,16 +5,16 @@
   import './AddQuestionHome.css';
   import AddQuestion from './AddQuestion';
   import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
-  import QuillEditor from '../../../../components/quill/quillEditor';
+  import Viewer from '../../../../components/quill/viewer';
 
   const QuestionGet = ({ questionGet, handleEditQuestion, handleDeleteQuestion, handleEditorChange }) => {
     const { question, answer, explanation, options, mark, questionLevel, questionType } = questionGet;
 
     return (
       <div >
-        Question:<CKEditorViewer editorData={question}/>
+        Question:<Viewer content={question}/>
         <p>Answer: {answer}</p>
-        Explanation: <CKEditorViewer editorData={explanation} />
+        Explanation: <Viewer content={explanation} />
         <p>Marks: {mark}</p>
         <p>Level: {questionLevel}</p>
         <p>Type: {questionType}</p>

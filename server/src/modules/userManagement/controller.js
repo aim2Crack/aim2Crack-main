@@ -1,5 +1,5 @@
 const { validateUserData, getUserDetails, sendVerificationEmail,fileupload} = require('./helper');
-const { createUser, findUser, updateUser, findResetDetails} = require('./dto');
+const { createUser, findUser, updateUser, findResetDetails, deleteResetDetails} = require('./dto');
 const {loginTokenExpiry} = require('./constants');
 require('dotenv').config();
 
@@ -60,16 +60,7 @@ const signup = async (req, res) => {
   const updateuserdetails = async (req, res) => {
     try {
       console.log(req.body);
-      const {token} = req.query;
-      if (token)
-      {
-        const pass = req.body; // Get the updated user data from the request body
-        const user = await findResetDetails(token);
-        const newuser =  await updateUser({password:pass.password, email:user.email});
-        return res.status(200).json({ success: true, message: 'Details updated' });
-      }
-      else{
-        const user=req.user;
+      const user=req.user;
         const {firstName,
           lastName,
           rollNo,
@@ -88,9 +79,7 @@ const signup = async (req, res) => {
           brandLink,
           brandLogo,
           brandFavicon})
-        return res.status(200).json({ success: true, message: 'Details updated' });
-      }
-      
+        return res.status(200).json({ success: true, message: 'Details updated' });      
     } catch (error) {
       // Handle validation errors here
       console.error('Validation error:', error);
@@ -98,19 +87,39 @@ const signup = async (req, res) => {
     }
   };
 
-
+const updatepassword = async(req,res)=>{
+  try{
+  const {token} = req.query;
+  if (token)
+  {
+    const pass = req.body; // Get the updated user data from the request body
+    const user = await findResetDetails(token);
+    const newuser =  await updateUser({password:pass.password, email:user.email});
+    await deleteResetDetails(user.username);
+    return res.status(200).json({ success: true, message: 'Details updated' });
+  }
+  else{
+    return res.json({success:false, message:'Token not found'});
+  }
+} catch (error) {
+  res.status(500).json({ success: false, message: 'An error occurred while updating password! Try forgot password option after some time!' });
+}
+};
 
   const verifymail = async (req, res) => {
     try {
       const { token } = req.query;
+      
       const resetPass = await findResetDetails(token); 
       const user = await findUser({ username: null, email: resetPass.email });
       
       const resetTokenExpirationTimestamp = new Date(resetPass.resetTokenExpiration);
+      const numericTimestamp = resetTokenExpirationTimestamp.getTime();
       const currentTimestamp = Date.now();
-
-      if (resetPass.resetToken === token && resetTokenExpirationTimestamp > currentTimestamp)
+      
+      if (resetPass.resetToken === token && numericTimestamp > currentTimestamp)
        {
+        console.log('condition passed')
         if (!resetPass.passwordReset) {
           if (!user.emailVerify) {
             user.emailVerify = true;
@@ -184,5 +193,6 @@ const getbrandlogo = async(req,res)=>{
     forgotpassword,
     updateuserdetails,
     uploadbrandlogo,
-    getbrandlogo
+    getbrandlogo,
+    updatepassword
   }

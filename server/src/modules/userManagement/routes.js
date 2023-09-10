@@ -23,6 +23,10 @@ module.exports = (authentication) => {
         controller.updateuserdetails
 );
 
+    router.post(`${baseUrl}/newpassword`,
+        controller.updatepassword
+);
+
     router.get(`${baseUrl}/verifymail`,
         controller.verifymail
     );

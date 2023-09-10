@@ -40,8 +40,8 @@ const NewPassword = () => {
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:7000/api/users/signup?token=${token}`, {
-        method: 'PUT',
+      const response = await fetch(`http://127.0.0.1:7000/api/users/newpassword?token=${token}`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           //  Authorization: `Bearer ${token}`,

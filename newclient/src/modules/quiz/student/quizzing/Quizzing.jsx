@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import logo from '../../../../assets/images/user/Logo enlarged-03.png';
 import './Quizzing.css';
-import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
+// import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
 import { formatMinutes } from '../../../../components/timer/formatMinutes';
 import Error from "../../../../components/error/Error";
+import Viewer from '../../../../components/quill/viewer';
 // import Notification from '../../../../components/notification';
 // import TabVisibilityHandler from '../../../../components/tabchange/TabVisibilityHandler';
 
@@ -242,7 +243,7 @@ const handleSubmit = async () => {
               <h2><span id="quizType">Objective Type Question</span></h2>
               <div className="quizzing-header">
                 {/* Render the question content */}
-                <CKEditorViewer editorData={questionData.question}/>
+                <Viewer content={questionData.question}/>
                 {/* Render the options */}
                 <div className='quizzing-options-box'>
                 <ul id="list">
@@ -267,7 +268,7 @@ const handleSubmit = async () => {
     <h2><span id="quizType">Numerical Type Question</span></h2>
     <div className="quizzing-header">
       {/* Render the question content */}
-      <CKEditorViewer editorData={questionData.question} />
+      <Viewer content={questionData.question} />
       {/* Render the input field for numerical answer */}
       <form autoComplete="off" onKeyDown={(event) => event.key !== 'Enter'}>
         <label htmlFor="numericalAns">Enter your numerical answer:</label>
@@ -291,7 +292,7 @@ const handleSubmit = async () => {
     <h2><span id="quizType">Multi Correct Question</span></h2>
     <div className="quizzing-header">
       {/* Render the question content */}
-      <CKEditorViewer editorData={questionData.question} />
+      <Viewer content={questionData.question} />
       {/* Render the options */}
       <ul id="listmul">
         {questionData.options.map((option) => (

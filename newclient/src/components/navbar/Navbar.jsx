@@ -17,7 +17,8 @@ function Navbar() {
     '/forgot-password',
     `/quiz/${code}/test`,
     `/quiz/${code}/live`,
-    `/quiz/${code}/feedback`
+    `/quiz/${code}/feedback`,
+    `/error-page`
   ];
 
   // const [user, setUser] = useState(null);

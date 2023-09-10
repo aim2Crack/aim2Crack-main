@@ -7,13 +7,24 @@ const QuillEditor = ({ value, onChange }) => {
   const quillRef = useRef(null);
 
   const modules = {
-    toolbar: {
+    toolbar: 
+    {
       container: [
-        [{ header: [1, 2, 3, false] }],
-        ['font', 'size'],
+        [{ 'size': ['small', false, 'large', 'huge'] }], 
+        // [{ header: [1, 2, 3, 4,5,6,false] }],
         ['bold', 'italic'],
+        ['blockquote', 'code-block'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image'], // Include the 'image' button in the toolbar
+        ['image'], // Include the 'image' button in the toolbar
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],  
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
         ['clean'],
       ],
     },
