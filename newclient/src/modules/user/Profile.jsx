@@ -107,6 +107,15 @@ console.log(token);
     }));
   };
 
+  const handleDeleteBrandLogo = () => {
+    // Clear the brandLogo field in the formData state
+    setFormData((prevData) => ({
+      ...prevData,
+      brandLogo: '',
+    }));
+  };
+  
+
 
   const handleImageUpload = async (file, fieldName) => {
     const formData = new FormData();
@@ -247,6 +256,9 @@ console.log(token);
             {formData.brandLogo && (
               <div>
               <img src={formData.brandLogo} alt="Brand Logo" />
+              <p></p>
+              <button onClick={() => handleDeleteBrandLogo()}>Delete Brand Logo</button>
+              <p></p>
               </div>
             )}
          
@@ -274,6 +286,9 @@ console.log(token);
           {formData.brandFavicon && (
               <div>
               <img src={formData.brandFavicon} alt="Brand favicon" />
+              <p></p>
+              <button onClick={() => handleDeleteBrandLogo()}>Delete Brand Favicon</button>
+              
               </div>
             )}
 
