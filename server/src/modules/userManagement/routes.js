@@ -43,5 +43,10 @@ router.get(`/uploads/branding/:filename`,
     controller.getbrandlogo
 );
 
+
+router.post(`${baseUrl}/verify-recaptcha`,
+    controller.verifycaptcha
+);
+
     return router;
 }

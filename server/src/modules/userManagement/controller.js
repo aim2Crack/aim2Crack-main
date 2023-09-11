@@ -2,6 +2,7 @@ const { validateUserData, getUserDetails, sendVerificationEmail,fileupload} = re
 const { createUser, findUser, updateUser, findResetDetails, deleteResetDetails} = require('./dto');
 const {loginTokenExpiry} = require('./constants');
 require('dotenv').config();
+const path = require('path');
 
 
 const bcrypt = require('bcrypt');
@@ -177,13 +178,52 @@ const forgotpassword = async (req, res) => {
   
   
 const getbrandlogo = async(req,res)=>{
+  try
+  {
   const filename = req.params.filename;
   console.log(filename);
   const imagePath = path.join(__dirname, '../../../uploads/branding', filename);
+  console.log(imagePath);
   res.sendFile(imagePath);
+  }catch(err){
+    
+    throw err;
+  }
 }
 
+const verifycaptcha = async(req,res)=>{
+  const { token } = req.body;
 
+  // Define the verification data as a URL-encoded string
+  const verificationData = new URLSearchParams({
+    secret: "6Le3-xQoAAAAAMpviLPLrejkRhJcNLPiTmOH2IHy",
+    response: token,
+  }).toString();
+
+  try {
+    const verificationResponse = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: verificationData,
+      }
+    );
+
+    const verificationResult = await verificationResponse.json();
+
+    if (verificationResult.success) {
+      res.json({ score: verificationResult.score });
+    } else {
+      res.json({ score: 0 });
+    }
+  } catch (error) {
+    console.error("Error verifying reCAPTCHA:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
 
   module.exports = {
     signin,
@@ -194,5 +234,6 @@ const getbrandlogo = async(req,res)=>{
     updateuserdetails,
     uploadbrandlogo,
     getbrandlogo,
-    updatepassword
+    updatepassword,
+    verifycaptcha
   }
