@@ -27,22 +27,6 @@ function Navbar() {
 
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    // Function to check the login status
-    const checkLoginStatus = async () => {
-      if (!token) {
-        // No token, navigate to login
-        navigate('/login',{state:{from: location.pathname}});
-        // setTokenState(false);
-      } else {
-        // Token found, set tokenState to true
-        setTokenState(true);
-      }
-      // Done checking, set loading to false
-    };
-
-    checkLoginStatus();
-  }, [token]);
   
 // // Add another useEffect to update tokenState when the token changes
 // useEffect(() => {
@@ -69,6 +53,24 @@ function Navbar() {
     setTokenState(false); // Update tokenState to false to indicate the user is logged out
     navigate('/login') // Redirect the user to the login page after logout
   };
+
+  useEffect(() => {
+    // Function to check the login status
+    const checkLoginStatus = async () => {
+      if (!token) {
+        // No token, navigate to login
+        navigate('/login',{state:{from: location.pathname}});
+        // setTokenState(false);
+      } else {
+        // Token found, set tokenState to true
+        setTokenState(true);
+      }
+      // Done checking, set loading to false
+    };
+
+    checkLoginStatus();
+  }, [token]);
+
 
   return (
     <header>
