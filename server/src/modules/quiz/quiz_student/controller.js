@@ -4,7 +4,7 @@ const QuizOrderArray = require('../../../../models/quizorderarray');
 
 
 
-const { getAllQuestions, findQuiz, findallQuiz } = require('../quiz_faculty/dto');
+const { getAllQuestions, findQuiz, findQuizById } = require('../quiz_faculty/dto');
 const { calculateTotalTime, shuffleArray, getNextQuestion, calculateScore, generateResult,  } = require('./helper');
 const { findOrderArrayById, findOrderArrayByUser, createOrderArray, findQuestion,saveAnswer, updateEndQuiz, findQuizByUser } = require('./dto');
 
@@ -144,7 +144,7 @@ const getStudentQuiz = async (req, res) => {
       const quizDetailsMap = {};
       await Promise.all(
         quizIds.map(async (quizId) => {
-          const quizDetails = await findallQuiz(quizId); // Use your getQuizById function
+          const quizDetails = await findQuizById(quizId); // Use your getQuizById function
           quizDetailsMap[quizId] = quizDetails;
         })
       );

@@ -68,8 +68,21 @@ const user = await User.findByPk(reqId);
                 
         }
       }
+      const findQuizById = async (reqId) =>{
+        if(reqId)
+        {  const quizzes = await Quiz.findAll({
+           where: { Id: reqId },
+                    });
+                    if (!quizzes) throw new Error('Unable to find quizzes.');
+                    return quizzes;
+                } else {
+                    throw new Error('Quiz search by ID not found');
+                        
+                }
+              }
+        
 
-const deleteQuizByCode = async(code)=>{
+      const deleteQuizByCode = async(code)=>{
   // const quiz = await Quiz.findByPk(id);
   if (code) {
       await Quiz.destroy({
@@ -129,6 +142,7 @@ module.exports = {
   newQuiz,
   findQuiz,
   findallQuiz,
+  findQuizById,
   deleteQuizByCode,
   verifyQuiz,
   getAllQuestions,

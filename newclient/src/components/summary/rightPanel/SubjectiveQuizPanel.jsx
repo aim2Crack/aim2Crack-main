@@ -69,19 +69,19 @@ const SubjectiveQuizPanel = () => {
       }
       if (userProfile === "student")
       {
-        // const response = await fetch(`http://localhost:7000/api/quiz/studentquiz`, {
-        //   method: 'GET',
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // });
-        // if (response.ok) {
-        //   const data = await response.json();
-        //   console.log(data);
-        //   setQuizDetails(data.data);
-        // } else {
-        //   console.error('Failed to fetch quiz details:', response.status);
-        // }
+        const response = await fetch(`http://localhost:7000/api/quiz/studentquiz`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setQuizDetails(data.data);
+        } else {
+          console.error('Failed to fetch quiz details:', response.status);
+        }
 
       }
       } catch (error) {
@@ -90,7 +90,7 @@ const SubjectiveQuizPanel = () => {
     };
 
     fetchQuiz();
-  }, []);
+  },[userProfile]);
 
 
     const handleDeleteQuiz = async (quizId) => {
@@ -190,7 +190,7 @@ const handleChart = (quizCode) => {
         </Link>
       )}
 
-{userProfile === "faculty" && ( <div className="cards-container d-flex">
+<div className="cards-container d-flex">
           {quizDetails.map((quiz) => (
             <div className="content-card" key={quiz.id}>
               <div className="upper-container d-flex">
@@ -259,7 +259,7 @@ const handleChart = (quizCode) => {
             </div>
           ))}
         </div>
-)}
+
       </div>
     </div>
   );
