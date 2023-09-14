@@ -4,9 +4,9 @@ const QuizOrderArray = require('../../../../models/quizorderarray');
 
 
 
-const { getAllQuestions, findQuiz } = require('../quiz_faculty/dto');
+const { getAllQuestions, findQuiz, findallQuiz } = require('../quiz_faculty/dto');
 const { calculateTotalTime, shuffleArray, getNextQuestion, calculateScore, generateResult,  } = require('./helper');
-const { findOrderArrayById, findOrderArrayByUser, createOrderArray, findQuestion,saveAnswer, updateEndQuiz } = require('./dto');
+const { findOrderArrayById, findOrderArrayByUser, createOrderArray, findQuestion,saveAnswer, updateEndQuiz, findQuizByUser } = require('./dto');
 
 
 // router.get('/studentanswer/:code', StudentAuthorization, 
@@ -134,7 +134,39 @@ const getstudentresult = async(req,res) =>{
   }
 };
 
+const getStudentQuiz = async (req, res) => {
+  try {
+    const user = req.user;
+    const finalQuiz = await findQuizByUser(user);
+
+    if (finalQuiz) {
+      const quizIds = finalQuiz.map((quiz) => quiz.quizId);
+      const quizDetailsMap = {};
+      await Promise.all(
+        quizIds.map(async (quizId) => {
+          const quizDetails = await findallQuiz(quizId); // Use your getQuizById function
+          quizDetailsMap[quizId] = quizDetails;
+        })
+      );
+
+      res.status(200).json({
+        success: true,
+        message: 'Student quiz details retrieved',
+        data: quizDetailsMap,
+      });
+    } else {
+      res.status(404).json({ success: false, message: 'Student quiz details not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching student quiz details:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+
+
 module.exports = { 
     getfirstquestion,
     saveAnsAndGetQues,
-  getstudentresult}
+  getstudentresult,
+getStudentQuiz}

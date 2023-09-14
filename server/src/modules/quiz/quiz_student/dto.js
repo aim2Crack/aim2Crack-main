@@ -94,6 +94,16 @@ const findQuizResult = async(quiz,user) =>{
   return finalResult;
 }
 
+const findQuizByUser = async(user) =>{
+  allQuiz = await StudentResult.findAll({
+    where: {studentId: user.id },
+  });
+  return allQuiz;
+}
+
+
+
+
 const createResult = async(details)=>{
 
   const {user, quiz, totalScore,correctlyAnswered,wronglyAnswered, unattempted}=details;
@@ -132,5 +142,6 @@ const deleteResult = async(quiz, user)=>{
   findAanswer,
   findQuizResult, 
   createResult,
-  deleteResult
+  deleteResult,
+  findQuizByUser
 }

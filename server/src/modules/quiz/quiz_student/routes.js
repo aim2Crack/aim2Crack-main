@@ -21,6 +21,9 @@ module.exports = (authentication) => {
     controller.getstudentresult
 );
 
+router.get(`${baseUrl}/studentquiz`, authentication,
+    controller.getStudentQuiz
+);
 
 // router.post(`${baseUrl}/endquiz/:code`, authentication,
 // controller.endQuizAndCalScore

@@ -13,16 +13,16 @@ import { Link, useNavigate } from 'react-router-dom';
 const SubjectiveQuizPanel = () => {
   const [quizDetails, setQuizDetails] = useState([]);
   const [message, setMessage]=useState();
+  const [userProfile,setUserProfile]=useState();
   const navigate = useNavigate(); 
-  
   
 
   useEffect(() => {
-    const fetchQuiz = async () => {
+    const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token');
         console.log(token);
-        const response = await fetch(`http://localhost:7000/api/quiz/quizzes`, {
+        const response = await fetch(`http://localhost:7000/api/users/signup`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,11 +31,59 @@ const SubjectiveQuizPanel = () => {
 
         if (response.ok) {
           const data = await response.json();
+          console.log(data.user.profileType);
+          setUserProfile(data.user.profileType);
+        } else {
+          console.error('Failed to user details:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  
+
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        console.log(token);
+        if (userProfile === "faculty")
+        {
+        const response = await fetch(`http://localhost:7000/api/quiz/quizzes`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
           console.log(data);
           setQuizDetails(data.data);
         } else {
           console.error('Failed to fetch quiz details:', response.status);
         }
+      }
+      if (userProfile === "student")
+      {
+        // const response = await fetch(`http://localhost:7000/api/quiz/studentquiz`, {
+        //   method: 'GET',
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // });
+        // if (response.ok) {
+        //   const data = await response.json();
+        //   console.log(data);
+        //   setQuizDetails(data.data);
+        // } else {
+        //   console.error('Failed to fetch quiz details:', response.status);
+        // }
+
+      }
       } catch (error) {
         console.error('Error fetching quiz details:', error);
       }
@@ -131,6 +179,7 @@ const handleChart = (quizCode) => {
           <p className="uploaded">YOUR QUIZZES</p>
         </div>
 
+        {userProfile === "faculty" && (
         <Link to="/createQuiz">
           <div className="upload-button-container">
             <button className="upload-button">
@@ -139,8 +188,9 @@ const handleChart = (quizCode) => {
             </button>
           </div>
         </Link>
+      )}
 
-        <div className="cards-container d-flex">
+{userProfile === "faculty" && ( <div className="cards-container d-flex">
           {quizDetails.map((quiz) => (
             <div className="content-card" key={quiz.id}>
               <div className="upper-container d-flex">
@@ -174,6 +224,8 @@ const handleChart = (quizCode) => {
             </button>
           </div>
         </Link>     
+
+        {userProfile === "faculty" && (
                 <div className="middle-container d-flex">
            
            
@@ -202,11 +254,12 @@ const handleChart = (quizCode) => {
   {/* Add other icon buttons with event handlers as needed */}
   </div>
   </div>
-
+        )}
               </div>
             </div>
           ))}
         </div>
+)}
       </div>
     </div>
   );
