@@ -187,7 +187,7 @@ const handleChart = (quizCode) => {
             </button>
           </div>
         </Link>
-      )}
+        )}
 
 <div className="cards-container d-flex">
           {quizDetails.map((quiz) => (
@@ -206,6 +206,7 @@ const handleChart = (quizCode) => {
                   </div>
 
                 </div>
+                {userProfile === "faculty" && (
                 <Link to={`../quiz/${quiz.code}`}>
           <div className="upload-button-container">
             <button className="upload-button">
@@ -214,8 +215,9 @@ const handleChart = (quizCode) => {
             </button>
           </div>
         </Link>     
+                )}
 
-                <Link to={`../quiz/${quiz.code}/result`}>
+{userProfile === "faculty" && (<Link to={`../quiz/${quiz.code}/result`}>
           <div className="upload-button-container">
             <button className="upload-button">
               View Result
@@ -223,6 +225,16 @@ const handleChart = (quizCode) => {
             </button>
           </div>
         </Link>     
+)}
+{userProfile === "student" && (<Link to={`../quiz/${quiz.code}/result-studentview`}>
+          <div className="upload-button-container">
+            <button className="upload-button">
+              View Result
+              <i className="fa fa-upload" aria-hidden="true"></i>
+            </button>
+          </div>
+        </Link>     
+)}
 
         {userProfile === "faculty" && (
                 <div className="middle-container d-flex">
@@ -258,6 +270,7 @@ const handleChart = (quizCode) => {
             </div>
           ))}
         </div>
+        
 
       </div>
     </div>
