@@ -51,7 +51,7 @@ const SubjectiveQuizPanel = () => {
       try {
         const token = localStorage.getItem('token');
         console.log(token);
-        if (userProfile === "faculty")
+        if (userProfile == 'faculty')
         {
         const response = await fetch(`http://localhost:7000/api/quiz/quizzes`, {
           method: 'GET',
@@ -61,13 +61,13 @@ const SubjectiveQuizPanel = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          console.log(data.data);
           setQuizDetails(data.data);
         } else {
           console.error('Failed to fetch quiz details:', response.status);
         }
       }
-      if (userProfile === "student")
+      if (userProfile == "student")
       {
         const response = await fetch(`http://localhost:7000/api/quiz/studentquiz`, {
           method: 'GET',
@@ -77,7 +77,7 @@ const SubjectiveQuizPanel = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          console.log(data.data);
           setQuizDetails(data.data);
         } else {
           console.error('Failed to fetch quiz details:', response.status);
@@ -91,7 +91,6 @@ const SubjectiveQuizPanel = () => {
 
     fetchQuiz();
   },[userProfile]);
-
 
     const handleDeleteQuiz = async (quizId) => {
       try {

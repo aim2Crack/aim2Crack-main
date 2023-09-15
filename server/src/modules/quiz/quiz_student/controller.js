@@ -141,18 +141,18 @@ const getStudentQuiz = async (req, res) => {
 
     if (finalQuiz) {
       const quizIds = finalQuiz.map((quiz) => quiz.quizId);
-      const quizDetailsMap = {};
+      const quizDetailsArray = [];
       await Promise.all(
         quizIds.map(async (quizId) => {
           const quizDetails = await findQuizById(quizId); // Use your getQuizById function
-          quizDetailsMap[quizId] = quizDetails;
+          quizDetailsArray.push(quizDetails); 
         })
       );
 
       res.status(200).json({
         success: true,
         message: 'Student quiz details retrieved',
-        data: quizDetailsMap,
+        data: quizDetailsArray,
       });
     } else {
       res.status(404).json({ success: false, message: 'Student quiz details not found' });

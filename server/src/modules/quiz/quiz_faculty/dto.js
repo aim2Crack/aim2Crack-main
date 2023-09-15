@@ -71,7 +71,7 @@ const user = await User.findByPk(reqId);
       const findQuizById = async (reqId) =>{
         if(reqId)
         {  const quizzes = await Quiz.findAll({
-           where: { Id: reqId },
+           where: { id: reqId },
                     });
                     if (!quizzes) throw new Error('Unable to find quizzes.');
                     return quizzes;
