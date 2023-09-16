@@ -48,7 +48,7 @@ export default function PreviewInstructions() {
           setMarginTimer(remainingMarginTime);
           console.log(remainingMarginTime);
           // Fetch user details
-          const response2 = await fetch(`http://localhost:7000/api/users/${data.data.userId}`, {
+          const response2 = await fetch(`http://18.232.60.24:7000/api/users/${data.data.userId}`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
