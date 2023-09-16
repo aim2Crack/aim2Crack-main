@@ -27,7 +27,7 @@ export default class CustomUploadAdapter {
     const xhr = this.xhr = new XMLHttpRequest();
 
     // Set the URL to your server-side image upload endpoint.
-    xhr.open('POST', 'http://127.0.0.1:7000/upload', true);
+    xhr.open('POST', 'http://18.232.60.24:7000/upload', true);
 
     // Set any necessary headers for your server (e.g., authorization headers).
 

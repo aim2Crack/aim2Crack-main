@@ -35,7 +35,7 @@ function Quizzing() {
   const fetchQuestionDetails = async () => {
     try {
 
-      const response = await fetch(`http://127.0.0.1:7000/api/quiz/studentanswer/${code}`, {
+      const response = await fetch(`http://18.232.60.24:7000/api/quiz/studentanswer/${code}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -169,7 +169,7 @@ const handleSubmit = async () => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/')[2];
 
-    const response = await fetch(`http://127.0.0.1:7000/api/quiz/studentanswer/${code}/${currentIndex}`, {
+    const response = await fetch(`http://18.232.60.24:7000/api/quiz/studentanswer/${code}/${currentIndex}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

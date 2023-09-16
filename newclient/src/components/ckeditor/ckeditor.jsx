@@ -48,7 +48,7 @@ function MyckEditor({ data, onChange, placeholder }) {
       styles: ['full', 'alignLeft', 'alignRight'],
       resizeOptions: [],
       upload: {
-        uploadUrl: 'http://127.0.0.1:7000/upload', // Replace with the correct upload URL
+        uploadUrl: 'http://18.232.60.24:7000/upload', // Replace with the correct upload URL
         adapter: CustomUploadAdapter,
       },
     },

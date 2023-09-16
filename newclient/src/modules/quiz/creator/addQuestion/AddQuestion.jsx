@@ -47,7 +47,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     const id = editQuestionData.id;
   
     try {
-      const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}/${id}`, {
+      const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     if (editQuestionData) {
       const id = editQuestionData.id;
       try {
-        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}/${id}`, {
+        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       }
     } else {
       try {
-        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}`, {
+        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ const Settings = () => {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
       console.log(token);
-      const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
+      const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizzes/${code}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const Settings = () => {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
       console.log(code);
-      const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
+      const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizzes/${code}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
