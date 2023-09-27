@@ -8,6 +8,7 @@ export default defineConfig({
     jsxFactory: 'React.createElement',
     // jsxInject: `import React from 'react'`,
   },
+  assetsInlineLimit: 0,
   optimizeDeps: {
     exclude: ['@fortawesome/fontawesome-svg-core'],
     // include: ['xlsx'],
