@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import './Register.css';
 import * as Yup from 'yup';
-import signup from  '../../assets/images/Register/signup.svg';
+import signup from  '../../assets/images/register/signup.svg';
 
 const UserRegister = () => {
   const initialValues = {
