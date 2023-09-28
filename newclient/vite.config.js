@@ -12,7 +12,7 @@ export default defineConfig({
   },
   build: {
     // Add the rollupOptions section for manualChunks
-    minify:'false',
+    minify: false,
     rollupOptions: {
       // Define manualChunks to customize chunk splitting
       manualChunks(id) {
