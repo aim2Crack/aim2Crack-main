@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
-import MyckEditor from '../../../../components/ckeditor/ckeditor';
 import QuillEditor from '../../../../components/quill/quillEditor';
 
 

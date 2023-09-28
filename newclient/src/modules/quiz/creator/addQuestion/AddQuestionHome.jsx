@@ -4,7 +4,6 @@
   import { faCircleArrowLeft, faPenToSquare, faCopy, faGear, faCalendar } from '@fortawesome/free-solid-svg-icons';
   import './AddQuestionHome.css';
   import AddQuestion from './AddQuestion';
-  import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
   import Viewer from '../../../../components/quill/viewer';
 
   const QuestionGet = ({ questionGet, handleEditQuestion, handleDeleteQuestion, handleEditorChange }) => {
