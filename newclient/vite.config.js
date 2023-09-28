@@ -8,9 +8,6 @@ export default defineConfig({
     jsxFactory: 'React.createElement',
     // jsxInject: `import React from 'react'`,
   },
-  server: {
-    port: 80,
-  },
   assetsInlineLimit: 0,
   optimizeDeps: {
     exclude: ['@fortawesome/fontawesome-svg-core'],
