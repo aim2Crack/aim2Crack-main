@@ -52,7 +52,7 @@ function Login() {
     };
 
     try {
-      const response = await fetch('http://18.232.60.24:7000/api/users/signin', {
+      const response = await fetch('http://127.0.0.1:7000/api/users/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,14 +127,14 @@ function Login() {
   //     return null
   //   }
   // }
-  // const serverURL = "http://18.232.60.24:7000"
+  // const serverURL = "http://127.0.0.1:7000"
   // const routes = {
   //   getUser : `${serverURL}/getUser`
   // }
 
 
   // async function getRequest(url, body) {
-  //   return await axios.get("http://18.232.60.24:7000/getUser", { params: body });
+  //   return await axios.get("http://127.0.0.1:7000/getUser", { params: body });
   // }
 
   return (

@@ -22,7 +22,7 @@ const SubjectiveQuizPanel = () => {
       try {
         const token = localStorage.getItem('token');
         console.log(token);
-        const response = await fetch(`http://18.232.60.24:7000/api/users/signup`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/users/signup`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const SubjectiveQuizPanel = () => {
         console.log(token);
         if (userProfile == 'faculty')
         {
-        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizzes`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const SubjectiveQuizPanel = () => {
       }
       if (userProfile == "student")
       {
-        const response = await fetch(`http://18.232.60.24:7000/api/quiz/studentquiz`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/studentquiz`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -96,7 +96,7 @@ const SubjectiveQuizPanel = () => {
       try {
         const token = localStorage.getItem('token');
         // console.log(token);
-        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizzes/${quizId}`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${quizId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,

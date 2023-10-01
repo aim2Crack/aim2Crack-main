@@ -88,7 +88,7 @@
       const fetchQuizQuestions = async () => {
         try {
           console.log(token);
-          const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}`, {
+          const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -120,7 +120,7 @@
     useEffect(() => {
       const fetchQuizDetails = async () => {
         try {
-          const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizzes/${code}`, {
+          const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizzes/${code}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -166,7 +166,7 @@
     const handleDeleteQuestion = async (question) => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}/${question.id}`, {
+        const response = await fetch(`http://127.0.0.1:7000/api/quiz/quizquestion/${code}/${question.id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
