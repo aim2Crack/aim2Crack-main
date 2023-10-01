@@ -225,7 +225,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       setSaveConditionButton({
         display: 'initial',
       });
-      return;
+      // return;
     }
     const quillEditor = quillRef.current;
     const questionData = {

@@ -75,7 +75,7 @@ export default function PreviewInstructions() {
   }, []);
   
 
-    useEffect(() => {
+  useEffect(() => {
       const updateTimer = () => {
         setTimer(prevTimer => {
           if (prevTimer <= 0) {

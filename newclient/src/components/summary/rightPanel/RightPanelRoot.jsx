@@ -6,9 +6,9 @@ import YourBooksPanel from "./YourBooksPanel.jsx";
 import YourCollectionsPanel from "./YourCollectionsPanel.jsx";
 
 const RightPanelRoot = (props) => {
-    const isValid = (route) => {
-        return route !== undefined && route !== null && componentMap[route] !== undefined;
-    }
+    // const isValid = (route) => {
+    //     return route !== undefined && route !== null && componentMap[route] !== undefined;
+    // }
     const summaryLink = props.summaryLink;
     const componentMap = {
         'placement-quiz': <PlacementQuizPanel/>,

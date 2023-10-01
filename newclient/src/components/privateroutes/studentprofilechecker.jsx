@@ -32,14 +32,14 @@ const StudentProfileChecker = ({ children }) => {
     fetchUserDetails();
   }, []);
 
-  if (isStudent) {
-    // Redirect to the error page if the user is a student
-    navigate('/error-page?message=You are not authorized to access this page.');
-    return null;
-  }
+  // if (isStudent) {
+  //   // Redirect to the error page if the user is a student
+  //   navigate('/error-page?message=You are not authorized to access this page.');
+  //   return null;
+  // }
 
   // If the user is not a student, continue rendering the children components
-  return children;
+  // return children;
 };
 
 export default StudentProfileChecker;
