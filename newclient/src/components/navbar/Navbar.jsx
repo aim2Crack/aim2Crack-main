@@ -11,6 +11,7 @@ function Navbar() {
 
   const excludedPaths = [
     '/register',
+    '/',
     '/login',
     `/verify/${code}`,
     `/reset-password/${code}`,
@@ -29,17 +30,14 @@ function Navbar() {
 
   
 // // Add another useEffect to update tokenState when the token changes
-// useEffect(() => {
-//   setTokenState(Boolean(token));
-// }, [token]);
+useEffect(() => {
+  setTokenState(Boolean(token));
+}, [token]);
 
 
 
   const location = useLocation();
   const isExcludedPath = excludedPaths.includes(location.pathname);
-  // if (isExcludedPath) {
-  //   return null; // Render nothing if the current path is excluded
-  // }
 
     const openNav = () => {
     // Implement your logic for opening the navigation menu
@@ -70,6 +68,10 @@ function Navbar() {
 
     checkLoginStatus();
   }, [token]);
+
+  if (isExcludedPath) {
+    return null; // Render nothing if the current path is excluded
+  }
 
 
   return (
