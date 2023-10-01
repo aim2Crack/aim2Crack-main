@@ -69,9 +69,9 @@ useEffect(() => {
     checkLoginStatus();
   }, [token]);
 
-  if (isExcludedPath) {
-    return null; // Render nothing if the current path is excluded
-  }
+  // if (isExcludedPath) {
+  //   return null; // Render nothing if the current path is excluded
+  // }
 
 
   return (

@@ -209,7 +209,7 @@ function Login() {
                 </fieldset>
                 <div className="login-form-group">
                   <small className="forgot_password">
-                    <a href="/forgot-password">Forgot Password</a>
+                  <Link to="/forgot-password">Forgot Password</Link>
                   </small>
                 </div>
 
