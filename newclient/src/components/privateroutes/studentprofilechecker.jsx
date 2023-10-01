@@ -10,7 +10,7 @@ const StudentProfileChecker = ({ children }) => {
       try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`http://18.232.60.24:7000/api/users/signup`, {
+        const response = await fetch(`https://18.232.60.24:7000/api/users/signup`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

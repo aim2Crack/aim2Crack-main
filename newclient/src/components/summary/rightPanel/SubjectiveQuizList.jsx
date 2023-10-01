@@ -6,7 +6,7 @@ const SubjectiveQuizList = () => {
 
     useEffect(() => {
 
-        fetch('`http://18.232.60.24:7000/quizzes')
+        fetch('`https://18.232.60.24:7000/quizzes')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

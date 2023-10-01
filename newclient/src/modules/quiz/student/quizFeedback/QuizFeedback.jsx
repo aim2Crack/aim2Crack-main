@@ -19,7 +19,7 @@ const [quizDetails,setQuizDetails]=useState(0);
             const token = localStorage.getItem('token');
             const code = window.location.pathname.split('/')[2];
     
-            const response = await fetch(`http://18.232.60.24:7000/api/quiz/studentresult/${code}`, {
+            const response = await fetch(`https://18.232.60.24:7000/api/quiz/studentresult/${code}`, {
               method: 'GET',
               headers: {
                 Authorization: `Bearer ${token}`,

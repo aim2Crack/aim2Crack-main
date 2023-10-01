@@ -21,7 +21,7 @@ export default function PreviewInstructions() {
         const token = localStorage.getItem('token');
         const code = window.location.pathname.split('/')[2];
 
-        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizzes/${code}`, {
+        const response = await fetch(`https://18.232.60.24:7000/api/quiz/quizzes/${code}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
