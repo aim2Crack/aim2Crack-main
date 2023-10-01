@@ -46,7 +46,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     const id = editQuestionData.id;
   
     try {
-      const response = await fetch(`https://18.232.60.24:7000/api/quiz/quizquestion/${code}/${id}`, {
+      const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     if (editQuestionData) {
       const id = editQuestionData.id;
       try {
-        const response = await fetch(`https://18.232.60.24:7000/api/quiz/quizquestion/${code}/${id}`, {
+        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       }
     } else {
       try {
-        const response = await fetch(`https://18.232.60.24:7000/api/quiz/quizquestion/${code}`, {
+        const response = await fetch(`http://18.232.60.24:7000/api/quiz/quizquestion/${code}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -423,7 +423,7 @@ function AddQuestion({ editQuestionData, onClose }) {
         </form>
 
       )}
-      <script src="https://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
+      <script src="http://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
       {fetchedData && (
         <div>
           {/* <p>Fetched Data: {JSON.stringify(fetchedData)}</p> */}

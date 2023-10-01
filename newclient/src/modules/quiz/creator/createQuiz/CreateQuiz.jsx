@@ -35,7 +35,7 @@ const CreateQuiz = () => {
       };
       
       // Submit the data to the backend
-      const response = await fetch('https://18.232.60.24:7000/api/quiz/quizzes', {
+      const response = await fetch('http://18.232.60.24:7000/api/quiz/quizzes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

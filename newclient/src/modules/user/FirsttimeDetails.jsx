@@ -22,7 +22,7 @@ const FirsttimeDetails = () => {
       const token = localStorage.getItem('token');
       console.log(token);
 
-      const response = await fetch('https://18.232.60.24:7000/api/users/signup', {
+      const response = await fetch('http://18.232.60.24:7000/api/users/signup', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
