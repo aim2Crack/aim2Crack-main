@@ -141,17 +141,17 @@ function Login() {
 
       <div>
 
-        {/* <Link
+        <Link
             to="/"
             id="a__home"
         >
           <FontAwesomeIcon icon={faHouse} />
-        </Link> */}
+        </Link>
         <div className="login-container">
           <div className="content-section">
-            {/* <div>
+            <div>
               <img src= {logo} alt="logo" className='login-logo' />
-            </div> */}
+            </div>
             {message && (
                 <div className={`alert ${submitted ? 'success' : 'error'}`}>
                   {message}
