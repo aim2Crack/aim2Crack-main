@@ -20,7 +20,7 @@ const ResultSummary = () => {
   //       const token = localStorage.getItem('token');
   //       const code = window.location.pathname.split('/')[2];
 
-  //       const response = await fetch(`http://127.0.0.1:7000/studentresult/${code}/all`, {
+  //       const response = await fetch(`http://18.232.60.24:7000/studentresult/${code}/all`, {
   //         method: 'GET',
   //         headers: {
   //           Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ const ResultSummary = () => {
   //       // Fetch student details for each student ID and store in an object
   //       const studentDetailsObj = {};
   //       for (const studentId of studentIds) {
-  //         const response = await fetch(`http://127.0.0.1:7000/users/${studentId}`, {
+  //         const response = await fetch(`http://18.232.60.24:7000/users/${studentId}`, {
   //           method: 'GET',
   //           headers: {
   //             Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ const ResultSummary = () => {
   //       const token = localStorage.getItem('token');
   //       const code = window.location.pathname.split('/')[2];
   
-  //       const response = await fetch(`http://127.0.0.1:7000/studentresultsummary/${code}/all`, {
+  //       const response = await fetch(`http://18.232.60.24:7000/studentresultsummary/${code}/all`, {
   //         method: 'GET',
   //         headers: {
   //           Authorization: `Bearer ${token}`,
@@ -174,7 +174,7 @@ useEffect(() => {
       const code = window.location.pathname.split('/')[2];
 
       // Fetch all question details and store in state
-      const response = await fetch(`http://127.0.0.1:7000/api/quiz/studentresultsummary/${code}`, {
+      const response = await fetch(`http://18.232.60.24:7000/api/quiz/studentresultsummary/${code}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
