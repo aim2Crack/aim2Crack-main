@@ -52,7 +52,7 @@ function Login() {
     };
 
     try {
-      const response = await fetch('http://ec2-18-232-60-24.compute-1.amazonaws.com:7000/api/users/signin', {
+      const response = await fetch('https://a2cbackend.onrender.com/api/users/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
