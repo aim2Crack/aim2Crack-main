@@ -13,7 +13,7 @@ const VerificationPage = () => {
   useEffect(() => {
     async function verifyEmail() {
       try {
-        const response = await fetch(`http://18.232.60.24:7000/api/users/verifymail?token=${token}`, {
+        const response = await fetch(`https://a2cbackend.onrender.com/api/users/verifymail?token=${token}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

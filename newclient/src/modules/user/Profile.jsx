@@ -21,7 +21,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
 console.log(token);
     // Fetch the profile details from the backend
-    fetch('http://18.232.60.24:7000/api/users/signup', {
+    fetch('https://a2cbackend.onrender.com/api/users/signup', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ console.log(token);
     event.preventDefault();
 
     const token = localStorage.getItem('token');
-    fetch('http://18.232.60.24:7000/api/users/signup', {
+    fetch('https://a2cbackend.onrender.com/api/users/signup', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ console.log(token);
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://18.232.60.24:7000/api/users/uploadbrand', {
+      const response = await fetch('https://a2cbackend.onrender.com/api/users/uploadbrand', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

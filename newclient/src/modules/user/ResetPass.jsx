@@ -30,7 +30,7 @@ const PasswordReset = () => {
     };
     // let jsonData={};
     try {
-      const response = await fetch('http://18.232.60.24:7000/api/users/forgot-password', {
+      const response = await fetch('https://a2cbackend.onrender.com/api/users/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

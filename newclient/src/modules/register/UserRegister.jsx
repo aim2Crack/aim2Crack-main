@@ -23,7 +23,7 @@ const UserRegister = () => {
   const [submitted, setSubmitted] = useState(false); // Add this line to define the `submitted` state variable
   const handleSubmit = async (values) => {
     try {
-      const response = await fetch('http://18.232.60.24:7000/api/users/signup', {
+      const response = await fetch('https://a2cbackend.onrender.com/api/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

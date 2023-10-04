@@ -40,7 +40,7 @@ const NewPassword = () => {
     };
 
     try {
-      const response = await fetch(`http://18.232.60.24:7000/api/users/newpassword?token=${token}`, {
+      const response = await fetch(`https://a2cbackend.onrender.com/api/users/newpassword?token=${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

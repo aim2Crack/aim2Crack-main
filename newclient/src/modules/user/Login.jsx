@@ -127,14 +127,14 @@ function Login() {
   //     return null
   //   }
   // }
-  // const serverURL = "http://18.232.60.24:7000"
+  // const serverURL = "https://a2cbackend.onrender.com"
   // const routes = {
   //   getUser : `${serverURL}/getUser`
   // }
 
 
   // async function getRequest(url, body) {
-  //   return await axios.get("http://18.232.60.24:7000/getUser", { params: body });
+  //   return await axios.get("https://a2cbackend.onrender.com/getUser", { params: body });
   // }
 
   return (
