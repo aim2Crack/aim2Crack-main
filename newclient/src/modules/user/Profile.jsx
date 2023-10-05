@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 const Profile = () => {
   const [message, setMessage] = useState('');
@@ -10,16 +12,16 @@ const Profile = () => {
     institute: '',
     profileType: '',
     brandName: '',
-    brandLogo: null,
+    brandLogo: '',
     brandLink: '',
-    brandFavicon: null,
+    brandFavicon: '',
   });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-
+console.log(token);
     // Fetch the profile details from the backend
-    fetch('http://127.0.0.1:7000/users', {
+    fetch('https://a2cbackend.onrender.com/api/users/signup', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,8 +38,8 @@ const Profile = () => {
       })
       .then(jsonData => {
         // Populate the form with the retrieved data
-        console.log(jsonData);
-        const { firstName, lastName, rollNo, institute, profileType, brandName, brandLink } = jsonData;
+        console.log(jsonData.user.firstName);
+        const { firstName, lastName, rollNo, institute, profileType, brandName, brandLink,brandLogo,brandFavicon } = jsonData.user;
         setFormData(prevData => ({
           ...prevData,
           firstName,
@@ -47,6 +49,8 @@ const Profile = () => {
           profileType,
           brandName,
           brandLink,
+          brandLogo,
+          brandFavicon,
         }));
       })
       .catch(error => {
@@ -59,7 +63,7 @@ const Profile = () => {
     event.preventDefault();
 
     const token = localStorage.getItem('token');
-    fetch('http://127.0.0.1:7000/users', {
+    fetch('https://a2cbackend.onrender.com/api/users/signup', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -103,6 +107,51 @@ const Profile = () => {
     }));
   };
 
+  const handleDeleteBrandLogo = () => {
+    // Clear the brandLogo field in the formData state
+    setFormData((prevData) => ({
+      ...prevData,
+      brandLogo: '',
+    }));
+  };
+  
+
+
+  const handleImageUpload = async (file, fieldName) => {
+    const formData = new FormData();
+    formData.append('file', file); // Use 'file' as the field name
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://a2cbackend.onrender.com/api/users/uploadbrand', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const jsonData = await response.json();
+        console.log(jsonData);
+        setFormData(prevData => ({
+          ...prevData,
+          [fieldName]: jsonData.newpath, // Use 'path' instead of 'imageUrl'
+        }));
+        console.log(jsonData.newpath);
+        // document.getElementById(fieldName).value = '';
+      } else {
+        console.error('Image upload failed:', response.status);
+        // throw new Error('An error occurred while uploading the image.');
+      }
+    } catch (error) {
+      console.error('Image upload failed:', error);
+      setMessage('An error occurred while uploading the image.');
+    }
+  };
+  
+
+  
   return (
     <div id="profile">
        
@@ -111,7 +160,15 @@ const Profile = () => {
         <h2>Profile</h2>
           <p className="email1">{formData.email}</p>
       </div>
+
       <form className="details" onSubmit={handleSubmit}>
+      <Tabs>
+        <TabList>
+          <Tab>General Info</Tab>
+          {formData.profileType === 'faculty' && <Tab>Branding</Tab>}
+        </TabList>
+        <TabPanel>
+      
         <fieldset className="forms">
           <div className="first_name">
             <span className="label">First Name:</span>
@@ -169,6 +226,11 @@ const Profile = () => {
               readOnly
             />
           </div>
+          </fieldset>
+          </TabPanel>
+          <TabPanel>
+          {formData.profileType === 'faculty' && (
+        <fieldset className="forms">
           <div className="roll_no">
             <span className="label">Brand Name:</span>
             <input
@@ -187,9 +249,19 @@ const Profile = () => {
               id="brand_logo"
               name="brandLogo"
               accept="image/*"
-              onChange={handleFileChange}
+              value=''
+              onChange={(event) => handleImageUpload(event.target.files[0], 'brandLogo')}
             />
-          </div>
+             </div>
+            {formData.brandLogo && (
+              <div>
+              <img src={formData.brandLogo} alt="Brand Logo" />
+              <p></p>
+              <button onClick={() => handleDeleteBrandLogo()}>Delete Brand Logo</button>
+              <p></p>
+              </div>
+            )}
+         
           <div className="roll_no">
             <span className="label">Brand Link:</span>
             <input
@@ -208,10 +280,22 @@ const Profile = () => {
               id="brand_favicon"
               name="brandFavicon"
               accept="image/*"
-              onChange={handleFileChange}
+              onChange={(event) => handleImageUpload(event.target.files[0], 'brandFavicon')}
             />
           </div>
+          {formData.brandFavicon && (
+              <div>
+              <img src={formData.brandFavicon} alt="Brand favicon" />
+              <p></p>
+              <button onClick={() => handleDeleteBrandLogo()}>Delete Brand Favicon</button>
+              
+              </div>
+            )}
+
         </fieldset>
+          )}
+          </TabPanel>
+  </Tabs>
         <div className="change_password">
           <a className="password" href="/forgot-password">
             Change Password

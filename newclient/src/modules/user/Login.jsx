@@ -1,16 +1,13 @@
 import React, {useEffect} from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import logo from '../../assets/images/user/Logo enlarged-03.png'
 import { useFormik} from 'formik';
 import * as yup from 'yup';
-// import { getAuth, GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
-// import PasswordReset from './ResetPass'
 import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import './Login.css'
-// import axios from "axios";
 
 function Login() {
   const [error, setError] = useState('');
@@ -21,10 +18,13 @@ function Login() {
     userOrEmail: '',
     password: '',
   };
-  // Validation schema
+
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/summary' } };
+
   const formValidationSchema = yup.object().shape({
     userOrEmail: yup.string().required('Email or username is required').max(30, 'Email not greater than 30 character'),
-    password: yup.string().required('Password is required').min(4, 'Password must be at least 4 characters').max(20, 'Password not greater than 20 character'),
+    password: yup.string().required('Password is required').min(8, 'Password must be at least 8 characters').max(20, 'Password not greater than 20 character'),
   });
 
   const {handleChange, values, errors} = useFormik({
@@ -36,8 +36,7 @@ function Login() {
   })
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  // const [data, setData] = useState('')
-  // const [password, setPassword] = useState('')
+
   const navigate = useNavigate(); // Access the navigate function
 
   const handleTogglePasswordVisibility = () => {
@@ -53,47 +52,32 @@ function Login() {
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:7000/login', {
+      const response = await fetch('https://a2cbackend.onrender.com/api/users/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(loginData),
       });
-      console.log(response);
+      const jsonData = await response.json();
       if (response.ok ) {
-        const { token } = await response.json();
-        localStorage.setItem('token', token);
-        console.log(token);
-        // Fetch user details using the obtained token
-        const userResponse = await fetch('http://127.0.0.1:7000/users', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        if (userResponse.ok){
-          const userData= await userResponse.json()
-          console.log(userData);
-          if (userData.firstName == null)
+        localStorage.setItem('token', jsonData.token);
+          if (jsonData.user.firstName == null)
           {
             navigate('/onetimedetails'); // Redirect to the dashboard or desired page
           }
-          else{
-            navigate('/summary'); // Redirect to the dashboard or desired page
+          else
+          {
+            navigate(from); // Redirect to the dashboard or desired page
           }
         }
-      } else if (response.status === 401) {
-        setMessage('Invalid username or password');
-      } else if (response.status === 403) {
-        setMessage('Please verify email. Check registered mail inbox!!');
-      } else {
-        setMessage('An error occurred during login. Please try again later.');
-      }
+        else{
+          setMessage(jsonData.error);
+        }
+        console.log(jsonData);
     } catch (error) {
-      console.error('Login request failed:', error);
-      setMessage('An error occurred during login. Please try again later.');
+      console.error('Login request failed:', jsonData.error);
+      
     }
   };
 
@@ -143,31 +127,31 @@ function Login() {
   //     return null
   //   }
   // }
-  // const serverURL = "http://127.0.0.1:7000"
+  // const serverURL = "https://a2cbackend.onrender.com"
   // const routes = {
   //   getUser : `${serverURL}/getUser`
   // }
 
 
   // async function getRequest(url, body) {
-  //   return await axios.get("http://127.0.0.1:7000/getUser", { params: body });
+  //   return await axios.get("https://a2cbackend.onrender.com/getUser", { params: body });
   // }
 
   return (
 
       <div>
 
-        {/* <Link
+        <Link
             to="/"
             id="a__home"
         >
           <FontAwesomeIcon icon={faHouse} />
-        </Link> */}
+        </Link>
         <div className="login-container">
           <div className="content-section">
-            {/* <div>
+            <div>
               <img src= {logo} alt="logo" className='login-logo' />
-            </div> */}
+            </div>
             {message && (
                 <div className={`alert ${submitted ? 'success' : 'error'}`}>
                   {message}
@@ -225,7 +209,7 @@ function Login() {
                 </fieldset>
                 <div className="login-form-group">
                   <small className="forgot_password">
-                    <a href="/forgot-password">Forgot Password</a>
+                  <Link to="/forgot-password">Forgot Password</Link>
                   </small>
                 </div>
 

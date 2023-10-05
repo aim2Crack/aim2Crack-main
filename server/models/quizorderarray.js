@@ -27,11 +27,14 @@ const QuizOrderArray = sq.define('quizorderarray', {
   },
   index: {
     type: DataTypes.INTEGER,
-    defaultValue:1,
   },
   status: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
-    defaultValue: [],
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
+  firstQues: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 });
 

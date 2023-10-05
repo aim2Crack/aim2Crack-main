@@ -30,7 +30,7 @@ const PasswordReset = () => {
     };
     // let jsonData={};
     try {
-      const response = await fetch('http://127.0.0.1:7000/forgot-password', {
+      const response = await fetch('https://a2cbackend.onrender.com/api/users/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,6 +38,7 @@ const PasswordReset = () => {
         body: JSON.stringify(data),
       });
       const jsonData = await response.json();
+      console.log(jsonData)
       if (response.ok) {
         // Check if the request was successful
         setMessage(jsonData.message); // Set the server message
@@ -47,17 +48,12 @@ const PasswordReset = () => {
           setSubmitted(true); // Set the submitted state to true
         }
       } else {
-        // Handle error response
-        setMessage(jsonData.message); // Set the server error message
+        setMessage(jsonData.error); // Set the server error message
         console.error('Password reset request failed:', response.status);
       }
-      // Clear the message after 5 seconds
-      setTimeout(() => {
-        setMessage('');
-      }, 5000);
     } catch (error) {
       // Handle network error
-      console.error('Password reset request failed:', error);
+      console.error('Password reset request failed:');
     }
   };
 

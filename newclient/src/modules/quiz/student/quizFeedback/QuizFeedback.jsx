@@ -1,34 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './QuizFeedback.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faCircle, faStar } from '@fortawesome/free-solid-svg-icons'
 import smileyFace from '../../../../assets/images/student/undraw_Smiley_face_re_9uid.svg'
 import logo from '../../../../assets/images/user/Logo enlarged-03.png'
-import { useState } from 'react';
+// import { useState } from 'react';
 
 const QuizFeedback = () => {
 
-    const [rating1, setRating1] = useState(0);
-    const [rating2, setRating2] = useState(0);
+    // const [rating1, setRating1] = useState(0);
+    // const [rating2, setRating2] = useState(0);
     const [submitted, setSubmitted] = useState(false);
-
-    const handleStarClick1 = (starIndex) => {
-        setRating1(starIndex);
-        //console.log(`Rated ${starIndex} stars.`)
-    };
-    const handleStarClick2 = (starIndex) => {
-        setRating2(starIndex);
-        //console.log(`Rated ${starIndex} stars.`)
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("saved");
-        setSubmitted(true);
-    };
-
-    return (
+const [quizDetails,setQuizDetails]=useState(0);
+    useEffect(() => {
+        const fetchResultDetails = async () => {
+          try {
+            const token = localStorage.getItem('token');
+            const code = window.location.pathname.split('/')[2];
+    
+            const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentresult/${code}`, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+    
+            if (response.ok) {
+              const data = await response.json();
+            //   console.log(data.data);
+              setQuizDetails(data.data); // Update the state with fetched quiz details
+            } else {
+              console.error('Failed to fetch quiz details:', response.status);
+            }
+          } catch (error) {
+            console.error('Error fetching quiz details:', error);
+          }
+        };
+    
+        fetchResultDetails();
+      }, []);
+      
+      return (
         <div>
             {submitted ? (
                 <>
@@ -43,36 +56,36 @@ const QuizFeedback = () => {
                 </>
             ) : (
                 <>
-            <a href="/" className="quizFeedback-home">
+            <a href="/summary" className="quizFeedback-home">
                 <FontAwesomeIcon icon={faHome} />
             </a>
             <div className="news">
                 <div className="score">
                     <img src={smileyFace} alt="" />
                     <div className="your">
-                        <h2>0/9</h2>
+                        <h2>{quizDetails.totalScore}/{quizDetails.totalCorrect + quizDetails.totalWrong }</h2>
                     </div>
                 </div>
                 <div className="report">
                     <h2>Summary</h2>
                     <div className="right_arrow">
                         <FontAwesomeIcon className='summary-dot' icon={faCircle} />
-                        <p>Total number of questions: 9</p>
+                        <p>Total number of questions: {quizDetails.totalCorrect + quizDetails.totalWrong }</p>
                     </div>
                     <div className="right_arrow">
                         <FontAwesomeIcon className='summary-dot' icon={faCircle} />
-                        <p>Attempted questions: 0 / 9</p>
+                        <p>Attempted questions:  {quizDetails.totalCorrect + quizDetails.totalWrong -quizDetails.totalUnattempt}/ {quizDetails.totalCorrect + quizDetails.totalWrong } </p>
                     </div>
                     <div className="right_arrow">
                         <FontAwesomeIcon className='summary-dot' icon={faCircle} />
-                        <p>Questions not attempted: 9 / 9</p>
+                        <p>Questions not attempted: {quizDetails.totalUnattempt}/ {quizDetails.totalCorrect + quizDetails.totalWrong } </p>
                     </div>
                     <div className="right_arrow">
                         <FontAwesomeIcon className='summary-dot' icon={faCircle} />
-                        <p>correctly answered questions: 0 / 9</p>
+                        <p>correctly answered questions: {quizDetails.totalCorrect }/ {quizDetails.totalCorrect + quizDetails.totalWrong } </p>
                     </div>
                     <div className="right_arrow" style={{ justifyContent: 'center' }}>
-                        <a href="./result" className="quizFeedback-btn">
+                        <a href="/summary" className="quizFeedback-btn">
                             View Result
                         </a>
                     </div>

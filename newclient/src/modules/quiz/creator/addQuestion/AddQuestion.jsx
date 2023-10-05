@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
-import MyckEditor from '../../../../components/ckeditor/ckeditor';;
+import QuillEditor from '../../../../components/quill/quillEditor';
+
 
 function AddQuestion({ editQuestionData, onClose }) {
   const [data, setData] = useState({
@@ -31,51 +32,115 @@ function AddQuestion({ editQuestionData, onClose }) {
   const [submitted, setSubmitted] = useState(false);
   const [fetchedData, setFetchedData] = useState(null);
 
-  // const fetchData = async () => {
-  //   const token = localStorage.getItem('token');
-  //   const code = window.location.pathname.split('/').pop();
-  //   const id = 23;
-  //   const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}/${id}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
+  useEffect(() => {
+    if (editQuestionData) {
+      fetchData();
+    }
+  }, [editQuestionData]);
+  
 
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     setFetchedData(data);
-  //   } else {
-  //     console.error('Failed to fetch data:', response.status);
-  //   }
-  // };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
+  const fetchData = async () => {
+    const token = localStorage.getItem('token');
+    const code = window.location.pathname.split('/').pop();
+    const id = editQuestionData.id;
+  
+    try {
+      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        const dat = await response.json();
+        console.log('Fetched data:', dat);
+        const data=dat.data;
+        if (data.options && Array.isArray(data.options)) {
+          const parsedOptions = data.options.map(option => JSON.parse(option));
+          const fetchedOptions = parsedOptions.map(option => option.value);
+          const fetchedCorrectOptions = parsedOptions
+            .filter(option => option.isCorrect)
+            .map(option => `option ${parsedOptions.indexOf(option) + 1}`);
+            console.log(fetchedOptions)
+          setOptions(fetchedOptions);
+          setCorrectOptions(fetchedCorrectOptions);
+  
+          setData({
+            questionTime: data.questionTime,
+            question: data.question,
+            marks: data.mark,
+            correctAnsInteger: '',
+            explanation: data.explanation,
+          });
+  
+          setQuestionType(data.questionType);
+          setQuestionLevel(data.questionLevel);
+        } else {
+          console.error('Invalid options data:', data.options);
+        }
+      } else {
+        console.error('Failed to fetch data:', response.status);
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching data:', error);
+    }
+  };
+  
   const handleCancel = () => {
     // Call the onClose function to close the AddQuestion component
     onClose();
   };
-
+  
   const handleChangeData = async (values) => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/').pop();
-    console.log(code);
-    const response = await fetch(`http://127.0.0.1:7000/quizquestion/${code}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(values),
-    });
-
-    setSubmitted(true);
+    
+    if (editQuestionData) {
+      const id = editQuestionData.id;
+      try {
+        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        });
+        
+        if (response.ok) {
+          setSubmitted(true);
+        } else {
+          console.error('Failed to edit question:', response.status);
+        }
+      } catch (error) {
+        console.error('An error occurred while editing question:', error);
+      }
+    } else {
+      try {
+        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        });
+        
+        if (response.ok) {
+          setSubmitted(true);
+        } else {
+          console.error('Failed to create question:', response.status);
+        }
+      } catch (error) {
+        console.error('An error occurred while creating question:', error);
+      }
+    }
   };
-
+  
+  
   const handleTypeChange = (event) => {
     setQuestionType(event.target.value);
     setOptions([]);
@@ -113,7 +178,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       alert('Please fill the current text field');
       return;
     }
-    setOptions([...options, { value: '' }]);
+    setOptions([...options, '']);
   };
 
   const handleRemoveFields = (index) => {
@@ -131,23 +196,26 @@ function AddQuestion({ editQuestionData, onClose }) {
     }
   };
 
-  const handleCheckbox = (e) => {
+  const handleCheckbox = (e, index) => {
     const value = e.target.value;
     const checked = e.target.checked;
+  
     if (checked) {
-      setCorrectOptions([...correctOptions, value]);
+      setCorrectOptions([...correctOptions, `option ${index + 1}`]);
     } else {
-      setCorrectOptions(correctOptions.filter((e) => e !== value));
+      setCorrectOptions(correctOptions.filter((opt) => opt !== `option ${index + 1}`));
     }
   };
-
-
-
+   
+  const quillRef = useRef(null); 
+  // const quillRef2 = useRef(null); 
   const handleSubmit = (e) => {
     e.preventDefault();
     const field1 = data.questionTime;
     const field2 = data.question;
     const field3 = data.explanation;
+    console.log(field3);
+    console.log(field1);
 
     if (field1 === '' || field2 === '' || field3 === '') {
       setShowHeading(true);
@@ -159,7 +227,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       });
       return;
     }
-
+    const quillEditor = quillRef.current;
     const questionData = {
       questionType,
       questionLevel,
@@ -183,27 +251,52 @@ function AddQuestion({ editQuestionData, onClose }) {
     return options.map((inputField, index) => (
       <div key={index} className="option1">
         {questionType === 'single' && (
-          <input type="radio" name="o" value={'option ' + (index + 1)} onChange={handleRadiobox} />
+          <input
+            type="radio"
+            name="o"
+            value={'option ' + (index + 1)}
+            onChange={handleRadiobox}
+            checked={correctOptions.includes(`option ${index + 1}`)}
+          />
         )}
         {questionType === 'multiple' && (
-          <input type="checkbox" name="m" value={'option ' + (index + 1)} onChange={handleCheckbox} />
+          <input
+          type="checkbox"
+          name="m"
+          value={'option ' + (index + 1)}
+          onChange={(e) => handleCheckbox(e, index)}  // Add the index parameter here
+          checked={correctOptions.includes(`option ${index + 1}`)}
+        />
+        
         )}
-        {questionType === 'numerical' && <input type="text" id="hide" name="correct" value="" placeholder="Correct answer" />}
-
+        {questionType === 'numerical' && (
+          <input
+            type="text"
+            id="hide"
+            name="correct"
+            value=""
+            placeholder="Correct answer"
+          />
+        )}
+  
         <input
           className="options_written"
           placeholder={'Option ' + (index + 1)}
           type="text"
-          value={inputField.value}
+          value={inputField}
           onChange={(event) => handleChange(index, event)}
         />
-        <button className="delete_opt" type="button" onClick={() => handleRemoveFields(index)}>
+        <button
+          className="delete_opt"
+          type="button"
+          onClick={() => handleRemoveFields(index)}
+        >
           <FontAwesomeIcon icon={faTrashCan} />
         </button>
       </div>
     ));
   };
-
+  
   return (
     <div className="add-question-container">
       {!submitted && (
@@ -275,8 +368,9 @@ function AddQuestion({ editQuestionData, onClose }) {
               Enter the question below:
             </div>
 
-            <MyckEditor
-              data={data.question}
+            <QuillEditor
+            // ref={quillRef2} 
+            value={data.question}
               placeholder="Write the question here"
               onChange={(content) => setData({ ...data, question: content })}
             />
@@ -305,14 +399,22 @@ function AddQuestion({ editQuestionData, onClose }) {
             <div className='question2'>
               Enter the explanation:
             </div>
-            <MyckEditor
+            <QuillEditor
+            // ref={quillRef} 
+  value={data.explanation}
+  onChange={(content) => {
+    // console.log(content);
+    setData({ ...data, explanation: content })}}
+  placeholder="Write the explanation here"
+/>  
+            {/* <MyckEditor
               data={data.explanation}
               placeholder="Write the explanation here"
               onChange={(content) => setData({ ...data, explanation: content })}
-            />
-            <div className="add-question-last">
-              <input className="add-question-btn" id="save_btn" type="submit" value="Save" placeholder="save" />
-              <button className="add-question-btn" id="cancel_btn" type="button" onClick={handleCancel}>
+            /> */}
+            <div className="last">
+              <input className="btn" id="save_btn" type="submit" value="Save" placeholder="save" />
+              <button className="btn_cancel" id="cancel_btn" type="button" onClick={handleCancel}>
                 Cancel
               </button>
             </div>
@@ -321,7 +423,7 @@ function AddQuestion({ editQuestionData, onClose }) {
         </form>
 
       )}
-      <script src="https://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
+      <script src="http://kit.fontawesome.com/7e7a25b297.js" crossOrigin="anonymous"></script>
       {fetchedData && (
         <div>
           {/* <p>Fetched Data: {JSON.stringify(fetchedData)}</p> */}

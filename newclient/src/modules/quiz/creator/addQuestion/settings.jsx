@@ -14,6 +14,9 @@ const Settings = () => {
     allowTabchange: false,
   });
   const navigate = useNavigate();
+  const [message, setMessage] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
 
   useEffect(() => {
     // Fetch quiz details from the backend
@@ -25,7 +28,8 @@ const Settings = () => {
       // Make an API call to fetch quiz details
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
-      const response = await fetch(`http://127.0.0.1:7000/quizzes/${code}`, {
+      console.log(token);
+      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -36,6 +40,7 @@ const Settings = () => {
 
       if (response.ok) {
         const quizDetail = await response.json();
+        // console.log(quizDetail)
         // Update the form state with the fetched quiz details
         const quizDetails = quizDetail.data;
         setQuizData({
@@ -47,6 +52,7 @@ const Settings = () => {
           preventMobile: quizDetails.preventMobile,
           allowTabchange: quizDetails.allowTabchange,
         });
+        
       } else {
         console.error('Failed to fetch quiz details');
       }
@@ -81,8 +87,8 @@ const Settings = () => {
     try {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
-
-      const response = await fetch(`http://127.0.0.1:7000/quizzes/${code}`, {
+      console.log(code);
+      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -100,8 +106,11 @@ const Settings = () => {
       if (response.ok) {
         // Quiz details updated successfully
         console.log('Quiz details updated successfully');
+        setMessage('Quiz details updated successfully');
       } else {
         console.error('Failed to update quiz details');
+        setMessage('Failed to update quiz details');
+        
       }
     } catch (error) {
       console.error('Error occurred while updating quiz details:', error);
@@ -116,60 +125,56 @@ const Settings = () => {
 
   return (
     <div>
+      <div className='container'>
       <h1>Settings</h1>
-
+      {message && (
+                <div className='success'>
+                  {message}
+                </div>
+            )}
+         
       <form onSubmit={handleSubmit}>
-        {/* Form inputs */}
-        <div>
-          <label>Quiz Name:</label>
-          <input type="text" name="quizName" value={quizData.quizName} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label>Start Time:</label>
-          <input type="datetime-local" name="startTime" value={quizData.startTime} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label>Margin Time:</label>
-          <input type="datetime-local" name="marginTime" value={quizData.marginTime} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label>Result Time:</label>
-          <input type="datetime-local" name="resultTime" value={quizData.resultTime} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label>Negative Marking:</label>
-          <input
-            type="number"
-            name="negativeMarking"
-            value={quizData.negativeMarking}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Prevent Mobile:</label>
-          <input
-            type="checkbox"
-            name="preventMobile"
-            checked={quizData.preventMobile}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Allow Tab Change:</label>
-          <input
-            type="checkbox"
-            name="allowTabchange"
-            checked={quizData.allowTabchange}
-            onChange={handleInputChange}
-          />
-        </div>
+        <table className="form-table">
+          <tbody>
+            <tr>
+              <td className="form-label">Quiz Name:</td>
+              <td><input type="text" className="form-input" name="quizName" value={quizData.quizName} onChange={handleInputChange} /></td>
+            </tr>
+            <tr>
+              <td className="form-label">Start Time:</td>
+              <td><input type="datetime-local" className="form-input" name="startTime" value={quizData.startTime} onChange={handleInputChange} /></td>
+            </tr>
+            <tr>
+              <td className="form-label">Margin Time:</td>
+              <td><input type="datetime-local" className="form-input" name="marginTime" value={quizData.marginTime} onChange={handleInputChange} /></td>
+            </tr>
+            <tr>
+              <td className="form-label">Result Time:</td>
+              <td><input type="datetime-local" className="form-input" name="resultTime" value={quizData.resultTime} onChange={handleInputChange} /></td>
+            </tr>
+            <tr>
+              <td className="form-label">Negative Marking:</td>
+              <td><input type="number" className="form-input" name="negativeMarking" value={quizData.negativeMarking} onChange={handleInputChange} /></td>
+            </tr>
+            <tr>
+              <td className="form-label">Prevent Mobile:</td>
+              <td><input type="checkbox" className="form-checkbox" name="preventMobile" checked={quizData.preventMobile} onChange={handleInputChange} /></td>
+            </tr>
+            <tr>
+              <td className="form-label">Allow Tab Change:</td>
+              <td><input type="checkbox" className="form-checkbox" name="allowTabchange" checked={quizData.allowTabchange} onChange={handleInputChange} /></td>
+            </tr>
+          </tbody>
+        </table>
 
-        {/* Submit button */}
-        <button type="submit">Submit</button>
       </form>
+      <div className="button-group-settings">
+          <button type="submit" className="btn_save" onClick={handleSubmit}>Submit</button>
 
-      {/* Back button */}
-      <button onClick={handleGoBack}>Go Back</button>
+          <button type="button" className="btn_back" onClick={handleGoBack}>Back</button>
+        </div>
+
+      </div>
     </div>
   );
 };

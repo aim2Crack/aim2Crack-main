@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import '../styles/Navbar.css';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
+import './navbar.css';
 // import jwt from 'jsonwebtoken';
-// import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
+import aim2CrackLogo from '../../assets/images/navbar/Aim2Crack-logo.png';
 
 function Navbar() {
   const code = window.location.pathname.split('/')[2];
@@ -11,11 +11,15 @@ function Navbar() {
 
   const excludedPaths = [
     '/register',
+    '/',
     '/login',
+    `/verify/${code}`,
+    `/reset-password/${code}`,
     '/forgot-password',
     `/quiz/${code}/test`,
     `/quiz/${code}/live`,
-    `/quiz/${code}/feedback`
+    `/quiz/${code}/feedback`,
+    `/error-page`
   ];
 
   // const [user, setUser] = useState(null);
@@ -24,35 +28,16 @@ function Navbar() {
 
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    // Function to check the login status
-    const checkLoginStatus = async () => {
-      if (!token) {
-        // No token, navigate to login
-        navigate('/login');
-        // setTokenState(false);
-      } else {
-        // Token found, set tokenState to true
-        setTokenState(true);
-      }
-      // Done checking, set loading to false
-    };
-
-    checkLoginStatus();
-  }, [token]);
   
 // // Add another useEffect to update tokenState when the token changes
-// useEffect(() => {
-//   setTokenState(Boolean(token));
-// }, [token]);
+useEffect(() => {
+  setTokenState(Boolean(token));
+}, [token]);
 
 
 
   const location = useLocation();
   const isExcludedPath = excludedPaths.includes(location.pathname);
-  if (isExcludedPath) {
-    return null; // Render nothing if the current path is excluded
-  }
 
     const openNav = () => {
     // Implement your logic for opening the navigation menu
@@ -67,13 +52,35 @@ function Navbar() {
     navigate('/login') // Redirect the user to the login page after logout
   };
 
+  useEffect(() => {
+    // Function to check the login status
+    const checkLoginStatus = async () => {
+      if (!token) {
+        // No token, navigate to login
+        navigate('/login',{state:{from: location.pathname}});
+        // setTokenState(false);
+      } else {
+        // Token found, set tokenState to true
+        setTokenState(true);
+      }
+      // Done checking, set loading to false
+    };
+
+    checkLoginStatus();
+  }, [token]);
+
+  if (isExcludedPath) {
+    return null; // Render nothing if the current path is excluded
+  }
+
+
   return (
     <header>
-      {/* <img className="logo" src={aim2CrackLogo} alt="logo" title="home" /> */}
+      <img className="logo_nav" src={aim2CrackLogo} alt="logo" title="home" />
 
       <nav className="main-menu">
         <ul className="nav_links">
-          <li><a href="#">Home</a></li>
+          {/* <li><a href="#">Home</a></li> */}
           <li><a href="/summary">Dashboard</a></li>
           <li className="dropdown">
             {/* ... Quizzes dropdown contents ... */}
@@ -81,13 +88,20 @@ function Navbar() {
           <li className="dropdown">
             {/* ... Placements dropdown contents ... */}
           </li>
-          <li><a href="#">Talks</a></li>
+          {/* <li><a href="#">Talks</a></li> */}
           <li className="dropdown">
             {/* ... About dropdown contents ... */}
           </li>
           {tokenState && (
-            <li className="user-info">
-              <span className="material-icons"></span>
+          <li className="nav_links">
+            {/* <span className="nav_links"></span> */}
+            {/* <span className="user-name">{user.displayName}</span> */}
+            <a href="/profile">Profile</a>
+             </li>
+)}
+          {tokenState && (
+            <li className="nav_links">
+              {/* <span className="material-icons"></span> */}
               {/* <span className="user-name">{user.displayName}</span> */}
               <button onClick={handleLogout}>Logout</button>
             </li>

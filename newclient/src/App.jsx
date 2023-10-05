@@ -24,16 +24,17 @@ import { AddQuestionHome } from "./modules/quiz/creator/addQuestion/AddQuestionH
 // import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import jwt_decode from 'jwt-decode';
 import VerificationPage from "./modules/user/VerificationPage";
-import FirsttimeDetails from "./modules/user/firsttimeDetails";
+import FirsttimeDetails from "./modules/user/FirsttimeDetails";
 import NewPassword from "./modules/user/NewPassword";
 import Profile from "./modules/user/Profile";
 import Settings from "./modules/quiz/creator/addQuestion/settings";
 import PreviewInstructions from "./modules/quiz/creator/addQuestion/PreviewInstructions";
-// import CreateQuiz from "./modules/quiz/creator/createQuiz/CreateQuiz";
 import Instructions from "./modules/quiz/student/Instructions";
-import PrivateRoute from "./components/privateroutes/PrivateRoute";
+// import PrivateRoute from "./components/privateroutes/PrivateRoute";
 import Error from "./components/error/Error";
 import StudentProfileChecker from "./components/privateroutes/studentprofilechecker";
+import ConfirmationNotification from "./components/notification/notification";
+import ResultSummary from "./modules/quiz/creator/resultsummary/resultsummary";
 function App() {
 // // function App() {
   // const firebaseConfig = {
@@ -63,6 +64,7 @@ const token = localStorage.getItem('token');
     <Router>
       <Navbar />
       <Routes>
+        <Route path="/summary/quiz" element={<Summary/>}></Route>
         <Route path="/summary" element={<Summary/>}></Route>
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/" element={<Login />} />
@@ -72,15 +74,15 @@ const token = localStorage.getItem('token');
         <Route path="/register" element={<UserRegister />} />
         <Route path="/verify/:token" element={<VerificationPage />} />
         <Route path="/onetimedetails" element={<FirsttimeDetails/>}/>
-        <Route path="/reset-password" element={<NewPassword/>}/>
+        <Route path="/reset-password/:token" element={<NewPassword/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/error-page" element={<Error/>}/>
 {/* quiz-creator-routes */}
         {/* <Route path="/createquiz" element={<StudentProfileChecker/>, <CreateQuiz/>}/> */}
-        <Route path="/createquiz" element={<>
-              <StudentProfileChecker />
-              <createQuiz />
-            </>
+        <Route path="/createquiz" element={
+              <StudentProfileChecker>
+              <CreateQuiz />
+              </StudentProfileChecker>
           }
         />
         <Route path="/quiz/:code" element={ <><StudentProfileChecker/> <AddQuestionHome />   </>} />
@@ -88,7 +90,7 @@ const token = localStorage.getItem('token');
         <Route path="/quiz/:code/addinstruction/preview" element={<> <StudentProfileChecker /><PreviewInstructions /></>} />
         <Route path="/quiz/:code/settings" element={<> <StudentProfileChecker /><Settings/></>}/>
         <Route path="/addQuestionHome" element={<> <StudentProfileChecker /><AddQuestionHome /></>} />
-        {/* <Route path="/createQuiz" element={<CreateQuiz />} /> */}
+        <Route path="/quiz/:code/result" element={<><StudentProfileChecker/><ResultSummary /></>} />
 {/* quiz-student-routes */}
         <Route path="/quiz/:code/test" element={<Instructions />} />
         {/*<Route path="/quiz/:code/live" element={<Quizzing />} />*/}

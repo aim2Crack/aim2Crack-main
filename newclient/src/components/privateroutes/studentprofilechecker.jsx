@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const StudentProfileChecker = () => {
+const StudentProfileChecker = ({ children }) => {
   const navigate = useNavigate();
   const [isStudent, setIsStudent] = useState(false);
 
@@ -10,23 +10,17 @@ const StudentProfileChecker = () => {
       try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`http://localhost:7000/users`, {
+        const response = await fetch(`https://a2cbackend.onrender.com/api/users/signup`, {
           method: 'GET',
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         });
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);        
-          // Assuming the 'role' field is available in the data received
-        //   setIsStudent(data.role === 'student');
-          if (data.profileType === 'student') {
-            // Redirect to the error page if the user is a student
-            console.log(data.profileType);
-            navigate('/error-page'); // Adjust the route to your error page
-          }
+          setIsStudent(data.user.profileType == 'student');
         } else {
           console.error('Failed to fetch user details:', response.status);
         }
@@ -36,15 +30,16 @@ const StudentProfileChecker = () => {
     };
 
     fetchUserDetails();
-  }, [navigate]);
+  }, []);
 
-//   if (isStudent) {
-//     // Render components or logic for student profile
-//     return <div>Welcome, Student!</div>;
-//   } else {
-//     // Render components or logic for non-student profile (not needed in this component)
-//     return null;
-//   }
+  if (isStudent) {
+    // Redirect to the error page if the user is a student
+    navigate('/error-page?message=You are not authorized to access this page.');
+    return null;
+  }
+
+  // If the user is not a student, continue rendering the children components
+  return children;
 };
 
 export default StudentProfileChecker;

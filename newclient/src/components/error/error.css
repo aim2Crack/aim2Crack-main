@@ -25,6 +25,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-decoration: solid;
+    color: red;
+    font-size: 18pt;
+    font-style: bold;
 }
 
 

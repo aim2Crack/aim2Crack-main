@@ -87,7 +87,7 @@
 }
 
 .instructions {
-    position: fixed;
+    position: absolute;
     bottom: 2rem;
     left: 4%;
     font-size: 18px;

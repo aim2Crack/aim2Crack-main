@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../../assets/images/user/Logo enlarged-03.png';
 import './Quizzing.css';
-import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
+// import CKEditorViewer from '../../../../components/ckeditor/ckeditorviewer';
 import { formatMinutes } from '../../../../components/timer/formatMinutes';
+import Error from "../../../../components/error/Error";
+import Viewer from '../../../../components/quill/viewer';
 // import Notification from '../../../../components/notification';
 // import TabVisibilityHandler from '../../../../components/tabchange/TabVisibilityHandler';
 
@@ -13,142 +15,78 @@ function Quizzing() {
   const [answer, setAnswer] = useState([]); // State to track the selected answer (if applicable)
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [totalQuizTime, setTotalQuizTime] = useState(0);
+  // const [totalQuizTime, setTotalQuizTime] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  const [isTabActive, setIsTabActive] = useState(true);
+  const [timeElapsed, setTimeElapsed]=useState(0);
+  // const [isTabActive, setIsTabActive] = useState(true);
   const [progress, setProgress] = useState(0);
-
-
+  const [dataFetched, setDataFetched] = useState(false);
+  const [firstData, setFirstData] = useState(false);
+  const [endQuiz,setEndQuiz]=useState(false);
+  
   // State to store the total time taken for the quiz
-  const [totalTimeTaken, setTotalTimeTaken] = useState(0);
-
-  // Separate useEffect hook for the timer increment
-  useEffect(() => {
-    // Start the timer increment if quiz is ongoing and a question is present
-    const timer = setInterval(() => {
-      setTotalTimeTaken((prevTotalTime) => prevTotalTime + 1);
-    }, 1000);
-
-    // Clear the interval timer for the timer increment when the component unmounts
-    return () => clearInterval(timer);
-  }, []);
+  // const [totalTimeTaken, setTotalTimeTaken] = useState(0);
 
 
-
-  const handleTabChange = (isActive) => {
-    setIsTabActive(isActive);
-    // You can perform additional actions when the tab changes, if needed.
-  };
+  const token = localStorage.getItem('token');
+  const code = window.location.pathname.split('/')[2];
 
 
-  useEffect(() => {
-    const fetchQuestionDetails = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const code = window.location.pathname.split('/')[2];
+  const fetchQuestionDetails = async () => {
+    try {
 
-        const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentanswer/${code}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        if (response.status === 210) {
-          // Redirect to the result page when quiz data is not found (status code: 404)
-          const code = window.location.pathname.split('/')[2];
-          const targetURL = `/quiz/${code}/feedback`;
-          navigate(targetURL);
-        }
-        else if (response.ok) {
-          const responseData = await response.json();
-          console.log(responseData);
-          setQuestionData(responseData.data.firstQuestion);
-          setCurrentIndex(responseData.data.currentIndex);
-          setTotalQuizTime(responseData.data.totalQuizTime);
-          setTotalQuestions(responseData.data.totalQuestions);
-          // Calculate the progress based on the current index and the total number of questions
-          const totalQuestions = responseData.data.totalQuestions;
-          setProgress((currentIndex + 1) / totalQuestions);
-        }
-        else {
-          console.error('Failed to fetch quiz details:', response.status);
-        }
-      } catch (error) {
-        console.error('Error fetching quiz details:', error);
+      if (response.status === 404) {
+        // Redirect to the result page when quiz data is not found (status code: 404)
+        const targetURL = `/quiz/${code}/feedback`;
+        navigate(targetURL);
+      } else if (response.ok) {
+        const responseData = await response.json();
+        console.log('fetched data',responseData);
+
+        // console.log('fetched data', responseData);
+
+        // Ensure that this line is executed after a successful API response
+        setDataFetched(true); // Mark data as fetched
+        console.log('dataFetched', dataFetched);  
+        setQuestionData(responseData.data.firstQuestion);
+        setCurrentIndex(responseData.data.currentIndex);
+        setTotalQuestions(responseData.data.totalQuestions);
+
+        // Calculate the progress based on the current index and the total number of questions
+        const totalQuestions = responseData.data.totalQuestions;
+        setProgress((currentIndex + 1) / totalQuestions);
+
+      } else {
+        throw new Error(`Failed to fetch quiz details: ${response.status}`);
       }
-    };
-    // 
-    fetchQuestionDetails();
-  }, [navigate]);
-
-  const [timeRemaining, setTimeRemaining] = useState(totalQuizTime);
-  // console.log('remaining time',timeRemaining);
-
-  // Separate useEffect hook for the total quiz timer
-  useEffect(() => {
-    // Start the total quiz timer if it hasn't started already
-    if (timeRemaining > 0) {
-      const quizTimer = setInterval(() => {
-        setTimeRemaining((prevTotalTime) => {
-          if (prevTotalTime > 0) {
-            return prevTotalTime - 1;
-          } else {
-            // Total quiz time's up, you might want to handle this here
-            // For example, show a notification or auto-submit the quiz
-            clearInterval(quizTimer);
-            return 0;
-          }
-        });
-      }, 1000);
-
-      // Clear the interval timer for the total quiz timer when the component unmounts
-      return () => clearInterval(quizTimer);
+    } catch (error) {
+      console.error('Error fetching quiz details:', error);
+      // Handle error (e.g., show error message to the user)
     }
-  }, [timeRemaining]);
-
-  useEffect(() => {
-    const handleFullScreenChange = () => {
-      if (!document.fullscreenElement) {
-        showExitFullscreenWarning(); // Show the warning when fullscreen is exited
-      }
-    };
-
-    document.addEventListener('fullscreenchange', handleFullScreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullScreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullScreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullScreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullScreenChange);
-    };
-  }, []);
-
-  const showExitFullscreenWarning = () => {
-    setExitFullscreenWarning(true);
   };
 
-  const hideExitFullscreenWarning = () => {
-    setExitFullscreenWarning(false);
-  };
-
-  // Separate useEffect hook for updating total quiz time
   useEffect(() => {
-    setTimeRemaining(totalQuizTime);
-  }, [totalQuizTime]);
+    if (!dataFetched) {
+      fetchQuestionDetails();      
+  console.log('insideloop',dataFetched)
+    }
+  }, [dataFetched]);
+
+  
 
   useEffect(() => {
     setSelectedOptions([]);
     setAnswer([]);
-    // setTimeRemaining(totalQuizTime);
 
     if (questionData) {
       setTimeElapsed(questionData.questionTime);
-      console.log('Updated questionData:', questionData.questionTime);
 
       const timer = setInterval(() => {
         setTimeElapsed((prevTime) => {
@@ -163,13 +101,13 @@ function Quizzing() {
         });
 
         // Update the progress bar based on the current question index and total questions
-        // const totalQuestions = questionData ? questionData.totalQuestions : 1;
         setProgress((currentIndex + 1) / totalQuestions);
       }, 1000);
 
       return () => clearInterval(timer);
     }
   }, [questionData]);
+
 
   // Render a loading message while waiting for data
   if (!questionData) {
@@ -231,39 +169,40 @@ function Quizzing() {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/')[2];
 
-      const response = await fetch(`http://127.0.0.1:7000/studentanswer/${code}/${currentIndex}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ answer, timeElapsed }),
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData.data)
-        setQuestionData(responseData.data.nextQuestion); // Update the state with the next question's data
-        setCurrentIndex(responseData.data.nextIndex); // Update the currentIndex state
-        setAnswer([]); // Clear the selected answer for the next question
-        setProgress((currentIndex + 1) / totalQuestions);
-        // console.log('progress',((currentIndex + 1) / totalQuestions));
-        window.scrollTo(0, 0);
-      } else if (response.status === 410) {
-        // Redirect to the result page when quiz data is not found (status code: 210)
-        const targetURL = `/quiz/${code}/feedback`;
-        navigate(targetURL); // Replace '/result' with the actual path of your result page
-      } else {
-        console.error('Failed to submit answer:', response.status);
-      }
-    } catch (error) {
-      console.error('Error submitting answer:', error);
+    const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentanswer/${code}/${currentIndex}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ answer, timeElapsed }),
+    });
+   
+    if (response.ok && !endQuiz ) {
+      const responseData = await response.json();
+      console.log(responseData.data)
+      setQuestionData(responseData.data.nextQuestion); // Update the state with the next question's data
+      setCurrentIndex(responseData.data.nextIndex); // Update the currentIndex state
+      setAnswer([]); // Clear the selected answer for the next question
+      setProgress((currentIndex + 1) / totalQuestions);
+      // console.log('progress',((currentIndex + 1) / totalQuestions));
+      window.scrollTo(0, 0);
+    } else if (response.status === 410) {
+      // Redirect to the result page when quiz data is not found (status code: 210)
+      const targetURL = `/quiz/${code}/feedback`;
+      navigate(targetURL); // Replace '/result' with the actual path of your result page
+    } else {
+      console.error('Failed to submit answer:', response.status);
     }
-  };
+  } catch (error) {
+    console.error('Error submitting answer:', error);
+  }
+};
 
 
   return (
     <div>
+      {!endQuiz ? (
       <div className="quizzing-box">
         <div className="quizzing-container" id="quiz">
           <div className="quizzing-wrapper">
@@ -282,7 +221,7 @@ function Quizzing() {
 
             <div id="quizzing-hide1">
               <div className="time maxwidth1 m_auto">
-                <h2>Time taken for this quiz: <span id="timeUsed">{formatMinutes(totalTimeTaken)}</span></h2>
+                {/* <h2>Time taken for this quiz: <span id="timeUsed">{formatMinutes(totalTimeTaken)}</span></h2> */}
                 <h2>Question Time Left: <span id="timeLeft">{formatMinutes(timeElapsed)} </span></h2>
               </div>
 
@@ -300,76 +239,76 @@ function Quizzing() {
 
 
             {questionData.questionType === 'single' && (
-              <div id="singleCorrect" className="colorbar">
-                <h2><span id="quizType">Objective Type Question</span></h2>
-                <div className="quizzing-header">
-                  {/* Render the question content */}
-                  <CKEditorViewer editorData={questionData.question} />
-                  {/* Render the options */}
-                  <div className='quizzing-options-box'>
-                    <ul id="list">
-                      {questionData.options.map((option) => (
-                        <li
-                          key={option}
-                          onClick={() => handleAnswerSelect(option)}
-                          className={selectedOptions == option ? 'selected-option' : 'quizzing-option'}
-                        >
-                          <div>{option}</div>
-                        </li>
-                      ))}
-                    </ul>            </div>
-                </div>
+            <div id="singleCorrect" className="colorbar">
+              <h2><span id="quizType">Objective Type Question</span></h2>
+              <div className="quizzing-header">
+                {/* Render the question content */}
+                <Viewer content={questionData.question}/>
+                {/* Render the options */}
+                <div className='quizzing-options-box'>
+                <ul id="list">
+  {questionData.options.map((option) => (
+    <li
+      key={option}
+      onClick={() => handleAnswerSelect(option)}
+      className= {selectedOptions == option ? 'selected-option' : 'quizzing-option'}
+    >
+      <div>{option}</div>
+    </li>
+  ))}
+</ul>            </div>
               </div>
-            )}
+            </div>
+          )}
+
+
+                      
+{questionData.questionType === 'numerical' && (
+  <div className='colorbar'>
+    <h2><span id="quizType">Numerical Type Question</span></h2>
+    <div className="quizzing-header">
+      {/* Render the question content */}
+      <Viewer content={questionData.question} />
+      {/* Render the input field for numerical answer */}
+      <form autoComplete="off" onKeyDown={(event) => event.key !== 'Enter'}>
+        <label htmlFor="numericalAns">Enter your numerical answer:</label>
+        <input
+          // id="numericalAns"
+          type="number"
+          min="0" // Add any constraints if applicable (minimum value, maximum value, etc.)
+          max="100"
+          onChange={(e) => setAnswer([e.target.value])} // Convert the numerical answer to an array
+          placeholder="Type your answer here"
+        />
+      </form>
+    </div>
+  </div>
+)}
 
 
 
-            {questionData.questionType === 'numerical' && (
-              <div className='colorbar'>
-                <h2><span id="quizType">Numerical Type Question</span></h2>
-                <div className="quizzing-header">
-                  {/* Render the question content */}
-                  <CKEditorViewer editorData={questionData.question} />
-                  {/* Render the input field for numerical answer */}
-                  <form autoComplete="off" onKeyDown={(event) => event.key !== 'Enter'}>
-                    <label htmlFor="numericalAns">Enter your numerical answer:</label>
-                    <input
-                      // id="numericalAns"
-                      type="number"
-                      min="0" // Add any constraints if applicable (minimum value, maximum value, etc.)
-                      max="100"
-                      onChange={(e) => setAnswer([e.target.value])} // Convert the numerical answer to an array
-                      placeholder="Type your answer here"
-                    />
-                  </form>
-                </div>
-              </div>
-            )}
-
-
-
-            {questionData.questionType === 'multiple' && (
-              <div id="multiCorrect">
-                <h2><span id="quizType">Multi Correct Question</span></h2>
-                <div className="quizzing-header">
-                  {/* Render the question content */}
-                  <CKEditorViewer editorData={questionData.question} />
-                  {/* Render the options */}
-                  <ul id="listmul">
-                    {questionData.options.map((option) => (
-                      <li
-                        key={JSON.stringify(option)} // Ensure each option array has a unique key
-                        onClick={() => handleAnswerSelect(option)}
-                        className={selectedOptions.some((selectedOption) => areArraysEqual(selectedOption, option)) ? 'selected-option' : 'quizzing-option'}
-                      >
-                        <div>{option}</div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-
+{questionData.questionType === 'multiple' && (
+  <div id="multiCorrect">
+    <h2><span id="quizType">Multi Correct Question</span></h2>
+    <div className="quizzing-header">
+      {/* Render the question content */}
+      <Viewer content={questionData.question} />
+      {/* Render the options */}
+      <ul id="listmul">
+        {questionData.options.map((option) => (
+          <li
+            key={JSON.stringify(option)} // Ensure each option array has a unique key
+            onClick={() => handleAnswerSelect(option)}
+            className={selectedOptions.some((selectedOption) => areArraysEqual(selectedOption, option)) ? 'selected-option' : 'quizzing-option'}
+          >
+            <div>{option}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
+               
 
           </div>
           <button id="quizzing-submit" onClick={handleSubmit}>Next</button>
@@ -383,8 +322,13 @@ function Quizzing() {
           <input type="submit" className="quizzing-hide" style={{ display: 'none' }} id="quiz_submit_button" value="submit test" />
         </form>
       </div>
-    </div>
-  )
+    
+  ):(
+
+<div>Error</div>
+  )}
+  </div>
+  );
 }
 
 export default Quizzing

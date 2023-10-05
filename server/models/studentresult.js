@@ -16,6 +16,21 @@ const StudentResult = sq.define('studentresult', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  totalCorrect:
+  {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  totalWrong:
+  {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  totalUnattempt:
+  {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 module.exports = StudentResult;
