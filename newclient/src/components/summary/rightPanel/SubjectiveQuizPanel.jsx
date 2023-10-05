@@ -114,6 +114,28 @@ const SubjectiveQuizPanel = () => {
       }
     };
 
+    const handleDeleteQuizResponse = async (quizId) => {
+      try {
+        const token = localStorage.getItem('token');
+        // console.log(token);
+        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/response/${quizId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          console.log('Quiz response deleted successfully');
+          setMessage('Quiz responseDeleted Successfully')
+        } else {
+          console.error('Failed to fetch quiz details:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching quiz details:', error);
+      }
+    };
+
 
 
 
@@ -157,7 +179,7 @@ const handleChart = (quizCode) => {
                   {message}
                 </div>
             )}
-
+{/* 
       <div className="search-bar-panel">
         <input
           type="text"
@@ -172,7 +194,7 @@ const handleChart = (quizCode) => {
           src={searchImage}
           alt="Search"
         />
-      </div>
+      </div> */}
       <div className="panel-item" id="panel-subjective-quiz">
         <div className="upload">
           <p className="uploaded">YOUR QUIZZES</p>
@@ -262,6 +284,11 @@ const handleChart = (quizCode) => {
   <button className="icon-button" onClick={() => handleDeleteQuiz(quiz.code)}>
     <FontAwesomeIcon icon={faTrash} className="icons card-icons" />
   </button>
+
+  <button className="icon-button" onClick={() => handleDeleteQuizResponse(quiz.code)}>
+    <FontAwesomeIcon icon={faTrash} className="icons card-icons" />
+  </button>
+
   {/* Add other icon buttons with event handlers as needed */}
   </div>
   </div>

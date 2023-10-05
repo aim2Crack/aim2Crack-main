@@ -210,6 +210,25 @@ const deleteQuizQuestion= async (req, res) => {
     }
 };
 
+const deleteQuizResponse= async (req, res) => {
+    try {
+        const {code} = req.params;
+        const {id}=req.params;
+        const quiz = await findQuiz(code);
+        const quizresponse = await getAllAnswers(quiz);
+        if (quizquestion) {
+            await quizresponse.destroy();
+            res.status(200).json({ success: true, message: 'question response deleted'});
+        } else {
+            res.status(404).json({ success: false, message: 'Quiz response not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching quiz:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
+
+
 const studentResultSummary= async (req, res) => {
     try {
         const {code} = req.params;
@@ -239,6 +258,7 @@ getallQuiz,
 getQuizByCode,
 editQuizByCode,
 deleteQuiz,
+deleteQuizResponse,
 addQuizQuestion,
 editQuizQuestion,
 getAllQuestion,

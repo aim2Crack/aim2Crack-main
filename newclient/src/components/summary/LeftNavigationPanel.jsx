@@ -26,7 +26,7 @@ const LeftNavigationPanel = () => {
                     </div>
             }
 
-
+{/* 
                 <button className="dropdown-btn side-bar-item" onClick={() => setBookDropdown(!bookDropdown)}>
                     Book
                     <i className="fa fa-caret-down"></i>
@@ -43,7 +43,7 @@ const LeftNavigationPanel = () => {
                 </button>
                 <button className="side-bar-item">
                     Tutorials
-                </button>
+                </button> */}
             </div>
             <div id="side-navigation-arrow" onClick={() => setSideNavigationDropdown(!sideNavigationDropdown)}>
                 <i className={sideNavigationDropdown?sideNavigationArrowLeft : sideNavigationArrowRight} id="side-navigation-arrow "></i>
