@@ -8,6 +8,7 @@ import undraw from '../../assets/images/user/undraw_Questions_re_1fy7.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import './Login.css'
+import getEnvironment from '../../getenvironment';
 
 function Login() {
   const [error, setError] = useState('');
@@ -18,6 +19,9 @@ function Login() {
     userOrEmail: '',
     password: '',
   };
+
+  const apiUrl = getEnvironment();
+  console.log(apiUrl)
 
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/summary' } };
@@ -52,7 +56,7 @@ function Login() {
     };
 
     try {
-      const response = await fetch('https://a2cbackend.onrender.com/api/users/signin', {
+      const response = await fetch(`${apiUrl}/api/users/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
