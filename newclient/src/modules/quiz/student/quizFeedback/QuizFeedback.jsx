@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faCircle, faStar } from '@fortawesome/free-solid-svg-icons'
 import smileyFace from '../../../../assets/images/student/undraw_Smiley_face_re_9uid.svg'
 import logo from '../../../../assets/images/user/Logo enlarged-03.png'
+import getEnvironment from '../../../../getenvironment';
 // import { useState } from 'react';
 
 const QuizFeedback = () => {
@@ -13,13 +14,14 @@ const QuizFeedback = () => {
     // const [rating2, setRating2] = useState(0);
     const [submitted, setSubmitted] = useState(false);
 const [quizDetails,setQuizDetails]=useState(0);
-    useEffect(() => {
+const apiurl = getEnvironment();
+useEffect(() => {
         const fetchResultDetails = async () => {
           try {
             const token = localStorage.getItem('token');
             const code = window.location.pathname.split('/')[2];
     
-            const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentresult/${code}`, {
+            const response = await fetch(`${apiurl}/api/quiz/studentresult/${code}`, {
               method: 'GET',
               headers: {
                 Authorization: `Bearer ${token}`,

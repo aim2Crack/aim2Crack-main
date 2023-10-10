@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import SubjectiveQuizPanel from './SubjectiveQuizPanel'; // Update the path
+import getEnvironment from '../../../getenvironment';
+
 
 const SubjectiveQuizList = () => {
     const [quizzes, setQuizzes] = useState([]);
-
+    const apiurl = getEnvironment();
     useEffect(() => {
 
-        fetch('`https://a2cbackend.onrender.com/quizzes')
+        fetch(`${apiurl}/quizzes`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

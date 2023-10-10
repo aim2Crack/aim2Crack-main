@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import './Register.css';
 import * as Yup from 'yup';
 import signup from  '../../assets/images/register/signup.svg';
+import getEnvironment from '../../getenvironment';
 
 const UserRegister = () => {
   const initialValues = {
@@ -21,9 +22,10 @@ const UserRegister = () => {
   };
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false); // Add this line to define the `submitted` state variable
+  const apiurl = getEnvironment();
   const handleSubmit = async (values) => {
     try {
-      const response = await fetch('https://a2cbackend.onrender.com/api/users/signup', {
+      const response = await fetch(`${apiurl}/api/users/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

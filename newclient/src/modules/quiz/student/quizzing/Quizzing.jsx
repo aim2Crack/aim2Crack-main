@@ -35,7 +35,7 @@ function Quizzing() {
   const fetchQuestionDetails = async () => {
     try {
 
-      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentanswer/${code}`, {
+      const response = await fetch(`${apiurl}/api/quiz/studentanswer/${code}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -169,7 +169,7 @@ const handleSubmit = async () => {
     const token = localStorage.getItem('token');
     const code = window.location.pathname.split('/')[2];
 
-    const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentanswer/${code}/${currentIndex}`, {
+    const response = await fetch(`${apiurl}/api/quiz/studentanswer/${code}/${currentIndex}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

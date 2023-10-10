@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import getEnvironment from '../../getenvironment';
 
 const Profile = () => {
   const [message, setMessage] = useState('');
+  const apiurl = getEnvironment();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,7 +23,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
 console.log(token);
     // Fetch the profile details from the backend
-    fetch('https://a2cbackend.onrender.com/api/users/signup', {
+    fetch(`${apiurl}/api/users/signup`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +65,7 @@ console.log(token);
     event.preventDefault();
 
     const token = localStorage.getItem('token');
-    fetch('https://a2cbackend.onrender.com/api/users/signup', {
+    fetch('${apiurl}/api/users/signup', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +125,7 @@ console.log(token);
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://a2cbackend.onrender.com/api/users/uploadbrand', {
+      const response = await fetch(`${apiurl}/api/users/uploadbrand`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './AddInstruction.css';
 import logo from '../../../../assets/images/quiz/logo.png';
+import getEnvironment from '../../../../getenvironment';
 
 export default function AddInstruction() {
   const [inputValue, setInputValue] = useState('');
@@ -15,6 +16,7 @@ export default function AddInstruction() {
 
 
   const navigate = useNavigate();
+  const apiurl = getEnvironment();
 
   const handleGoBack = () => {
     const code = window.location.pathname.split('/').filter((path) => path !== 'addinstruction').pop();
@@ -39,7 +41,7 @@ export default function AddInstruction() {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'addinstruction').pop();
 
-      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
+      const response = await fetch(`${apiurl}/api/quiz/quizzes/${code}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +74,7 @@ export default function AddInstruction() {
           instructions: instructions,
         };
 
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizzes/${code}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

@@ -5,6 +5,7 @@
   import './AddQuestionHome.css';
   import AddQuestion from './AddQuestion';
   import Viewer from '../../../../components/quill/viewer';
+import getEnvironment from '../../../../getenvironment';
 
   const QuestionGet = ({ questionGet, handleEditQuestion, handleDeleteQuestion, handleEditorChange }) => {
     const { question, answer, explanation, options, mark, questionLevel, questionType } = questionGet;
@@ -78,6 +79,7 @@
     const [showAddQuestionButton, setShowAddQuestionButton] = useState(true);
     const [editQuestionData, setEditQuestionData] = useState(null);
     const [content, setContent] = useState('');
+    const apiurl = getEnvironment();
 
     const handleEditorChange = (value) => {
       setContent(value);
@@ -88,7 +90,7 @@
       const fetchQuizQuestions = async () => {
         try {
           console.log(token);
-          const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}`, {
+          const response = await fetch(`${apiurl}/api/quiz/quizquestion/${code}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -120,7 +122,7 @@
     useEffect(() => {
       const fetchQuizDetails = async () => {
         try {
-          const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
+          const response = await fetch(`${apiurl}/api/quiz/quizzes/${code}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -166,7 +168,7 @@
     const handleDeleteQuestion = async (question) => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}/${question.id}`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizquestion/${code}/${question.id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

@@ -5,12 +5,14 @@ import './ResetPass.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import getEnvironment from '../../getenvironment';
 
 const PasswordReset = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState('');
+  const apiurl = getEnvironment();
 
   const changeHandler = (e) => {
     if (e.target.name === 'email') {
@@ -30,7 +32,7 @@ const PasswordReset = () => {
     };
     // let jsonData={};
     try {
-      const response = await fetch('https://a2cbackend.onrender.com/api/users/forgot-password', {
+      const response = await fetch(`${apiurl}/api/users/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

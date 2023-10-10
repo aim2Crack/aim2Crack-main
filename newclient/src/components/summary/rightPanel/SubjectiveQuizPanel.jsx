@@ -7,6 +7,7 @@ import {extractDateTime} from '../../timer/extractDateTime.js';
 import { faTrash, faLink, faPen, faGears, faRotate, faShareNodes, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
+import getEnvironment from '../../../getenvironment';
 
 
 
@@ -15,14 +16,14 @@ const SubjectiveQuizPanel = () => {
   const [message, setMessage]=useState();
   const [userProfile,setUserProfile]=useState();
   const navigate = useNavigate(); 
-  
+  const apiurl = getEnvironment();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token');
         console.log(token);
-        const response = await fetch(`https://a2cbackend.onrender.com/api/users/signup`, {
+        const response = await fetch(`${apiurl}/api/users/signup`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,7 +54,7 @@ const SubjectiveQuizPanel = () => {
         console.log(token);
         if (userProfile == 'faculty')
         {
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizzes`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -69,7 +70,7 @@ const SubjectiveQuizPanel = () => {
       }
       if (userProfile == "student")
       {
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentquiz`, {
+        const response = await fetch(`${apiurl}/api/quiz/studentquiz`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -96,7 +97,7 @@ const SubjectiveQuizPanel = () => {
       try {
         const token = localStorage.getItem('token');
         // console.log(token);
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${quizId}`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizzes/${quizId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -118,7 +119,7 @@ const SubjectiveQuizPanel = () => {
       try {
         const token = localStorage.getItem('token');
         // console.log(token);
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/response/${quizId}`, {
+        const response = await fetch(`${apiurl}/api/quiz/response/${quizId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,

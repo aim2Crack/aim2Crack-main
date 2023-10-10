@@ -5,6 +5,7 @@ import logo from '../../assets/images/user/Logo enlarged-03.png';
 import './ResetPass.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import getEnvironment from '../../getenvironment';
 
 const NewPassword = () => {
   const initialValues = {
@@ -28,6 +29,7 @@ const NewPassword = () => {
 
   const { token } = useParams();
 
+  const apiurl = getEnvironment();
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState('');
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -40,7 +42,7 @@ const NewPassword = () => {
     };
 
     try {
-      const response = await fetch(`https://a2cbackend.onrender.com/api/users/newpassword?token=${token}`, {
+      const response = await fetch(`${apiurl}/api/users/newpassword?token=${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

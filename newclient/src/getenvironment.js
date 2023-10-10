@@ -2,7 +2,7 @@
 function getEnvironment() {
   const currentURL = window.location.href;
   const development='http://127.0.0.1:7000'
-  const production='https://a2cbackend.onrender.com/'
+  const production='${apiurl}/'
 
   if (currentURL.includes('localhost')) {
     return development;

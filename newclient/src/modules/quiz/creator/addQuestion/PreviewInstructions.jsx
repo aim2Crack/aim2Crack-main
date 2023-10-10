@@ -3,11 +3,13 @@ import { useNavigate} from 'react-router-dom';
 import './PreviewInstructions.css';
 import PropTypes from 'prop-types';
 import logo from '../../../../assets/images/quiz/logo.png';
+import getEnvironment from '../../../../getenvironment';
 
 export default function PreviewInstructions() {
   const [instructions, setInstructions] = useState([]);
   const code = window.location.pathname.split('/')[2];
   const navigate = useNavigate();
+  const apiurl = getEnvironment();
 
   const handleGoBack = () => {
     const code = window.location.pathname.split('/')[2];
@@ -21,7 +23,7 @@ export default function PreviewInstructions() {
         const token = localStorage.getItem('token');
         const code = window.location.pathname.split('/')[2];
 
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizzes/${code}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import './results.css'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'; // Import react-tabs components
 import 'react-tabs/style/react-tabs.css'; // Import the default styling for react-tabs
+import getEnvironment from '../../../../getenvironment';
 
 
 const ResultSummary = () => {
@@ -11,6 +12,8 @@ const ResultSummary = () => {
   const [studentDetails, setStudentDetails] = useState({}); // Initialize as an empty object
   const [studentSummary, setStudentSummary] = useState([]);
   const [consolidatedData, setConsolidatedData] = useState([]);
+
+  const apiurl = getEnvironment();
   
 
   //get ther student results including id, score and questions attempted, correct and wrong
@@ -20,7 +23,7 @@ const ResultSummary = () => {
   //       const token = localStorage.getItem('token');
   //       const code = window.location.pathname.split('/')[2];
 
-  //       const response = await fetch(`https://a2cbackend.onrender.com/studentresult/${code}/all`, {
+  //       const response = await fetch(`${apiurl}/studentresult/${code}/all`, {
   //         method: 'GET',
   //         headers: {
   //           Authorization: `Bearer ${token}`,
@@ -54,7 +57,7 @@ const ResultSummary = () => {
   //       // Fetch student details for each student ID and store in an object
   //       const studentDetailsObj = {};
   //       for (const studentId of studentIds) {
-  //         const response = await fetch(`https://a2cbackend.onrender.com/users/${studentId}`, {
+  //         const response = await fetch(`${apiurl}/users/${studentId}`, {
   //           method: 'GET',
   //           headers: {
   //             Authorization: `Bearer ${token}`,
@@ -88,7 +91,7 @@ const ResultSummary = () => {
   //       const token = localStorage.getItem('token');
   //       const code = window.location.pathname.split('/')[2];
   
-  //       const response = await fetch(`https://a2cbackend.onrender.com/studentresultsummary/${code}/all`, {
+  //       const response = await fetch(`${apiurl}/studentresultsummary/${code}/all`, {
   //         method: 'GET',
   //         headers: {
   //           Authorization: `Bearer ${token}`,
@@ -174,7 +177,7 @@ useEffect(() => {
       const code = window.location.pathname.split('/')[2];
 
       // Fetch all question details and store in state
-      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/studentresultsummary/${code}`, {
+      const response = await fetch(`${apiurl}/api/quiz/studentresultsummary/${code}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

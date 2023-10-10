@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './firsttime.css';
+import getEnvironment from '../../getenvironment';
 
 const FirsttimeDetails = () => {
   const initialValues = {
@@ -15,14 +16,14 @@ const FirsttimeDetails = () => {
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate(); // Access the navigate function
-
+  const apiurl = getEnvironment();
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       console.log('handleSubmit called'); 
       const token = localStorage.getItem('token');
       console.log(token);
 
-      const response = await fetch('https://a2cbackend.onrender.com/api/users/signup', {
+      const response = await fetch(`${apiurl}/api/users/signup`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

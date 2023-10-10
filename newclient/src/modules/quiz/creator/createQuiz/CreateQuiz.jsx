@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import moment from 'moment-timezone';
 import './createquiz.css';
 import StudentProfileChecker from '../../../../components/privateroutes/studentprofilechecker';
+import getEnvironment from '../../../../getenvironment';
 
 const CreateQuiz = () => {
   const initialValues = {
@@ -21,6 +22,7 @@ const CreateQuiz = () => {
   const [generatedLink, setGeneratedLink] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const apiurl = getEnvironment();
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -35,7 +37,7 @@ const CreateQuiz = () => {
       };
       
       // Submit the data to the backend
-      const response = await fetch('https://a2cbackend.onrender.com/api/quiz/quizzes', {
+      const response = await fetch(`${apiurl}/api/quiz/quizzes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './VerificationPage.css';
+import getEnvironment from '../../getenvironment';
 
 const VerificationPage = () => {
   const { token } = useParams();
@@ -9,11 +10,12 @@ const VerificationPage = () => {
   
   const [countdown, setCountdown] = useState(5);
   const navigate = useNavigate();
+  const apiurl = getEnvironment();
 
   useEffect(() => {
     async function verifyEmail() {
       try {
-        const response = await fetch(`https://a2cbackend.onrender.com/api/users/verifymail?token=${token}`, {
+        const response = await fetch(`${apiurl}/api/users/verifymail?token=${token}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

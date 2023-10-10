@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import getEnvironment from '../../getenvironment';
 
 const StudentProfileChecker = ({ children }) => {
   const navigate = useNavigate();
   const [isStudent, setIsStudent] = useState(false);
-
+  const apiurl = getEnvironment();
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`https://a2cbackend.onrender.com/api/users/signup`, {
+        const response = await fetch(`${apiurl}/api/users/signup`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

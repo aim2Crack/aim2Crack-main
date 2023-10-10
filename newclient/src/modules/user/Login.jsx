@@ -15,13 +15,12 @@ function Login() {
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [tokenError, setTokenError] = useState(null)
+  const apiurl = getEnvironment();
   const formInitialValues = {
     userOrEmail: '',
     password: '',
   };
 
-  const apiUrl = getEnvironment();
-  console.log(apiUrl)
 
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/summary' } };
@@ -56,7 +55,7 @@ function Login() {
     };
 
     try {
-      const response = await fetch(`${apiUrl}/api/users/signin`, {
+      const response = await fetch(`${apiurl}/api/users/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,14 +130,14 @@ function Login() {
   //     return null
   //   }
   // }
-  // const serverURL = "https://a2cbackend.onrender.com"
+  // const serverURL = "${apiurl}"
   // const routes = {
   //   getUser : `${serverURL}/getUser`
   // }
 
 
   // async function getRequest(url, body) {
-  //   return await axios.get("https://a2cbackend.onrender.com/getUser", { params: body });
+  //   return await axios.get("${apiurl}/getUser", { params: body });
   // }
 
   return (

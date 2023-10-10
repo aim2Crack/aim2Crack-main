@@ -4,9 +4,11 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import './AddQuestion.css';
 import QuillEditor from '../../../../components/quill/quillEditor';
+import getEnvironment from '../../../../getenvironment';
 
 
 function AddQuestion({ editQuestionData, onClose }) {
+  const apiurl = getEnvironment();
   const [data, setData] = useState({
     questionTime: 60,
     question: '',
@@ -46,7 +48,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     const id = editQuestionData.id;
   
     try {
-      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}/${id}`, {
+      const response = await fetch(`${apiurl}/api/quiz/quizquestion/${code}/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +103,7 @@ function AddQuestion({ editQuestionData, onClose }) {
     if (editQuestionData) {
       const id = editQuestionData.id;
       try {
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}/${id}`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizquestion/${code}/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -120,7 +122,7 @@ function AddQuestion({ editQuestionData, onClose }) {
       }
     } else {
       try {
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizquestion/${code}`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizquestion/${code}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

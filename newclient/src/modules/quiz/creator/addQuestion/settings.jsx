@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 import { useNavigate } from 'react-router-dom';
 import './settings.css'
+import getEnvironment from '../../../../getenvironment';
 
 const Settings = () => {
   const [quizData, setQuizData] = useState({
@@ -16,6 +17,7 @@ const Settings = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const apiurl = getEnvironment();
 
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const Settings = () => {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
       console.log(token);
-      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
+      const response = await fetch(`${apiurl}/api/quiz/quizzes/${code}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +90,7 @@ const Settings = () => {
       const token = localStorage.getItem('token');
       const code = window.location.pathname.split('/').filter((path) => path !== 'settings').pop();
       console.log(code);
-      const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
+      const response = await fetch(`${apiurl}/api/quiz/quizzes/${code}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

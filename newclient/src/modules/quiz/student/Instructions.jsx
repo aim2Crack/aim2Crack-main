@@ -4,6 +4,7 @@ import './PreviewInstructions.css';
 import PropTypes from 'prop-types';
 import logo from '../../../assets/images/quiz/logo.png';
 import {formatTime} from '../../../components/timer/formatTime.js';
+import getEnvironment from '../../../getenvironment';
 // import NoRightClickPage from '../../../components/security/noRightClick';
 
 export default function PreviewInstructions() {
@@ -16,6 +17,7 @@ export default function PreviewInstructions() {
   const [isStartButtonVisible, setIsStartButtonVisible] = useState(true); // Indicates whether the start button should be visible
   const code = window.location.pathname.split('/')[2];
   const navigate = useNavigate();
+  const apiurl = getEnvironment();
 
   const [facultyDetails, setFacultyDetails] = useState({});
 
@@ -25,7 +27,7 @@ export default function PreviewInstructions() {
         const token = localStorage.getItem('token');
         const code = window.location.pathname.split('/')[2];
   
-        const response = await fetch(`https://a2cbackend.onrender.com/api/quiz/quizzes/${code}`, {
+        const response = await fetch(`${apiurl}/api/quiz/quizzes/${code}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,7 +50,7 @@ export default function PreviewInstructions() {
           setMarginTimer(remainingMarginTime);
           console.log(remainingMarginTime);
           // Fetch user details
-          const response2 = await fetch(`https://a2cbackend.onrender.com/api/users/${data.data.userId}`, {
+          const response2 = await fetch(`${apiurl}/api/users/${data.data.userId}`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
