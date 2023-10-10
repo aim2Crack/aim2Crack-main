@@ -6,6 +6,7 @@ import './Quizzing.css';
 import { formatMinutes } from '../../../../components/timer/formatMinutes';
 import Error from "../../../../components/error/Error";
 import Viewer from '../../../../components/quill/viewer';
+import getEnvironment from '../../../../getenvironment';
 // import Notification from '../../../../components/notification';
 // import TabVisibilityHandler from '../../../../components/tabchange/TabVisibilityHandler';
 
@@ -23,7 +24,7 @@ function Quizzing() {
   const [dataFetched, setDataFetched] = useState(false);
   const [firstData, setFirstData] = useState(false);
   const [endQuiz,setEndQuiz]=useState(false);
-  
+  const apiurl=getEnvironment();
   // State to store the total time taken for the quiz
   // const [totalTimeTaken, setTotalTimeTaken] = useState(0);
 
